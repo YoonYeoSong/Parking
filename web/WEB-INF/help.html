@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="parking application">
+  <meta name="generator" content="Jekyll v3.8.5">
+  <title>help</title>
+
+  <!-- favicon -->
+  <link rel="icon" href="https://img.icons8.com/ios/50/000000/parking.png?v=1.1">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" href="./css/help.css">
+  <link rel="stylesheet" href="./css/arrow.css">
+
+  <!-- jQuery -->
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"></script>
+  <!-- JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"></script>
+
+
+  <style>
+
+    /* Custom translucent site header */
+    .site-header {
+      background-color: rgba(19, 37, 53, .70);
+      /* -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px); */
+    }
+    .site-header a {
+      color: #999;
+      transition: ease-in-out color .15s;
+    }
+    .search-area{
+      background-image: url('./images/help.jpg');
+      background-size: cover !important;
+      background-position: center center !important;
+      height: 550px !important;
+      display: flex !important;
+      align-items: center !important;
+      margin-bottom: 0px;
+    }
+
+  </style>
+</head>
+
+<body>
+  <header>
+    <nav class="site-header navbar navbar-expand-lg navbar-dark fixed-top py-0">
+      <!-- navbar navbar-expand-md navbar-dark fixed-top bg-dark -->
+      <div class="container">
+        <a class="navbar-brand " href="#">
+          <img src="./images/logo_white.png">
+        </a>
+        <form id="nav-searchbar" class="navbar-form" style="width: 410px">
+          <div class="input-group">
+            <input type="search" placeholder="Where do you need parking?" aria-describedby="button-addon5" class="form-control">
+            <div class="input-group-append">
+            <button id="button-addon5" type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+            </div>
+          </div>
+        </form>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapsible" aria-controls="navbarCollapsible" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapsible">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a href="#" class="nav-link menu-item">Review</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link menu-item">About</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link menu-item">Help</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle menu-item mr-2" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Hi! Foo!</a>
+              <div class="dropdown-menu mt-1" aria-labelledby="dropdown01">
+                <a class="dropdown-item" href="#">My Reservations</a>
+                <a class="dropdown-item" href="#">Account</a>
+                <a class="dropdown-item" href="#">Payment Method</a>
+                <a class="dropdown-item" href="#">Credit Balance</a>
+                <a class="dropdown-item" href="#">My Vehicle</a>
+                <a class="dropdown-item" href="#">Bookmark</a>
+              </div>
+            </li>
+            <li class="nav-item">
+              <button type="button" class="btn btn-sm btn-dark mt-1 mr-1">Log In</button>
+            </li>
+            <li class="nav-item">
+              <button type="button" class="btn btn-sm btn-dark mt-1">Sign Up</button>
+              <!-- <a class="btn btn-outline-light m-2 " href="#">Sign up</a> -->
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- cover -->
+  <div class="jumbotron search-area">
+    <div class="mx-auto col-lg-5">
+      <form id="main-searchbar" action="" class="" role="form">
+        <p class="h1 display-5 text-center mb-5"> </p>
+        <div class="input-group mb-4">
+          <div class="input-group-prepend">
+            <button id="button-addon7" type="submit" class="btn btn-secondary"><i class="fa fa-search"></i></button>
+          </div>
+          <input type="search" placeholder="Search Help Articles" aria-describedby="button-addon7" class="form-control">
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="album py-5 bg-light">
+    <div class="container">
+      <div class="row">
+
+        <div class="col-md-6">
+          <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
+            <div class="mainflip">
+                <div class="frontside">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <p><img class=" img-fluid" src="./images/driverhelp.png" alt="card image"></p>
+                            <h4 class="card-title">Driver</h4>
+                            <p class="card-text">This is basic card with image on top, title, description and button.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="backside">
+                  <div class="card">
+                      <div class="card-body text-center mt-4">
+                        <h4 class="card-title">Driver Help</h4>
+                        <p class="card-text">This is basic card with image on top, title, description and button.This is basic card with image on top, title, description and button.This is basic card with image on top, title, description and button.</p>
+                        <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+
+          <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
+            <div class="mainflip">
+              <div class="frontside">
+                <div class="card">
+                  <div class="card-body text-center">
+                    <p><img class=" img-fluid" src="./images/ownerhelp.png" alt="card image"></p>
+                    <h4 class="card-title">Owner</h4>
+                    <p class="card-text">This is basic card with image on top, title, description and button.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="backside">
+                <div class="card">
+                  <div class="card-body text-center mt-4">
+                    <h4 class="card-title">Owner Help</h4>
+                    <p class="card-text">This is basic card with image on top, title, description and button.This is basic card with image on top, title, description and button.This is basic card with image on top, title, description and button.</p>
+                    <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="album py-5 bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-6 col-md">
+          <p class="h5">
+            <span><i class="text-warning fa fa-star"></i>&nbsp;&nbsp;Featured Articles</span>
+          </p>
+          <ul class="list-unstyled text-small">
+            <li><a class="text-muted" href="#">How do I make a long-term booking?</a></li>
+            <li><a class="text-muted" href="#">How do I book a parking space?</a></li>
+            <li><a class="text-muted" href="#">How do I contact a space owner</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md">
+        <ul class="list-unstyled text-small">
+          <p class="h5">&nbsp;</p>
+          <li><a class="text-muted" href="#">How do I find a space for large vehicles?</a></li>
+          <li><a class="text-muted" href="#">How do I change the vehicle on a booking?</a></li>
+          <li><a class="text-muted" href="#">How do I reset my password?</a></li>
+        </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+    
+  <footer class="container py-5">
+    <div class="row">
+      <div class="col-6 col-md">
+        <a class="navbar-brand" href="#">
+          <img src="./images/logo_black.png">
+        </a>
+        <small class="d-block mb-3 text-muted">&copy; 2019.09</small>
+      </div>
+      <div class="col-6 col-md">
+        <p class='h5'>District</p>
+        <ul class="list-unstyled text-small">
+          <li><a class="text-muted" href="#">Seocho-gu</a></li>
+          <li><a class="text-muted" href="#">Seodaemun-gu</a></li>
+          <li><a class="text-muted" href="#">Seongbuk-gu</a></li>
+          <li><a class="text-muted" href="#">Seongdong-gu</a></li>
+          <li><a class="text-muted" href="#">Songpa-gu</a></li>
+          <li><a class="text-muted" href="#">Yangcheon-gu</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-md">
+        <p class='h5'>Help</p>
+        <ul class="list-unstyled text-small">
+          <li><a class="text-muted" href="#">Resource</a></li>
+          <li><a class="text-muted" href="#">Resource name</a></li>
+          <li><a class="text-muted" href="#">Another resource</a></li>
+          <li><a class="text-muted" href="#">Final resource</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-md">
+        <p class='h5'>About</p>
+        <ul class="list-unstyled text-small">
+          <li><a class="text-muted" href="#">Team</a></li>
+          <li><a class="text-muted" href="#">Locations</a></li>
+          <li><a class="text-muted" href="#">Privacy</a></li>
+          <li><a class="text-muted" href="#">Terms</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-md">
+        <p class='h5'>Contact Us</p>
+        <ul class="list-unstyled text-small">
+          <li><a class="text-muted" href="#">010-1234-1234</a></li>
+          <li><a class="text-muted" href="#">120 East 12th Street, Manhattan, 1003, NY USA</a></li>
+          <li>
+            <div class="row social-list">
+              <div class="col-sm-3 col-xs-2 col-sm-offset-0 col-xs-offset-2 px-0">
+                <a href="" class="">
+                  <span class="fa-stack fa-lg" href="">
+                    <i class="fa fa-linkedin fa-stack-1x"></i>
+                  </span>
+                </a>
+              </div>
+              <div class="col-sm-3 col-xs-2 px-0">
+                <a href="" class="">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-instagram fa-stack-1x"></i>
+                  </span>
+                </a>
+              </div>
+              <div class="col-sm-3 col-xs-2 px-0">
+                <a href="" class="">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-twitter fa-stack-1x"></i>
+                  </span>
+                </a>
+              </div>
+              <div class="col-sm-3 col-xs-2 px-0">
+                <a href="" class="">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-facebook-official fa-stack-1x"></i>
+                  </span>
+                </a>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+  
+</body>
+
+</html>
