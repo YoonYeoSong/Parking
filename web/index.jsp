@@ -16,11 +16,12 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   <link rel="stylesheet" href="./css/button.css">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Muli&display=swap" rel="stylesheet">
 
   <style>
-    body{
-      font-famiy: "Open Sans", sans-serif;
+    .jumbotron p{
+      font-family: "Muli", sans-serif;
+      font-weight: bolder;
     }
     .site-header { /* custom transparent header */
       background-color: rgba(19, 37, 53, .70);
@@ -149,7 +150,8 @@
   <!-- search area -->
   <div class="jumbotron search-area">
     <div class="container">
-      <h3>SEARCH LOCATION INFO <br>FOR YOUR PARKING SPACE</h3>
+<!--  <p class="h3 col-lg-8 mx-auto ">SEARCH LOCATION FOR PARKING SPACE</p>
+      <p class="h5 col-lg-8 mx-auto ">23 districts covered!</p> -->
       <div class="mx-auto col-lg-8">
         <form id="main-searchbar" action="" class="" role="form">
           <div class="input-group">
@@ -383,7 +385,7 @@
   </div>
 
   <!-- help section -->
-  <div class="help jumbotron" style="height: 45vh;">
+  <div class="help jumbotron" style="height: 50vh;">
     <div class="container ">
       <div class="mx-auto col-lg-5 pt-5">
         <p class="h1 display-5 text-center mb-5 text-white">How can we help?</p>
