@@ -1,13 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<!-------------------------
+'footer.jsp' contains :
+  * JS / JQuery link
+  * JS code
+  * <footer> element
+-------------------------->
+
   <hr class="featurette-divider">
 
   <footer class="container py-5">
     <div class="row">
       <div class="col-6 col-md">
-        <a class="navbar-brand" href="#">
-          <img src="./images/logo_black.png">
+        <a class="navbar-brand " href="<%=request.getContextPath() %>/index.jsp">
+          <img src="<%=request.getContextPath() %>/images/logo_black.png">
         </a>
         <small class="d-block mb-3 text-muted">&copy; 2019.09</small>
       </div>
@@ -105,7 +112,7 @@
       var hasBeenTriggered = false;
 
       $(window).scroll(function(){
-        if($(this).scrollTop()>=200 && !hasBeenTriggered){
+        if($(this).scrollTop()>=220 && !hasBeenTriggered){
           hasBeenTriggered = true;
           $('#nav-searchbar').fadeToggle();
           $('#main-searchbar').fadeToggle();
@@ -120,7 +127,7 @@
       // prevent flickering when next/prev arrow pressed
       /*
       $("body").on("click", ".carousel-control-prev,.carousel-control-next,.carousel-indicators li, .myCarousel-target", function() {
-          var myParent = $('#myCarousel2');
+          var myParent = $('#carousel_about');
           var target = myParent.find('.carousel-item.active');
 
           target.css({
@@ -136,6 +143,7 @@
           });
       });*/
     });
+
 
   </script>
   
