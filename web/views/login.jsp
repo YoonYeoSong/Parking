@@ -9,9 +9,15 @@
         <div class="card-header">
           <h3>Sign In</h3>
           <div class="d-flex justify-content-end social_icon">
-            <span><i class="fa fa-facebook-official"></i></span>
-            <span><i class="fa fa-google"></i></span>
-            <span><i class="fa fa-instagram"></i></span>
+            <a class="mx-1" href="http://">
+              <span><i class="fa fa-facebook-official"></i></span>
+            </a>
+            <a class="mx-1" href="http://">
+              <span><i class="fa fa-google"></i></span>
+            </a>
+            <a class="mx-1" href="http://">
+              <span><i class="fa fa-instagram"></i></span>
+            </a>
           </div>
         </div>
         <div class="card-body">
@@ -20,17 +26,17 @@
               <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fa fa-user"></i></span>
               </div>
-              <input type="text" class="form-control" placeholder="Username">
+              <input type="email" class="form-control" placeholder="email" name="email">
 
             </div>
             <div class="input-group form-group">
               <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fa fa-key"></i></span>
               </div>
-              <input type="password" class="form-control" placeholder="Password">
+              <input type="password" class="form-control" placeholder="Password" name="pw">
             </div>
             <div class="row align-items-center remember">
-              <input type="checkbox">Remember Me!
+              <label for="check"><input type="checkbox" name="check" id="check">Remember Me!</label>
             </div>
             <div class="form-group">
               <input type="submit" value="Login" class="btn float-right login_btn">
