@@ -20,22 +20,26 @@ import java.util.Properties;
 * @since   2019-08-15
 */
 public class JDBCTemplate {
+
   // to read .properties
   private static Properties prop = new Properties();
+
 
   /**
    * getConnection() method is used to return Connection object
    * @return Connection connection object
    * @exception IOException On input error
+   * 
    * @exception ClassNotFoundException
    * @exception SQLException
+   * 
    */
-  public Connection getConnection() {
+  public static Connection getConnection() {
     Connection conn = null;
-    String fileName = JDBCTemplate.class.getResource("./driver.properties").getPath();
+    String path = JDBCTemplate.class.getResource("./driver.properties").getPath();
 
     try {
-      prop.load(new FileReader(fileName)); //reads a property list (key, value pairs)
+      prop.load(new FileReader(path)); //reads a property list (key, value pairs)
       Class.forName(prop.getProperty("driver")); //register driver class(oracle.jdbc.driver.OracleDriver)
       conn = DriverManager.getConnection(prop.getProperty("url"), //establish connection with the database
                                          prop.getProperty("id"),
@@ -53,6 +57,7 @@ public class JDBCTemplate {
     return conn;
   }
   
+
   /**
    * close() method is used to close parameters(ResultSet or Statement) automatically
    * close() method of Connection interface is used to close the connection
