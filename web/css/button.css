@@ -1,12 +1,6 @@
 
 /* page button style */
 
-.btn-dark {
-  color: #fff;
-  background-color: #1F2E3C;
-  border-color: #343a40;
-  border: 1px solid #fff;
-}
 
 @import url('https://fonts.googleapis.com/css?family=Mukta:700');
 button {
