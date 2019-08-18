@@ -4,10 +4,10 @@
 <%@ include file="/views/common/header.jsp" %>
 
   <!-- search area -->
-  <div class="jumbotron" id="main-search-area">
+  <div class="jumbotron row align-items-center justify-content-center" id="main-search-area">
     <div class="container">
-      <p class="h3 col-lg-8 mx-auto text-white text-center font-weight-bold">SEARCH FOR PARKING</p>
-      <p class="h7 col-lg-8 mx-auto text-white text-center font-weight-bold">Around 23 Seoul Districts!</p>
+      <p class="h3 text-white row justify-content-center font-weight-bold">SEARCH FOR PARKING</p>
+      <p class="h7 text-white row justify-content-center font-weight-bold">Around 23 Seoul Districts!</p>
       <div class="mx-auto col-lg-8">
         <form id="main-searchbar" action="" class="" role="form">
           <div class="input-group">
@@ -23,7 +23,7 @@
 
   <!-- carousel -->
   <div id="carousel_review" class="carousel slide" data-ride="carousel">
-    <div class="d-flex align-content-center justify-content-center pt-4">
+    <div class="row justify-content-center mt-5">
       <p class="h4 font-weight-bold">WHAT USERS ARE SAYING</p>
     </div>
     <ol class="carousel-indicators">
@@ -32,13 +32,13 @@
     </ol>
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <div class="container text-center pt-3 pb-5">
+        <div class="container text-center py-4">
           <div class="row">
             <div class="col-lg-3">
               <img class="profile-picture" src="./images/profile.png" alt="Generic placeholder image">
               <div class="form-group">
-                <label for="exampleFormControlTextarea1">user_01</label>
-                <textarea readonly class="form-control review_content" id="exampleFormControlTextarea1" cols="4" rows="7"></textarea>
+                <label for="exampleFormControlTextarea1">lions</label>
+                <textarea readonly class="form-control review_content" id="exampleFormControlTextarea1" cols="4" rows="7">This Illegal Parking website is fantastic! Looking forward to use this often!</textarea>
               </div>
               <p>
                 <span><i class="text-warning fa fa-star"></i></span>
@@ -51,8 +51,8 @@
             <div class="col-lg-3">
               <img class="profile-picture" src="./images/profile.png" alt="Generic placeholder image">
               <div class="form-group">
-                <label for="exampleFormControlTextarea1">user_02</label>
-                <textarea readonly class="form-control review_content" id="exampleFormControlTextarea1" cols="4" rows="7"></textarea>
+                <label for="exampleFormControlTextarea1">tigers</label>
+                <textarea readonly class="form-control review_content" id="exampleFormControlTextarea1" cols="4" rows="7">Bought a new car last month. I was very afraid of the public parking space. Illegal Parking gives me assurance!</textarea>
               </div>
               <p>
                 <span><i class="text-warning fa fa-star"></i></span>
@@ -65,8 +65,8 @@
             <div class="col-lg-3">
               <img class="profile-picture" src="./images/profile.png" alt="Generic placeholder image">
               <div class="form-group">
-                <label for="exampleFormControlTextarea1">user_03</label>
-                <textarea readonly class="form-control review_content" id="exampleFormControlTextarea1" cols="4" rows="7"></textarea>
+                <label for="exampleFormControlTextarea1">bears</label>
+                <textarea readonly class="form-control review_content" id="exampleFormControlTextarea1" cols="4" rows="7">There are literally thousands of parking lots near my company. This website allows me to compare the cost! what a site!</textarea>
               </div>
               <p>
                 <span><i class="text-warning fa fa-star"></i></span>
@@ -79,8 +79,8 @@
             <div class="col-lg-3">
               <img class="profile-picture" src="./images/profile.png" alt="Generic placeholder image">
               <div class="form-group">
-                <label for="exampleFormControlTextarea1">user_04</label>
-                <textarea readonly class="form-control review_content" id="exampleFormControlTextarea1" cols="4" rows="7"></textarea>
+                <label for="exampleFormControlTextarea1">Park you</label>
+                <textarea readonly class="form-control review_content" id="exampleFormControlTextarea1" cols="4" rows="7">Give me your money! I don't believe in angels!</textarea>
               </div>
               <p>
                 <span><i class="text-warning fa fa-star"></i></span>
@@ -183,7 +183,7 @@
             <p class='h2 font-weight-bold'>About</p><br>
             <p class='about-text'>The leading provider of parking reservations. Drivers plan and commute smarter by booking guaranteed parking in advance. </p>
             <p class='text-left'>
-              <button class="learn-more">
+              <button class="learn-more" onclick="location.href='<%=request.getContextPath() %>/views/aboutView.jsp'" >
                 <div class="circle">
                   <span class="icon arrow"></span>
                 </div>
@@ -202,7 +202,7 @@
               parking options and prices in 25 areas.
             </p>
             <p class='text-left'>
-              <button class="learn-more">
+              <button class="learn-more" onclick="location.href='<%=request.getContextPath() %>/views/aboutView.jsp'" >
                 <div class="circle">
                   <span class="icon arrow"></span>
                 </div>
@@ -219,7 +219,7 @@
             <p class='h2 font-weight-bold'>About</p><br>
             <p class='about-text'>Drivers can easily book a spot ahead of time at parking lots, garages, and valets in their city, or they can reserve on-the-go with the company’s award-winning mobile app for iOS and Android.</p>
             <p class='text-left'>
-              <button class="learn-more">
+              <button class="learn-more" onclick="location.href='<%=request.getContextPath() %>/views/aboutView.jsp'" >
                 <div class="circle">
                   <span class="icon arrow"></span>
                 </div>
@@ -241,20 +241,21 @@
   </div>
 
   <!-- help section -->
-  <div class="help jumbotron" style="height: 48vh;">
-    <div class="container ">
-      <div class="mx-auto col-lg-5 pt-5">
-        <p class="h3 display-5 text-center mb-5 text-white font-weight-bold">How can we help?</p>
-        <div class="input-group mb-4">
-          <input type="search" placeholder="Ask Us any questions." aria-describedby="button-addon5" class="form-control">
-          <div class="input-group-append">
-          <button id="button-addon5" type="submit" class="btn btn-secondary"><i class="fa fa-search"></i></button>
+  <div class="help jumbotron row justify-content-center align-items-center" style="height: 48vh;">
+    <div class="container">
+      <div class="mx-auto col-lg-8 pt-5">
+        <p class="h3 mb-5 text-white row justify-content-center font-weight-bold">How can we help?</p>
+        <form id="main-searchbar" action="<%=request.getContextPath() %>/views/helpView.jsp" class="" role="form">
+          <div class="input-group mb-4">
+            <div class="input-group-prepend">
+              <button id="button-addon7" type="submit" class="btn btn-light"><i class="fa fa-search"></i></button>
+            </div>
+            <input type="search" placeholder="Ask Us any Questions" aria-describedby="button-addon7" class="form-control">
           </div>
-        </div>
         </form>
       </div>
 
-      <button class="learn-more">
+      <button class="learn-more" onclick="location.href='<%=request.getContextPath() %>/views/helpView.jsp'" >
         <div class="circle">
           <span class="icon arrow"></span>
         </div>

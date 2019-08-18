@@ -47,9 +47,8 @@
       background-image: url("<%=request.getContextPath() %>/images/cover.jpg");
       background-size: cover !important;
       background-position: center center !important;
-      height: 58vh !important;
+      height: 70vh !important;
       display: flex !important;
-      align-items: center !important;
       margin-bottom: 0px;
       text-shadow:
         1.5px 1.5px 0px #132535;
@@ -128,7 +127,7 @@
               <a href="#" class="nav-link menu-item">About</a>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link menu-item">Help</a>
+              <a href="<%=request.getContextPath() %>/views/helpView.jsp" class="nav-link menu-item">Help</a>
             </li>
             <li class="nav-item dropdown">
 
@@ -142,30 +141,30 @@
               <a class="nav-link dropdown-toggle menu-item mr-2" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%=dropdownTxt %></a>
 
               <div class="dropdown-menu mt-1" aria-labelledby="dropdown01">
-                <a class="dropdown-item" href="#">My Reservations</a>
-                <a class="dropdown-item" href="#">Account</a>
-                <a class="dropdown-item" href="#">Payment Method</a>
-                <a class="dropdown-item" href="#">Credit Balance</a>
-                <a class="dropdown-item" href="#">My Vehicle</a>
-                <a class="dropdown-item" href="#">Bookmark</a>
+                <a class="dropdown-item" href="<%=request.getContextPath() %>/views/mypageView.jsp"><i class="fa fa-calendar">&nbsp;&nbsp;</i>My Reservations</a>
+                <a class="dropdown-item" href="<%=request.getContextPath() %>/views/mypageView.jsp"><i class="fa fa-cog">&nbsp;&nbsp;</i>Account Settings</a>
+                <a class="dropdown-item" href="<%=request.getContextPath() %>/views/mypageView.jsp"><i class="fa fa-credit-card">&nbsp;&nbsp;</i>Payment Methods</a>
+                <a class="dropdown-item" href="<%=request.getContextPath() %>/views/mypageView.jsp"><i class="fa fa-won">&nbsp;&nbsp;</i>Credit Balance</a>
+                <a class="dropdown-item" href="<%=request.getContextPath() %>/views/mypageView.jsp"><i class="fa fa-car">&nbsp;&nbsp;</i>My Vehicle</a>
+                <a class="dropdown-item" href="<%=request.getContextPath() %>/views/mypageView.jsp"><i class="fa fa-bookmark">&nbsp;&nbsp;</i>Bookmark</a>
               </div>
             </li>
 
             <% if(m != null) {%>
               <li class="nav-item">
                 <form action="<%=request.getContextPath() %>/logout" method="post">
-                  <button type="submit" class="btn btn-sm btn-dark mt-1 mr-1">Log Out</button>
+                  <button type="submit" class="btn btn-sm btn-outline-light mt-1 mr-1">Log Out</button>
                 </form>
               </li>
             <%} else{%>
               <li class="nav-item">
                 <form action="<%=request.getContextPath() %>/views/loginView.jsp" method="post">
-                  <button type="submit" class="btn btn-sm btn-dark mt-1 mr-1">Log In</button>
+                  <button type="submit" class="btn btn-sm btn-outline-light mt-1 mr-1">Log In</button>
                 </form>
               </li>
               <li class="nav-item">
                 <form action="<%=request.getContextPath() %>/views/signupView.jsp" method="post">
-                  <button type="submit" class="btn btn-sm btn-dark mt-1">Sign Up</button>
+                  <button type="submit" class="btn btn-sm btn-outline-light mt-1">Sign Up</button>
                 </form>
               </li>
             <%} %>
