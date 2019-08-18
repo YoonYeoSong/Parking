@@ -48,8 +48,8 @@ public class MemberDao {
         m.setUserAddr(rs.getString("user_addr"));
         m.setCreatedDate(rs.getDate("created_date"));
         m.setLoginDate(rs.getDate("login_date"));
-        m.setSmsYn(rs.getBoolean("sms_yn"));
-        m.setEmailYn(rs.getBoolean("email_yn"));
+        m.setSmsYn(rs.getString("sms_yn").toUpperCase().charAt(0)=='Y'? true:false);
+        m.setEmailYn(rs.getString("email_yn").toUpperCase().charAt(0)=='Y'? true:false);
       }
     } catch(SQLException e) {
       e.printStackTrace();

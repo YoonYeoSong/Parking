@@ -2,19 +2,33 @@
     pageEncoding="UTF-8"%>
 
 <%@ include file="./common/header.jsp" %>
+<style>
+  #help-search-area{
+    background-color: #98A0A6;
+    height: 58vh !important;
+    display: flex !important;
+    margin-bottom: 0px;
+    text-shadow:
+      1.5px 1.5px 0px #132535;
+  }
+</style>
 
   <!-- cover -->
-  <div class="jumbotron" id="" style="height:55vh">
-    <div class="mx-auto col-lg-5">
-      <form id="main-searchbar" action="" class="" role="form">
-        <p class="h1 display-5 text-center mb-5"> </p>
-        <div class="input-group mb-4">
-          <div class="input-group-prepend">
-            <button id="button-addon7" type="submit" class="btn btn-secondary"><i class="fa fa-search"></i></button>
+  <div class="jumbotron align-items-center" id="help-search-area" style="height:55vh">
+    <div class="container">
+
+      <p class="h3 text-white row justify-content-center font-weight-bold">SEARCH FOR HELPFUL ARTICLES</p>
+      <p class="h7 text-white row justify-content-center font-weight-bold">IT WILL HELP YOU USE THE APP!</p>
+      <div class="mx-auto col-lg-8">
+        <form id="main-searchbar" action="" class="" role="form">
+          <div class="input-group mb-4">
+            <div class="input-group-prepend">
+              <button id="button-addon7" type="submit" class="btn btn-light"><i class="fa fa-search"></i></button>
+            </div>
+            <input type="search" placeholder="Search Help Articles" aria-describedby="button-addon7" class="form-control">
           </div>
-          <input type="search" placeholder="Search Help Articles" aria-describedby="button-addon7" class="form-control">
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   </div>
 
