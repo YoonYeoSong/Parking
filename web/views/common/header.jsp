@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="com.parking.model.vo.Member" %>
+   
     
 <!-------------------------
 'header.jsp' contains:
@@ -8,6 +9,9 @@
   * <style> attribute
   * <header> <nav> elements
 -------------------------->
+<%
+  Member m = (Member)session.getAttribute("loginMember");
+%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -16,6 +20,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="parking web application">
+  <meta name="google-signin-scope" content="profile email">
+  <meta name="google-signin-client_id" content="847270498494-dj5o04t83q5uja6ccp6eekr3en7qcb8p.apps.googleusercontent.com">
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+
   <title>Locate Parking Spaces</title>
 
   <!-- favicon -->
@@ -102,7 +110,7 @@
         </a>
         <form id="nav-searchbar" action="<%=request.getContextPath() %>/views/searchView.jsp" method="post" class="navbar-form" style="width: 410px">
           <div class="input-group">
-            <input type="search" placeholder="Where do you need parking?" aria-describedby="button-addon5" class="form-control">
+            <input type="search" placeholder="Where do you need parking?" aria-describedby="button-addon5" class="form-control" name="search">
             <div class="input-group-append">
             <button id="button-addon5" type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
             </div>
@@ -123,7 +131,16 @@
               <a href="#" class="nav-link menu-item">Help</a>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle menu-item mr-2" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Hi! Foo!</a>
+
+              <% String dropdownTxt =""; %>
+              <% if(m != null) {
+                   dropdownTxt = "Hi! " + m.getUserName();
+                 } else{
+                   dropdownTxt = "MyPage";
+                 }
+              %>
+              <a class="nav-link dropdown-toggle menu-item mr-2" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%=dropdownTxt %></a>
+
               <div class="dropdown-menu mt-1" aria-labelledby="dropdown01">
                 <a class="dropdown-item" href="#">My Reservations</a>
                 <a class="dropdown-item" href="#">Account</a>
@@ -133,16 +150,25 @@
                 <a class="dropdown-item" href="#">Bookmark</a>
               </div>
             </li>
-            <li class="nav-item">
-              <form action="<%=request.getContextPath() %>/views/login.jsp" method="post">
-                <button type="submit" class="btn btn-sm btn-dark mt-1 mr-1">Log In</button>
-              </form>
-            </li>
-            <li class="nav-item">
-              <form action="<%=request.getContextPath() %>/views/signup.jsp" method="post">
-                <button type="submit" class="btn btn-sm btn-dark mt-1">Sign Up</button>
-              </form>
-            </li>
+
+            <% if(m != null) {%>
+              <li class="nav-item">
+                <form action="<%=request.getContextPath() %>/logout" method="post">
+                  <button type="submit" class="btn btn-sm btn-dark mt-1 mr-1">Log Out</button>
+                </form>
+              </li>
+            <%} else{%>
+              <li class="nav-item">
+                <form action="<%=request.getContextPath() %>/views/loginView.jsp" method="post">
+                  <button type="submit" class="btn btn-sm btn-dark mt-1 mr-1">Log In</button>
+                </form>
+              </li>
+              <li class="nav-item">
+                <form action="<%=request.getContextPath() %>/views/signupView.jsp" method="post">
+                  <button type="submit" class="btn btn-sm btn-dark mt-1">Sign Up</button>
+                </form>
+              </li>
+            <%} %>
           </ul>
         </div>
       </div>

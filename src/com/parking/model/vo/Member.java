@@ -1,8 +1,8 @@
 package com.parking.model.vo;
 
-import java.util.Date;
+import java.sql.Date;
 
-public class Lotuser {
+public class Member {
   private String userCode;
   private String email;
   private String pw;
@@ -14,11 +14,11 @@ public class Lotuser {
   private boolean smsYn;
   private boolean emailYn;
 
-  public Lotuser() {
+  public Member() {
     // TODO Auto-generated constructor stub
   }
   
-  public Lotuser(String userCode, String email, String pw, String phone, String userName, String userAddr,
+  public Member(String userCode, String email, String pw, String phone, String userName, String userAddr,
       Date createdDate, Date loginDate, boolean smsYn, boolean emailYn) {
     super();
     this.userCode = userCode;
@@ -31,6 +31,13 @@ public class Lotuser {
     this.loginDate = loginDate;
     this.smsYn = smsYn;
     this.emailYn = emailYn;
+  }
+  
+  @Override
+  public String toString() {
+    return "Member [userCode=" + userCode + ", email=" + email + ", pw=" + pw + ", phone=" + phone + ", userName="
+        + userName + ", userAddr=" + userAddr + ", createdDate=" + createdDate + ", loginDate=" + loginDate + ", smsYn="
+        + smsYn + ", emailYn=" + emailYn + "]";
   }
 
   public String getUserCode() { return userCode; } 
