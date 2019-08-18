@@ -90,24 +90,23 @@
   </footer>
 
   <!-- jQuery -->
+  <!-- <script src="<%=request.getContextPath() %>/js/jquery-3.4.1.min.js"></script> -->
   <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
   <!-- JS -->
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-  <script>
-    /* navigation and main searchbars are toggled
+  <!-- <script src="<%=request.getContextPath() %>/js/bootstrap.min.js"></script> -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    /*
+      navigation and main searchbars are toggled
       based on scroll pixel amounts from the top;
-      화면을 밑으로 스크롤 했을때, 상단으로 부터의 높이가 200px를 넘으면 hasBeenTriggered의
-      값을 true로, 다시 높이가 200px 보다 작도록 위로 스크롤 되면 hasbeenTriggered가 false가
-      되도록하여, 상단의 searchbar가 메인 searchbar가 없어졋을때 display 되도록 합니다.
-       */
+    */
     $(function(){
       /*$('.navbar-toggler').on('hidden.bs.collapse', function () {
         $('#nav-searchbar').attr({'width': '720px'});
       });*/
 
-      // hidden in default
+      // hidden by default
       $('#nav-searchbar').hide();
       var hasBeenTriggered = false;
 
@@ -123,25 +122,6 @@
           $('#main-searchbar').fadeToggle();
         }
       });
-
-      // prevent flickering when next/prev arrow pressed
-      /*
-      $("body").on("click", ".carousel-control-prev,.carousel-control-next,.carousel-indicators li, .myCarousel-target", function() {
-          var myParent = $('#carousel_about');
-          var target = myParent.find('.carousel-item.active');
-
-          target.css({
-              'overflow': 'hidden',
-              'height': '50vh'
-          }).delay(500)
-          .queue(function(next) {
-              next();
-              myParent.css({
-                  'overflow': 'auto',
-                  'height': 'auto'
-              });
-          });
-      });*/
     });
 
 
