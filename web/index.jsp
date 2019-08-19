@@ -94,7 +94,7 @@
         </div>
       </div>
       <div class="carousel-item">
-        <div class="container text-center pt-3 pb-5">
+        <div class="container text-center py-4">
           <div class="row">
             <div class="col-lg-3">
               <img class="profile-picture" src="./images/profile.png" alt="Generic placeholder image">
