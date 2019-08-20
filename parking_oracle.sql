@@ -46,8 +46,10 @@ CREATE TABLE MEMBER (
     created_date TIMESTAMP DEFAULT SYSTIMESTAMP,
     login_date TIMESTAMP,
     sms_yn CHAR(1) NOT NULL,
-    email_yn CHAR(1) NOT NULL
+    email_yn CHAR(1) NOT NULL,
+    email_verified CHAR(1) DEFAULT '0'
 );
+
 COMMENT ON COLUMN MEMBER.user_code IS '회원코드';
 COMMENT ON COLUMN MEMBER.email IS '이메일';
 COMMENT ON COLUMN MEMBER.pw IS '비밀번호';
@@ -58,6 +60,7 @@ COMMENT ON COLUMN MEMBER.created_date IS '가입날짜';
 COMMENT ON COLUMN MEMBER.login_date IS '최근 로그인날짜';
 COMMENT ON COLUMN MEMBER.sms_yn IS '문자 수신여부(Y/N)';
 COMMENT ON COLUMN MEMBER.email_yn IS '이메일 수신여부(Y/N)';
+COMMENT ON COLUMN MEMBER.email_verified IS '이메일 인증여부(1/0)';
 
 ALTER TABLE MEMBER 
     ADD CONSTRAINT pk_user PRIMARY KEY(user_code);
@@ -67,6 +70,8 @@ ALTER TABLE MEMBER
     ADD CONSTRAINT chk_user_sms CHECK (UPPER(sms_yn) in ('Y','N'));
 ALTER TABLE MEMBER 
     ADD CONSTRAINT chk_user_email CHECK (UPPER(email_yn) in ('Y','N'));
+ALTER TABLE MEMBER 
+    ADD CONSTRAINT chk_user_verified CHECK (email_verified in ('1','0'));
 
 CREATE TABLE USERHISTORY(
     idx NUMBER(7) NOT NULL,
@@ -299,8 +304,8 @@ ALTER TABLE COUPON
     ADD CONSTRAINT chk_coupon_expired_yn CHECK (UPPER(expired_yn) in('Y', 'N'));
 
 
-INSERT INTO MEMBER VALUES('101', 'admin@admin.com', 'admin','010-1111-1111','admin', 'Seoul', DEFAULT, DEFAULT,'N','Y');
-INSERT INTO MEMBER VALUES('102','b@b.com','b','010-2222-2222','baba','Gyeonggi-do',DEFAULT,DEFAULT,'y','n');
+INSERT INTO MEMBER VALUES('101', 'admin@admin.com', 'admin','010-1111-1111','admin', 'Seoul', DEFAULT, DEFAULT,'N','Y', DEFAULT);
+INSERT INTO MEMBER VALUES('102','b@b.com','b','010-2222-2222','baba','Gyeonggi-do',DEFAULT,DEFAULT,'y','n', DEFAULT);
 INSERT INTO USERHISTORY VALUES(DEFAULT, '101', 88.12312322, 155.231123, 'happyparking','Seoul Seongdonggu', DEFAULT);
 INSERT INTO USERHISTORY VALUES(DEFAULT, '102', 44.12378, 120.12348222, 'luluparking','Seoul Gangnamgu', DEFAULT);
 

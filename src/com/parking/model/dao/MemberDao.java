@@ -50,6 +50,7 @@ public class MemberDao {
         m.setLoginDate(rs.getDate("login_date"));
         m.setSmsYn(rs.getString("sms_yn").toUpperCase().charAt(0)=='Y'? true:false);
         m.setEmailYn(rs.getString("email_yn").toUpperCase().charAt(0)=='Y'? true:false);
+        m.setEmailVerified(rs.getInt("email_verified") == 1);
       }
     } catch(SQLException e) {
       e.printStackTrace();
