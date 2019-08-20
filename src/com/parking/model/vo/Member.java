@@ -13,13 +13,14 @@ public class Member {
   private Date loginDate;
   private boolean smsYn;
   private boolean emailYn;
+  private boolean emailVerified;
 
   public Member() {
     // TODO Auto-generated constructor stub
   }
   
   public Member(String userCode, String email, String pw, String phone, String userName, String userAddr,
-      Date createdDate, Date loginDate, boolean smsYn, boolean emailYn) {
+      Date createdDate, Date loginDate, boolean smsYn, boolean emailYn, boolean emailVerified) {
     super();
     this.userCode = userCode;
     this.email = email;
@@ -31,13 +32,14 @@ public class Member {
     this.loginDate = loginDate;
     this.smsYn = smsYn;
     this.emailYn = emailYn;
+    this.emailVerified = emailVerified;
   }
   
   @Override
   public String toString() {
     return "Member [userCode=" + userCode + ", email=" + email + ", pw=" + pw + ", phone=" + phone + ", userName="
         + userName + ", userAddr=" + userAddr + ", createdDate=" + createdDate + ", loginDate=" + loginDate + ", smsYn="
-        + smsYn + ", emailYn=" + emailYn + "]";
+        + smsYn + ", emailYn=" + emailYn + ", emailVerified=" + emailVerified +"]";
   }
 
   public String getUserCode() { return userCode; } 
@@ -59,6 +61,7 @@ public class Member {
   public boolean isSmsYn() { return smsYn; } 
   public void setSmsYn(boolean smsYn) { this.smsYn = smsYn; } 
   public boolean isEmailYn() { return emailYn; } 
-  public void setEmailYn(boolean emailYn) { this.emailYn = emailYn; } 
-  
+  public void setEmailYn(boolean emailYn) { this.emailYn = emailYn; }
+  public boolean isEmailVerified() { return emailVerified; }
+  public void setEmailVerified(boolean emailVerified) { this.emailVerified = emailVerified; } 
 }
