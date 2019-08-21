@@ -42,7 +42,7 @@
               <label for="saveId"><input type="checkbox" name="saveId" id="saveId">Remember Me!</label>
             </div>
             <div class="form-group">
-              <input type="submit" value="Login" class="btn float-right login_btn">
+              <input type="submit" value="Log In" class="btn btn-outline-dark float-right login_btn">
             </div>
           </form>
         </div>
