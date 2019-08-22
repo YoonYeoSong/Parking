@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.parking.model.vo.Member" %>
+    pageEncoding="UTF-8" import="com.parking.member.model.vo.Member" %>
    
     
 <!-------------------------
