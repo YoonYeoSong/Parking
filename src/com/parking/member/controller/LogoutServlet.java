@@ -1,4 +1,4 @@
-package com.parking.controller;
+package com.parking.member.controller;
 
 import java.io.IOException;
 
