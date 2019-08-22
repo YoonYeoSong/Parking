@@ -94,9 +94,11 @@
   <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
   <!-- JS -->
-
   <!-- <script src="<%=request.getContextPath() %>/js/bootstrap.min.js"></script> -->
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <!-- trigger google btn click -->
+  <script src="https://apis.google.com/js/platform.js?onload=onLoadGoogleCallback" async defer></script>
+
   <script>
     /*
       navigation and main searchbars are toggled
@@ -124,6 +126,83 @@
         }
       });
     });
+
+    function onLoadGoogleCallback(){
+      gapi.load('auth2', function() {
+        auth2 = gapi.auth2.init({
+          client_id: '847270498494-dj5o04t83q5uja6ccp6eekr3en7qcb8p.apps.googleusercontent.com',
+          cookiepolicy: 'single_host_origin',
+          scope: 'profile'
+        });
+
+        auth2.attachClickHandler(element, {},
+          function(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+            console.log('Full Name: ' + profile.getName());
+            console.log('Given Name: ' + profile.getGivenName());
+            console.log('Family Name: ' + profile.getFamilyName());
+            console.log("Image URL: " + profile.getImageUrl());
+            console.log("Email: " + profile.getEmail());
+            
+            var id_token = googleUser.getAuthResponse().id_token;
+            console.log("ID Token: " + id_token);
+
+            $('#myImg').attr({"src": profile.getImageUrl(),
+                              "style": "width:31px; heght:31px"});
+            // document.getElementById("myImg").src = profile.getImageUrl();
+            document.getElementById("name").innerHTML = "Hello! " + profile.getName();
+            $('#googleLotoutBtn').toggle();
+
+            //document.getElementById("status").innerHTML = 'Welcome '+name+"!<a href=success.jsp?email='+email+'&name='+name+'/>Continue with Google login</a></p>";
+            // document.getElementById("status").innerHTML = 'Hello! '+name;
+            // var googleUserEntity = {};
+            // googleUserEntity.Id = profile.getId();
+            // googleUserEntity.Name = profile.getName();
+            
+            // //Store the entity object in sessionStorage where it will be accessible from all pages of your site.
+            // sessionStorage.setItem('googleUserEntity',JSON.stringify(googleUserEntity));
+            // if(sessionStorage.getItem('googleUserEntity') == null){
+            //   //Redirect to login page, no user entity available in sessionStorage
+            //   // window.location.href='Login.html';
+            //   console.log("google logged out");
+            //   $('#googleLogoutBtn').hide();
+            // } else {
+            //   //User already logged in
+            //   console.log("google logged in");
+            //   googleUserEntity = JSON.parse(sessionStorage.getItem('googleUserEntity'));
+            // }
+          },
+          function(error) {
+            console.log('Sign-in error', error);
+          }
+        );
+      });
+
+      element = document.getElementById('googleSignIn');
+    }
+    function googleLogout() {
+      gapi.auth2.getAuthInstance().disconnect();
+      sessionStorage.clear();
+      $('#googleLotoutBtn').toggle();
+      location.reload();
+    }
+    function validate(){
+    	if($('#email').val().length==0){
+        alert("Please type Email for login");
+        $('#email').focus();
+        return false; //prevent form submit
+      }
+    	if($('#pw').val().length==0){
+        alert("Please type Password for login");
+        $('#pw').focus();
+        return false; //prevent form submit
+      }
+    	return true;
+    }
+    function googleLogin(){
+      $( "#googleBtn" ).trigger( "click" );
+    }
   </script>
   
 </body>
