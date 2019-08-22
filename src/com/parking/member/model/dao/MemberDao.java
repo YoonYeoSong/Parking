@@ -1,4 +1,4 @@
-package com.parking.model.dao;
+package com.parking.member.model.dao;
 
 import static common.template.JDBCTemplate.close;
 
@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import com.parking.model.vo.Member;
+import com.parking.member.model.vo.Member;
 
 
 public class MemberDao {
