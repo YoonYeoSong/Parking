@@ -1,4 +1,4 @@
-package com.parking.model.vo;
+package com.parking.member.model.vo;
 
 import java.sql.Date;
 

@@ -1,9 +1,9 @@
-package com.parking.model.service;
+package com.parking.member.model.service;
 
 import java.sql.Connection;
 
-import com.parking.model.dao.MemberDao;
-import com.parking.model.vo.Member;
+import com.parking.member.model.dao.MemberDao;
+import com.parking.member.model.vo.Member;
 
 import static common.template.JDBCTemplate.close;
 import static common.template.JDBCTemplate.getConnection;
