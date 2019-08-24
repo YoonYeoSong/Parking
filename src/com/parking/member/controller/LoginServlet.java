@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,36 +35,57 @@ public class LoginServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	  String email = request.getParameter("email");
 	  String pw = request.getParameter("pw");
-	  System.out.println(email);
-	  System.out.println(pw);
-	  
+
 	  MemberService service = new MemberService();
 	  Member m = service.selectEmail(email,pw);
-	  
-    System.out.println(m);
-	  String view = "";
 
-	  if(m!= null) {
-	    HttpSession session = request.getSession();
-	    session.setAttribute("loginMember", m);
-	    //request.getSession(); pass parameter true(default) or false
-	    //true : load or create session object
-	    //false : load session (allow null)
-
-	    view = "/"; //return to index.jsp
-	  }
-	  else {
-	    String msg = "Email or password does not match!";
-	    request.setAttribute("msg", msg);
-	    view = "/views/common/msg.jsp";
-
-	    String loc = "/"; //return to index.jsp
-	    request.setAttribute("loc", loc);
-	  }
 	  request.setAttribute("loginMember", m);
 
-    RequestDispatcher rd = request.getRequestDispatcher(view);
-    rd.forward(request, response);
+	  //for debug
+	  System.out.println(email);
+	  System.out.println(pw);
+	  System.out.println(m);
+
+	  String view = "";
+
+	  if(m!= null) { //Logged in
+	    /* request.getSession(boolean); boolean parameter
+	     *   true(default) : load or create session object
+	     *   false : load session (allow null)
+	     */
+	    HttpSession session = request.getSession();
+
+	    session.setAttribute("loginMember", m);
+	    
+
+	    /* Cookie
+	     * remember login email for a week if "checked"
+	     */
+	    String saveEmail = request.getParameter("saveEmail"); //null or "on"(checked)
+
+	    int duration = (saveEmail != null? 7*12*60*60 : 0); //seconds
+
+	    Cookie c = new Cookie("saveEmail", email);
+      c.setMaxAge(duration);
+      response.addCookie(c);
+
+	    view = "/"; //return to index.jsp
+
+	    response.sendRedirect(request.getContextPath() + view);
+	  }
+	  else { //Not Logged in
+	    String msg = "Email or password does not match!";
+	    String loc = "/"; //return to index.jsp after showing message in msg.jsp
+
+	    request.setAttribute("msg", msg);
+	    request.setAttribute("loc", loc);
+
+	    view = "/views/common/msg.jsp"; //dispatched to msg.jsp
+
+	    RequestDispatcher rd = request.getRequestDispatcher(view);
+	    rd.forward(request, response);
+	  }
+
 	}
 
 	/**

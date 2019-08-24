@@ -10,7 +10,7 @@
 
   <hr class="featurette-divider">
 
-  <footer class="container py-5">
+  <footer class="container py-0">
     <div class="row">
       <div class="col-6 col-md">
         <a class="navbar-brand " href="<%=request.getContextPath() %>/index.jsp">
@@ -114,7 +114,7 @@
       var hasBeenTriggered = false;
 
       $(window).scroll(function(){
-        if($(this).scrollTop()>=220 && !hasBeenTriggered){
+        if($(this).scrollTop()>=280 && !hasBeenTriggered){
           hasBeenTriggered = true;
           $('#nav-searchbar').fadeToggle();
           $('#main-searchbar').fadeToggle();
