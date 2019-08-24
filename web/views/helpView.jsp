@@ -2,16 +2,19 @@
     pageEncoding="UTF-8"%>
 
 <%@ include file="./common/header.jsp" %>
-<style>
-  #help-search-area{
-    background-color: #98A0A6;
-    height: 58vh !important;
-    display: flex !important;
-    margin-bottom: 0px;
-    text-shadow:
-      1.5px 1.5px 0px #132535;
-  }
-</style>
+
+  <link rel="stylesheet" href="<%=request.getContextPath() %>/css/card-flip.css">
+
+  <style>
+    #help-search-area{
+      background-color: #98A0A6;
+      height: 58vh !important;
+      display: flex !important;
+      margin-bottom: 0px;
+      text-shadow:
+        1.5px 1.5px 0px #132535;
+    }
+  </style>
 
   <!-- cover -->
   <div class="jumbotron align-items-center" id="help-search-area" style="height:55vh">

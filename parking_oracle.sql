@@ -4,7 +4,8 @@
 -- CONN parking/1234;
 
 SELECT * FROM MEMBER;
-select * from member where email='admin@admin.com' and pw='admin';
+select * from member where user_code=101;
+
 SELECT * FROM USERHISTORY;
 --SELECT * FROM CAR;
 --SELECT * FROM PAYMENTHISTORY;
