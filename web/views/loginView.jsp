@@ -1,7 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
   pageEncoding="UTF-8"%>
 
+<%
+  Cookie[] cookies = request.getCookies();
+  String saveEmail = null;
+
+  if(cookies != null){
+    for(Cookie c : cookies){
+      String key= c.getName();
+      String value = c.getValue();
+      if(key.equals("saveEmail"))
+        saveEmail = value;
+    }
+  }
+%>
+
 <%@ include file="./common/header.jsp" %>
+
+  <link rel="stylesheet" href="<%=request.getContextPath() %>/css/login.css">
 
   <div class="container sns ">
     <div class="d-flex justify-content-center h-100">
@@ -33,8 +49,8 @@
               <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fa fa-user"></i></span>
               </div>
-              <input type="email" class="form-control" placeholder="Email" name="email" id="email">
-
+              <input type="email" class="form-control" placeholder="Email" name="email" id="email"
+                     value='<%=saveEmail != null? saveEmail : "" %>' />
             </div>
             <div class="input-group form-group">
               <div class="input-group-prepend">
@@ -43,7 +59,9 @@
               <input type="password" class="form-control" placeholder="Password" name="pw" id="pw">
             </div>
             <div class="row align-items-center remember">
-              <label for="saveId"><input type="checkbox" name="saveId" id="saveId">Remember Me!</label>
+              <label for="saveEmail">
+                <input type="checkbox" name="saveEmail" id="saveEmail" <%=saveEmail!=null? "checked":"" %> />Remember Me!
+              </label>
             </div>
             <div class="form-group">
               <input type="submit" value="Log In" class="btn btn-outline-dark float-right login_btn">

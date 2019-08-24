@@ -4,7 +4,7 @@
 <%@ include file="/views/common/header.jsp" %>
 
   <!-- search area -->
-  <div class="jumbotron row align-items-center justify-content-center" id="main-search-area">
+  <div class="jumbotron align-items-center justify-content-center" id="main-search-area">
     <div class="container">
       <p class="h3 text-white row justify-content-center font-weight-bold">SEARCH FOR PARKING</p>
       <p class="h7 text-white row justify-content-center font-weight-bold">Around 23 Seoul Districts!</p>
@@ -23,7 +23,7 @@
 
   <!-- carousel -->
   <div id="carousel_review" class="carousel slide" data-ride="carousel">
-    <div class="row justify-content-center mt-5">
+    <div class="text-center mt-4">
       <p class="h4 font-weight-bold">WHAT USERS ARE SAYING</p>
     </div>
     <ol class="carousel-indicators">
@@ -241,7 +241,7 @@
   </div>
 
   <!-- help section -->
-  <div class="help jumbotron row justify-content-center align-items-center" style="height: 48vh;">
+  <div class="help jumbotron justify-content-center align-items-center" style="height: 420px;">
     <div class="container">
       <div class="mx-auto col-lg-8 pt-5">
         <p class="h3 mb-5 text-white row justify-content-center font-weight-bold">How can we help?</p>
