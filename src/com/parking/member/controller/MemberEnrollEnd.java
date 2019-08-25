@@ -1,6 +1,8 @@
 package com.parking.member.controller;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.concurrent.ThreadLocalRandom;
 
 import javax.servlet.ServletException;
@@ -31,17 +33,22 @@ public class MemberEnrollEnd extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	  String userCode = this.generateUniqueRandomUserCode();
+	  String userCode = this.generateUserCode();
 	  String email = request.getParameter("email");
 	  String pwEnroll = request.getParameter("pwEnroll");
 	  String phone = request.getParameter("phone");
 	  String userName = request.getParameter("userName");
 	  String userAddr = request.getParameter("roadAddress") + request.getParameter("postcode");
 
-	  int smsYn = request.getParameter("smsYn") == "checked"? 1:0;
-	  int emailYn = request.getParameter("emailYn") == "checked"? 1:0;
-	  
-	  Member m = new Member(userCode, email, pwEnroll, phone, userName, userAddr, null, null, smsYn, emailYn, 0); 
+    int smsYn = request.getParameter("smsYn") == "checked"? 1:0;
+    int emailYn = request.getParameter("emailYn") == "checked"? 1:0;
+	  int emailVerified = 0; //DEFAULT
+	  Date createdDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+	  Date loginDate = null;
+
+	  Member m = new Member(userCode, email, pwEnroll, phone, userName, userAddr,
+                          createdDate, loginDate, smsYn, emailYn, emailVerified); 
+
 	  int result = new MemberService().insertMember(m);
 
 	  String msg = result > 0? "Hello "+userName + ". Thanks for joining us!" : "Sign up Failed!";
@@ -52,8 +59,12 @@ public class MemberEnrollEnd extends HttpServlet {
 
 	  request.getRequestDispatcher("/views/common/msg.jsp").forward(request, response);
 	}
-	
-	protected String generateUniqueRandomUserCode() {
+
+  /**
+   * generateUserCode() generates unique and random 6-digit user code
+   * @return String randDigit is a generated random 6 digit in String type
+   */
+	protected String generateUserCode() {
 	  int rand = 0;
 	  String randDigit ="";
 	  Member m = null;
