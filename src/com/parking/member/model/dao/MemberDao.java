@@ -5,10 +5,12 @@ import static common.template.JDBCTemplate.close;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Properties;
 
 import com.parking.member.model.vo.Member;
@@ -24,43 +26,6 @@ public class MemberDao {
     } catch(IOException e) {
       e.printStackTrace();
     }
-  }
-
-  public Member selectEmailPw(Connection conn, String email, String pw) {
-    Member m = null;
-    PreparedStatement pstmt = null;
-    ResultSet rs = null;
-    String sql = prop.getProperty("selectEmailPw");
-
-    try {
-      pstmt = conn.prepareStatement(sql);
-      pstmt.setString(1, email);
-      pstmt.setString(2, pw);
-      rs = pstmt.executeQuery();
-
-      if(rs.next()) {
-        m = new Member();
-
-        m.setUserCode(rs.getString("user_code"));
-        m.setEmail(rs.getString("email"));
-        m.setPw(rs.getString("pw"));
-        m.setPhone(rs.getString("phone"));
-        m.setUserName(rs.getString("user_name"));
-        m.setUserAddr(rs.getString("user_addr"));
-        m.setCreatedDate(rs.getDate("created_date"));
-        m.setLoginDate(rs.getDate("login_date"));
-        m.setSmsYn(rs.getString("sms_yn").toUpperCase().charAt(0)=='Y'? true:false);
-        m.setEmailYn(rs.getString("email_yn").toUpperCase().charAt(0)=='Y'? true:false);
-        m.setEmailVerified(rs.getInt("email_verified") == 1);
-      }
-    } catch(SQLException e) {
-      e.printStackTrace();
-    } finally {
-      close(rs);
-      close(pstmt);
-    }
-
-    return m;
   }
 
   public Member selectEmail(Connection conn, String email) {
@@ -83,11 +48,20 @@ public class MemberDao {
         m.setPhone(rs.getString("phone"));
         m.setUserName(rs.getString("user_name"));
         m.setUserAddr(rs.getString("user_addr"));
-        m.setCreatedDate(rs.getDate("created_date"));
-        m.setLoginDate(rs.getDate("login_date"));
-        m.setSmsYn(rs.getString("sms_yn").toUpperCase().charAt(0)=='Y'? true:false);
-        m.setEmailYn(rs.getString("email_yn").toUpperCase().charAt(0)=='Y'? true:false);
-        m.setEmailVerified(rs.getInt("email_verified") == 1);
+
+        Timestamp timestamp = rs.getTimestamp("created_date");
+        java.util.Date date = new java.util.Date(timestamp.getTime());
+        m.setCreatedDate(new java.sql.Date(date.getTime()));
+
+        timestamp = rs.getTimestamp("login_date");
+        if(timestamp != null) {
+          date = new java.util.Date(timestamp.getTime());
+          m.setLoginDate(new java.sql.Date(date.getTime()));
+        }
+
+        m.setSmsYn(rs.getInt("sms_yn"));
+        m.setEmailYn(rs.getInt("email_yn"));
+        m.setEmailVerified(rs.getInt("email_verified"));
       }
     } catch(SQLException e) {
       e.printStackTrace();
@@ -98,6 +72,7 @@ public class MemberDao {
 
     return m;
   }
+
   public boolean selectCheckEmail(Connection conn, String emailToChk) {
     PreparedStatement pstmt = null;
     ResultSet rs = null;
@@ -133,12 +108,11 @@ public class MemberDao {
       pstmt.setString(4, m.getPhone());
       pstmt.setString(5, m.getUserName());
       pstmt.setString(6, m.getUserAddr());
-      pstmt.setTimestamp(7, new Timestamp(System.currentTimeMillis())); //created_date: SYSTIMESTAMP
-      System.out.println();
+      pstmt.setTimestamp(7, new java.sql.Timestamp(m.getCreatedDate().getTime())); //created_date: SYSDATE
       pstmt.setTimestamp(8, null); //login_date: NULL
-      pstmt.setString(9, m.isSmsYn()? "Y":"N");
-      pstmt.setString(10, m.isEmailYn()? "Y":"N");
-      pstmt.setString(11, m.isEmailVerified()? "1":"0");
+      pstmt.setInt(9, m.isSmsYn());
+      pstmt.setInt(10, m.isEmailYn());
+      pstmt.setInt(11, m.isEmailVerified());
       //insertMember=insert into member values(?,?,?,?,?,?,?,?,?,?,?)
 
       result = pstmt.executeUpdate();
@@ -172,11 +146,20 @@ public class MemberDao {
         m.setPhone(rs.getString("phone"));
         m.setUserName(rs.getString("user_name"));
         m.setUserAddr(rs.getString("user_addr"));
-        m.setCreatedDate(rs.getDate("created_date"));
-        m.setLoginDate(rs.getDate("login_date"));
-        m.setSmsYn(rs.getString("sms_yn").toUpperCase().charAt(0)=='Y'? true:false);
-        m.setEmailYn(rs.getString("email_yn").toUpperCase().charAt(0)=='Y'? true:false);
-        m.setEmailVerified(rs.getInt("email_verified") == 1);
+
+        Timestamp timestamp = rs.getTimestamp("created_date");
+        java.util.Date date = new java.util.Date(timestamp.getTime());
+        m.setCreatedDate(new java.sql.Date(date.getTime()));
+
+        timestamp = rs.getTimestamp("login_date");
+        if(timestamp != null) {
+          date = new java.util.Date(timestamp.getTime());
+          m.setLoginDate(new java.sql.Date(date.getTime()));
+        }
+
+        m.setSmsYn(rs.getInt("sms_yn"));
+        m.setEmailYn(rs.getInt("email_yn"));
+        m.setEmailVerified(rs.getInt("email_verified"));
       }
     } catch(SQLException e) {
       e.printStackTrace();
@@ -188,6 +171,31 @@ public class MemberDao {
     return m;
   }
   
+  
+  public boolean updateLoginDate(Connection conn, String email) {
+    PreparedStatement pstmt = null;
+    boolean logged = false;
+    String sql = prop.getProperty("updateLoginDate");
+
+    try {
+
+      //updateLoginDate=update member set login_date=? where email=?
+      pstmt = conn.prepareStatement(sql);
+
+      java.sql.Date date  = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+
+      pstmt.setTimestamp(1, new java.sql.Timestamp(date.getTime())); //login_date SYSDATE
+      pstmt.setString(2, email);
+      logged = pstmt.executeUpdate() > 0;
+      
+    } catch(SQLException e) {
+      e.printStackTrace();
+    } finally {
+      close(pstmt);
+    }
+
+    return logged;
+  }
 
 }
 
