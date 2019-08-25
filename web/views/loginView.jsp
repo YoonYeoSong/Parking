@@ -43,7 +43,7 @@
           <form class="form-signin"
             action="<%=request.getContextPath() %>/login" 
             method="post"
-            onsubmit="return validate()">
+            onsubmit="return validate_login()">
 
             <div class="input-group form-group">
               <div class="input-group-prepend">
@@ -56,7 +56,7 @@
               <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fa fa-key"></i></span>
               </div>
-              <input type="password" class="form-control" placeholder="Password" name="pw" id="pw">
+              <input type="password" class="form-control" placeholder="Password" name="pwLogin" id="pwLogin">
             </div>
             <div class="row align-items-center remember">
               <label for="saveEmail">
@@ -82,4 +82,20 @@
     </div>
   </div>
 
-<%@ include file="./common/footer.jsp" %>
+  <script>
+    function validate_login(){
+      if($('#email').val().length==0){
+        alert("Please type Email for login");
+        $('#email').focus();
+        return false; //prevent form submit
+      }
+    	if($('#pwLogin').val().length==0){
+        alert("Please type Password for login");
+        $('#pwLogin').focus();
+        return false; //prevent form submit
+      }
+    	return true;
+    }
+  </script>
+    
+    <%@ include file="./common/footer.jsp" %>

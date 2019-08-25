@@ -9,22 +9,22 @@
           <h3>Sign Up</h3>
         </div>
         <div class="card-body">
-          <form>
+          <form action="<%=request.getContextPath() %>/memberEnrollEnd" method="post" onsubmit="return validate_enroll();">
             <div class="input-group form-group">
-              <input type="text" class="form-control" placeholder="Username" name="name" id="name" required>
+              <input type="text" class="form-control" placeholder="Username" name="userName" id="userName" required>
             </div>
 
             <div class="input-group form-group">
               <input type="email" class="form-control form-group mr-3" placeholder="Email" id="email" name="email" required>
-              <input type="button" class="btn btn-secondary form-group form-control" value="check duplication">
+              <input type="button" class="btn btn-secondary form-group form-control" value="check duplication" onclick="checkEmailDuplicate();">
             </div>
 
             <div class="input-group form-group">
-              <input type="password" class="form-control" placeholder="Password" id="pw" name="pw" required>
+              <input type="password" class="form-control" placeholder="Password" id="pwEnroll" name="pwEnroll" required>
             </div>
 
             <div class="input-group form-group">
-              <input type="password" class="form-control" placeholder="Confirm password" required>
+              <input type="password" class="form-control" placeholder="Confirm password" id="pwEnrollChk" name="pwEnrollChk" required>
             </div>
 
             <div class="input-group form-group">
@@ -33,7 +33,7 @@
 
             <div class=" input-group form-group">
               <input type="postcode" class="mr-3 col-md-3 form-control" placeholder="Postcode" id="postcode" name="postcode">
-              <input type="address" class="form-control" placeholder="Address" id="address" name="address" required>
+              <input type="address" class="form-control" placeholder="Address" id="addr" name="addr" required>
               <span class="input-group-text"><i class="fa fa-search"></i></span>
             </div>
 
@@ -43,11 +43,11 @@
               </label>
 
               <label class="spam_sms">
-                <input type="checkbox" id="phoneYnChk" name="phoneYnChk" required> By clicking the box, you agree to receive our latest news and special offers by phone!
+                <input type="checkbox" id="smsYn" name="smsYn" required> By clicking the box, you agree to receive our latest news and special offers by phone!
               </label> 
 
               <label class="spam_email">
-                <input type="checkbox" id="emailYnChk" name="emailYnChk" required> By clicking the box, you agree to receive our latest news and special offers by email!
+                <input type="checkbox" id="emailYn" name="emailYn" required> By clicking the box, you agree to receive our latest news and special offers by email!
               </label>
             </div>
 
@@ -55,11 +55,53 @@
               <input type="submit" value="submit" class="btn float-right submit_btn">
             </div>
 
+            <form method="post" name="checkEmailDuplicateHiddenFrm">
+              <input type="hidden" name="emailHidden">
+            </form>
+
           </form>
         </div>
 
       </div>
     </div>
   </div>
+
+  <script>
+    $(function(){
+      $('#pwEnrollChk').blur(function(){
+        var pwEnroll = $('#pwEnroll').val();
+        var pwEnrollChk = $(this).val();
+        if(pwEnrollChk != pwEnroll){
+          alert("password does not match");
+          $(this).val() = "";
+          $('#pwEnroll').val("").focus();
+        }
+      });
+    });
+
+    function validate_enroll(){
+      //글자수 check
+      var userName = $("#userName");
+      if(userName.val().trim().length < 2){
+        alert("User name must contain more than 1 character.")
+        userName.focus();
+        return false;
+      }
+      return true;
+    }
+
+    function checkEmailDuplicate(){
+      var title = "checkEmailDuplicate";
+      var status = "left=500px, top=100px, width=300px, height=200px.menubar=n,"
+                  +"status=no, scrollbars=yes";
+      var popup = open("", title, status); //window.open()
+      var url = "<%=request.getContextPath() %>/checkEmailDuplicate";
+
+      checkEmailDuplicateHiddenFrm.action = url;
+      checkEmailDuplicateHiddenFrm.emailHidden.value = $("#email"); //parameter
+      checkEmailDuplicateHiddenFrm.target = title;
+      checkEmailDuplicateHiddenFrm.action = submit();
+    }
+  </script>
 
 <%@ include file="/views/common/footer.jsp" %>
