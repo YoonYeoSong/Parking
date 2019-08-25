@@ -1,6 +1,7 @@
 package com.parking.member.model.vo;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 public class Member {
   private String userCode;
@@ -11,16 +12,16 @@ public class Member {
   private String userAddr;
   private Date createdDate;
   private Date loginDate;
-  private boolean smsYn;
-  private boolean emailYn;
-  private boolean emailVerified;
+  private int smsYn;
+  private int emailYn;
+  private int emailVerified;
 
   public Member() {
     // TODO Auto-generated constructor stub
   }
   
   public Member(String userCode, String email, String pw, String phone, String userName, String userAddr,
-      Date createdDate, Date loginDate, boolean smsYn, boolean emailYn, boolean emailVerified) {
+      Date createdDate, Date loginDate, int smsYn, int emailYn, int emailVerified) {
     super();
     this.userCode = userCode;
     this.email = email;
@@ -37,8 +38,13 @@ public class Member {
   
   @Override
   public String toString() {
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+    String created_date = sdf.format(createdDate);
+    String login_date = loginDate !=null? sdf.format(loginDate): null;
+
     return "Member [userCode=" + userCode + ", email=" + email + ", pw=" + pw + ", phone=" + phone + ", userName="
-        + userName + ", userAddr=" + userAddr + ", createdDate=" + createdDate + ", loginDate=" + loginDate + ", smsYn="
+        + userName + ", userAddr=" + userAddr + ", createdDate=" + created_date + ", loginDate=" + login_date + ", smsYn="
         + smsYn + ", emailYn=" + emailYn + ", emailVerified=" + emailVerified +"]";
   }
 
@@ -58,10 +64,10 @@ public class Member {
   public void setCreatedDate(Date createdDate) { this.createdDate = createdDate; } 
   public Date getLoginDate() { return loginDate; } 
   public void setLoginDate(Date loginDate) { this.loginDate = loginDate; } 
-  public boolean isSmsYn() { return smsYn; } 
-  public void setSmsYn(boolean smsYn) { this.smsYn = smsYn; } 
-  public boolean isEmailYn() { return emailYn; } 
-  public void setEmailYn(boolean emailYn) { this.emailYn = emailYn; }
-  public boolean isEmailVerified() { return emailVerified; }
-  public void setEmailVerified(boolean emailVerified) { this.emailVerified = emailVerified; } 
+  public int isSmsYn() { return smsYn; } 
+  public void setSmsYn(int smsYn) { this.smsYn = smsYn; } 
+  public int isEmailYn() { return emailYn; } 
+  public void setEmailYn(int emailYn) { this.emailYn = emailYn; }
+  public int isEmailVerified() { return emailVerified; }
+  public void setEmailVerified(int emailVerified) { this.emailVerified = emailVerified; } 
 }

@@ -13,14 +13,6 @@ import com.parking.member.model.vo.Member;
 public class MemberService {
   MemberDao dao = new MemberDao();
   
-  public Member selectEmailPw(String email, String pw) {
-    Connection conn = getConnection();
-    Member m = dao.selectEmailPw(conn, email,pw);
-
-    close(conn);
-
-    return m;
-  }
 
   public Member selectEmail(String email) {
     Connection conn = getConnection();
@@ -33,7 +25,7 @@ public class MemberService {
   
   public boolean selectCheckEmail(String emailToChk) {
     Connection conn = getConnection();
-    Boolean result = dao.selectCheckEmail(conn, emailToChk);
+    boolean result = dao.selectCheckEmail(conn, emailToChk);
     
     close(conn);
 
@@ -62,5 +54,21 @@ public class MemberService {
     close(conn);
 
     return m;
+  }
+
+  public boolean updateLoginDate(String email) {
+    Connection conn = getConnection();
+
+    boolean logged = dao.updateLoginDate(conn, email);
+    
+    if (logged)
+      commit(conn);
+    else
+      rollback(conn);
+    
+    close(conn);
+    
+    return logged;
+    
   }
 }
