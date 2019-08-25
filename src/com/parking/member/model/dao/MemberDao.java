@@ -49,9 +49,9 @@ public class MemberDao {
         m.setUserAddr(rs.getString("user_addr"));
         m.setCreatedDate(rs.getDate("created_date"));
         m.setLoginDate(rs.getDate("login_date"));
-        m.setSmsYn(rs.getString("sms_yn").toUpperCase().charAt(0)=='Y'? true:false);
-        m.setEmailYn(rs.getString("email_yn").toUpperCase().charAt(0)=='Y'? true:false);
-        m.setEmailVerified(rs.getInt("email_verified") == 1);
+        m.setSmsYn(rs.getInt("sms_yn"));
+        m.setEmailYn(rs.getInt("email_yn"));
+        m.setEmailVerified(rs.getInt("email_verified"));
       }
     } catch(SQLException e) {
       e.printStackTrace();
@@ -85,9 +85,9 @@ public class MemberDao {
         m.setUserAddr(rs.getString("user_addr"));
         m.setCreatedDate(rs.getDate("created_date"));
         m.setLoginDate(rs.getDate("login_date"));
-        m.setSmsYn(rs.getString("sms_yn").toUpperCase().charAt(0)=='Y'? true:false);
-        m.setEmailYn(rs.getString("email_yn").toUpperCase().charAt(0)=='Y'? true:false);
-        m.setEmailVerified(rs.getInt("email_verified") == 1);
+        m.setSmsYn(rs.getInt("sms_yn"));
+        m.setEmailYn(rs.getInt("email_yn"));
+        m.setEmailVerified(rs.getInt("email_verified"));
       }
     } catch(SQLException e) {
       e.printStackTrace();
@@ -136,9 +136,9 @@ public class MemberDao {
       pstmt.setTimestamp(7, new Timestamp(System.currentTimeMillis())); //created_date: SYSTIMESTAMP
       System.out.println();
       pstmt.setTimestamp(8, null); //login_date: NULL
-      pstmt.setString(9, m.isSmsYn()? "Y":"N");
-      pstmt.setString(10, m.isEmailYn()? "Y":"N");
-      pstmt.setString(11, m.isEmailVerified()? "1":"0");
+      pstmt.setInt(9, m.isSmsYn());
+      pstmt.setInt(10, m.isEmailYn());
+      pstmt.setInt(11, m.isEmailVerified());
       //insertMember=insert into member values(?,?,?,?,?,?,?,?,?,?,?)
 
       result = pstmt.executeUpdate();
@@ -174,9 +174,9 @@ public class MemberDao {
         m.setUserAddr(rs.getString("user_addr"));
         m.setCreatedDate(rs.getDate("created_date"));
         m.setLoginDate(rs.getDate("login_date"));
-        m.setSmsYn(rs.getString("sms_yn").toUpperCase().charAt(0)=='Y'? true:false);
-        m.setEmailYn(rs.getString("email_yn").toUpperCase().charAt(0)=='Y'? true:false);
-        m.setEmailVerified(rs.getInt("email_verified") == 1);
+        m.setSmsYn(rs.getInt("sms_yn"));
+        m.setEmailYn(rs.getInt("email_yn"));
+        m.setEmailVerified(rs.getInt("email_verified"));
       }
     } catch(SQLException e) {
       e.printStackTrace();

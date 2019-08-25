@@ -36,11 +36,12 @@ public class MemberEnrollEnd extends HttpServlet {
 	  String pwEnroll = request.getParameter("pwEnroll");
 	  String phone = request.getParameter("phone");
 	  String userName = request.getParameter("userName");
-	  String userAddr = request.getParameter("addr") + request.getParameter("postcode");
+	  String userAddr = request.getParameter("roadAddress") + request.getParameter("postcode");
 
-	  boolean smsYn = request.getParameter("smsYn") == "checked"? true:false;
-	  boolean emailYn = request.getParameter("emailYn") == "checked"? true:false;
-	  Member m = new Member(userCode, email, pwEnroll, phone, userName, userAddr, null, null, smsYn, emailYn, false); 
+	  int smsYn = request.getParameter("smsYn") == "checked"? 1:0;
+	  int emailYn = request.getParameter("emailYn") == "checked"? 1:0;
+	  
+	  Member m = new Member(userCode, email, pwEnroll, phone, userName, userAddr, null, null, smsYn, emailYn, 0); 
 	  int result = new MemberService().insertMember(m);
 
 	  String msg = result > 0? "Hello "+userName + ". Thanks for joining us!" : "Sign up Failed!";
