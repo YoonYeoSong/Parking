@@ -23,7 +23,7 @@
   <meta name="google-signin-scope" content="profile email">
   <meta name="google-signin-client_id" content="847270498494-dj5o04t83q5uja6ccp6eekr3en7qcb8p.apps.googleusercontent.com">
   <script src="https://apis.google.com/js/platform.js" async defer></script>
-
+  <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
   <title>Locate Parking Spaces</title>
 
   <!-- favicon -->

@@ -44,6 +44,7 @@ public class LoginServlet extends HttpServlet {
 	  Member m = new MemberService().selectEmail(email);
 	  m.setLoginDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
 
+
 	  boolean validatePw = false;
 
 	  try {
@@ -61,9 +62,12 @@ public class LoginServlet extends HttpServlet {
 	  System.out.println(pwLoginOriginal);
 	  System.out.println(m);
 
+    //update login date
+    boolean logged = new MemberService().updateLoginDate(email);
+
 	  String view = "";
 
-	  if(m!= null && validatePw) { //Logged in
+	  if(m!= null && validatePw && logged) { //Logged in
 	    /* request.getSession(boolean); boolean parameter
 	     *   true(default) : load or create session object
 	     *   false : load session (allow null)
@@ -83,7 +87,7 @@ public class LoginServlet extends HttpServlet {
 	    Cookie c = new Cookie("saveEmail", email);
       c.setMaxAge(duration);
       response.addCookie(c);
-
+      
 	    view = "/"; //return to index.jsp
 
 	    response.sendRedirect(request.getContextPath() + view);

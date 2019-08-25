@@ -10,6 +10,8 @@ SELECT user_code, email, pw,phone, user_name, user_addr,
 FROM MEMBER;
 --DELETE FROM MEMBER;
 
+--update member set created_date=TO_DATE('2019/08/26 01:30:44', 'yyyy/mm/dd hh24:mi:ss') where user_code='482581';
+
 SELECT * FROM MEMBER;
 SELECT * FROM USERHISTORY;
 --SELECT * FROM CAR;

@@ -38,11 +38,11 @@ public class MemberEnrollEnd extends HttpServlet {
 	  String pwEnroll = request.getParameter("pwEnroll");
 	  String phone = request.getParameter("phone");
 	  String userName = request.getParameter("userName");
-	  String userAddr = request.getParameter("addr") + request.getParameter("postcode");
+	  String userAddr = request.getParameter("roadAddress") + request.getParameter("postcode");
 
-	  boolean smsYn = request.getParameter("smsYn") != null? true:false;
-	  boolean emailYn = request.getParameter("emailYn") != null? true:false;
-	  boolean emailVerified = false; //DEFAULT
+    int smsYn = request.getParameter("smsYn") == "checked"? 1:0;
+    int emailYn = request.getParameter("emailYn") == "checked"? 1:0;
+	  int emailVerified = 0; //DEFAULT
 	  Date createdDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 	  Date loginDate = null;
 

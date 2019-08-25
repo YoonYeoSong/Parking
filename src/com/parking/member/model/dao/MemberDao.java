@@ -5,10 +5,12 @@ import static common.template.JDBCTemplate.close;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Properties;
 
 import com.parking.member.model.vo.Member;
@@ -57,9 +59,9 @@ public class MemberDao {
           m.setLoginDate(new java.sql.Date(date.getTime()));
         }
 
-        m.setSmsYn(rs.getInt("sms_yn")==1);
-        m.setEmailYn(rs.getInt("email_yn")==1);
-        m.setEmailVerified(rs.getInt("email_verified") == 1);
+        m.setSmsYn(rs.getInt("sms_yn"));
+        m.setEmailYn(rs.getInt("email_yn"));
+        m.setEmailVerified(rs.getInt("email_verified"));
       }
     } catch(SQLException e) {
       e.printStackTrace();
@@ -108,9 +110,9 @@ public class MemberDao {
       pstmt.setString(6, m.getUserAddr());
       pstmt.setTimestamp(7, new java.sql.Timestamp(m.getCreatedDate().getTime())); //created_date: SYSDATE
       pstmt.setTimestamp(8, null); //login_date: NULL
-      pstmt.setInt(9, m.isSmsYn()? 1:0);
-      pstmt.setInt(10, m.isEmailYn()? 1:0);
-      pstmt.setInt(11, m.isEmailVerified()? 1:0);
+      pstmt.setInt(9, m.isSmsYn());
+      pstmt.setInt(10, m.isEmailYn());
+      pstmt.setInt(11, m.isEmailVerified());
       //insertMember=insert into member values(?,?,?,?,?,?,?,?,?,?,?)
 
       result = pstmt.executeUpdate();
@@ -154,9 +156,10 @@ public class MemberDao {
           date = new java.util.Date(timestamp.getTime());
           m.setLoginDate(new java.sql.Date(date.getTime()));
         }
-        m.setSmsYn(rs.getInt("sms_yn")==1);
-        m.setEmailYn(rs.getInt("email_yn")==1);
-        m.setEmailVerified(rs.getInt("email_verified") == 1);
+
+        m.setSmsYn(rs.getInt("sms_yn"));
+        m.setEmailYn(rs.getInt("email_yn"));
+        m.setEmailVerified(rs.getInt("email_verified"));
       }
     } catch(SQLException e) {
       e.printStackTrace();
@@ -169,6 +172,30 @@ public class MemberDao {
   }
   
   
+  public boolean updateLoginDate(Connection conn, String email) {
+    PreparedStatement pstmt = null;
+    boolean logged = false;
+    String sql = prop.getProperty("updateLoginDate");
+
+    try {
+
+      //updateLoginDate=update member set login_date=? where email=?
+      pstmt = conn.prepareStatement(sql);
+
+      java.sql.Date date  = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+
+      pstmt.setTimestamp(1, new java.sql.Timestamp(date.getTime())); //login_date SYSDATE
+      pstmt.setString(2, email);
+      logged = pstmt.executeUpdate() > 0;
+      
+    } catch(SQLException e) {
+      e.printStackTrace();
+    } finally {
+      close(pstmt);
+    }
+
+    return logged;
+  }
 
 }
 

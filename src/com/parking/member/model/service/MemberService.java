@@ -25,7 +25,7 @@ public class MemberService {
   
   public boolean selectCheckEmail(String emailToChk) {
     Connection conn = getConnection();
-    Boolean result = dao.selectCheckEmail(conn, emailToChk);
+    boolean result = dao.selectCheckEmail(conn, emailToChk);
     
     close(conn);
 
@@ -54,5 +54,21 @@ public class MemberService {
     close(conn);
 
     return m;
+  }
+
+  public boolean updateLoginDate(String email) {
+    Connection conn = getConnection();
+
+    boolean logged = dao.updateLoginDate(conn, email);
+    
+    if (logged)
+      commit(conn);
+    else
+      rollback(conn);
+    
+    close(conn);
+    
+    return logged;
+    
   }
 }
