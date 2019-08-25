@@ -1,6 +1,7 @@
 package com.parking.member.model.vo;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 public class Member {
   private String userCode;
@@ -37,8 +38,13 @@ public class Member {
   
   @Override
   public String toString() {
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+    String created_date = sdf.format(createdDate);
+    String login_date = loginDate !=null? sdf.format(loginDate): null;
+
     return "Member [userCode=" + userCode + ", email=" + email + ", pw=" + pw + ", phone=" + phone + ", userName="
-        + userName + ", userAddr=" + userAddr + ", createdDate=" + createdDate + ", loginDate=" + loginDate + ", smsYn="
+        + userName + ", userAddr=" + userAddr + ", createdDate=" + created_date + ", loginDate=" + login_date + ", smsYn="
         + smsYn + ", emailYn=" + emailYn + ", emailVerified=" + emailVerified +"]";
   }
 

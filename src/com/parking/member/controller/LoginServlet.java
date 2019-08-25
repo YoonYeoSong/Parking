@@ -3,6 +3,7 @@ package com.parking.member.controller;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Calendar;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -41,6 +42,7 @@ public class LoginServlet extends HttpServlet {
 	  String pwLoginOriginal = request.getParameter("pwLogin");
 
 	  Member m = new MemberService().selectEmail(email);
+	  m.setLoginDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
 
 	  boolean validatePw = false;
 
@@ -54,7 +56,7 @@ public class LoginServlet extends HttpServlet {
 
 	  request.setAttribute("loginMember", m);
 
-	  //for debug
+	  //for debugging
 	  System.out.println(email);
 	  System.out.println(pwLoginOriginal);
 	  System.out.println(m);

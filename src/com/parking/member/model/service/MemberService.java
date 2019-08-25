@@ -13,14 +13,6 @@ import com.parking.member.model.vo.Member;
 public class MemberService {
   MemberDao dao = new MemberDao();
   
-  public Member selectEmailPw(String email, String pw) {
-    Connection conn = getConnection();
-    Member m = dao.selectEmailPw(conn, email,pw);
-
-    close(conn);
-
-    return m;
-  }
 
   public Member selectEmail(String email) {
     Connection conn = getConnection();

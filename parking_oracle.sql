@@ -3,10 +3,14 @@
 -- GRANT CONNECT, RESOURCE TO parking;
 -- CONN parking/1234;
 
-SELECT * FROM MEMBER;
-select * from member where email='admin@com';
---delete from member;
+SELECT user_code, email, pw,phone, user_name, user_addr,
+    TO_CHAR(created_date, 'yyyy-MM-dd hh24:mi:ss') AS created_date,
+    TO_CHAR(login_date, 'yyyy-MM-dd hh24:mi:ss') AS login_date,
+    sms_yn, email_yn, email_verified
+FROM MEMBER;
+--DELETE FROM MEMBER;
 
+SELECT * FROM MEMBER;
 SELECT * FROM USERHISTORY;
 --SELECT * FROM CAR;
 --SELECT * FROM PAYMENTHISTORY;
@@ -39,17 +43,17 @@ SELECT * FROM user_constraints WHERE table_name IN
     ('MEMBER', 'USERHISTORY', 'CAR', 'PAYMENTHISTORY', 'REVIEW', 'QNABOARD', 'NOTICE', 'BOOKMARK', 'COUPON');
 
 CREATE TABLE MEMBER (
-    user_code VARCHAR2(20) NOT NULL,
-    email VARCHAR2(20) NOT NULL,
+    user_code CHAR(6) NOT NULL,
+    email VARCHAR2(50) NOT NULL,
     pw VARCHAR2(300) NOT NULL,
     phone VARCHAR2(20) NOT NULL,
-    user_name VARCHAR2(40) NOT NULL,
-    user_addr VARCHAR2(200) NOT NULL,
-    created_date TIMESTAMP DEFAULT SYSTIMESTAMP,
-    login_date TIMESTAMP,
-    sms_yn CHAR(1) NOT NULL,
-    email_yn CHAR(1) NOT NULL,
-    email_verified CHAR(1) DEFAULT '0'
+    user_name VARCHAR2(50) NOT NULL,
+    user_addr VARCHAR2(300) NOT NULL,
+    created_date DATE DEFAULT SYSDATE,
+    login_date DATE,
+    sms_yn NUMBER(1,0) NOT NULL,
+    email_yn NUMBER(1,0) NOT NULL,
+    email_verified NUMBER(1,0) DEFAULT 0
 );
 
 COMMENT ON COLUMN MEMBER.user_code IS '회원코드';
@@ -60,8 +64,8 @@ COMMENT ON COLUMN MEMBER.user_name IS '회원이름';
 COMMENT ON COLUMN MEMBER.user_addr IS '회원주소';
 COMMENT ON COLUMN MEMBER.created_date IS '가입날짜';
 COMMENT ON COLUMN MEMBER.login_date IS '최근 로그인날짜';
-COMMENT ON COLUMN MEMBER.sms_yn IS '문자 수신여부(Y/N)';
-COMMENT ON COLUMN MEMBER.email_yn IS '이메일 수신여부(Y/N)';
+COMMENT ON COLUMN MEMBER.sms_yn IS '문자 수신여부(1/0)';
+COMMENT ON COLUMN MEMBER.email_yn IS '이메일 수신여부(1/0)';
 COMMENT ON COLUMN MEMBER.email_verified IS '이메일 인증여부(1/0)';
 
 ALTER TABLE MEMBER 
@@ -69,20 +73,20 @@ ALTER TABLE MEMBER
 ALTER TABLE MEMBER 
     ADD CONSTRAINT uq_user UNIQUE (email);
 ALTER TABLE MEMBER 
-    ADD CONSTRAINT chk_user_sms CHECK (UPPER(sms_yn) in ('Y','N'));
+    ADD CONSTRAINT chk_user_sms CHECK (sms_yn in (1,0));
 ALTER TABLE MEMBER 
-    ADD CONSTRAINT chk_user_email CHECK (UPPER(email_yn) in ('Y','N'));
+    ADD CONSTRAINT chk_user_email CHECK (email_yn in (1,0));
 ALTER TABLE MEMBER 
-    ADD CONSTRAINT chk_user_verified CHECK (email_verified in ('1','0'));
+    ADD CONSTRAINT chk_user_verified CHECK (email_verified in (1,0));
 
 CREATE TABLE USERHISTORY(
-    idx NUMBER(7) NOT NULL,
-    user_code VARCHAR2(20) NOT NULL,
+    idx NUMBER(5) NOT NULL,
+    user_code CHAR(6) NOT NULL,
     latitude NUMBER(10,8) NOT NULL,
     longitude NUMBER(11,8) NOT NULL,
     parkinglot_name VARCHAR2(50) NOT NULL,
     parkinglot_addr VARCHAR2(200) NOT NULL,
-    parking_date TIMESTAMP DEFAULT SYSTIMESTAMP
+    parking_date DATE DEFAULT SYSDATE
 );
 COMMENT ON COLUMN USERHISTORY.idx IS '이용내역 코드번호';
 COMMENT ON COLUMN USERHISTORY.user_code IS '회원코드';
@@ -113,7 +117,7 @@ ALTER TABLE USERHISTORY
 
 
 CREATE TABLE CAR(
-    user_code VARCHAR2(20) NOT NULL,
+    user_code CHAR(6) NOT NULL,
     capcity NUMBER(2) DEFAULT 0,
     car_type VARCHAR2(50),
     model VARCHAR2(50)
@@ -129,11 +133,11 @@ ALTER TABLE CAR
 
 
 CREATE TABLE PAYMENTHISTORY(
-    idx NUMBER(7) NOT NULL,
+    idx NUMBER(5) NOT NULL,
     purchase_amount NUMBER(7) DEFAULT 0,
     instt_name VARCHAR2(100),
     instt_phone VARCHAR2(20),
-    payment_date TIMESTAMP DEFAULT SYSTIMESTAMP
+    payment_date DATE DEFAULT SYSDATE
 );
 COMMENT ON COLUMN PAYMENTHISTORY.idx IS '결제내역번호';
 COMMENT ON COLUMN PAYMENTHISTORY.purchase_amount IS '주차요금 결제액';
@@ -161,10 +165,10 @@ ALTER TABLE PAYMENTHISTORY
 
 
 CREATE TABLE REVIEW(
-	idx NUMBER(7) NOT NULL,
+	idx NUMBER(5) NOT NULL,
     review_title VARCHAR2(50) NOT NULL,
-    review_content VARCHAR2(50) NOT NULL,
-    created_date TIMESTAMP DEFAULT SYSTIMESTAMP,
+    review_content VARCHAR2(300 NOT NULL,
+    created_date DATETIME DEFAULT SYSDATE,
     rating NUMBER(1) NOT NULL
 );
 COMMENT ON COLUMN REVIEW.idx IS '코드번호';
@@ -193,11 +197,11 @@ ALTER TABLE REVIEW
 
 
 CREATE TABLE QNABOARD(
-    idx NUMBER(7) NOT NULL,
-    user_code VARCHAR2(20) NOT NULL,
+    idx NUMBER(5) NOT NULL,
+    user_code CHAR(6) NOT NULL,
     qna_title VARCHAR2(50) NOT NULL,
-    qna_content VARCHAR2(400) NOT NULL,
-    created_date TIMESTAMP DEFAULT SYSTIMESTAMP
+    qna_content VARCHAR2(300) NOT NULL,
+    created_date DATE DEFAULT SYSDATE
 );
 COMMENT ON COLUMN QNABOARD.idx IS '문의글번호';
 COMMENT ON COLUMN QNABOARD.user_code IS '회원코드';
@@ -225,11 +229,11 @@ ALTER TABLE QNABOARD
 
 
 CREATE TABLE NOTICE(
-    idx NUMBER(7) NOT NULL,
-    user_code VARCHAR2(20) NOT NULL,
+    idx NUMBER(5) NOT NULL,
+    user_code CHAR(6) NOT NULL,
     notice_title VARCHAR2(50) NOT NULL,
-    notice_content VARCHAR2(400) NOT NULL,
-    created_date TIMESTAMP DEFAULT SYSTIMESTAMP,
+    notice_content VARCHAR2(300) NOT NULL,
+    created_date DATE DEFAULT SYSDATE,
     view_count NUMBER(7)
 );
 COMMENT ON COLUMN NOTICE.idx IS '공지사항글번호';
@@ -260,7 +264,7 @@ ALTER TABLE NOTICE
 
 CREATE TABLE BOOKMARK(
     idx NUMBER(3) NOT NULL,
-    user_code VARCHAR2(20) NOT NULL,
+    user_code CHAR(6) NOT NULL,
     latitude NUMBER(10,8) NOT NULL,
     longitude NUMBER(11,8) NOT NULL
 );
@@ -290,12 +294,12 @@ ALTER TABLE BOOKMARK
 
 CREATE TABLE COUPON(
     coupon_code CHAR(16) NOT NULL,
-    user_code VARCHAR2(20) NOT NULL,
-    expired_yn CHAR(1)
+    user_code CHAR(6) NOT NULL,
+    expired_yn NUMBER(1,0)
 );
 COMMENT ON COLUMN COUPON.coupon_code IS '쿠폰번호';
 COMMENT ON COLUMN COUPON.user_code IS '회원코드';
-COMMENT ON COLUMN COUPON.expired_yn IS '쿠폰 사용기한 초과여부'; 
+COMMENT ON COLUMN COUPON.expired_yn IS '쿠폰 사용기한 초과여부(1/0)'; 
 
 ALTER TABLE COUPON
     ADD CONSTRAINT pk_coupon PRIMARY KEY(coupon_code);
@@ -303,12 +307,7 @@ ALTER TABLE COUPON
     ADD CONSTRAINT fk_coupon_member FOREIGN KEY(user_code) REFERENCES MEMBER(user_code)
     ON DELETE CASCADE;
 ALTER TABLE COUPON
-    ADD CONSTRAINT chk_coupon_expired_yn CHECK (UPPER(expired_yn) in('Y', 'N'));
+    ADD CONSTRAINT chk_coupon_expired_yn CHECK (expired_yn in(1, 0));
 
-
-INSERT INTO MEMBER VALUES('101', 'admin@admin.com', 'admin','010-1111-1111','admin', 'Seoul', DEFAULT, DEFAULT,'N','Y', DEFAULT);
-INSERT INTO MEMBER VALUES('102','b@b.com','b','010-2222-2222','baba','Gyeonggi-do',DEFAULT,DEFAULT,'y','n', DEFAULT);
-INSERT INTO USERHISTORY VALUES(DEFAULT, '101', 88.12312322, 155.231123, 'happyparking','Seoul Seongdonggu', DEFAULT);
-INSERT INTO USERHISTORY VALUES(DEFAULT, '102', 44.12378, 120.12348222, 'luluparking','Seoul Gangnamgu', DEFAULT);
 
 COMMIT;
