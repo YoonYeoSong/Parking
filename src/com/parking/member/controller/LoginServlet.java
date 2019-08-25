@@ -1,7 +1,11 @@
 package com.parking.member.controller;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,7 +21,7 @@ import com.parking.member.model.vo.Member;
 /**
  * Servlet implementation class LoginServlet
  */
-@WebServlet("/login")
+@WebServlet(name="MemberLogin", urlPatterns="/login")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -34,21 +38,30 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	  String email = request.getParameter("email");
-	  String pw = request.getParameter("pw");
+	  String pwLoginOriginal = request.getParameter("pwLogin");
 
-	  MemberService service = new MemberService();
-	  Member m = service.selectEmail(email,pw);
+	  Member m = new MemberService().selectEmail(email);
+
+	  boolean validatePw = false;
+
+	  try {
+	    validatePw = validatePassword(pwLoginOriginal, m.getPw());
+	  } catch(InvalidKeySpecException e) {
+	    e.printStackTrace();
+	  } catch(NoSuchAlgorithmException e) {
+	    e.printStackTrace();
+	  }
 
 	  request.setAttribute("loginMember", m);
 
 	  //for debug
 	  System.out.println(email);
-	  System.out.println(pw);
+	  System.out.println(pwLoginOriginal);
 	  System.out.println(m);
 
 	  String view = "";
 
-	  if(m!= null) { //Logged in
+	  if(m!= null && validatePw) { //Logged in
 	    /* request.getSession(boolean); boolean parameter
 	     *   true(default) : load or create session object
 	     *   false : load session (allow null)
@@ -87,6 +100,34 @@ public class LoginServlet extends HttpServlet {
 	  }
 
 	}
+
+	private boolean validatePassword(String originalPassword, String storedPassword) 
+      throws NoSuchAlgorithmException, InvalidKeySpecException {
+      String[] parts = storedPassword.split(":");
+      int iterations = Integer.parseInt(parts[0]);
+      byte[] salt = fromHex(parts[1]);
+      byte[] hash = fromHex(parts[2]);
+       
+      PBEKeySpec spec = new PBEKeySpec(originalPassword.toCharArray(), salt, iterations, hash.length * 8);
+      SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+      byte[] testHash = skf.generateSecret(spec).getEncoded();
+       
+      int diff = hash.length ^ testHash.length;
+      for(int i = 0; i < hash.length && i < testHash.length; i++)
+      {
+          diff |= hash[i] ^ testHash[i];
+      }
+      return diff == 0;
+  }
+
+  private byte[] fromHex(String hex) throws NoSuchAlgorithmException {
+      byte[] bytes = new byte[hex.length() / 2];
+      for(int i = 0; i<bytes.length ;i++)
+      {
+          bytes[i] = (byte)Integer.parseInt(hex.substring(2 * i, 2 * i + 2), 16);
+      }
+      return bytes;
+  }
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

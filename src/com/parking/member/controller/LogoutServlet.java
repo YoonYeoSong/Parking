@@ -28,7 +28,7 @@ public class LogoutServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	  HttpSession session = request.getSession();
+	  HttpSession session = request.getSession(false); //session이 있을때만 처리! session이 없으면 따로 생성하지 않음
 	  if(session != null) {
 	    session.invalidate();
 	    response.sendRedirect(request.getContextPath());

@@ -162,9 +162,7 @@
                 </form>
               </li>
               <li class="nav-item">
-                <form action="<%=request.getContextPath() %>/views/signupView.jsp" method="post">
-                  <button type="submit" class="btn btn-sm btn-outline-light mt-1">Sign Up</button>
-                </form>
+                  <button class="btn btn-sm btn-outline-light mt-1" onclick='location.href="<%=request.getContextPath() %>/memberEnroll"'>Sign Up</button>
               </li>
             <%} %>
           </ul>
