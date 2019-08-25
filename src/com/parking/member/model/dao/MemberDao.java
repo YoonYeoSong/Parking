@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Properties;
 
 import com.parking.member.model.vo.Member;
@@ -25,11 +26,11 @@ public class MemberDao {
     }
   }
 
-  public Member selectEmail(Connection conn, String email, String pw) {
+  public Member selectEmailPw(Connection conn, String email, String pw) {
     Member m = null;
     PreparedStatement pstmt = null;
     ResultSet rs = null;
-    String sql = prop.getProperty("selectEmail");
+    String sql = prop.getProperty("selectEmailPw");
 
     try {
       pstmt = conn.prepareStatement(sql);
@@ -61,6 +62,133 @@ public class MemberDao {
 
     return m;
   }
+
+  public Member selectEmail(Connection conn, String email) {
+    Member m = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+    String sql = prop.getProperty("selectEmail");
+
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, email);
+      rs = pstmt.executeQuery();
+
+      if(rs.next()) {
+        m = new Member();
+
+        m.setUserCode(rs.getString("user_code"));
+        m.setEmail(rs.getString("email"));
+        m.setPw(rs.getString("pw"));
+        m.setPhone(rs.getString("phone"));
+        m.setUserName(rs.getString("user_name"));
+        m.setUserAddr(rs.getString("user_addr"));
+        m.setCreatedDate(rs.getDate("created_date"));
+        m.setLoginDate(rs.getDate("login_date"));
+        m.setSmsYn(rs.getString("sms_yn").toUpperCase().charAt(0)=='Y'? true:false);
+        m.setEmailYn(rs.getString("email_yn").toUpperCase().charAt(0)=='Y'? true:false);
+        m.setEmailVerified(rs.getInt("email_verified") == 1);
+      }
+    } catch(SQLException e) {
+      e.printStackTrace();
+    } finally {
+      close(rs);
+      close(pstmt);
+    }
+
+    return m;
+  }
+  public boolean selectCheckEmail(Connection conn, String emailToChk) {
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+    boolean result = false;
+    String sql = prop.getProperty("selectEmail");
+
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, emailToChk);
+      rs = pstmt.executeQuery();
+      if(!rs.next())
+        result = true;
+    } catch(SQLException e) {
+      e.printStackTrace();
+    } finally {
+      close(rs);
+      close(pstmt);
+    }
+    return result;
+  }
+  
+  public int insertMember(Connection conn, Member m) {
+    PreparedStatement pstmt = null;
+    int result = 0;
+    String sql = prop.getProperty("insertMember");
+    
+    try {
+      pstmt = conn.prepareStatement(sql);
+
+      pstmt.setString(1, m.getUserCode()); //user_code (assigned by sequence)
+      pstmt.setString(2, m.getEmail());
+      pstmt.setString(3, m.getPw());
+      pstmt.setString(4, m.getPhone());
+      pstmt.setString(5, m.getUserName());
+      pstmt.setString(6, m.getUserAddr());
+      pstmt.setTimestamp(7, new Timestamp(System.currentTimeMillis())); //created_date: SYSTIMESTAMP
+      System.out.println();
+      pstmt.setTimestamp(8, null); //login_date: NULL
+      pstmt.setString(9, m.isSmsYn()? "Y":"N");
+      pstmt.setString(10, m.isEmailYn()? "Y":"N");
+      pstmt.setString(11, m.isEmailVerified()? "1":"0");
+      //insertMember=insert into member values(?,?,?,?,?,?,?,?,?,?,?)
+
+      result = pstmt.executeUpdate();
+
+    } catch(SQLException e) {
+      e.printStackTrace();
+    } finally {
+      close(pstmt);
+    }
+    
+    return result;
+  }
+  
+  public Member selectUserCode(Connection conn, String userCode) {
+    Member m = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+    String sql = prop.getProperty("selectUserCode");
+
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, userCode);
+      rs = pstmt.executeQuery();
+
+      if(rs.next()) {
+        m = new Member();
+
+        m.setUserCode(rs.getString("user_code"));
+        m.setEmail(rs.getString("email"));
+        m.setPw(rs.getString("pw"));
+        m.setPhone(rs.getString("phone"));
+        m.setUserName(rs.getString("user_name"));
+        m.setUserAddr(rs.getString("user_addr"));
+        m.setCreatedDate(rs.getDate("created_date"));
+        m.setLoginDate(rs.getDate("login_date"));
+        m.setSmsYn(rs.getString("sms_yn").toUpperCase().charAt(0)=='Y'? true:false);
+        m.setEmailYn(rs.getString("email_yn").toUpperCase().charAt(0)=='Y'? true:false);
+        m.setEmailVerified(rs.getInt("email_verified") == 1);
+      }
+    } catch(SQLException e) {
+      e.printStackTrace();
+    } finally {
+      close(rs);
+      close(pstmt);
+    }
+
+    return m;
+  }
+  
+
 }
 
 

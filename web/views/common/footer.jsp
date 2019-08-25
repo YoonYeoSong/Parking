@@ -125,6 +125,17 @@
           $('#main-searchbar').fadeToggle();
         }
       });
+
+      //memberEnroll.jsp
+      $('#pwEnrollChk').blur(function(){
+        var pwEnroll = $('#pwEnroll').val();
+        var pwEnrollChk = $(this).val();
+        if(pwEnrollChk != pwEnroll){
+          alert("password does not match");
+          $(this).val("");
+          $('#pwEnroll').val("").focus();
+        }
+      });
     });
 
     function onLoadGoogleCallback(){
@@ -186,19 +197,6 @@
       sessionStorage.clear();
       $('#googleLotoutBtn').toggle();
       location.reload();
-    }
-    function validate(){
-    	if($('#email').val().length==0){
-        alert("Please type Email for login");
-        $('#email').focus();
-        return false; //prevent form submit
-      }
-    	if($('#pw').val().length==0){
-        alert("Please type Password for login");
-        $('#pw').focus();
-        return false; //prevent form submit
-      }
-    	return true;
     }
     function googleLogin(){
       $( "#googleBtn" ).trigger( "click" );

@@ -4,7 +4,8 @@
 -- CONN parking/1234;
 
 SELECT * FROM MEMBER;
-select * from member where user_code=101;
+select * from member where email='admin@com';
+--delete from member;
 
 SELECT * FROM USERHISTORY;
 --SELECT * FROM CAR;
@@ -40,7 +41,7 @@ SELECT * FROM user_constraints WHERE table_name IN
 CREATE TABLE MEMBER (
     user_code VARCHAR2(20) NOT NULL,
     email VARCHAR2(20) NOT NULL,
-    pw VARCHAR2(20) NOT NULL,
+    pw VARCHAR2(300) NOT NULL,
     phone VARCHAR2(20) NOT NULL,
     user_name VARCHAR2(40) NOT NULL,
     user_addr VARCHAR2(200) NOT NULL,
