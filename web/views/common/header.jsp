@@ -11,6 +11,12 @@
 -------------------------->
 <%
   Member loginMember = (Member)session.getAttribute("loginMember");
+
+  String mypageUrl = request.getContextPath() + "/views";
+  if(loginMember != null && loginMember.getEmail().equals("admin@com"))
+    mypageUrl += "/admin/mypageAdmin.jsp";
+  else
+    mypageUrl += "/member/mypageMember.jsp";
 %>
 
 <!DOCTYPE html>
@@ -140,12 +146,12 @@
               <a class="nav-link dropdown-toggle menu-item mr-2" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%=dropdownTxt %></a>
 
               <div class="dropdown-menu mt-1" aria-labelledby="dropdown01">
-                <a class="dropdown-item" href="<%=request.getContextPath() %>/views/mypageView.jsp"><i class="fa fa-calendar">&nbsp;&nbsp;</i>My Reservations</a>
-                <a class="dropdown-item" href="<%=request.getContextPath() %>/views/mypageView.jsp"><i class="fa fa-cog">&nbsp;&nbsp;</i>Account Settings</a>
-                <a class="dropdown-item" href="<%=request.getContextPath() %>/views/mypageView.jsp"><i class="fa fa-credit-card">&nbsp;&nbsp;</i>Payment Methods</a>
-                <a class="dropdown-item" href="<%=request.getContextPath() %>/views/mypageView.jsp"><i class="fa fa-won">&nbsp;&nbsp;</i>Credit Balance</a>
-                <a class="dropdown-item" href="<%=request.getContextPath() %>/views/mypageView.jsp"><i class="fa fa-car">&nbsp;&nbsp;</i>My Vehicle</a>
-                <a class="dropdown-item" href="<%=request.getContextPath() %>/views/mypageView.jsp"><i class="fa fa-bookmark">&nbsp;&nbsp;</i>Bookmark</a>
+                <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-calendar">&nbsp;&nbsp;</i>My Reservations</a>
+                <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-cog">&nbsp;&nbsp;</i>Account Settings</a>
+                <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-credit-card">&nbsp;&nbsp;</i>Payment Methods</a>
+                <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-won">&nbsp;&nbsp;</i>Credit Balance</a>
+                <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-car">&nbsp;&nbsp;</i>My Vehicle</a>
+                <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-bookmark">&nbsp;&nbsp;</i>Bookmark</a>
               </div>
             </li>
 
@@ -157,7 +163,7 @@
               </li>
             <%} else{%>
               <li class="nav-item">
-                <form action="<%=request.getContextPath() %>/views/loginView.jsp" method="post">
+                <form action="<%=request.getContextPath() %>/views/member/loginView.jsp" method="post">
                   <button type="submit" class="btn btn-sm btn-outline-light mt-1 mr-1">Log In</button>
                 </form>
               </li>

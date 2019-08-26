@@ -15,7 +15,7 @@
   }
 %>
 
-<%@ include file="./common/header.jsp" %>
+<%@ include file="../common/header.jsp" %>
 
   <link rel="stylesheet" href="<%=request.getContextPath() %>/css/login.css">
 
@@ -98,4 +98,4 @@
     }
   </script>
     
-    <%@ include file="./common/footer.jsp" %>
+    <%@ include file="../common/footer.jsp" %>
