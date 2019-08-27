@@ -12,11 +12,15 @@
 <%
   Member loginMember = (Member)session.getAttribute("loginMember");
 
-  String mypageUrl = request.getContextPath() + "/views";
-  if(loginMember != null && loginMember.getEmail().equals("admin@com"))
-    mypageUrl += "/admin/mypageAdmin.jsp";
+  String mypageUrl = request.getContextPath();
+  if(loginMember != null){
+    if(loginMember.getEmail().equals("admin@com"))
+      mypageUrl += "/views/admin/mypageAdmin.jsp";
+    else
+      mypageUrl += "/views/member/mypageMember.jsp";
+  }
   else
-    mypageUrl += "/member/mypageMember.jsp";
+    mypageUrl += "/views/member/loginView.jsp";
 %>
 
 <!DOCTYPE html>
