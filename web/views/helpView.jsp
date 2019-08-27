@@ -7,12 +7,12 @@
 
   <style>
     #help-search-area{
-      background-color: #98A0A6;
+      background-color: #B9DA00;
       height: 58vh !important;
       display: flex !important;
       margin-bottom: 0px;
-      text-shadow:
-        1.5px 1.5px 0px #132535;
+      /* text-shadow:
+        1.5px 1.5px 0px #132535; */
     }
   </style>
 
@@ -20,8 +20,8 @@
   <div class="jumbotron align-items-center" id="help-search-area" style="height:55vh">
     <div class="container">
 
-      <p class="h3 text-white row justify-content-center font-weight-bold">SEARCH FOR HELPFUL ARTICLES</p>
-      <p class="h7 text-white row justify-content-center font-weight-bold">IT WILL HELP YOU USE THE APP!</p>
+      <p class="h3 row justify-content-center font-weight-bold">SEARCH FOR HELPFUL ARTICLES</p>
+      <p class="h7 row justify-content-center font-weight-bold">IT WILL HELP YOU USE THE APP!</p>
       <div class="mx-auto col-lg-8">
         <form id="main-searchbar" action="" class="" role="form">
           <div class="input-group mb-4">

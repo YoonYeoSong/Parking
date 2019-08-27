@@ -126,7 +126,7 @@
         }
       });
 
-      //memberEnroll.jsp
+      // views/member/memberEnroll.jsp
       $('#pwEnrollChk').blur(function(){
         var pwEnroll = $('#pwEnroll').val();
         var pwEnrollChk = $(this).val();
@@ -136,6 +136,20 @@
           $('#pwEnroll').val("").focus();
         }
       });
+
+
+      // views/admin/memberList.jsp
+      var sEmail=$("#search-email");
+      var sUserName=$("#search-user_Name");
+      var searchType=$("#searchType"); //<select>
+
+      //add 'change' event on searchType <select>
+      searchType.change(function(){
+        sEmail.hide();
+        sUserName.hide();
+        $('#search-' + this.value).css("display", "inline-block");
+      });
+      searchType.trigger("change"); // trigger change event
     });
 
     function onLoadGoogleCallback(){
