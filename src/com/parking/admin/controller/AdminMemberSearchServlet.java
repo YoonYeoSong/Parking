@@ -1,4 +1,4 @@
-package com.parking.admin;
+package com.parking.admin.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class AdminMemberListServlet
+ * Servlet implementation class AdminMemberSearchServlet
  */
-@WebServlet("/admin/memberList")
-public class AdminMemberListServlet extends HttpServlet {
+@WebServlet("/admin/memberFinder")
+public class AdminMemberSearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AdminMemberListServlet() {
+    public AdminMemberSearchServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
