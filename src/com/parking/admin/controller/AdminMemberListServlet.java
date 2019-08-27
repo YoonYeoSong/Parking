@@ -46,10 +46,12 @@ public class AdminMemberListServlet extends HttpServlet {
 	  }
 
 	  int numPerPage = 5;
-	  int totalMember = new AdminService().selectCountMember();
-	  List<Member> list = new AdminService().selectListPage(cPage, numPerPage);
+//	  int totalMember = new AdminService().selectCountMember();
+//	  List<Member> list = new AdminService().selectListPage(cPage, numPerPage);
 
 
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 
 	}
 
