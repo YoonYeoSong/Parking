@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.parking.admin.model.service.AdminService;
 import com.parking.member.model.vo.Member;
 
 /**
@@ -45,14 +46,42 @@ public class AdminMemberListServlet extends HttpServlet {
 	    cPage = 1;
 	  }
 
+	  int totalMember = new AdminService().selectCountMember();
 	  int numPerPage = 5;
-//	  int totalMember = new AdminService().selectCountMember();
-//	  List<Member> list = new AdminService().selectListPage(cPage, numPerPage);
+	  List<Member> list = new AdminService().selectListPage(cPage, numPerPage);
+	  
+	  int totalPage = (int)Math.ceil((double)totalMember/numPerPage);
+	  int pageBarSize = 5;
+	  int pageNo = ((cPage-1)/pageBarSize)*pageBarSize +1;
+	  int pageEnd = pageNo + pageBarSize -1;
 
+	  //create pageBar
+	  String pageBar = "";
+	  if(pageNo ==1)
+	    pageBar += "<span>[prev]</span>";
+	  else{
+	    pageBar += "<a href="+ request.getContextPath()+"/admin/memberList?cPage="+ (pageNo-1)+">[prev]</a>";
+	  }
+	  while(!(pageNo > pageEnd || pageNo > totalPage)){
+	    if(pageNo == cPage) {
+	      pageBar += "<span class=''>" + pageNo + "</span>";
+	    }
+	    else {
+	      pageBar += "<a href='" + request.getContextPath()+ "/admin/memberList?cPage="+ pageNo +"'>" + pageNo+"</a>  ";
+	    }
+	    pageNo++;
+	  }
+	  if(pageNo > totalPage) {
+	    pageBar+="<span>[next]</span>";
+	  }
+	  else // pageEnd < pageNo <= totalPage
+	    pageBar+="<a href='" + request.getContextPath()+ "/admin/memberList?cPage="+pageNo + "'>[next]</a>";
+	  
+	  request.setAttribute("pageBar", pageBar);
+	  request.setAttribute("cPage", cPage);
+	  request.setAttribute("members", list);
 
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-
+	  request.getRequestDispatcher("/views/admin/memberList.jsp").forward(request, response);
 	}
 
 	/**
