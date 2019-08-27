@@ -12,7 +12,7 @@ List<Member> members=(ArrayList<Member>)request.getAttribute("members");
 <%@ include file="/views/common/mypageHeader.jsp" %>
   <style>
     #search-email{display: inline-block;}
-    #search-userName{display: none;}
+    #search-user_Name{display: none;}
   </style>
 
   <section id="memberList-container">
@@ -22,24 +22,24 @@ List<Member> members=(ArrayList<Member>)request.getAttribute("members");
         SEARCH TYPE : 
         <select id="searchType">
           <option value="email" <%="email".equals(searchType)?"selected":"" %>>Email</option>
-          <option value="userName" <%="userName".equals(searchType)?"selected":"" %>>UserName</option>
+          <option value="user_Name" <%="user_Name".equals(searchType)?"selected":"" %>>UserName</option>
         </select>
         <div id="search-email">
           <form action="<%=request.getContextPath() %>/admin/memberFinder">
             <input type="hidden" name="searchType" value="email"/>
             <input type="hidden" name="cPage" value="<%=cPage%>"/>
-            <input type="email" placeholder="Search Email" name="searchKeyword"
+            <input type="text" placeholder="Search Email" name="searchKeyword"
                    value='<%="email".equals(searchType)? searchKeyword:"" %>' size="25"/>
-            <button type="submit">SEARCH</button>
+            <button type="submit" class="btn btn-primary">SEARCH</button>
           </form>
         </div>
-        <div id="search-userName">
+        <div id="search-user_Name">
           <form action="<%=request.getContextPath() %>/admin/memberFinder">
-            <input type="hidden" name="searchType" value="userName"/>
+            <input type="hidden" name="searchType" value="user_Name"/>
             <input type="hidden" name="cPage" value="<%=cPage%>"/>
             <input type="text" placeholder="Search User Name" name="searchKeyword"
-                   value='<%="userName".equals(searchType)? searchKeyword: ""%>' size="25"/>
-            <button type="submit">SEARCH</button>
+                   value='<%="user_Name".equals(searchType)? searchKeyword: ""%>' size="25"/>
+            <button type="submit" class="btn btn-primary">SEARCH</button>
           </form>
         </div>
       </div>
@@ -51,7 +51,7 @@ List<Member> members=(ArrayList<Member>)request.getAttribute("members");
           <th scope="col">User Code</th>
           <th scope="col">Email</th>
           <th scope="col">Phone</th>
-          <th scope="col">Name</th>
+          <th scope="col">UserName</th>
           <th scope="col">Address</th>
           <th scope="col">Created Date</th>
           <th scope="col">Login Date</th>
@@ -82,26 +82,10 @@ List<Member> members=(ArrayList<Member>)request.getAttribute("members");
       </tbody>
     </table>
     
-    <div id="pageBar">
+    <div id="pageBar" style="text-align: center;">
       <%=request.getAttribute("pageBar") %>
     </div>
   </section>
 
-  <script>
-    $(function(){
-      var sEmail=$("#search-email");
-      var sUserName=$("#search-userName");
-      var searchType=$("#searchType"); //<select>
-
-      //add 'change' event on searchType <select>
-      searchType.change(function(){
-        sEmail.hide();
-        sUserName.hide();
-        $('#search-' + this.value).css("display", "inline-block");
-      });
-
-      searchType.trigger("change"); // trigger change event
-    });
-  </script>
 
 <%@ include file="/views/common/mypageFooter.jsp" %>
