@@ -2,6 +2,7 @@
 -- CREATE USER parking IDENTIFIED by parking;
 -- GRANT CONNECT, RESOURCE TO parking;
 -- CONN parking/1234;
+select * from qnaBoard;
 
 SELECT user_code, email, pw,phone, user_name, user_addr,
     TO_CHAR(created_date, 'yyyy-MM-dd hh24:mi:ss') AS created_date,

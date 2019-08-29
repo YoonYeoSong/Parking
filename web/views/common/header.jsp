@@ -21,6 +21,13 @@
   }
   else
     mypageUrl += "/views/member/loginView.jsp";
+
+
+  String dropdownTxt ="";
+  if(loginMember != null)
+    dropdownTxt = "Hi! " + loginMember.getUserName();
+  else
+    dropdownTxt = "MyPage";
 %>
 
 <!DOCTYPE html>
@@ -46,7 +53,7 @@
 
   <style>
     .site-header { /* custom transparent header */
-      background-color: rgba(19, 37, 53, .70);
+      background-color: rgba(19, 37, 53, .80);
     }
     .site-header a {
       transition: ease-in-out color .15s;
@@ -132,23 +139,20 @@
             <li class="nav-item">
               <a href="#" class="nav-link menu-item">About</a>
             </li>
-            <li class="nav-item">
-              <a href="<%=request.getContextPath() %>/views/helpView.jsp" class="nav-link menu-item">Help</a>
-            </li>
             <li class="nav-item dropdown">
-
-              <% String dropdownTxt =""; %>
-              <% if(loginMember != null) {
-                   dropdownTxt = "Hi! " + loginMember.getUserName();
-                 } else{
-                   dropdownTxt = "MyPage";
-                 }
-              %>
-              <a class="nav-link dropdown-toggle menu-item mr-2" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%=dropdownTxt %></a>
+              <a class="nav-link dropdown-toggle menu-item mr-2" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Help</a>
 
               <div class="dropdown-menu mt-1" aria-labelledby="dropdown01">
-                <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-calendar">&nbsp;&nbsp;</i>My Reservations</a>
+                <a class="dropdown-item" href="<%=request.getContextPath() %>/views/helpView.jsp" ><i class="fa fa-info-circle">&nbsp;&nbsp;</i>Help</a>
+                <a class="dropdown-item" href="<%=request.getContextPath() %>/views/helpView.jsp" ><i class="fa fa-handshake-o">&nbsp;&nbsp;</i>Q&A Board</a>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle menu-item mr-2" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%=dropdownTxt %></a>
+
+              <div class="dropdown-menu mt-1" aria-labelledby="dropdown01">
                 <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-cog">&nbsp;&nbsp;</i>Account Settings</a>
+                <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-calendar">&nbsp;&nbsp;</i>My Reservations</a>
                 <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-credit-card">&nbsp;&nbsp;</i>Payment Methods</a>
                 <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-won">&nbsp;&nbsp;</i>Credit Balance</a>
                 <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-car">&nbsp;&nbsp;</i>My Vehicle</a>
