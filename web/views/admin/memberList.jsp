@@ -15,7 +15,7 @@ List<Member> members=(ArrayList<Member>)request.getAttribute("members");
     #search-user_Name{display: none;}
   </style>
 
-  <section id="memberList-container">
+  <section id="memberList-container" class="py-4">
     <h2>Member List</h2>
     <div id="neck-container">
       <div id="search-container">
