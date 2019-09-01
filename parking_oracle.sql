@@ -2,7 +2,6 @@
 -- CREATE USER parking IDENTIFIED by parking;
 -- GRANT CONNECT, RESOURCE TO parking;
 -- CONN parking/1234;
-select * from qnaBoard;
 
 SELECT user_code, email, pw,phone, user_name, user_addr,
     TO_CHAR(created_date, 'yyyy-MM-dd hh24:mi:ss') AS created_date,
@@ -170,7 +169,7 @@ ALTER TABLE PAYMENTHISTORY
 CREATE TABLE REVIEW(
 	idx NUMBER(5) NOT NULL,
     review_title VARCHAR2(50) NOT NULL,
-    review_content VARCHAR2(300 NOT NULL,
+    review_content VARCHAR2(300) NOT NULL,
     created_date DATETIME DEFAULT SYSDATE,
     rating NUMBER(1) NOT NULL
 );
@@ -198,19 +197,27 @@ ALTER TABLE REVIEW
 ALTER TABLE REVIEW
     ADD CONSTRAINT chk_review_rating CHECK (rating in (1,2,3,4,5));
 
-
+--DROP TABLE QNABOARD;
+--DROP TRIGGER QNABOARD_TRG;
+--DROP SEQUENCE QNABOARD_SEQ;
 CREATE TABLE QNABOARD(
-    idx NUMBER(5) NOT NULL,
-    user_code CHAR(6) NOT NULL,
+    qna_no NUMBER(5) NOT NULL,
     qna_title VARCHAR2(50) NOT NULL,
+    user_code CHAR(6) NOT NULL,
     qna_content VARCHAR2(300) NOT NULL,
-    created_date DATE DEFAULT SYSDATE
+    qna_original_filename VARCHAR2(100),
+    qna_renamed_filename VARCHAR2(100),
+    qna_created_date DATE DEFAULT SYSDATE,
+    qna_readcount NUMBER DEFAULT 0
 );
-COMMENT ON COLUMN QNABOARD.idx IS '문의글번호';
-COMMENT ON COLUMN QNABOARD.user_code IS '회원코드';
+COMMENT ON COLUMN QNABOARD.qna_no IS '문의글번호';
 COMMENT ON COLUMN QNABOARD.qna_title IS '문의글 제목';
+COMMENT ON COLUMN QNABOARD.user_code IS '회원코드';
 COMMENT ON COLUMN QNABOARD.qna_content IS '문의글 내용';
-COMMENT ON COLUMN QNABOARD.created_date IS '작성날짜';
+COMMENT ON COLUMN QNABOARD.qna_original_filename IS '첨부파일원래이름';
+COMMENT ON COLUMN QNABOARD.qna_renamed_filename IS '첨부파일변경이름';
+COMMENT ON COLUMN QNABOARD.qna_created_date IS '작성날짜';
+COMMENT ON COLUMN QNABOARD.qna_readcount IS '조회수';
 
 CREATE SEQUENCE QNABOARD_SEQ START WITH 1;
 
@@ -219,13 +226,13 @@ BEFORE INSERT ON QNABOARD
 FOR EACH ROW
 BEGIN
   SELECT QNABOARD_SEQ.NEXTVAL
-  INTO :NEW.IDX
+  INTO :NEW.qna_no
   FROM DUAL;
 END;
 /
 
 ALTER TABLE QNABOARD
-    ADD CONSTRAINT pk_qnaboard PRIMARY KEY(idx);
+    ADD CONSTRAINT pk_qnaboard PRIMARY KEY(qna_no);
 ALTER TABLE QNABOARD
     ADD CONSTRAINT fk_qnaboard_member FOREIGN KEY(user_code) REFERENCES MEMBER(user_code)
     ON DELETE CASCADE;
