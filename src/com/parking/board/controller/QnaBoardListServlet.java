@@ -17,7 +17,7 @@ import com.parking.board.model.vo.QnaBoard;
  */
 @WebServlet("/board/qnaBoardList")
 public class QnaBoardListServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -27,23 +27,78 @@ public class QnaBoardListServlet extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	  List<QnaBoard> list = new QnaBoardService().selectQnaBoardList();
-	  
-	  request.setAttribute("qnalist", list);
-	  
-	  request.getRequestDispatcher("/views/board/qnaBoardList.jsp").forward(request, response);
-	}
+  /**
+   * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+   */
+  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    int cPage;
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+    try {
+      cPage = Integer.parseInt(request.getParameter("cPage"));
+    } catch(NumberFormatException e) {
+      cPage = 1;
+    }
+
+    int totalQnaBoard = new QnaBoardService().selectCountQnaBoard(); //number of total qna items
+    int numPerPage = 5;
+    int pageBarSize = 5;
+    int totalPage = (int)Math.ceil((double)totalQnaBoard/numPerPage);
+    int pageNo = ((cPage - 1)/pageBarSize) * pageBarSize + 1;
+    int pageEnd = pageNo + pageBarSize -1;
+
+    //list
+    List<QnaBoard> list = new QnaBoardService().selectQnaBoardList(cPage, numPerPage);
+
+    //pageBar
+    String pageBar = "";
+    if(pageNo == 1) {
+      pageBar += "<li class='page-item disabled'>"
+                  + "<span class='page-link'>Previous</span></li>";
+    }
+    else {
+      pageBar += "<li class='page-item'>"
+                  +"<a class='page-link' href='" 
+                    + request.getContextPath() + "/board/qnaBoardList?cPage=" +(pageNo-1) + "'>Previous</a>"
+               + "</li>";
+    }
+    while(!(pageNo > pageEnd || pageNo > totalPage)) {
+      if(pageNo == cPage) {
+        pageBar += "<li class='page-item active'> <span class='page-link'>"+ pageNo + "</span> </li>";
+      }
+      else {
+        pageBar += "<li class='page-item'>"
+                    + "<a href='"+ request.getContextPath() +"/board/qnaBoardList?cPage="+ pageNo 
+                    + "' class='page-link'>"+ pageNo + "</a>"
+                 + "</li>";
+      }
+
+      pageNo++;
+    }
+
+    if(pageNo > totalPage) {
+      pageBar += "<li class='page-item disabled'>"
+                  + "<span class='page-link'>Next</span></li>";
+    }
+    else {
+      pageBar += "<li class='page-item'>"
+                  + "<a href='" + request.getContextPath() + "/board/qnaBoardList?cPage=" + pageNo
+                  + "' class='page-link'>Next</a>"
+               + "</li>";
+    }
+    
+    request.setAttribute("pageBar", pageBar);
+    request.setAttribute("cPage", cPage);
+    request.setAttribute("qnalist", list);
+    
+    request.getRequestDispatcher("/views/board/qnaBoardList.jsp").forward(request, response);
+  }
+
+  /**
+   * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+   */
+  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    // TODO Auto-generated method stub
+    doGet(request, response);
+  }
 
 }
