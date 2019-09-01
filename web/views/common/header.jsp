@@ -144,7 +144,7 @@
 
               <div class="dropdown-menu mt-1" aria-labelledby="dropdown01">
                 <a class="dropdown-item" href="<%=request.getContextPath() %>/views/helpView.jsp" ><i class="fa fa-info-circle">&nbsp;&nbsp;</i>Help</a>
-                <a class="dropdown-item" href="<%=request.getContextPath() %>/views/helpView.jsp" ><i class="fa fa-handshake-o">&nbsp;&nbsp;</i>Q&A Board</a>
+                <a class="dropdown-item" href="<%=request.getContextPath() %>/board/qnaBoardList" ><i class="fa fa-question-circle-o">&nbsp;&nbsp;</i>Q&A Board</a>
               </div>
             </li>
             <li class="nav-item dropdown">
