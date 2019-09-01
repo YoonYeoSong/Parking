@@ -10,16 +10,15 @@
         <div class="list-group">
         <% if(loginMember!=null && loginMember.getEmail().equals("admin@com")){ %>
           <a href="<%=request.getContextPath() %>/admin/memberList" class="list-group-item">Member List</a>
-          <a href="<%=request.getContextPath() %>/board/" class="list-group-item">Board</a>
-        <% } else { %>
-          <a href="#" class="list-group-item">Account Settings</a>
+          <% } else { %>
+            <a href="#" class="list-group-item">Account Settings</a>
           <a href="#" class="list-group-item">Payment Methods</a>
           <a href="#" class="list-group-item">Reservations</a>
           <a href="#" class="list-group-item">Bookmark</a>
           <a href="#" class="list-group-item">My Vehicle</a>
           <a href="#" class="list-group-item">Credit Balance</a>
           <a href="#" class="list-group-item">My Reviews</a>
-        <% } %>
+          <% } %>
         </div>
       </div>
       <!-- /.col-lg-3 -->
