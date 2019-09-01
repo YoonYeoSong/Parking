@@ -256,9 +256,7 @@
       </div>
 
       <button class="learn-more" onclick="location.href='<%=request.getContextPath() %>/views/helpView.jsp'" >
-        <div class="circle">
-          <span class="icon arrow"></span>
-        </div>
+        <div class="circle"><span class="icon arrow"></span></div>
         <p class="button-text">Help</p>
       </button>
     </div>
