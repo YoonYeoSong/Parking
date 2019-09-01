@@ -25,18 +25,24 @@ public class QnaBoardDao {
       e.printStackTrace();
     }
   }
-
-  public List<QnaBoard> selectQnaBoardList(Connection conn){
+  
+  public List<QnaBoard> selectQnaBoardList(Connection conn, int cPage, int numPerPage){
     PreparedStatement pstmt = null;
     ResultSet rs = null;
 
     List<QnaBoard> list = new ArrayList<QnaBoard>();
     QnaBoard b = null;
+    
+    int start = (cPage-1)*numPerPage + 1;
+    int end = cPage*numPerPage;
 
     String sql = prop.getProperty("selectQnaBoardList");
     
     try {
       pstmt = conn.prepareStatement(sql);
+      pstmt.setInt(1, start);
+      pstmt.setInt(2, end);
+
       rs = pstmt.executeQuery();
       
       while(rs.next()) {
@@ -62,5 +68,28 @@ public class QnaBoardDao {
     }
     
     return list;
+  }
+
+  public int selectCountQnaBoard(Connection conn) {
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+    int count = 0;
+    String sql = prop.getProperty("selectCountQnaBoard");
+    
+    try {
+      pstmt = conn.prepareStatement(sql);
+      rs = pstmt.executeQuery();
+      
+      if(rs.next())
+        count = rs.getInt("cnt");
+
+    } catch(SQLException e) {
+      e.printStackTrace();
+    } finally {
+      close(rs);
+      close(pstmt);
+    }
+
+    return count;
   }
 }

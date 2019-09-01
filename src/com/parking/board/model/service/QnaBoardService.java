@@ -12,13 +12,23 @@ import static common.template.JDBCTemplate.close;
 public class QnaBoardService {
   private QnaBoardDao dao = new QnaBoardDao();
 
-  public List<QnaBoard> selectQnaBoardList(){
+  public List<QnaBoard> selectQnaBoardList(int cPage, int numPerPage){
     Connection conn = getConnection();
     
-    List<QnaBoard> list = dao.selectQnaBoardList(conn);
+    List<QnaBoard> list = dao.selectQnaBoardList(conn, cPage, numPerPage);
     
     close(conn);
     
     return list;
+  }
+
+  public int selectCountQnaBoard() {
+    Connection conn = getConnection();
+    
+    int count = dao.selectCountQnaBoard(conn);
+    
+    close(conn);
+
+    return count;
   }
 }
