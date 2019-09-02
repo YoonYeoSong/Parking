@@ -8,6 +8,7 @@
 <%
   List<QnaBoard> list = (ArrayList<QnaBoard>)request.getAttribute("qnalist");
   String pageBar = (String)request.getAttribute("pageBar");
+  int cPage = (Integer)request.getAttribute("cPage");
 %>
 
 <%@ include file="/views/common/header.jsp" %>
@@ -38,7 +39,7 @@
             <%} %>
           </div>
 
-          <table class="table">
+          <table class="table" id='qna_table'>
             <thead>
               <tr>
                 <th>NO.</th>
@@ -88,6 +89,28 @@
               <%=pageBar %>
             </ul>
           </nav>
+              <!-- <a class="dropdown-item" href="javascript:;" onclick="ajaxRequestPage();"><i class="fa fa-question-circle-o">&nbsp;&nbsp;</i>Q&A Board</a> -->
+              <script>
+                function ajaxRequestPage(pageNo){
+                  $.ajax({
+                    type: "POST",
+                    url: "<%=request.getContextPath() %>/board/qnaBoardList?cPage=" + pageNo,
+                    dataType: "html",
+                    success: function(data){
+                      // var tag = $("<h3>").html(data).css("color", "blue");
+                      // $('#content').append(tag);
+                      // $('#qna_table tbody')
+                        location.href="<%=request.getContextPath() %>/board/qnaBoardList?cPage=" + pageNo;
+                    },
+                    error: function(request, status, error){
+                      console.log("error 함수 실행!");
+                      console.log(request);
+                      console.log(status);
+                      console.log(error);
+                    },
+                  });
+                }
+              </script>
 
         </section>
       </div>
