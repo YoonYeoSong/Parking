@@ -57,8 +57,7 @@ public class QnaBoardListServlet extends HttpServlet {
     }
     else {
       pageBar += "<li class='page-item'>"
-                  +"<a class='page-link' href='" 
-                    + request.getContextPath() + "/board/qnaBoardList?cPage=" +(pageNo-1) + "'>Previous</a>"
+                  +"<a class='page-link' href='javascript:;' onclick='ajaxRequestPage(" +(pageNo-1) + ");'>Previous</a>"
                + "</li>";
     }
     while(!(pageNo > pageEnd || pageNo > totalPage)) {
@@ -67,8 +66,8 @@ public class QnaBoardListServlet extends HttpServlet {
       }
       else {
         pageBar += "<li class='page-item'>"
-                    + "<a href='"+ request.getContextPath() +"/board/qnaBoardList?cPage="+ pageNo 
-                    + "' class='page-link'>"+ pageNo + "</a>"
+                    + "<a href='javascript:;' onclick='ajaxRequestPage(" +pageNo +");'"
+                    + " class='page-link'>"+ pageNo + "</a>"
                  + "</li>";
       }
 
@@ -81,8 +80,8 @@ public class QnaBoardListServlet extends HttpServlet {
     }
     else {
       pageBar += "<li class='page-item'>"
-                  + "<a href='" + request.getContextPath() + "/board/qnaBoardList?cPage=" + pageNo
-                  + "' class='page-link'>Next</a>"
+                  + "<a href='javascript:;' onclick='ajaxRequestPage("+ pageNo + ");'"
+                  + " class='page-link'>Next</a>"
                + "</li>";
     }
     
