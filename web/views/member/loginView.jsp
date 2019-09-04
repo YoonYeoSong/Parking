@@ -16,6 +16,7 @@
 %>
 
 <%@ include file="../common/header.jsp" %>
+ <!-- API -->
 
   <link rel="stylesheet" href="<%=request.getContextPath() %>/css/login.css">
 
@@ -27,7 +28,8 @@
           <div class="d-flex justify-content-end social_icon">
               <span><i class="fa fa-facebook-official"></i></span>
               <span id="googleSignIn"><i class="fa fa-google-plus-square"></i></span>
-              <span><img src="<%=request.getContextPath() %>/images/kakaobutton.png" class="kakaobutton"></span>
+              <span onclick="loginWithKakao()"><img src="<%=request.getContextPath() %>/images/kakaobutton.png" class="kakaobutton"></span>
+              <input type="text" id="kakao-email" >
               <!-- <div class="fa fa-google-plus-square" data-onsuccess="onSignIn" data-theme="dark" id="myP"></div> -->
           </div>
 
@@ -83,6 +85,93 @@
   </div>
 
   <script>
+  
+ 	/* 카카오계정로그인 */
+  	var kakao_email = null;
+  	Kakao.init('e6a59ff7a98afa5e25a62d40b484f3d6');
+    function loginWithKakao() {
+      // 로그인 창을 띄웁니다.
+      Kakao.Auth.login({
+        success: function(authObj) {
+        	
+        	Kakao.API.request({
+        		
+        		url:'/v1/user/me',       		
+        		success: function(res){      			
+	        		//alert(JSON.stringify(res));
+	        		
+	        		// 로그찍으면 res.kaccount_email 은 계정에 대한 이메일이 찍힌다.
+	        		console.log(res.id);   		
+	        		console.log(res.kaccount_email);
+	        		
+	        		console.log(res.properties['nickname']);
+	        		//임의로 만든 인풋창 안에 이메일 값을 넣어두었다가 확인용으로 사용 (나중에 hidden으로 변경예정)
+	        		$("#kakao-email").val(res.kaccount_email);
+	        		//Ajax형식으로 콜백 함수 활용 계정에 대한 이메일 값을 넣고 값확인
+	        		AjaxEmailCheck($("#kakao-email").val());
+        		}
+        	})
+          	/* alert(JSON.stringify(authObj));
+          	consol.log(authObj.id); */      
+        },
+        fail: function(err) {
+          alert(JSON.stringify(err));
+        }
+      });
+    }
+      
+      //Ajax로 카카오 계정이 DB에 있는지 확인
+      function AjaxEmailCheck(snsEmail){
+      	var url ="<%=request.getContextPath()%>/member/JsonMemberEmailcheck?userEmail="+snsEmail;
+      	$.ajax ({
+      		  url:url,
+      		  type:"get",
+      		  dataType: "json",
+      		  success: function(data) {
+      			  //console.log(data);   			  
+      			  //signUpPopUp(res.kaccount_email);
+      			for(var d in data)
+  				{
+  					console.log(data[d]);
+  					console.log(data[d]["email"]);
+  					//들어온 Data 값에 대해 snsEmail에 대한 이메일과 ajax에서 가져온 데이터 값을 주고
+  					//비교후 같다면 바로 로그인 진행
+  					//아니면 팝업을 이용해 sns가입을 권유 팝업창 띄움
+  					if(data[d]["email"] == snsEmail)
+  					{
+  						location.href="<%=request.getContextPath()%>/member/MemberEmailcheck?userEmail="+snsEmail;
+  					}else{
+  						console.log("들어옴");
+  						$("#kakao-email").val("");
+  						emailPopUp(snsEmail);
+  					}
+  				}
+      		 }
+      	});
+      }
+      
+      //계정이 없다면 팝업을 이용
+      function emailPopUp(snsEmail)
+      {
+      	var url="<%=request.getContextPath()%>/member/EmailPopUp?userEmail="+snsEmail;	
+  		var title="signUpPopUp";
+  		var status="left=500px, top=200px, width=400px, height=210px";
+  		window.open(url,title,status);
+      }
+      
+      function loginViewEmailCheck(snsEmail)
+      {
+      	location.href="<%=request.getContextPath()%>/memberEnroll?userEmail="+snsEmail; 	
+      }
+      
+      function indexPage()
+      {
+      	location.href="<%=request.getContextPath()%>/member/checktrueEmail";
+      }
+  
+  
+  
+  
     function validate_login(){
       if($('#email').val().length==0){
         alert("Please type Email for login");

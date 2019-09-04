@@ -6,18 +6,22 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.parking.member.model.service.MemberService;
+import com.parking.member.model.vo.Member;
 
 /**
- * Servlet implementation class MemberEnrollServlet
+ * Servlet implementation class MemberEmailCheck
  */
-@WebServlet("/memberEnroll")
-public class MemberEnrollServlet extends HttpServlet {
+@WebServlet("/member/MemberEmailcheck")
+public class MemberEmailCheck extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MemberEnrollServlet() {
+    public MemberEmailCheck() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,17 +31,15 @@ public class MemberEnrollServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String email = request.getParameter("userEmail");
-		  System.out.println("userEmail : "+email);
-		  
-		  if(email !=null)
-		  {
-			  request.setAttribute("userEmail", email);
-			  request.getRequestDispatcher("/views/member/memberEnroll.jsp").forward(request, response);
-			  System.out.println("userEmail : "+email);
-		  }else
-		  {
-			  response.sendRedirect(request.getContextPath() + "/views/member/memberEnroll.jsp");	  
-		  }
+		MemberService service = new MemberService();
+		Member m = service.selectEmail(email);
+		System.out.println("m"+m.toString());
+		HttpSession session = request.getSession();
+		String view="";
+	    session.setAttribute("loginMember", m);
+	    view = "/"; //return to index.jsp
+	    request.getRequestDispatcher(view).forward(request,response);
+		
 	}
 
 	/**

@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class MemberEnrollServlet
+ * Servlet implementation class EmailPopUP
  */
-@WebServlet("/memberEnroll")
-public class MemberEnrollServlet extends HttpServlet {
+@WebServlet("/member/EmailPopUp")
+public class EmailPopUp extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MemberEnrollServlet() {
+    public EmailPopUp() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -26,18 +26,11 @@ public class MemberEnrollServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String email = request.getParameter("userEmail");
-		  System.out.println("userEmail : "+email);
-		  
-		  if(email !=null)
-		  {
-			  request.setAttribute("userEmail", email);
-			  request.getRequestDispatcher("/views/member/memberEnroll.jsp").forward(request, response);
-			  System.out.println("userEmail : "+email);
-		  }else
-		  {
-			  response.sendRedirect(request.getContextPath() + "/views/member/memberEnroll.jsp");	  
-		  }
+String email = request.getParameter("userEmail");
+		
+		request.setAttribute("userEmail", email);
+		request.getRequestDispatcher("/views/member/emailPopUp.jsp")
+		.forward(request,response);
 	}
 
 	/**

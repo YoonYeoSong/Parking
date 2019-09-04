@@ -2,9 +2,11 @@
     pageEncoding="UTF-8"%>
 
 <%@ include file="/views/common/header.jsp" %>
+<% String snsEmail = (String)request.getAttribute("userEmail"); %>
 
   <link rel="stylesheet" href="<%=request.getContextPath() %>/css/signup.css">
 
+  <%if(snsEmail != null){ %>
   <div class="container sns">
     <div class="d-flex justify-content-center h-100">
       <div class="card">
@@ -18,7 +20,76 @@
             </div>
 
             <div class="input-group form-group">
-              <input type="email" class="form-control form-group mr-3" placeholder="Email" id="email" name="email" required>
+            
+              <input type="email" class="form-control form-group mr-3" placeholder="Email" id="email" name="email" value="<%=snsEmail%>" readonly>
+              <input type="button" class="btn btn-secondary form-group form-control" value="check duplication" onclick="checkEmailDuplicate();" disabled>
+            </div>
+
+            <div class="input-group form-group">
+              <input type="password" class="form-control" placeholder="Password" id="pwEnroll" name="pwEnroll" readonly>
+            </div>
+
+            <div class="input-group form-group">
+              <input type="password" class="form-control" placeholder="Confirm password" id="pwEnrollChk" name="pwEnrollChk" readonly>
+            </div>
+
+            <div class="input-group form-group">
+              <input type="text" class="form-control" placeholder="Phone number" id="phone" name="phone" required>
+            </div>
+
+            <div class=" input-group form-group">
+             <input type="postcode" class="mr-3 col-md-3 form-control" placeholder="Postcode" id="postcode" name="postcode">
+              <input type="address" class="form-control" placeholder="roadAddress" id="roadAddress" name="roadAddress" required>
+              <input type="hidden" class="form-control" placeholder="jibunAddress" id="jibunAddress" name="jibunAddress">
+              <span class="form-control" id="guide" style="color:#999;display:none"></span>
+              <input type="hidden" class="form-control" placeholder="extraAddress" id="extraAddress" name="extraAddress">
+              <span class="input-group-text" type="button" onclick="execdaumPostcode()"><i class="fa fa-search"></i></span>
+            </div>
+
+            <div class="checkbox">
+              <label class="privacy">
+                <input type="checkbox" id="termsChk" name="termsChk" required> I accept the <a href="#">Terms of Use</a> &<a href="#"> Privacy Policy</a>
+              </label>
+
+              <label class="spam_sms">
+                <input type="checkbox" id="smsYn" name="smsYn" > By clicking the box, you agree to receive our latest news and special offers by phone!
+              </label> 
+
+              <label class="spam_email">
+                <input type="checkbox" id="emailYn" name="emailYn" > By clicking the box, you agree to receive our latest news and special offers by email!
+              </label>
+            </div>
+
+            <div class="form-group">
+              <input type="submit" value="submit" class="btn float-right submit_btn">
+            </div>
+          </form>
+
+          <form method="post" name="checkEmailDuplicateHiddenFrm">
+            <input type="hidden" name="emailHidden">
+          </form>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <%} else{ %>
+    <div class="container sns">
+    <div class="d-flex justify-content-center h-100">
+      <div class="card">
+        <div class="card-header">
+          <h3>Sign Up</h3>
+        </div>
+        <div class="card-body">
+          <form action="<%=request.getContextPath() %>/memberEnrollEnd" method="post" onsubmit="return validate_enroll();">
+            <div class="input-group form-group">
+              <input type="text" class="form-control" placeholder="Username" name="userName" id="userName" required>
+            </div>
+
+            <div class="input-group form-group">
+      
+              	<input type="email" class="form-control form-group mr-3" placeholder="Email" id="email" name="email" required>      
               <input type="button" class="btn btn-secondary form-group form-control" value="check duplication" onclick="checkEmailDuplicate();">
             </div>
 
@@ -71,6 +142,7 @@
       </div>
     </div>
   </div>
+  <%} %>
 
   <script>
 //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
