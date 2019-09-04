@@ -33,6 +33,18 @@
               <input type="password" class="form-control" placeholder="Confirm password" id="pwEnrollChk" name="pwEnrollChk" readonly>
             </div>
 
+            <script>
+              $('#pwEnrollChk').blur(function(){
+                var pwEnroll = $('#pwEnroll').val();
+                var pwEnrollChk = $(this).val();
+                if(pwEnrollChk != pwEnroll){
+                  alert("password does not match");
+                  $(this).val("");
+                  $('#pwEnroll').val("").focus();
+                }
+              });
+            </script>
+
             <div class="input-group form-group">
               <input type="text" class="form-control" placeholder="Phone number" id="phone" name="phone" required>
             </div>

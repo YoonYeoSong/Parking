@@ -44,6 +44,20 @@ List<Member> members=(ArrayList<Member>)request.getAttribute("members");
         </div>
       </div>
     </div>
+    <script>
+      $(function(){
+        var sEmail=$("#search-email");
+        var sUserName=$("#search-user_Name");
+        var searchType=$("#searchType"); //<select>
+
+        searchType.change(function(){ //add 'change' event on searchType <select>
+          sEmail.hide();
+          sUserName.hide();
+          $('#search-' + this.value).css("display", "inline-block");
+        });
+        searchType.trigger("change"); // trigger change event
+      });
+    </script>
     <table class="table">
       <thead>
         <tr>

@@ -109,8 +109,7 @@
         $('#nav-searchbar').attr({'width': '720px'});
       });*/
 
-      // hidden by default
-      $('#nav-searchbar').hide();
+      $('#nav-searchbar').hide(); // hidden by default
       var hasBeenTriggered = false;
 
       $(window).scroll(function(){
@@ -126,95 +125,8 @@
         }
       });
 
-      // views/member/memberEnroll.jsp
-      $('#pwEnrollChk').blur(function(){
-        var pwEnroll = $('#pwEnroll').val();
-        var pwEnrollChk = $(this).val();
-        if(pwEnrollChk != pwEnroll){
-          alert("password does not match");
-          $(this).val("");
-          $('#pwEnroll').val("").focus();
-        }
-      });
+    });/* End of $(function()){} */
 
-
-      // views/admin/memberList.jsp
-      var sEmail=$("#search-email");
-      var sUserName=$("#search-user_Name");
-      var searchType=$("#searchType"); //<select>
-
-      //add 'change' event on searchType <select>
-      searchType.change(function(){
-        sEmail.hide();
-        sUserName.hide();
-        $('#search-' + this.value).css("display", "inline-block");
-      });
-      searchType.trigger("change"); // trigger change event
-    });
-
-    function onLoadGoogleCallback(){
-      gapi.load('auth2', function() {
-        auth2 = gapi.auth2.init({
-          client_id: '847270498494-dj5o04t83q5uja6ccp6eekr3en7qcb8p.apps.googleusercontent.com',
-          cookiepolicy: 'single_host_origin',
-          scope: 'profile'
-        });
-
-        auth2.attachClickHandler(element, {},
-          function(googleUser) {
-            var profile = googleUser.getBasicProfile();
-            console.log("ID: " + profile.getId()); // Don't send this directly to your server!
-            console.log('Full Name: ' + profile.getName());
-            console.log('Given Name: ' + profile.getGivenName());
-            console.log('Family Name: ' + profile.getFamilyName());
-            console.log("Image URL: " + profile.getImageUrl());
-            console.log("Email: " + profile.getEmail());
-            
-            var id_token = googleUser.getAuthResponse().id_token;
-            console.log("ID Token: " + id_token);
-
-            $('#myImg').attr({"src": profile.getImageUrl(),
-                              "style": "width:31px; heght:31px"});
-            // document.getElementById("myImg").src = profile.getImageUrl();
-            document.getElementById("name").innerHTML = "Hello! " + profile.getName();
-            $('#googleLotoutBtn').toggle();
-
-            //document.getElementById("status").innerHTML = 'Welcome '+name+"!<a href=success.jsp?email='+email+'&name='+name+'/>Continue with Google login</a></p>";
-            // document.getElementById("status").innerHTML = 'Hello! '+name;
-            // var googleUserEntity = {};
-            // googleUserEntity.Id = profile.getId();
-            // googleUserEntity.Name = profile.getName();
-            
-            // //Store the entity object in sessionStorage where it will be accessible from all pages of your site.
-            // sessionStorage.setItem('googleUserEntity',JSON.stringify(googleUserEntity));
-            // if(sessionStorage.getItem('googleUserEntity') == null){
-            //   //Redirect to login page, no user entity available in sessionStorage
-            //   // window.location.href='Login.html';
-            //   console.log("google logged out");
-            //   $('#googleLogoutBtn').hide();
-            // } else {
-            //   //User already logged in
-            //   console.log("google logged in");
-            //   googleUserEntity = JSON.parse(sessionStorage.getItem('googleUserEntity'));
-            // }
-          },
-          function(error) {
-            console.log('Sign-in error', error);
-          }
-        );
-      });
-
-      element = document.getElementById('googleSignIn');
-    }
-    function googleLogout() {
-      gapi.auth2.getAuthInstance().disconnect();
-      sessionStorage.clear();
-      $('#googleLotoutBtn').toggle();
-      location.reload();
-    }
-    function googleLogin(){
-      $( "#googleBtn" ).trigger( "click" );
-    }
   </script>
   
 </body>
