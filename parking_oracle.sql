@@ -28,22 +28,29 @@ SELECT * FROM USERHISTORY;
 
 
 -- TABLE
-DROP TABLE MEMBER CASCADE CONSTRAINTS;
-DROP TABLE USERHISTORY CASCADE CONSTRAINTS;
-DROP TABLE CAR CASCADE CONSTRAINTS;
-DROP TABLE PAYMENTHISTORY CASCADE CONSTRAINTS;
-DROP TABLE REVIEW CASCADE CONSTRAINTS;
-DROP TABLE QNABOARD CASCADE CONSTRAINTS;
-DROP TABLE NOTICE CASCADE CONSTRAINTS;
-DROP TABLE BOOKMARK CASCADE CONSTRAINTS;
-DROP TABLE COUPON CASCADE CONSTRAINTS;
-
-DROP SEQUENCE USERHISTORY_SEQ;
-DROP SEQUENCE PAYMENTHISTORY_SEQ;
-DROP SEQUENCE REVIEW_SEQ;
-DROP SEQUENCE QNABOARD_SEQ;
-DROP SEQUENCE NOTICE_SEQ;
-DROP SEQUENCE BOOKMARK_SEQ;
+--DROP TABLE MEMBER CASCADE CONSTRAINTS;
+--DROP TABLE USERHISTORY CASCADE CONSTRAINTS;
+--DROP TABLE CAR CASCADE CONSTRAINTS;
+--DROP TABLE PAYMENTHISTORY CASCADE CONSTRAINTS;
+--DROP TABLE REVIEW CASCADE CONSTRAINTS;
+--DROP TABLE QNABOARD CASCADE CONSTRAINTS;
+--DROP TABLE NOTICE CASCADE CONSTRAINTS;
+--DROP TABLE BOOKMARK CASCADE CONSTRAINTS;
+--DROP TABLE COUPON CASCADE CONSTRAINTS;
+--
+--DROP SEQUENCE USERHISTORY_SEQ;
+--DROP SEQUENCE PAYMENTHISTORY_SEQ;
+--DROP SEQUENCE REVIEW_SEQ;
+--DROP SEQUENCE QNABOARD_SEQ;
+--DROP SEQUENCE NOTICE_SEQ;
+--DROP SEQUENCE BOOKMARK_SEQ;
+--
+--DROP TRIGGER USERHISTORY_trg;
+--DROP TRIGGER PAYMENTHISTORY_trg;
+--DROP trigger REVIEW_trg;
+--DROP trigger QNABOARD_trg;
+--DROP trigger NOTICE_trg;
+--DROP trigger BOOKMARK_trg;
 
 SELECT * FROM user_constraints WHERE table_name IN
     ('MEMBER', 'USERHISTORY', 'CAR', 'PAYMENTHISTORY', 'REVIEW', 'QNABOARD', 'NOTICE', 'BOOKMARK', 'COUPON');
@@ -216,40 +223,6 @@ ALTER TABLE REVIEW
 ALTER TABLE REVIEW
     ADD CONSTRAINT chk_review_rating CHECK (review_rating in (1,2,3,4,5));
 
---DROP TABLE QNABOARD;
---DROP TRIGGER QNABOARD_TRG;
---DROP SEQUENCE QNABOARD_SEQ;
---select * from qnaboard;
---select count(*) from qnaboard;
-insert into qnaboard values(DEFAULT,'a_title', '822353', 'this is a content1', null,null, default, default);
-insert into qnaboard values(DEFAULT,'b_title', '822353', 'this is a content2', null,null, default, default);
-insert into qnaboard values(DEFAULT,'c_title', '822353', 'this is a content3', null,null, default, default);
-insert into qnaboard values(DEFAULT,'d_title', '822353', 'this is a content4', null,null, default, default);
-insert into qnaboard values(DEFAULT,'e_title', '822353', 'this is a content5', null,null, default, default);
-insert into qnaboard values(DEFAULT,'f_title', '822353', 'this is a content6', null,null, default, default);
-insert into qnaboard values(DEFAULT,'g_title', '822353', 'this is a content7', null,null, default, default);
-insert into qnaboard values(DEFAULT,'h_title', '822353', 'this is a content8', null,null, default, default);
-insert into qnaboard values(DEFAULT,'i_title', '822353', 'this is a content9', null,null, default, default);
-insert into qnaboard values(DEFAULT,'j_title', '822353', 'this is a content10', null,null, default, default);
-insert into qnaboard values(DEFAULT,'k_title', '822353', 'this is a content11', null,null, default, default);
-insert into qnaboard values(DEFAULT,'l_title', '822353', 'this is a content12', null,null, default, default);
-insert into qnaboard values(DEFAULT,'m_title', '822353', 'this is a content13', null,null, default, default);
-insert into qnaboard values(DEFAULT,'n_title', '822353', 'this is a content14', null,null, default, default);
-insert into qnaboard values(DEFAULT,'o_title', '360906', 'this is a content15', null,null, default, default);
-insert into qnaboard values(DEFAULT,'p_title', '360906', 'this is a content16', null,null, default, default);
-insert into qnaboard values(DEFAULT,'q_title', '360906', 'this is a content17', null,null, default, default);
-insert into qnaboard values(DEFAULT,'r_title', '360906', 'this is a content18', null,null, default, default);
-insert into qnaboard values(DEFAULT,'s_title', '360906', 'this is a content19', null,null, default, default);
-insert into qnaboard values(DEFAULT,'t_title', '360906', 'this is a content20', null,null, default, default);
-insert into qnaboard values(DEFAULT,'u_title', '360906', 'this is a content21', null,null, default, default);
-insert into qnaboard values(DEFAULT,'v_title', '360906', 'this is a content22', null,null, default, default);
-insert into qnaboard values(DEFAULT,'w_title', '360906', 'this is a content23', null,null, default, default);
-insert into qnaboard values(DEFAULT,'x_title', '360906', 'this is a content24', null,null, default, default);
-insert into qnaboard values(DEFAULT,'y_title', '360906', 'this is a content25', null,null, default, default);
-insert into qnaboard values(DEFAULT,'z_title', '360906', 'this is a content26', null,null, default, default);
-insert into qnaboard values(DEFAULT,'zzz_title', '360906', 'this is a content27', null,null, default, default);
-commit;
-
 
 CREATE TABLE QNABOARD(
     qna_no NUMBER(5) NOT NULL,
@@ -287,6 +260,42 @@ ALTER TABLE QNABOARD
 ALTER TABLE QNABOARD
     ADD CONSTRAINT fk_qnaboard_member FOREIGN KEY(user_code) REFERENCES MEMBER(user_code)
     ON DELETE CASCADE;
+
+
+--DROP TABLE QNABOARD;
+--DROP TRIGGER QNABOARD_TRG;
+--DROP SEQUENCE QNABOARD_SEQ;
+--select * from qnaboard;
+--select count(*) from qnaboard;
+insert into qnaboard values(DEFAULT,'a_title', '822353', 'this is a content1', null,null, default, default);
+insert into qnaboard values(DEFAULT,'b_title', '822353', 'this is a content2', null,null, default, default);
+insert into qnaboard values(DEFAULT,'c_title', '822353', 'this is a content3', null,null, default, default);
+insert into qnaboard values(DEFAULT,'d_title', '822353', 'this is a content4', null,null, default, default);
+insert into qnaboard values(DEFAULT,'e_title', '822353', 'this is a content5', null,null, default, default);
+insert into qnaboard values(DEFAULT,'f_title', '822353', 'this is a content6', null,null, default, default);
+insert into qnaboard values(DEFAULT,'g_title', '822353', 'this is a content7', null,null, default, default);
+insert into qnaboard values(DEFAULT,'h_title', '822353', 'this is a content8', null,null, default, default);
+insert into qnaboard values(DEFAULT,'i_title', '822353', 'this is a content9', null,null, default, default);
+insert into qnaboard values(DEFAULT,'j_title', '822353', 'this is a content10', null,null, default, default);
+insert into qnaboard values(DEFAULT,'k_title', '822353', 'this is a content11', null,null, default, default);
+insert into qnaboard values(DEFAULT,'l_title', '822353', 'this is a content12', null,null, default, default);
+insert into qnaboard values(DEFAULT,'m_title', '822353', 'this is a content13', null,null, default, default);
+insert into qnaboard values(DEFAULT,'n_title', '822353', 'this is a content14', null,null, default, default);
+insert into qnaboard values(DEFAULT,'o_title', '797321', 'this is a content15', null,null, default, default);
+insert into qnaboard values(DEFAULT,'p_title', '797321', 'this is a content16', null,null, default, default);
+insert into qnaboard values(DEFAULT,'q_title', '797321', 'this is a content17', null,null, default, default);
+insert into qnaboard values(DEFAULT,'r_title', '797321', 'this is a content18', null,null, default, default);
+insert into qnaboard values(DEFAULT,'s_title', '797321', 'this is a content19', null,null, default, default);
+insert into qnaboard values(DEFAULT,'t_title', '797321', 'this is a content20', null,null, default, default);
+insert into qnaboard values(DEFAULT,'u_title', '797321', 'this is a content21', null,null, default, default);
+insert into qnaboard values(DEFAULT,'v_title', '797321', 'this is a content22', null,null, default, default);
+insert into qnaboard values(DEFAULT,'w_title', '797321', 'this is a content23', null,null, default, default);
+insert into qnaboard values(DEFAULT,'x_title', '797321', 'this is a content24', null,null, default, default);
+insert into qnaboard values(DEFAULT,'y_title', '797321', 'this is a content25', null,null, default, default);
+insert into qnaboard values(DEFAULT,'z_title', '797321', 'this is a content26', null,null, default, default);
+insert into qnaboard values(DEFAULT,'zzz_title', '797321', 'this is a content27', null,null, default, default);
+commit;
+
 
 --DROP TABLE NOTICE;
 
