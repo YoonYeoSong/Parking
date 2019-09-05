@@ -18,6 +18,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.parking.api.model.vo.Parking;
+
 public class ParseXML2 {
   private static String getTagValue(String tag, Element eElement) {
       NodeList nlList = eElement.getElementsByTagName(tag).item(0).getChildNodes();
@@ -30,7 +32,9 @@ public class ParseXML2 {
   public static void main(String[] args) {
     Properties prop = new Properties();
     try {
-      prop.load(new FileReader("resources/config.properties"));
+      //prop.load(new FileReader("resources/config.properties"));
+    	String path = Parking.class.getResource("./config.properties").getPath();
+    	prop.load(new FileReader(path));
     } catch(IOException e) {
       e.printStackTrace();
     }

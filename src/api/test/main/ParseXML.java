@@ -18,6 +18,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.parking.api.model.vo.Parking;
+
 public class ParseXML {
   private static String getTagValue(String tag, Element eElement) {
     NodeList nlList = eElement.getElementsByTagName(tag).item(0).getChildNodes();

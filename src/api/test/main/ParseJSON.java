@@ -11,6 +11,8 @@ import java.util.Properties;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.parking.api.model.vo.Parking;
+
 public class ParseJSON {
   public static void main(String[] args) {
     Properties prop = new Properties();

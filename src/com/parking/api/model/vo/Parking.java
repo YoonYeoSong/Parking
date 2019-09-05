@@ -1,4 +1,4 @@
-package api.test.main;
+package com.parking.api.model.vo;
 
 public class Parking {
 	private String parkingCode;
@@ -13,6 +13,10 @@ public class Parking {
 	private String queStatusNm;
 	private int capacity;
 	private int curParking;
+	private String insttNm;
+	
+	private double latitude; // 위도 
+	private double hardness; // 경도
 	
 	public Parking() {
 		// TODO Auto-generated constructor stub
@@ -35,6 +39,7 @@ public class Parking {
 		this.capacity = capacity;
 		this.curParking = curParking;
 	}
+	
 	
 	
 
@@ -70,7 +75,12 @@ public class Parking {
 	public void setCapacity(int capacity) { this.capacity = capacity; } 
 	public int getCurParking() { return curParking; } 
 	public void setCurParking(int curParking) { this.curParking = curParking; } 
-	
+	public double getLatitude() { return latitude; }
+	public void setLatitude(double latitude) { this.latitude = latitude; }
+	public double getHardness() { return hardness; }
+	public void setHardness(double hardness) { this.hardness = hardness; }
+	public String getInsttNm() { return insttNm; }
+	public void setInsttNm(String insttNm) { this.insttNm = insttNm; }
 //				<CUR_PARKING_TIME>2019-07-14 22:56:50</CUR_PARKING_TIME>
 //				<PAY_YN>N</PAY_YN>
 //				<PAY_NM>무료</PAY_NM>
