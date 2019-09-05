@@ -3,8 +3,6 @@
 
 <!-------------------------
 'footer.jsp' contains :
-  * JS / JQuery link
-  * JS code
   * <footer> element
 -------------------------->
 
@@ -13,7 +11,7 @@
   <footer class="container py-0">
     <div class="row">
       <div class="col-6 col-md">
-        <a class="navbar-brand " href="<%=request.getContextPath() %>/index.jsp">
+        <a class="navbar-brand " href="<%=request.getContextPath()%>" >
           <img src="<%=request.getContextPath() %>/images/logo_black.png">
         </a>
         <small class="d-block mb-3 text-muted">&copy; 2019.09</small>
@@ -89,43 +87,5 @@
     </div>
   </footer>
 
-  <!-- jQuery -->
-  <!-- <script src="<%=request.getContextPath() %>/js/jquery-3.4.1.min.js"></script> -->
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-
-  <!-- JS -->
-  <!-- <script src="<%=request.getContextPath() %>/js/bootstrap.min.js"></script> -->
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
-  <script>
-    /*
-      navigation and main searchbars are toggled
-      based on scroll pixel amounts from the top;
-    */
-    $(function(){
-      /*$('.navbar-toggler').on('hidden.bs.collapse', function () {
-        $('#nav-searchbar').attr({'width': '720px'});
-      });*/
-
-      $('#nav-searchbar').hide(); // hidden by default
-      var hasBeenTriggered = false;
-
-      $(window).scroll(function(){
-        if($(this).scrollTop()>=280 && !hasBeenTriggered){
-          hasBeenTriggered = true;
-          $('#nav-searchbar').fadeToggle();
-          $('#main-searchbar').fadeToggle();
-        }
-        else if($(this).scrollTop()<200 && hasBeenTriggered){
-          hasBeenTriggered = false;
-          $('#nav-searchbar').fadeToggle();
-          $('#main-searchbar').fadeToggle();
-        }
-      });
-
-    });/* End of $(function()){} */
-
-  </script>
-  
 </body>
 </html>
