@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.parking.member.model.vo.Member" %>
+    pageEncoding="UTF-8" %>
    
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.parking.member.model.vo.Member" %>
+<%@ page import="com.parking.board.model.vo.QnaBoard" %>
     
 <!-------------------------
 'header.jsp' contains:
@@ -49,81 +53,49 @@
   <!-- CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" href="<%=request.getContextPath() %>/css/mainpage.css">
   <link rel="stylesheet" href="<%=request.getContextPath() %>/css/button.css">
   
+  <!-- JQUERY -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+  <!-- JAVASCRIPT -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
   <!-- API -->
   <!-- 카카오 -->
   <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
-  <style>
-    .site-header { /* custom transparent header */
-      background-color: rgba(19, 37, 53, .80);
-    }
-    .site-header a {
-      transition: ease-in-out color .15s;
-    }
-    
-    #main-search-area{
-      background-image: url("<%=request.getContextPath() %>/images/cover.jpg");
-      background-size: cover !important;
-      background-position: center center !important;
-      height: 100vh !important;
-      display: flex !important;
-      margin-bottom: 0px;
-      text-shadow:
-        1.5px 1.5px 0px #132535;
-    }
+  
+  <script>
+    /* nav-searchbar and main-searchbar are toggled
+      based on scroll pixel amounts from the top */
+    $(function(){
+      $('#nav-searchbar').hide(); // hidden by default
+      var hasBeenTriggered = false;
 
-    .help{
-      background-color: #1F2E3C;
-    }
+      $(window).scroll(function(){
+        if($(this).scrollTop()>=280 && !hasBeenTriggered){
+          hasBeenTriggered = true;
+          $('#nav-searchbar').fadeToggle();
+          $('#main-searchbar').fadeToggle();
+        }
+        else if($(this).scrollTop()<200 && hasBeenTriggered){
+          hasBeenTriggered = false;
+          $('#nav-searchbar').fadeToggle();
+          $('#main-searchbar').fadeToggle();
+        }
+      });
+    });/* $(function()){} */
 
-    textarea.review_content{
-      resize: none;
-    }
+  </script>
 
-    @media (max-width: 700px) {
-      p.about-text {
-        font-size: 1.0rem !important;
-      }
-    }
-    @media (min-width: 700px) {
-      p.about-text{
-        font-size: 1.3rem !important;
-      }
-    }
-    
-    .carousel-control-next,
-    .carousel-control-prev {
-      filter: invert(100%) !important;
-    }
-
-    .carousel-indicators li {
-      width: 12px;
-      height: 12px;
-      border-radius: 100%;
-      background-color: slategrey;
-    }
-    ol.carousel-indicators li.active {
-      background-color: yellow;
-    }
-
-    #carousel_about .carousel-item > img {
-      min-width: 100vw;
-      height: 50vh;
-      max-width: none;
-      object-fit:cover;
-      object-position:center;
-    }
-  </style>
 </head>
-
 <body>
-
   <!-- navigation bar -->
   <header>
     <nav class="site-header navbar navbar-expand-lg navbar-dark fixed-top py-0">
       <div class="container">
-        <a class="navbar-brand " href="<%=request.getContextPath() %>/index.jsp">
+        <a class="navbar-brand " href="<%=request.getContextPath() %>" >
           <img src="<%=request.getContextPath() %>/images/logo_white.png">
         </a>
         <form id="nav-searchbar" action="<%=request.getContextPath() %>/views/searchView.jsp" method="post" class="navbar-form" style="width: 410px">
@@ -140,31 +112,15 @@
         <div class="collapse navbar-collapse" id="navbarCollapsible">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a href="#" class="nav-link menu-item">About</a>
+              <a href="<%=request.getContextPath() %>/views/aboutView.jsp" class="nav-link menu-item">About</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle menu-item mr-2" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Help</a>
 
               <div class="dropdown-menu mt-1" aria-labelledby="dropdown01">
                 <a class="dropdown-item" href="<%=request.getContextPath() %>/views/helpView.jsp" ><i class="fa fa-info-circle">&nbsp;&nbsp;</i>Help</a>
-                <!-- <a class="dropdown-item" href="<%=request.getContextPath() %>/board/qnaBoardList" ><i class="fa fa-question-circle-o">&nbsp;&nbsp;</i>Q&A Board</a> -->
-                <button class="dropdown-item" id='qnaBoardMenu' onclick="ajaxPageLoad('board/qnaBoardList')">
-                  <i class="fa fa-question-circle-o">&nbsp;&nbsp;</i>Q&A Board
-                </button>
+                <a class="dropdown-item" href="<%=request.getContextPath() %>/board/qnaBoardList" ><i class="fa fa-question-circle-o">&nbsp;&nbsp;</i>Q&amp;A Board</a>
               </div>
-              <script>
-                function ajaxPageLoad(loc){
-                  $.ajax({
-                    type: "POST",
-                    url: "<%=request.getContextPath() %>/" + loc,
-                    dataType: "html",
-                    success: function(data){
-                      $('#page-container').html(data);
-                    },
-                  });
-                }
-
-              </script>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle menu-item mr-2" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%=dropdownTxt %></a>
