@@ -183,8 +183,12 @@
       }
     	return true;
     }
+    </script>
 
+  <!-- trigger google btn click -->
+  <script src="https://apis.google.com/js/platform.js?onload=onLoadGoogleCallback" async defer></script>
 
+  <script>
     /* GOOGLE LOGIN */
     function onLoadGoogleCallback(){
       gapi.load('auth2', function() {
