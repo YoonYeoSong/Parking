@@ -147,8 +147,24 @@
 
               <div class="dropdown-menu mt-1" aria-labelledby="dropdown01">
                 <a class="dropdown-item" href="<%=request.getContextPath() %>/views/helpView.jsp" ><i class="fa fa-info-circle">&nbsp;&nbsp;</i>Help</a>
-                <a class="dropdown-item" href="<%=request.getContextPath() %>/board/qnaBoardList" ><i class="fa fa-question-circle-o">&nbsp;&nbsp;</i>Q&A Board</a>
+                <!-- <a class="dropdown-item" href="<%=request.getContextPath() %>/board/qnaBoardList" ><i class="fa fa-question-circle-o">&nbsp;&nbsp;</i>Q&A Board</a> -->
+                <button class="dropdown-item" id='qnaBoardMenu' onclick="ajaxPageLoad('board/qnaBoardList')">
+                  <i class="fa fa-question-circle-o">&nbsp;&nbsp;</i>Q&A Board
+                </button>
               </div>
+              <script>
+                function ajaxPageLoad(loc){
+                  $.ajax({
+                    type: "POST",
+                    url: "<%=request.getContextPath() %>/" + loc,
+                    dataType: "html",
+                    success: function(data){
+                      $('#page-container').html(data);
+                    },
+                  });
+                }
+
+              </script>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle menu-item mr-2" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%=dropdownTxt %></a>
