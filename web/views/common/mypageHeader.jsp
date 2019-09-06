@@ -14,7 +14,7 @@
             <a href="#" class="list-group-item">Account Settings</a>
           <a href="#" class="list-group-item">Payment Methods</a>
           <a href="#" class="list-group-item">Reservations</a>
-          <a href="#" class="list-group-item">Bookmark</a>
+          <a href="javascript:;" class="list-group-item" onclick="ajaxLoadContent('');">Bookmark</a>
           <a href="#" class="list-group-item">My Vehicle</a>
           <a href="#" class="list-group-item">Credit Balance</a>
           <a href="#" class="list-group-item">My Reviews</a>
@@ -23,3 +23,6 @@
       </div>
       <!-- /.col-lg-3 -->
       <div class="col-lg-9">
+
+      <script>
+      </script>

@@ -17,14 +17,15 @@
   Member loginMember = (Member)session.getAttribute("loginMember");
 
   String mypageUrl = request.getContextPath();
+
   if(loginMember != null){
     if(loginMember.getEmail().equals("admin@com"))
-      mypageUrl += "/views/admin/mypageAdmin.jsp";
+      mypageUrl += "/admin/memberList";
     else
       mypageUrl += "/views/member/mypageMember.jsp";
   }
   else
-    mypageUrl += "/views/member/loginView.jsp";
+      mypageUrl += "/views/member/loginView.jsp";
 
 
   String dropdownTxt ="";
@@ -126,12 +127,17 @@
               <a class="nav-link dropdown-toggle menu-item mr-2" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%=dropdownTxt %></a>
 
               <div class="dropdown-menu mt-1" aria-labelledby="dropdown01">
+              <% if(loginMember != null 
+                  && loginMember.getEmail().equals("admin@com")) { %>
+                <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-list">&nbsp;&nbsp;</i>Member List</a>
+              <% } else { %>
                 <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-cog">&nbsp;&nbsp;</i>Account Settings</a>
                 <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-calendar">&nbsp;&nbsp;</i>My Reservations</a>
                 <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-credit-card">&nbsp;&nbsp;</i>Payment Methods</a>
                 <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-won">&nbsp;&nbsp;</i>Credit Balance</a>
                 <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-car">&nbsp;&nbsp;</i>My Vehicle</a>
                 <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-bookmark">&nbsp;&nbsp;</i>Bookmark</a>
+              <% } %>
               </div>
             </li>
 

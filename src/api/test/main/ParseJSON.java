@@ -17,13 +17,16 @@ public class ParseJSON {
   public static void main(String[] args) {
     Properties prop = new Properties();
     try {
-      prop.load(new FileReader("resources/config.properties"));
+      prop.load(new FileReader("config.properties"));
     } catch(IOException e) {
       e.printStackTrace();
     }
 
     String serviceKey = prop.getProperty("serviceKey");
-    String urlStr = "http://openapi.seoul.go.kr:8088/" + serviceKey + "/json/GetParkInfo/1/5/"; 
+    int start_index = 1;
+    int end_index = 1000;
+    String urlStr = "http://openapi.seoul.go.kr:8088/" + serviceKey 
+        + "/json/GetParkInfo/"+start_index +"/"+end_index+"/"; 
     
     BufferedReader br = null;
     try {
