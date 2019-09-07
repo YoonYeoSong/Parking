@@ -265,5 +265,28 @@
     </div>
   </main>
 
+  <script>
+    /* nav-searchbar and main-searchbar are toggled
+      based on scroll pixel amounts from the top */
+    $(function(){
+      $('#nav-searchbar').hide(); // hidden by default
+      var hasBeenTriggered = false;
+
+      $(window).scroll(function(){
+        if($(this).scrollTop()>=280 && !hasBeenTriggered){
+          hasBeenTriggered = true;
+          $('#nav-searchbar').fadeToggle();
+          $('#main-searchbar').fadeToggle();
+        }
+        else if($(this).scrollTop()<200 && hasBeenTriggered){
+          hasBeenTriggered = false;
+          $('#nav-searchbar').fadeToggle();
+          $('#main-searchbar').fadeToggle();
+        }
+      });
+    });/* $(function()){} */
+
+  </script>
+
   <!-- footer -->
   <%@ include file="/views/common/footer.jsp" %>
