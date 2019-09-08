@@ -5,6 +5,7 @@
 <%
   List<Member> members=(ArrayList<Member>)request.getAttribute("members");
   int cPage=(int)request.getAttribute("cPage");
+  int numPerPage=(int)request.getAttribute("numPerPage");
   String pageBar = (String)request.getAttribute("pageBar");
 	String searchType=(String)request.getAttribute("searchType");
 	String searchKeyword=(String)request.getAttribute("searchKeyword");
@@ -66,9 +67,7 @@
             <th scope="col">NO.</th>
             <th scope="col">User#</th>
             <th scope="col">Email</th>
-            <th scope="col">Phone</th>
             <th scope="col">Name</th>
-            <th scope="col">Addr</th>
             <th scope="col">Created</th>
             <th scope="col">Logged</th>
             <th scope="col">SMS(Y/N)</th>
@@ -81,12 +80,14 @@
           int count =0;
           for(Member m : members){ %>
             <tr>
-              <th scope="row"><%=(++count)%></th>
-              <td><%=m.getUserCode() %></td>
+              <th scope="row"><%= (cPage-1) * numPerPage + (++count)%></th>
+              <td>
+                <a href="#">
+                  <%=m.getUserCode() %>
+                </a>
+              </td>
               <td><%=m.getEmail() %></td>
-              <td><%=m.getPhone() %></td>
               <td><%=m.getUserName() %></td>
-              <td><%=m.getUserAddr() %></td>
               <td><%=m.getCreatedDate() %></td>
               <td><%=m.getLoginDate() %></td>
               <td><%=m.isSmsYn()==1? 'Y':'N' %></td>
