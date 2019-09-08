@@ -50,7 +50,7 @@ public class QnaBoardDao {
 
         b.setQnaNo(rs.getInt("qna_no"));
         b.setQnaTitle(rs.getString("qna_title"));
-        b.setUserCode(rs.getString("user_code"));
+        b.setUserCode(rs.getString("qna_user_code"));
         b.setQnaContent(rs.getString("qna_content"));
         b.setQnaOriginalFile(rs.getString("qna_original_filename"));
         b.setQnaRenamedFile(rs.getString("qna_renamed_filename"));

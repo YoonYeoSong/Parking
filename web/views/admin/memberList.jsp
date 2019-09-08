@@ -3,8 +3,9 @@
 <%@ page import="java.util.List,java.util.ArrayList, com.parking.member.model.vo.Member"%>
 
 <%
-List<Member> members=(ArrayList<Member>)request.getAttribute("members");
+  List<Member> members=(ArrayList<Member>)request.getAttribute("members");
   int cPage=(int)request.getAttribute("cPage");
+  String pageBar = (String)request.getAttribute("pageBar");
 	String searchType=(String)request.getAttribute("searchType");
 	String searchKeyword=(String)request.getAttribute("searchKeyword");
 %>
@@ -15,91 +16,121 @@ List<Member> members=(ArrayList<Member>)request.getAttribute("members");
     #search-user_Name{display: none;}
   </style>
 
-  <section id="memberList-container" class="py-4">
-    <h2>Member List</h2>
-    <div id="neck-container">
-      <div id="search-container">
-        SEARCH TYPE : 
-        <select id="searchType">
-          <option value="email" <%="email".equals(searchType)?"selected":"" %>>Email</option>
-          <option value="user_Name" <%="user_Name".equals(searchType)?"selected":"" %>>UserName</option>
-        </select>
-        <div id="search-email">
-          <form action="<%=request.getContextPath() %>/admin/memberFinder">
-            <input type="hidden" name="searchType" value="email"/>
-            <input type="hidden" name="cPage" value="<%=cPage%>"/>
-            <input type="text" placeholder="Search Email" name="searchKeyword"
-                   value='<%="email".equals(searchType)? searchKeyword:"" %>' size="25"/>
-            <button type="submit" class="btn btn-primary">SEARCH</button>
-          </form>
-        </div>
-        <div id="search-user_Name">
-          <form action="<%=request.getContextPath() %>/admin/memberFinder">
-            <input type="hidden" name="searchType" value="user_Name"/>
-            <input type="hidden" name="cPage" value="<%=cPage%>"/>
-            <input type="text" placeholder="Search User Name" name="searchKeyword"
-                   value='<%="user_Name".equals(searchType)? searchKeyword: ""%>' size="25"/>
-            <button type="submit" class="btn btn-primary">SEARCH</button>
-          </form>
+  <div class="container" id="memberList-wrapper">
+    <section class="py-4" id="memberList-container">
+      <h2>Member List</h2>
+      <div id="neck-container">
+        <div id="search-container">
+          SEARCH TYPE : 
+          <select id="searchType">
+            <option value="email" <%="email".equals(searchType)?"selected":"" %>>Email</option>
+            <option value="user_Name" <%="user_Name".equals(searchType)?"selected":"" %>>UserName</option>
+          </select>
+          <div id="search-email">
+            <form action="<%=request.getContextPath() %>/admin/memberFinder">
+              <input type="hidden" name="searchType" value="email"/>
+              <input type="hidden" name="cPage" value="<%=cPage%>"/>
+              <input type="text" placeholder="Search Email" name="searchKeyword"
+                     value='<%="email".equals(searchType)? searchKeyword:"" %>' size="25"/>
+              <button type="submit" class="btn btn-primary">SEARCH</button>
+            </form>
+          </div>
+          <div id="search-user_Name">
+            <form action="<%=request.getContextPath() %>/admin/memberFinder">
+              <input type="hidden" name="searchType" value="user_Name"/>
+              <input type="hidden" name="cPage" value="<%=cPage%>"/>
+              <input type="text" placeholder="Search User Name" name="searchKeyword"
+                     value='<%="user_Name".equals(searchType)? searchKeyword: ""%>' size="25"/>
+              <button type="submit" class="btn btn-primary">SEARCH</button>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
-    <script>
-      $(function(){
-        var sEmail=$("#search-email");
-        var sUserName=$("#search-user_Name");
-        var searchType=$("#searchType"); //<select>
-
-        searchType.change(function(){ //add 'change' event on searchType <select>
-          sEmail.hide();
-          sUserName.hide();
-          $('#search-' + this.value).css("display", "inline-block");
+      <script>
+        $(function(){
+          var sEmail=$("#search-email");
+          var sUserName=$("#search-user_Name");
+          var searchType=$("#searchType"); //<select>
+  
+          searchType.change(function(){ //add 'change' event on searchType <select>
+            sEmail.hide();
+            sUserName.hide();
+            $('#search-' + this.value).css("display", "inline-block");
+          });
+          searchType.trigger("change"); // trigger change event
         });
-        searchType.trigger("change"); // trigger change event
-      });
-    </script>
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">User Code</th>
-          <th scope="col">Email</th>
-          <th scope="col">Phone</th>
-          <th scope="col">UserName</th>
-          <th scope="col">Address</th>
-          <th scope="col">Created Date</th>
-          <th scope="col">Login Date</th>
-          <th scope="col">Receive SMS(Y/N)</th>
-          <th scope="col">Receive Email(Y/N)</th>
-          <th scope="col">Email Verified(Y/N)</th>
-        </tr>
-      </thead>
-      <tbody>
-      <% if(members != null && !members.isEmpty()) {
-        int count =0;
-        for(Member m : members){ %>
+      </script>
+      <table class="table">
+        <thead>
           <tr>
-            <th scope="row"><%=(++count)%></th>
-            <td><%=m.getUserCode() %></td>
-            <td><%=m.getEmail() %></td>
-            <td><%=m.getPhone() %></td>
-            <td><%=m.getUserName() %></td>
-            <td><%=m.getUserAddr() %></td>
-            <td><%=m.getCreatedDate() %></td>
-            <td><%=m.getLoginDate() %></td>
-            <td><%=m.isSmsYn()==1? 'Y':'N' %></td>
-            <td><%=m.isEmailYn()==1? 'Y':'N' %></td>
-            <td><%=m.isSmsYn()==1? 'Y':'N' %></td>
-            <td><%=m.isEmailVerified()==1? 'Y':'N' %></td>
+            <th scope="col">NO.</th>
+            <th scope="col">User#</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Name</th>
+            <th scope="col">Addr</th>
+            <th scope="col">Created</th>
+            <th scope="col">Logged</th>
+            <th scope="col">SMS(Y/N)</th>
+            <th scope="col">Email(Y/N)</th>
+            <th scope="col">Email Verified(Y/N)</th>
           </tr>
-      <% } } %>
-      </tbody>
-    </table>
-    
-    <div id="pageBar" style="text-align: center;">
-      <%=request.getAttribute("pageBar") %>
-    </div>
-  </section>
+        </thead>
+        <tbody>
+        <% if(members != null && !members.isEmpty()) {
+          int count =0;
+          for(Member m : members){ %>
+            <tr>
+              <th scope="row"><%=(++count)%></th>
+              <td><%=m.getUserCode() %></td>
+              <td><%=m.getEmail() %></td>
+              <td><%=m.getPhone() %></td>
+              <td><%=m.getUserName() %></td>
+              <td><%=m.getUserAddr() %></td>
+              <td><%=m.getCreatedDate() %></td>
+              <td><%=m.getLoginDate() %></td>
+              <td><%=m.isSmsYn()==1? 'Y':'N' %></td>
+              <td><%=m.isEmailYn()==1? 'Y':'N' %></td>
+              <td><%=m.isEmailVerified()==1? 'Y':'N' %></td>
+            </tr>
+        <% } } %>
+        </tbody>
+      </table>
+      
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          <%=pageBar %>
+        </ul>
+      </nav>
+    </section>
+  </div>
 
+  <script>
+    function ajaxRequestPage(pageNo){
+      var url = "<%=request.getContextPath() %>/admin/memberList?cPage=" + pageNo;
+      $.ajax({
+        type: "POST",
+        url: url,
+        dataType: "html",
+        success: function(data){
+          html = $('<div>').html(data);
+          console.log(html);
+          console.log(html.find('section#memberList-container'));
+          // var tag = $("<h3>").html(data).css("color", "blue");
+          // $('#content').append(tag);
+          // $('#qna_table tbody')
+            // location.href="<%=request.getContextPath() %>/board/qnaBoardList?cPage=" + pageNo;
+
+            $('div#memberList-wrapper').html(html.find('section#memberList-container'));
+        },
+        error: function(request, status, error){
+          console.log("error 함수 실행!");
+          console.log(request);
+          console.log(status);
+          console.log(error);
+        },
+      });
+    }
+  </script>
 
 <%@ include file="/views/common/mypageFooter.jsp" %>
