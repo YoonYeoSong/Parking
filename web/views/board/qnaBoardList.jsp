@@ -18,8 +18,8 @@
 
   </style>
 
-  <main role="main" class="flex-shrink-0">
-    <div class="container">
+  <main role="main" class="flex-shrink-0" id='qna-main'>
+    <div class="container" id='qna-container'>
 
       <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-primary rounded shadow-sm">
         <!-- <img class="mr-3" src="" alt="" width="48" height="48"> -->
@@ -92,15 +92,20 @@
               <!-- <a class="dropdown-item" href="javascript:;" onclick="ajaxRequestPage();"><i class="fa fa-question-circle-o">&nbsp;&nbsp;</i>Q&A Board</a> -->
               <script>
                 function ajaxRequestPage(pageNo){
+                  var url = "<%=request.getContextPath() %>/board/qnaBoardList?cPage=" + pageNo;
                   $.ajax({
                     type: "POST",
-                    url: "<%=request.getContextPath() %>/board/qnaBoardList?cPage=" + pageNo,
+                    url: url,
                     dataType: "html",
                     success: function(data){
+                      html = $('<div>').html(data);
+                      console.log(html.find('div#qna-container'));
                       // var tag = $("<h3>").html(data).css("color", "blue");
                       // $('#content').append(tag);
                       // $('#qna_table tbody')
-                        location.href="<%=request.getContextPath() %>/board/qnaBoardList?cPage=" + pageNo;
+                        // location.href="<%=request.getContextPath() %>/board/qnaBoardList?cPage=" + pageNo;
+
+                      $('main#qna-main').html(html.find('div#qna-container'));
                     },
                     error: function(request, status, error){
                       console.log("error 함수 실행!");

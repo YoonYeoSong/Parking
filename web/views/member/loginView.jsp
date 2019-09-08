@@ -185,11 +185,14 @@
     }
     </script>
 
+
+
+  <!-- GOOGLE LOGIN -->
+
   <!-- trigger google btn click -->
   <script src="https://apis.google.com/js/platform.js?onload=onLoadGoogleCallback" async defer></script>
 
   <script>
-    /* GOOGLE LOGIN */
     function onLoadGoogleCallback(){
       gapi.load('auth2', function() {
         auth2 = gapi.auth2.init({
@@ -214,7 +217,8 @@
             $('#myImg').attr({"src": profile.getImageUrl(),
                               "style": "width:31px; heght:31px"});
             // document.getElementById("myImg").src = profile.getImageUrl();
-            document.getElementById("name").innerHTML = "Hello! " + profile.getName();
+            $('#name').html("Hello! " + profile.getName());
+            // document.getElementById("name").innerHTML = "Hello! " + profile.getName();
             $('#googleLotoutBtn').toggle();
 
             //document.getElementById("status").innerHTML = 'Welcome '+name+"!<a href=success.jsp?email='+email+'&name='+name+'/>Continue with Google login</a></p>";
