@@ -47,7 +47,7 @@ public class AdminMemberListServlet extends HttpServlet {
     }
 
     int totalMember = new AdminService().selectCountMember();
-    int numPerPage = 5;
+    int numPerPage = 10;
     List<Member> list = new AdminService().selectListPage(cPage, numPerPage);
     
     int totalPage = (int)Math.ceil((double)totalMember/numPerPage);
@@ -92,6 +92,7 @@ public class AdminMemberListServlet extends HttpServlet {
     }
 
     request.setAttribute("pageBar", pageBar);
+    request.setAttribute("numPerPage", numPerPage);
     request.setAttribute("cPage", cPage);
     request.setAttribute("members", list);
 
