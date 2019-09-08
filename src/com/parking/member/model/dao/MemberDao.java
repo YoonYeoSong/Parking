@@ -42,25 +42,25 @@ public class MemberDao {
         m = new Member();
 
         m.setUserCode(rs.getString("user_code"));
-        m.setEmail(rs.getString("email"));
-        m.setPw(rs.getString("pw"));
-        m.setPhone(rs.getString("phone"));
+        m.setUserEmail(rs.getString("user_email"));
+        m.setUserPw(rs.getString("user_pw"));
+        m.setUserPhone(rs.getString("user_phone"));
         m.setUserName(rs.getString("user_name"));
         m.setUserAddr(rs.getString("user_addr"));
 
-        Timestamp timestamp = rs.getTimestamp("created_date");
+        Timestamp timestamp = rs.getTimestamp("user_created_date");
         java.util.Date date = new java.util.Date(timestamp.getTime());
-        m.setCreatedDate(new java.sql.Date(date.getTime()));
+        m.setUserCreatedDate(new java.sql.Date(date.getTime()));
 
-        timestamp = rs.getTimestamp("login_date");
+        timestamp = rs.getTimestamp("user_login_date");
         if(timestamp != null) {
           date = new java.util.Date(timestamp.getTime());
-          m.setLoginDate(new java.sql.Date(date.getTime()));
+          m.setUserLoginDate(new java.sql.Date(date.getTime()));
         }
 
-        m.setSmsYn(rs.getInt("sms_yn"));
-        m.setEmailYn(rs.getInt("email_yn"));
-        m.setEmailVerified(rs.getInt("email_verified"));
+        m.setUserSmsYn(rs.getInt("user_sms_yn"));
+        m.setUserEmailYn(rs.getInt("user_email_yn"));
+        m.setUserEmailVerified(rs.getInt("user_email_verified"));
       }
     } catch(SQLException e) {
       e.printStackTrace();
@@ -102,17 +102,18 @@ public class MemberDao {
       pstmt = conn.prepareStatement(sql);
 
       pstmt.setString(1, m.getUserCode()); //user_code (assigned by sequence)
-      pstmt.setString(2, m.getEmail());
-      pstmt.setString(3, m.getPw());
-      pstmt.setString(4, m.getPhone());
+      pstmt.setString(2, m.getUserEmail());
+      pstmt.setString(3, m.getUserPw());
+      pstmt.setString(4, m.getUserPhone());
       pstmt.setString(5, m.getUserName());
       pstmt.setString(6, m.getUserAddr());
-      pstmt.setTimestamp(7, new java.sql.Timestamp(m.getCreatedDate().getTime())); //created_date: SYSDATE
-      pstmt.setTimestamp(8, null); //login_date: NULL
-      pstmt.setInt(9, m.isSmsYn());
-      pstmt.setInt(10, m.isEmailYn());
-      pstmt.setInt(11, m.isEmailVerified());
-      //insertMember=insert into member values(?,?,?,?,?,?,?,?,?,?,?)
+      pstmt.setTimestamp(7, new java.sql.Timestamp(m.getUserCreatedDate().getTime())); //user_created_date: SYSDATE
+      pstmt.setTimestamp(8, null); //user_login_date: NULL
+      pstmt.setInt(9, m.getUserSmsYn());
+      pstmt.setInt(10, m.getUserEmailYn());
+      pstmt.setInt(11, m.getUserEmailVerified());
+//      pstmt.setString(12, m.getUserSnsAccount());
+      //insertMember=insert into member values(?,?,?,?,?,?,?,?,?,?,?,?)
 
       result = pstmt.executeUpdate();
 
@@ -140,25 +141,25 @@ public class MemberDao {
         m = new Member();
 
         m.setUserCode(rs.getString("user_code"));
-        m.setEmail(rs.getString("email"));
-        m.setPw(rs.getString("pw"));
-        m.setPhone(rs.getString("phone"));
+        m.setUserEmail(rs.getString("user_email"));
+        m.setUserPw(rs.getString("user_pw"));
+        m.setUserPhone(rs.getString("user_phone"));
         m.setUserName(rs.getString("user_name"));
         m.setUserAddr(rs.getString("user_addr"));
 
-        Timestamp timestamp = rs.getTimestamp("created_date");
+        Timestamp timestamp = rs.getTimestamp("user_created_date");
         java.util.Date date = new java.util.Date(timestamp.getTime());
-        m.setCreatedDate(new java.sql.Date(date.getTime()));
+        m.setUserCreatedDate(new java.sql.Date(date.getTime()));
 
-        timestamp = rs.getTimestamp("login_date");
+        timestamp = rs.getTimestamp("user_login_date");
         if(timestamp != null) {
           date = new java.util.Date(timestamp.getTime());
-          m.setLoginDate(new java.sql.Date(date.getTime()));
+          m.setUserLoginDate(new java.sql.Date(date.getTime()));
         }
 
-        m.setSmsYn(rs.getInt("sms_yn"));
-        m.setEmailYn(rs.getInt("email_yn"));
-        m.setEmailVerified(rs.getInt("email_verified"));
+        m.setUserSmsYn(rs.getInt("user_sms_yn"));
+        m.setUserEmailYn(rs.getInt("user_email_yn"));
+        m.setUserEmailVerified(rs.getInt("user_email_verified"));
       }
     } catch(SQLException e) {
       e.printStackTrace();
@@ -178,12 +179,12 @@ public class MemberDao {
 
     try {
 
-      //updateLoginDate=update member set login_date=? where email=?
+      //updateLoginDate=update member set user_login_date=? where user_email=?
       pstmt = conn.prepareStatement(sql);
 
       java.sql.Date date  = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 
-      pstmt.setTimestamp(1, new java.sql.Timestamp(date.getTime())); //login_date SYSDATE
+      pstmt.setTimestamp(1, new java.sql.Timestamp(date.getTime())); //user_login_date SYSDATE
       pstmt.setString(2, email);
       logged = pstmt.executeUpdate() > 0;
       

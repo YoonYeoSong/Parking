@@ -8,7 +8,7 @@
       <div class="col-lg-3">
         <h1 class="my-4 "><%=loginMember.getUserName() %> Page</h1>
         <div class="list-group">
-        <% if(loginMember!=null && loginMember.getEmail().equals("admin@com")){ %>
+        <% if(loginMember!=null && loginMember.getUserEmail().equals("admin@com")){ %>
           <a href="<%=request.getContextPath() %>/admin/memberList" class="list-group-item">Member List</a>
           <% } else { %>
             <a href="#" class="list-group-item">Account Settings</a>

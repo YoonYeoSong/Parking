@@ -5,69 +5,75 @@ import java.text.SimpleDateFormat;
 
 public class Member {
   private String userCode;
-  private String email;
-  private String pw;
-  private String phone;
+  private String userEmail;
+  private String userPw;
+  private String userPhone;
   private String userName;
   private String userAddr;
-  private Date createdDate;
-  private Date loginDate;
-  private int smsYn;
-  private int emailYn;
-  private int emailVerified;
+  private Date userCreatedDate;
+  private Date userLoginDate;
+  private int userSmsYn;
+  private int userEmailYn;
+  private int userEmailVerified;
+  private String userSnsAccount;
 
   public Member() {
     // TODO Auto-generated constructor stub
   }
   
-  public Member(String userCode, String email, String pw, String phone, String userName, String userAddr,
-      Date createdDate, Date loginDate, int smsYn, int emailYn, int emailVerified) {
+  public Member(String userCode, String userEmail, String userPw, String userPhone, String userName, String userAddr,
+      Date userCreatedDate, Date userLoginDate, int userSmsYn, int userEmailYn, int userEmailVerified, String userSnsAccount) {
     super();
     this.userCode = userCode;
-    this.email = email;
-    this.pw = pw;
-    this.phone = phone;
+    this.userEmail = userEmail;
+    this.userPw = userPw;
+    this.userPhone = userPhone;
     this.userName = userName;
     this.userAddr = userAddr;
-    this.createdDate = createdDate;
-    this.loginDate = loginDate;
-    this.smsYn = smsYn;
-    this.emailYn = emailYn;
-    this.emailVerified = emailVerified;
+    this.userCreatedDate = userCreatedDate;
+    this.userLoginDate = userLoginDate;
+    this.userSmsYn = userSmsYn;
+    this.userEmailYn = userEmailYn;
+    this.userEmailVerified = userEmailVerified;
+    this.userSnsAccount = userSnsAccount;
   }
   
   @Override
   public String toString() {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    String created_date = sdf.format(createdDate);
-    String login_date = loginDate !=null? sdf.format(loginDate): null;
+    String user_created_date = sdf.format(userCreatedDate);
+    String user_login_date = userLoginDate !=null? sdf.format(userLoginDate): null;
 
-    return "Member [userCode=" + userCode + ", email=" + email + ", pw=" + pw + ", phone=" + phone + ", userName="
-        + userName + ", userAddr=" + userAddr + ", createdDate=" + created_date + ", loginDate=" + login_date + ", smsYn="
-        + smsYn + ", emailYn=" + emailYn + ", emailVerified=" + emailVerified +"]";
+    return "Member [userCode=" + userCode + ", userEmail=" + userEmail + ", userPw=" + userPw + ", userPhone=" + userPhone + ", userName="
+        + userName + ", userAddr=" + userAddr + ", userCreatedDate=" + user_created_date + ", userLoginDate=" + user_login_date + ", userSmsYn="
+        + userSmsYn + ", userEmailYn=" + userEmailYn + ", userEmailVerified=" + userEmailVerified + ", userSnsAccount="+ userSnsAccount + "]";
   }
+  
+  
 
   public String getUserCode() { return userCode; } 
   public void setUserCode(String userCode) { this.userCode = userCode; } 
-  public String getEmail() { return email; } 
-  public void setEmail(String email) { this.email = email; } 
-  public String getPw() { return pw; } 
-  public void setPw(String pw) { this.pw = pw; } 
-  public String getPhone() { return phone; } 
-  public void setPhone(String phone) { this.phone = phone; } 
+  public String getUserEmail() { return userEmail; } 
+  public void setUserEmail(String userEmail) { this.userEmail = userEmail; } 
+  public String getUserPw() { return userPw; } 
+  public void setUserPw(String userPw) { this.userPw = userPw; } 
+  public String getUserPhone() { return userPhone; } 
+  public void setUserPhone(String userPhone) { this.userPhone = userPhone; } 
   public String getUserName() { return userName; } 
   public void setUserName(String userName) { this.userName = userName; } 
   public String getUserAddr() { return userAddr; } 
   public void setUserAddr(String userAddr) { this.userAddr = userAddr; } 
-  public Date getCreatedDate() { return createdDate; } 
-  public void setCreatedDate(Date createdDate) { this.createdDate = createdDate; } 
-  public Date getLoginDate() { return loginDate; } 
-  public void setLoginDate(Date loginDate) { this.loginDate = loginDate; } 
-  public int isSmsYn() { return smsYn; } 
-  public void setSmsYn(int smsYn) { this.smsYn = smsYn; } 
-  public int isEmailYn() { return emailYn; } 
-  public void setEmailYn(int emailYn) { this.emailYn = emailYn; }
-  public int isEmailVerified() { return emailVerified; }
-  public void setEmailVerified(int emailVerified) { this.emailVerified = emailVerified; } 
+  public Date getUserCreatedDate() { return userCreatedDate; } 
+  public void setUserCreatedDate(Date userCreatedDate) { this.userCreatedDate = userCreatedDate; } 
+  public Date getUserLoginDate() { return userLoginDate; } 
+  public void setUserLoginDate(Date userLoginDate) { this.userLoginDate = userLoginDate; } 
+  public int getUserSmsYn() { return userSmsYn; } 
+  public void setUserSmsYn(int userSmsYn) { this.userSmsYn = userSmsYn; } 
+  public int getUserEmailYn() { return userEmailYn; } 
+  public void setUserEmailYn(int userEmailYn) { this.userEmailYn = userEmailYn; }
+  public int getUserEmailVerified() { return userEmailVerified; } 
+  public void setUserEmailVerified(int userEmailVerified) { this.userEmailVerified = userEmailVerified; }
+  public String getUserSnsAccount() { return userSnsAccount; } 
+  public void setUserSnsAccount(String userSnsAccount) { this.userSnsAccount = userSnsAccount; } 
 }

@@ -71,25 +71,26 @@ public class AdminDao {
         m = new Member();
 
         m.setUserCode(rs.getString("user_code"));
-        m.setEmail(rs.getString("email"));
-        m.setPw(rs.getString("pw"));
-        m.setPhone(rs.getString("phone"));
+        m.setUserEmail(rs.getString("user_email"));
+        m.setUserPw(rs.getString("user_pw"));
+        m.setUserPhone(rs.getString("user_phone"));
         m.setUserName(rs.getString("user_name"));
         m.setUserAddr(rs.getString("user_addr"));
 
-        Timestamp timestamp = rs.getTimestamp("created_date");
+        Timestamp timestamp = rs.getTimestamp("user_created_date");
         java.util.Date date = new java.util.Date(timestamp.getTime());
-        m.setCreatedDate(new java.sql.Date(date.getTime()));
+        m.setUserCreatedDate(new java.sql.Date(date.getTime()));
 
-        timestamp = rs.getTimestamp("login_date");
+        timestamp = rs.getTimestamp("user_login_date");
         if(timestamp != null) {
           date = new java.util.Date(timestamp.getTime());
-          m.setLoginDate(new java.sql.Date(date.getTime()));
+          m.setUserLoginDate(new java.sql.Date(date.getTime()));
         }
 
-        m.setSmsYn(rs.getInt("sms_yn"));
-        m.setEmailYn(rs.getInt("email_yn"));
-        m.setEmailVerified(rs.getInt("email_verified"));
+        m.setUserSmsYn(rs.getInt("user_sms_yn"));
+        m.setUserEmailYn(rs.getInt("user_email_yn"));
+        m.setUserEmailVerified(rs.getInt("user_email_verified"));
+        m.setUserSnsAccount(rs.getString("user_sns_account"));
         
         list.add(m);
       }
@@ -161,25 +162,25 @@ public class AdminDao {
         m = new Member();
 
         m.setUserCode(rs.getString("user_code"));
-        m.setEmail(rs.getString("email"));
-        m.setPw(rs.getString("pw"));
-        m.setPhone(rs.getString("phone"));
+        m.setUserEmail(rs.getString("user_email"));
+        m.setUserPw(rs.getString("user_pw"));
+        m.setUserPhone(rs.getString("user_phone"));
         m.setUserName(rs.getString("user_name"));
         m.setUserAddr(rs.getString("user_addr"));
 
-        Timestamp timestamp = rs.getTimestamp("created_date");
+        Timestamp timestamp = rs.getTimestamp("user_created_date");
         java.util.Date date = new java.util.Date(timestamp.getTime());
-        m.setCreatedDate(new java.sql.Date(date.getTime()));
+        m.setUserCreatedDate(new java.sql.Date(date.getTime()));
 
-        timestamp = rs.getTimestamp("login_date");
+        timestamp = rs.getTimestamp("user_login_date");
         if(timestamp != null) {
           date = new java.util.Date(timestamp.getTime());
-          m.setLoginDate(new java.sql.Date(date.getTime()));
+          m.setUserLoginDate(new java.sql.Date(date.getTime()));
         }
 
-        m.setSmsYn(rs.getInt("sms_yn"));
-        m.setEmailYn(rs.getInt("email_yn"));
-        m.setEmailVerified(rs.getInt("email_verified"));
+        m.setUserSmsYn(rs.getInt("user_sms_yn"));
+        m.setUserEmailYn(rs.getInt("user_email_yn"));
+        m.setUserEmailVerified(rs.getInt("user_email_verified"));
         
         list.add(m);
       }

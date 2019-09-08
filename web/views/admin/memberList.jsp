@@ -73,6 +73,7 @@
             <th scope="col">SMS(Y/N)</th>
             <th scope="col">Email(Y/N)</th>
             <th scope="col">Email Verified(Y/N)</th>
+            <th scope="col">SNS account</th>
           </tr>
         </thead>
         <tbody>
@@ -86,13 +87,14 @@
                   <%=m.getUserCode() %>
                 </a>
               </td>
-              <td><%=m.getEmail() %></td>
+              <td><%=m.getUserEmail() %></td>
               <td><%=m.getUserName() %></td>
-              <td><%=m.getCreatedDate() %></td>
-              <td><%=m.getLoginDate() %></td>
-              <td><%=m.isSmsYn()==1? 'Y':'N' %></td>
-              <td><%=m.isEmailYn()==1? 'Y':'N' %></td>
-              <td><%=m.isEmailVerified()==1? 'Y':'N' %></td>
+              <td><%=m.getUserCreatedDate() %></td>
+              <td><%=m.getUserLoginDate() %></td>
+              <td><%=m.getUserSmsYn()==1? 'Y':'N' %></td>
+              <td><%=m.getUserEmailYn()==1? 'Y':'N' %></td>
+              <td><%=m.getUserEmailVerified()==1? 'Y':'N' %></td>
+              <td><%=m.getUserSnsAccount() %></td>
             </tr>
         <% } } %>
         </tbody>

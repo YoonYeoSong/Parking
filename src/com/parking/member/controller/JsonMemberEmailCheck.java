@@ -36,7 +36,6 @@ public class JsonMemberEmailCheck extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		JSONObject jobj = new JSONObject();
 		String email = request.getParameter("userEmail");
 		System.out.println("email:"+email);
 		
@@ -55,16 +54,16 @@ public class JsonMemberEmailCheck extends HttpServlet {
 			{
 				JSONObject jo = new JSONObject();
 				jo.put("userCode", member.getUserCode());
-				jo.put("email", member.getEmail());
-				jo.put("pw", member.getPw());
-				jo.put("phone", member.getPhone());
+				jo.put("email", member.getUserEmail());
+				jo.put("pw", member.getUserPw());
+				jo.put("phone", member.getUserPhone());
 				jo.put("userName", member.getUserName());
 				jo.put("userAddr", member.getUserAddr());
-				jo.put("createdDate", member.getCreatedDate());
-				jo.put("loginDate", member.getLoginDate());
-				jo.put("smsYn", member.isSmsYn());
-				jo.put("emailYn", member.isEmailYn());
-				jo.put("emailVerified", member.isEmailVerified());
+				jo.put("createdDate", member.getUserCreatedDate());
+				jo.put("loginDate", member.getUserLoginDate());
+				jo.put("smsYn", member.getUserSmsYn());
+				jo.put("emailYn", member.getUserEmailYn());
+				jo.put("emailVerified", member.getUserEmailVerified());
 				jlist.add(jo);
 			}
 			
@@ -83,16 +82,16 @@ public class JsonMemberEmailCheck extends HttpServlet {
 			{
 				JSONObject jo = new JSONObject();
 				jo.put("userCode", member.getUserCode());
-				jo.put("email", member.getEmail());
-				jo.put("pw", member.getPw());
-				jo.put("phone", member.getPhone());
+				jo.put("email", member.getUserEmail());
+				jo.put("pw", member.getUserPw());
+				jo.put("phone", member.getUserPhone());
 				jo.put("userName", member.getUserName());
 				jo.put("userAddr", member.getUserAddr());
-				jo.put("createdDate", member.getCreatedDate());
-				jo.put("loginDate", member.getLoginDate());
-				jo.put("smsYn", member.isSmsYn());
-				jo.put("emailYn", member.isEmailYn());
-				jo.put("emailVerified", member.isEmailVerified());
+				jo.put("createdDate", member.getUserCreatedDate());
+				jo.put("loginDate", member.getUserLoginDate());
+				jo.put("smsYn", member.getUserSmsYn());
+				jo.put("emailYn", member.getUserEmailYn());
+				jo.put("emailVerified", member.getUserEmailVerified());
 				jlist.add(jo);
 			}
 			response.setContentType("application/json;charset=UTF-8");

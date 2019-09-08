@@ -32,7 +32,7 @@ public class AdminMemberListServlet extends HttpServlet {
    */
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     Member loginMember = (Member)request.getSession().getAttribute("loginMember");
-    if(loginMember == null || !loginMember.getEmail().equals("admin@com")) {
+    if(loginMember == null || !loginMember.getUserEmail().equals("admin@com")) {
       request.setAttribute("msg", "Access denied. Not Enough user privilege.");
       request.setAttribute("loc", "/");
       request.getRequestDispatcher("/views/common/msg.jsp").forward(request, response);
