@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 
   <!-- header -->
-  <%@ include file="/views/common/header.jsp" %>
+	<%@ include file="/views/common/header.jsp" %>
 
   <main role="main" id="page-container">
     <!-- search area -->

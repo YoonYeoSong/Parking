@@ -15,7 +15,7 @@
   }
 %>
 
-<%@ include file="../common/header.jsp" %>
+<%@ include file="/views/common/header.jsp" %>
  <!-- API -->
 
   <link rel="stylesheet" href="<%=request.getContextPath() %>/css/login.css">
@@ -29,7 +29,7 @@
               <span><i class="fa fa-facebook-official"></i></span>
               <span id="googleSignIn"><i class="fa fa-google-plus-square"></i></span>
               <span onclick="loginWithKakao()"><img src="<%=request.getContextPath() %>/images/kakaobutton.png" class="kakaobutton"></span>
-              <input type="text" id="kakao-email" >
+              <input type="hidden" id="kakao-email" >
               <!-- <div class="fa fa-google-plus-square" data-onsuccess="onSignIn" data-theme="dark" id="myP"></div> -->
           </div>
 
