@@ -42,13 +42,13 @@ public class LoginServlet extends HttpServlet {
 	  String pwLoginOriginal = request.getParameter("pwLogin");
 
 	  Member m = new MemberService().selectEmail(email);
-	  m.setLoginDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
+	  m.setUserLoginDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
 
 
 	  boolean validatePw = false;
 
 	  try {
-	    validatePw = validatePassword(pwLoginOriginal, m.getPw());
+	    validatePw = validatePassword(pwLoginOriginal, m.getUserPw());
 	  } catch(InvalidKeySpecException e) {
 	    e.printStackTrace();
 	  } catch(NoSuchAlgorithmException e) {

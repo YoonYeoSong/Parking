@@ -45,9 +45,10 @@ public class MemberEnrollEnd extends HttpServlet {
 	  int emailVerified = 0; //DEFAULT
 	  Date createdDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 	  Date loginDate = null;
+	  String userSnsAccount = "";
 
 	  Member m = new Member(userCode, email, pwEnroll, phone, userName, userAddr,
-                          createdDate, loginDate, smsYn, emailYn, emailVerified); 
+                          createdDate, loginDate, smsYn, emailYn, emailVerified, userSnsAccount); 
 
 	  int result = new MemberService().insertMember(m);
 

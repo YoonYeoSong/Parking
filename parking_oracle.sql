@@ -22,13 +22,13 @@
 --PARKING_SEOUL ps_parking_code, ps_addr, ps_parking_name, ps_latitude, ps_longitude
 -----------------------------------------------------------------------------------
 
-SELECT user_code, email, pw,phone, user_name, user_addr,
-  TO_CHAR(created_date, 'yyyy-MM-dd hh24:mi:ss') AS created_date,
-  TO_CHAR(login_date, 'yyyy-MM-dd hh24:mi:ss') AS login_date,
-  sms_yn, email_yn, email_verified
+SELECT user_code, user_email, user_pw, user_phone, user_name, user_addr,
+  TO_CHAR(user_created_date, 'yyyy-MM-dd hh24:mi:ss') AS created_date,
+  TO_CHAR(user_login_date, 'yyyy-MM-dd hh24:mi:ss') AS login_date,
+  user_sms_yn, user_email_yn, user_email_verified, user_sns_account
 FROM MEMBER;
 --DELETE FROM MEMBER;
-
+select * from member where user_email='admin@com';
 SELECT * FROM TAB;
 --update member set email='dbsduthd123@nate.com' where user_code='482581';
 
@@ -75,40 +75,44 @@ SELECT * FROM user_constraints WHERE table_name IN
 
 CREATE TABLE MEMBER (
   user_code CHAR(6) NOT NULL,
-  email VARCHAR2(50) NOT NULL,
-  pw VARCHAR2(300) NOT NULL,
-  phone VARCHAR2(20) NOT NULL,
+  user_email VARCHAR2(50) NOT NULL,
+  user_pw VARCHAR2(300) NOT NULL,
+  user_phone VARCHAR2(20) NOT NULL,
   user_name VARCHAR2(50) NOT NULL,
   user_addr VARCHAR2(300) NOT NULL,
-  created_date DATE DEFAULT SYSDATE,
-  login_date DATE,
-  sms_yn NUMBER(1,0) NOT NULL,
-  email_yn NUMBER(1,0) NOT NULL,
-  email_verified NUMBER(1,0) DEFAULT 0
+  user_created_date DATE DEFAULT SYSDATE,
+  user_login_date DATE,
+  user_sms_yn NUMBER(1,0) NOT NULL,
+  user_email_yn NUMBER(1,0) NOT NULL,
+  user_email_verified NUMBER(1,0) DEFAULT 0,
+  user_sns_account VARCHAR(3) DEFAULT 'N/A'
 );
 
 COMMENT ON COLUMN MEMBER.user_code IS '회원코드';
-COMMENT ON COLUMN MEMBER.email IS '이메일';
-COMMENT ON COLUMN MEMBER.pw IS '비밀번호';
-COMMENT ON COLUMN MEMBER.phone IS '폰번호';
+COMMENT ON COLUMN MEMBER.user_email IS '이메일';
+COMMENT ON COLUMN MEMBER.user_pw IS '비밀번호';
+COMMENT ON COLUMN MEMBER.user_phone IS '폰번호';
 COMMENT ON COLUMN MEMBER.user_name IS '회원이름';
 COMMENT ON COLUMN MEMBER.user_addr IS '회원주소';
-COMMENT ON COLUMN MEMBER.created_date IS '가입날짜';
-COMMENT ON COLUMN MEMBER.login_date IS '최근 로그인날짜';
-COMMENT ON COLUMN MEMBER.sms_yn IS '문자 수신여부(1/0)';
-COMMENT ON COLUMN MEMBER.email_yn IS '이메일 수신여부(1/0)';
-COMMENT ON COLUMN MEMBER.email_verified IS '이메일 인증여부(1/0)';
+COMMENT ON COLUMN MEMBER.user_created_date IS '가입날짜';
+COMMENT ON COLUMN MEMBER.user_login_date IS '최근 로그인날짜';
+COMMENT ON COLUMN MEMBER.user_sms_yn IS '문자 수신여부(1/0)';
+COMMENT ON COLUMN MEMBER.user_email_yn IS '이메일 수신여부(1/0)';
+COMMENT ON COLUMN MEMBER.user_email_verified IS '이메일 인증여부(1/0)';
+COMMENT ON COLUMN MEMBER.user_sns_account IS 'SNS계정여부(Google/Facebook/Kakao/ N/A)';
 
 ALTER TABLE MEMBER 
   ADD CONSTRAINT pk_user PRIMARY KEY(user_code);
 ALTER TABLE MEMBER 
-  ADD CONSTRAINT uq_user UNIQUE (email);
+  ADD CONSTRAINT uq_user UNIQUE (user_email);
 ALTER TABLE MEMBER 
-  ADD CONSTRAINT chk_user_sms CHECK (sms_yn in (1,0));
+  ADD CONSTRAINT chk_user_sms CHECK (user_sms_yn in (1,0));
 ALTER TABLE MEMBER 
-  ADD CONSTRAINT chk_user_email CHECK (email_yn in (1,0));
+  ADD CONSTRAINT chk_user_email CHECK (user_email_yn in (1,0));
 ALTER TABLE MEMBER 
-  ADD CONSTRAINT chk_user_verified CHECK (email_verified in (1,0));
+  ADD CONSTRAINT chk_user_verified CHECK (user_email_verified in (1,0));
+ALTER TABLE MEMBER 
+  ADD CONSTRAINT chk_user_sns CHECK (user_sns_account in ('G', 'K', 'F', 'N/A'));
 
 
 --drop table parking_seoul cascade constraints;
@@ -290,33 +294,33 @@ ALTER TABLE QNABOARD
 --DROP SEQUENCE QNABOARD_SEQ;
 --select * from qnaboard;
 --select count(*) from qnaboard;
-insert into qnaboard values(DEFAULT,'a_title', '822353', 'this is a content1', null,null, default, default);
-insert into qnaboard values(DEFAULT,'b_title', '822353', 'this is a content2', null,null, default, default);
-insert into qnaboard values(DEFAULT,'c_title', '822353', 'this is a content3', null,null, default, default);
-insert into qnaboard values(DEFAULT,'d_title', '822353', 'this is a content4', null,null, default, default);
-insert into qnaboard values(DEFAULT,'e_title', '822353', 'this is a content5', null,null, default, default);
-insert into qnaboard values(DEFAULT,'f_title', '822353', 'this is a content6', null,null, default, default);
-insert into qnaboard values(DEFAULT,'g_title', '822353', 'this is a content7', null,null, default, default);
-insert into qnaboard values(DEFAULT,'h_title', '822353', 'this is a content8', null,null, default, default);
-insert into qnaboard values(DEFAULT,'i_title', '822353', 'this is a content9', null,null, default, default);
-insert into qnaboard values(DEFAULT,'j_title', '822353', 'this is a content10', null,null, default, default);
-insert into qnaboard values(DEFAULT,'k_title', '822353', 'this is a content11', null,null, default, default);
-insert into qnaboard values(DEFAULT,'l_title', '822353', 'this is a content12', null,null, default, default);
-insert into qnaboard values(DEFAULT,'m_title', '822353', 'this is a content13', null,null, default, default);
-insert into qnaboard values(DEFAULT,'n_title', '822353', 'this is a content14', null,null, default, default);
-insert into qnaboard values(DEFAULT,'o_title', '797321', 'this is a content15', null,null, default, default);
-insert into qnaboard values(DEFAULT,'p_title', '797321', 'this is a content16', null,null, default, default);
-insert into qnaboard values(DEFAULT,'q_title', '797321', 'this is a content17', null,null, default, default);
-insert into qnaboard values(DEFAULT,'r_title', '797321', 'this is a content18', null,null, default, default);
-insert into qnaboard values(DEFAULT,'s_title', '797321', 'this is a content19', null,null, default, default);
-insert into qnaboard values(DEFAULT,'t_title', '797321', 'this is a content20', null,null, default, default);
-insert into qnaboard values(DEFAULT,'u_title', '797321', 'this is a content21', null,null, default, default);
-insert into qnaboard values(DEFAULT,'v_title', '797321', 'this is a content22', null,null, default, default);
-insert into qnaboard values(DEFAULT,'w_title', '797321', 'this is a content23', null,null, default, default);
-insert into qnaboard values(DEFAULT,'x_title', '797321', 'this is a content24', null,null, default, default);
-insert into qnaboard values(DEFAULT,'y_title', '797321', 'this is a content25', null,null, default, default);
-insert into qnaboard values(DEFAULT,'z_title', '797321', 'this is a content26', null,null, default, default);
-insert into qnaboard values(DEFAULT,'zzz_title', '797321', 'this is a content27', null,null, default, default);
+insert into qnaboard values(DEFAULT,'a_title', '613236', 'this is a content1', null,null, default, default);
+insert into qnaboard values(DEFAULT,'b_title', '613236', 'this is a content2', null,null, default, default);
+insert into qnaboard values(DEFAULT,'c_title', '613236', 'this is a content3', null,null, default, default);
+insert into qnaboard values(DEFAULT,'d_title', '613236', 'this is a content4', null,null, default, default);
+insert into qnaboard values(DEFAULT,'e_title', '613236', 'this is a content5', null,null, default, default);
+insert into qnaboard values(DEFAULT,'f_title', '613236', 'this is a content6', null,null, default, default);
+insert into qnaboard values(DEFAULT,'g_title', '613236', 'this is a content7', null,null, default, default);
+insert into qnaboard values(DEFAULT,'h_title', '613236', 'this is a content8', null,null, default, default);
+insert into qnaboard values(DEFAULT,'i_title', '613236', 'this is a content9', null,null, default, default);
+insert into qnaboard values(DEFAULT,'j_title', '613236', 'this is a content10', null,null, default, default);
+insert into qnaboard values(DEFAULT,'k_title', '613236', 'this is a content11', null,null, default, default);
+insert into qnaboard values(DEFAULT,'l_title', '613236', 'this is a content12', null,null, default, default);
+insert into qnaboard values(DEFAULT,'m_title', '613236', 'this is a content13', null,null, default, default);
+insert into qnaboard values(DEFAULT,'n_title', '613236', 'this is a content14', null,null, default, default);
+insert into qnaboard values(DEFAULT,'o_title', '613236', 'this is a content15', null,null, default, default);
+insert into qnaboard values(DEFAULT,'p_title', '613236', 'this is a content16', null,null, default, default);
+insert into qnaboard values(DEFAULT,'q_title', '613236', 'this is a content17', null,null, default, default);
+insert into qnaboard values(DEFAULT,'r_title', '613236', 'this is a content18', null,null, default, default);
+insert into qnaboard values(DEFAULT,'s_title', '613236', 'this is a content19', null,null, default, default);
+insert into qnaboard values(DEFAULT,'t_title', '613236', 'this is a content20', null,null, default, default);
+insert into qnaboard values(DEFAULT,'u_title', '613236', 'this is a content21', null,null, default, default);
+insert into qnaboard values(DEFAULT,'v_title', '613236', 'this is a content22', null,null, default, default);
+insert into qnaboard values(DEFAULT,'w_title', '613236', 'this is a content23', null,null, default, default);
+insert into qnaboard values(DEFAULT,'x_title', '613236', 'this is a content24', null,null, default, default);
+insert into qnaboard values(DEFAULT,'y_title', '613236', 'this is a content25', null,null, default, default);
+insert into qnaboard values(DEFAULT,'z_title', '613236', 'this is a content26', null,null, default, default);
+insert into qnaboard values(DEFAULT,'zzz_title', '613236', 'this is a content27', null,null, default, default);
 commit;
 
 

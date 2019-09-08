@@ -19,7 +19,7 @@
   String mypageUrl = request.getContextPath();
 
   if(loginMember != null){
-    if(loginMember.getEmail().equals("admin@com"))
+    if(loginMember.getUserEmail().equals("admin@com"))
       mypageUrl += "/admin/memberList";
     else
       mypageUrl += "/views/member/mypageMember.jsp";
@@ -105,7 +105,7 @@
 
               <div class="dropdown-menu mt-1" aria-labelledby="dropdown01">
               <% if(loginMember != null 
-                  && loginMember.getEmail().equals("admin@com")) { %>
+                  && loginMember.getUserEmail().equals("admin@com")) { %>
                 <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-list">&nbsp;&nbsp;</i>Member List</a>
               <% } else { %>
                 <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-cog">&nbsp;&nbsp;</i>Account Settings</a>
