@@ -14,7 +14,7 @@
           <h3>Sign Up</h3>
         </div>
         <div class="card-body">
-          <form action="<%=request.getContextPath() %>/memberEnrollEnd" method="post" onsubmit="return validate_enroll();">
+          <form action="<%=request.getContextPath() %>/memberEnrollEnd" method="post" onsubmit="return validateEnroll();">
             <div class="input-group form-group">
               <input type="text" class="form-control" placeholder="Username" name="userName" id="userName" required>
             </div>
@@ -32,18 +32,6 @@
             <div class="input-group form-group">
               <input type="password" class="form-control" placeholder="Confirm password" id="pwEnrollChk" name="pwEnrollChk" readonly>
             </div>
-
-            <script>
-              $('#pwEnrollChk').blur(function(){
-                var pwEnroll = $('#pwEnroll').val();
-                var pwEnrollChk = $(this).val();
-                if(pwEnrollChk != pwEnroll){
-                  alert("password does not match");
-                  $(this).val("");
-                  $('#pwEnroll').val("").focus();
-                }
-              });
-            </script>
 
             <div class="input-group form-group">
               <input type="text" class="form-control" placeholder="Phone number" id="phone" name="phone" required>
@@ -94,7 +82,7 @@
           <h3>Sign Up</h3>
         </div>
         <div class="card-body">
-          <form action="<%=request.getContextPath() %>/memberEnrollEnd" method="post" onsubmit="return validate_enroll();">
+          <form action="<%=request.getContextPath() %>/memberEnrollEnd" method="post" onsubmit="return validateEnroll();">
             <div class="input-group form-group">
               <input type="text" class="form-control" placeholder="Username" name="userName" id="userName" required>
             </div>
@@ -112,6 +100,21 @@
             <div class="input-group form-group">
               <input type="password" class="form-control" placeholder="Confirm password" id="pwEnrollChk" name="pwEnrollChk" required>
             </div>
+
+            <script>
+              $(function(){
+                //check if pw and pw confirmation input match
+                $('#pwEnrollChk').blur(function(){
+                  var pwEnroll = $('#pwEnroll').val();
+                  var pwEnrollChk = $(this).val();
+                  if(pwEnrollChk != pwEnroll){
+                    alert("password does not match");
+                    $(this).val("");
+                    $('#pwEnroll').val("").focus();
+                  }
+                });
+              });
+            </script>
 
             <div class="input-group form-group">
               <input type="text" class="form-control" placeholder="Phone number" id="phone" name="phone" required>
@@ -212,12 +215,28 @@
               }
           }
       }).open();
-  }
+    }
   
-  
-  
-    function validate_enroll(){
-      //word length check
+    function checkEmailDuplicate(){
+      if($("#email").val().trim() == ""){
+        alert("Type email!");
+        return;
+      }
+
+      var title = "checkEmailDuplicate";
+      var status = "left=500px, top=100px, width=300px, height=200px, menubar=n, status=no, scrollbars=yes";
+      var popup = open("", title, status); //window.open()
+      var url = "<%=request.getContextPath() %>/checkEmailDuplicate";
+
+      checkEmailDuplicateHiddenFrm.action = url;
+      checkEmailDuplicateHiddenFrm.emailHidden.value = $("#email").val().trim();
+      checkEmailDuplicateHiddenFrm.target = title;
+      checkEmailDuplicateHiddenFrm.submit();
+    }
+
+    //signup form validation
+    function validateEnroll(){
+      //check username length
       var userName = $("#userName");
       if(userName.val().trim().length < 2){
         alert("User name must contain more than 1 character.")
@@ -229,19 +248,36 @@
       if(!$("#termsChk").is(':checked'))
         return false;
 
+      /*
+        password regex check :
+          min 6-char, at least one letter and one number 
+          may contain special characters
+      */
+      var result = regexCheckPw($('#pwEnrollChk').val());
+      if(result != "ok"){
+        $('#pwEnrollChk').val("");
+        $('#pwEnroll').val("").focus();
+        alert(result);
+        return false;
+      }
+
       return true;
     }
 
-    function checkEmailDuplicate(){
-      var title = "checkEmailDuplicate";
-      var status = "left=500px, top=100px, width=300px, height=200px, menubar=n, status=no, scrollbars=yes";
-      var popup = open("", title, status); //window.open()
-      var url = "<%=request.getContextPath() %>/checkEmailDuplicate";
+    //password regex check
+    function regexCheckPw(pw) {
+      if (pw.length < 6)
+          return("password too short");
+      else if (pw.length > 20)
+          return("password too long");
+      else if (pw.search(/\d/) == -1)
+          return("password must include number!");
+      else if (pw.search(/[a-zA-Z]/) == -1)
+          return("password must include letter!");
+      else if (pw.search(/[^a-zA-Z0-9\!\@\#\$\%\^\&\*\(\)\_\+\.\,\;\:]/) != -1)
+          return("password includes bad character!");
 
-      checkEmailDuplicateHiddenFrm.action = url;
-      checkEmailDuplicateHiddenFrm.emailHidden.value = $("#email").val().trim();
-      checkEmailDuplicateHiddenFrm.target = title;
-      checkEmailDuplicateHiddenFrm.submit();
+      return("ok");
     }
   </script>
 
