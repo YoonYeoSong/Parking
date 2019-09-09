@@ -39,16 +39,19 @@ public class MemberEnrollEnd extends HttpServlet {
 	  String phone = request.getParameter("phone");
 	  String userName = request.getParameter("userName");
 	  String userAddr = request.getParameter("roadAddress") + request.getParameter("postcode");
+	  String snsAccount = request.getParameter("snsAccount");
 
     int smsYn = request.getParameter("smsYn") != null? 1:0;
     int emailYn = request.getParameter("emailYn") != null? 1:0;
 	  int emailVerified = 0; //DEFAULT
 	  Date createdDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 	  Date loginDate = null;
-	  String userSnsAccount = "";
+
+	  String company = email.substring(email.indexOf('@'), email.indexOf('.'));
+	  System.out.println(company);
 
 	  Member m = new Member(userCode, email, pwEnroll, phone, userName, userAddr,
-                          createdDate, loginDate, smsYn, emailYn, emailVerified, userSnsAccount); 
+                          createdDate, loginDate, smsYn, emailYn, emailVerified, snsAccount);
 
 	  int result = new MemberService().insertMember(m);
 

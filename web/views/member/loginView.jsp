@@ -37,7 +37,6 @@
             <img id="myImg"><br>
             <div id="name" class="text-white"></div>
             <!-- <div id="status"></div> -->
-
             <button id="googleLogoutBtn" onclick="googleLogout()" class="btn btn-sm btn-outline-light mt-1 mr-1">Google Log Out</button>
           </div>
         </div>
@@ -45,7 +44,7 @@
           <form class="form-signin"
             action="<%=request.getContextPath() %>/login" 
             method="post"
-            onsubmit="return validate_login()">
+            onsubmit="return validateLogin()">
 
             <div class="input-group form-group">
               <div class="input-group-prepend">
@@ -109,7 +108,7 @@
 	        		//임의로 만든 인풋창 안에 이메일 값을 넣어두었다가 확인용으로 사용 (나중에 hidden으로 변경예정)
 	        		$("#kakao-email").val(res.kaccount_email);
 	        		//Ajax형식으로 콜백 함수 활용 계정에 대한 이메일 값을 넣고 값확인
-	        		AjaxEmailCheck($("#kakao-email").val());
+	        		AjaxEmailCheck($("#kakao-email").val(), 'K');
         		}
         	})
           	/* alert(JSON.stringify(authObj));
@@ -122,7 +121,7 @@
     }
       
       //Ajax로 카카오 계정이 DB에 있는지 확인
-      function AjaxEmailCheck(snsEmail){
+      function AjaxEmailCheck(snsEmail, snsAccount){
       	var url ="<%=request.getContextPath()%>/member/JsonMemberEmailcheck?userEmail="+snsEmail;
       	$.ajax ({
       		  url:url,
@@ -135,16 +134,19 @@
   				{
   					console.log(data[d]);
   					console.log(data[d]["email"]);
+  					console.log(data[d]["userEmail"]);
+  					console.log(data);
   					//들어온 Data 값에 대해 snsEmail에 대한 이메일과 ajax에서 가져온 데이터 값을 주고
   					//비교후 같다면 바로 로그인 진행
   					//아니면 팝업을 이용해 sns가입을 권유 팝업창 띄움
-  					if(data[d]["email"] == snsEmail)
+  					if(data[d]["userEmail"] == snsEmail)
   					{
-  						location.href="<%=request.getContextPath()%>/member/MemberEmailcheck?userEmail="+snsEmail;
+  						location.href="<%=request.getContextPath()%>/member/MemberEmailcheck?userEmail="+snsEmail 
+                              + "&snsAccount="+snsAccount;
   					}else{
   						console.log("들어옴");
   						$("#kakao-email").val("");
-  						emailPopUp(snsEmail);
+  						emailPopUp(snsEmail, snsAccount);
   					}
   				}
       		 }
@@ -152,17 +154,17 @@
       }
       
       //계정이 없다면 팝업을 이용
-      function emailPopUp(snsEmail)
+      function emailPopUp(snsEmail,snsAccount)
       {
-      	var url="<%=request.getContextPath()%>/member/EmailPopUp?userEmail="+snsEmail;	
+      	var url="<%=request.getContextPath()%>/member/EmailPopUp?userEmail="+snsEmail + "&snsAccount=" + snsAccount;
   		var title="signUpPopUp";
   		var status="left=500px, top=200px, width=400px, height=210px";
   		window.open(url,title,status);
       }
       
-      function loginViewEmailCheck(snsEmail)
+      function loginViewEmailCheck(snsEmail, snsAccount)
       {
-      	location.href="<%=request.getContextPath()%>/memberEnroll?userEmail="+snsEmail; 	
+      	location.href="<%=request.getContextPath()%>/memberEnroll?userEmail="+snsEmail +"&snsAccount=" + snsAccount;
       }
       
       function indexPage()
@@ -170,7 +172,7 @@
       	location.href="<%=request.getContextPath()%>/member/checktrueEmail";
       }
   
-    function validate_login(){
+    function validateLogin(){
       if($('#email').val().length==0){
         alert("Please type Email for login");
         $('#email').focus();
@@ -188,7 +190,6 @@
 
 
   <!-- GOOGLE LOGIN -->
-
   <!-- trigger google btn click -->
   <script src="https://apis.google.com/js/platform.js?onload=onLoadGoogleCallback" async defer></script>
 
@@ -214,12 +215,12 @@
             var id_token = googleUser.getAuthResponse().id_token;
             console.log("ID Token: " + id_token);
 
-            $('#myImg').attr({"src": profile.getImageUrl(),
-                              "style": "width:31px; heght:31px"});
-            // document.getElementById("myImg").src = profile.getImageUrl();
-            $('#name').html("Hello! " + profile.getName());
-            // document.getElementById("name").innerHTML = "Hello! " + profile.getName();
+            // $('#myImg').attr({"src": profile.getImageUrl(),
+            //                   "style": "width:31px; heght:31px"});
+            // $('#name').html("Hi! " + profile.getName());
             $('#googleLotoutBtn').toggle();
+
+            AjaxEmailCheck(profile.getEmail(), 'G');
 
             //document.getElementById("status").innerHTML = 'Welcome '+name+"!<a href=success.jsp?email='+email+'&name='+name+'/>Continue with Google login</a></p>";
             // document.getElementById("status").innerHTML = 'Hello! '+name;
@@ -258,7 +259,8 @@
       sessionStorage.clear();
       $('#googleLotoutBtn').toggle();
       location.reload();
+      console.log("google logged out");
     }
   </script>
     
-  <%@ include file="../common/footer.jsp" %>
+  <%@ include file="/views/common/footer.jsp" %>

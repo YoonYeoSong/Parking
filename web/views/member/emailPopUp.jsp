@@ -3,7 +3,7 @@
     
     <% 
     	String email = (String)request.getAttribute("userEmail");
-    	
+    	String snsAccount = (String)request.getAttribute("snsAccount");
     %>
 <!DOCTYPE html>
 <html>
@@ -33,7 +33,7 @@
     	{   		
     		console.log("들어옴2");
     		window.opener.document.getElementById("kakao-email").value='<%=email%>';
-    		window.opener.loginViewEmailCheck('<%=email%>');
+    		window.opener.loginViewEmailCheck('<%=email%>', '<%=snsAccount%>');
     		self.close();
     	}
     	

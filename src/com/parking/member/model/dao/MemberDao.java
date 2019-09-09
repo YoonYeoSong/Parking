@@ -112,7 +112,7 @@ public class MemberDao {
       pstmt.setInt(9, m.getUserSmsYn());
       pstmt.setInt(10, m.getUserEmailYn());
       pstmt.setInt(11, m.getUserEmailVerified());
-//      pstmt.setString(12, m.getUserSnsAccount());
+      pstmt.setString(12, m.getUserSnsAccount());
       //insertMember=insert into member values(?,?,?,?,?,?,?,?,?,?,?,?)
 
       result = pstmt.executeUpdate();

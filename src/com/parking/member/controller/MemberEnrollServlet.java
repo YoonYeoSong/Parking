@@ -27,13 +27,16 @@ public class MemberEnrollServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String email = request.getParameter("userEmail");
+		String snsAccount = request.getParameter("snsAccount");
 		  System.out.println("userEmail : "+email);
 		  
 		  if(email !=null)
 		  {
 			  request.setAttribute("userEmail", email);
+			  request.setAttribute("snsAccount", snsAccount);
 			  request.getRequestDispatcher("/views/member/memberEnroll.jsp").forward(request, response);
 			  System.out.println("userEmail : "+email);
+			  System.out.println("snsAccount : "+snsAccount);
 		  }else
 		  {
 			  response.sendRedirect(request.getContextPath() + "/views/member/memberEnroll.jsp");	  
