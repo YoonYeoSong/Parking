@@ -2,7 +2,12 @@
     pageEncoding="UTF-8"%>
 
 <%@ include file="/views/common/header.jsp" %>
-<% String snsEmail = (String)request.getAttribute("userEmail"); %>
+<% 
+  String snsEmail = (String)request.getAttribute("userEmail");
+  String snsAccount = (String)request.getAttribute("snsAccount");
+  if(snsAccount ==null  || snsAccount.isEmpty())
+    snsAccount ="N/A";
+%>
 
   <link rel="stylesheet" href="<%=request.getContextPath() %>/css/signup.css">
 
@@ -63,6 +68,10 @@
             <div class="form-group">
               <input type="submit" value="submit" class="btn float-right submit_btn">
             </div>
+
+            <!-- snsAccount 'G', 'F' 'K' 'N/A' -->
+            <input type="hidden" id="snsAccount" name="snsAccount" value="<%=snsAccount %>" />
+
           </form>
 
           <form method="post" name="checkEmailDuplicateHiddenFrm">
@@ -102,6 +111,7 @@
             </div>
 
             <script>
+              console.log($('#snsAccount').val());
               $(function(){
                 //check if pw and pw confirmation input match
                 $('#pwEnrollChk').blur(function(){
@@ -146,6 +156,10 @@
             <div class="form-group">
               <input type="submit" value="submit" class="btn float-right submit_btn">
             </div>
+
+            <!-- snsAccount 'G', 'F' 'K' 'N/A' -->
+            <input type="hidden" id="snsAccount" name="snsAccount" value="<%=snsAccount %>" />
+
           </form>
 
           <form method="post" name="checkEmailDuplicateHiddenFrm">
@@ -254,7 +268,7 @@
           may contain special characters
       */
       var result = regexCheckPw($('#pwEnrollChk').val());
-      if(result != "ok"){
+      if(result != "ok" && $('#snsAccount').val() == "N/A"){
         $('#pwEnrollChk').val("");
         $('#pwEnroll').val("").focus();
         alert(result);

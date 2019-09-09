@@ -54,7 +54,7 @@ public class JsonMemberEmailCheck extends HttpServlet {
 			{
 				JSONObject jo = new JSONObject();
 				jo.put("userCode", member.getUserCode());
-				jo.put("email", member.getUserEmail());
+				jo.put("userEmail", member.getUserEmail());
 				jo.put("pw", member.getUserPw());
 				jo.put("phone", member.getUserPhone());
 				jo.put("userName", member.getUserName());
@@ -82,7 +82,7 @@ public class JsonMemberEmailCheck extends HttpServlet {
 			{
 				JSONObject jo = new JSONObject();
 				jo.put("userCode", member.getUserCode());
-				jo.put("email", member.getUserEmail());
+				jo.put("userEmail", member.getUserEmail());
 				jo.put("pw", member.getUserPw());
 				jo.put("phone", member.getUserPhone());
 				jo.put("userName", member.getUserName());

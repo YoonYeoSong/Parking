@@ -121,9 +121,19 @@
             <% if(loginMember != null) {%>
               <li class="nav-item">
                 <form action="<%=request.getContextPath() %>/logout" method="post">
-                  <button type="submit" class="btn btn-sm btn-outline-light mt-1 mr-1">Log Out</button>
+                  <button type="submit" class="btn btn-sm btn-outline-light mt-1 mr-1" onclick="return logoutSnsAccount();">Log Out</button>
                 </form>
               </li>
+
+              <script>
+                function logoutSnsAccount(){
+                  googleLogout();
+                  return true;
+                }
+              </script>
+
+              
+
             <%} else{%>
               <li class="nav-item">
                 <form action="<%=request.getContextPath() %>/views/member/loginView.jsp" method="post">

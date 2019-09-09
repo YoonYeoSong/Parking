@@ -1,6 +1,8 @@
 package com.parking.member.controller;
 
 import java.io.IOException;
+import java.util.Calendar;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,7 +18,7 @@ import com.parking.member.model.vo.Member;
  */
 @WebServlet("/member/MemberEmailcheck")
 public class MemberEmailCheck extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -26,28 +28,31 @@ public class MemberEmailCheck extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String email = request.getParameter("userEmail");
-		MemberService service = new MemberService();
-		Member m = service.selectEmail(email);
-		System.out.println("m"+m.toString());
-		HttpSession session = request.getSession();
-		String view="";
-	    session.setAttribute("loginMember", m);
-	    view = "/"; //return to index.jsp
-	    request.getRequestDispatcher(view).forward(request,response);
-		
-	}
+  /**
+   * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+   */
+  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    String email = request.getParameter("userEmail");
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+    Member m = new MemberService().selectEmail(email);
+    m.setUserLoginDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
+    new MemberService().updateLoginDate(email);
+
+    System.out.println(m);
+    HttpSession session = request.getSession();
+    String view="";
+      session.setAttribute("loginMember", m);
+      view = "/"; //return to index.jsp
+      request.getRequestDispatcher(view).forward(request,response);
+    
+  }
+
+  /**
+   * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+   */
+  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    // TODO Auto-generated method stub
+    doGet(request, response);
+  }
 
 }
