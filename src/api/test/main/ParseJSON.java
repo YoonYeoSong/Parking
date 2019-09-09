@@ -24,9 +24,9 @@ public class ParseJSON {
 
     String serviceKey = prop.getProperty("serviceKey");
     int start_index = 1;
-    int end_index = 1000;
+    int end_index = 200;
     String urlStr = "http://openapi.seoul.go.kr:8088/" + serviceKey 
-        + "/json/GetParkInfo/"+start_index +"/"+end_index+"/"; 
+        + "/json/GetParkInfo/"+start_index +"/"+end_index+"/632-1";
     
     BufferedReader br = null;
     try {
