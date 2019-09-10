@@ -37,7 +37,7 @@
           <div class="container text-center py-4">
             <div class="row">
               <div class="col-lg-3">
-                <img class="profile-picture" src="./images/profile.png" alt="Generic placeholder image">
+                <img class="profile-picture" src="<%=request.getContextPath() %>/images/profile.png" alt="Generic placeholder image">
                 <div class="form-group">
                   <label for="exampleFormControlTextarea1">lions</label>
                   <textarea readonly class="form-control review_content" id="exampleFormControlTextarea1" cols="4" rows="7">This Illegal Parking website is fantastic! Looking forward to use this often!</textarea>
@@ -51,7 +51,7 @@
                 </p>
               </div>
               <div class="col-lg-3">
-                <img class="profile-picture" src="./images/profile.png" alt="Generic placeholder image">
+                <img class="profile-picture" src="<%=request.getContextPath() %>/images/profile.png" alt="Generic placeholder image">
                 <div class="form-group">
                   <label for="exampleFormControlTextarea1">tigers</label>
                   <textarea readonly class="form-control review_content" id="exampleFormControlTextarea1" cols="4" rows="7">Bought a new car last month. I was very afraid of the public parking space. Illegal Parking gives me assurance!</textarea>
@@ -65,7 +65,7 @@
                 </p>
               </div>
               <div class="col-lg-3">
-                <img class="profile-picture" src="./images/profile.png" alt="Generic placeholder image">
+                <img class="profile-picture" src="<%=request.getContextPath() %>/images/profile.png" alt="Generic placeholder image">
                 <div class="form-group">
                   <label for="exampleFormControlTextarea1">bears</label>
                   <textarea readonly class="form-control review_content" id="exampleFormControlTextarea1" cols="4" rows="7">There are literally thousands of parking lots near my company. This website allows me to compare the cost! what a site!</textarea>
@@ -79,7 +79,7 @@
                 </p>
               </div>
               <div class="col-lg-3">
-                <img class="profile-picture" src="./images/profile.png" alt="Generic placeholder image">
+                <img class="profile-picture" src="<%=request.getContextPath() %>/images/profile.png" alt="Generic placeholder image">
                 <div class="form-group">
                   <label for="exampleFormControlTextarea1">Park you</label>
                   <textarea readonly class="form-control review_content" id="exampleFormControlTextarea1" cols="4" rows="7">Give me your money! I don't believe in angels!</textarea>
@@ -99,7 +99,7 @@
           <div class="container text-center py-4">
             <div class="row">
               <div class="col-lg-3">
-                <img class="profile-picture" src="./images/profile.png" alt="Generic placeholder image">
+                <img class="profile-picture" src="<%=request.getContextPath()%>/images/profile.png" alt="Generic placeholder image">
                 <div class="form-group">
                   <label for="exampleFormControlTextarea1">user_05</label>
                   <textarea readonly class="form-control review_content" id="exampleFormControlTextarea1" cols="4" rows="7"></textarea>
@@ -113,7 +113,7 @@
                 </p>
               </div>
               <div class="col-lg-3">
-                <img class="profile-picture" src="./images/profile.png" alt="Generic placeholder image">
+                <img class="profile-picture" src="<%=request.getContextPath() %>/images/profile.png" alt="Generic placeholder image">
                 <div class="form-group">
                   <label for="exampleFormControlTextarea1">user_06</label>
                   <textarea readonly class="form-control review_content" id="exampleFormControlTextarea1" cols="4" rows="7"></textarea>
@@ -127,7 +127,7 @@
                 </p>
               </div>
               <div class="col-lg-3">
-                <img class="profile-picture" src="./images/profile.png" alt="Generic placeholder image">
+                <img class="profile-picture" src="<%=request.getContextPath() %>/images/profile.png" alt="Generic placeholder image">
                 <div class="form-group">
                   <label for="exampleFormControlTextarea1">user_07</label>
                   <textarea readonly class="form-control review_content" id="exampleFormControlTextarea1" cols="4" rows="7"></textarea>
@@ -141,7 +141,7 @@
                 </p>
               </div>
               <div class="col-lg-3">
-                <img class="profile-picture" src="./images/profile.png" alt="Generic placeholder image">
+                <img class="profile-picture" src="<%=request.getContextPath()%>/images/profile.png" alt="Generic placeholder image">
                 <div class="form-group">
                   <label for="exampleFormControlTextarea1">user_08</label>
                   <textarea readonly class="form-control review_content" id="exampleFormControlTextarea1" cols="4" rows="7"></textarea>
@@ -179,7 +179,7 @@
       </ol>
       <div class="carousel-inner">
         <div class="carousel-item active">
-          <img class="" width="100%" height="100%" src="./images/about1.jpg" alt="">
+          <img class="" width="100%" height="100%" src="<%=request.getContextPath()%>/images/about1.jpg" alt="">
           <div class="container">
             <div class="carousel-caption text-center text-dark">
               <p class='h2 font-weight-bold'>About</p><br>
@@ -196,7 +196,7 @@
           </div>
         </div>
         <div class="carousel-item">
-          <img class="" width="100%" height="100%" src="./images/about2.jpg" alt="">
+          <img class="" width="100%" height="100%" src="<%=request.getContextPath() %>/images/about2.jpg" alt="">
           <div class="container">
             <div class="carousel-caption text-center text-dark">
               <p class='h2 font-weight-bold'>About</p><br>
@@ -215,7 +215,7 @@
           </div>
         </div>
         <div class="carousel-item">
-          <img class="" width="100%" height="100%" src="./images/about3.jpg" alt="">
+          <img class="" width="100%" height="100%" src="<%=request.getContextPath()%>/images/about3.jpg" alt="">
           <div class="container">
             <div class="carousel-caption text-center text-dark">
               <p class='h2 font-weight-bold'>About</p><br>

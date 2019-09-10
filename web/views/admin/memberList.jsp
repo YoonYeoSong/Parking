@@ -124,7 +124,7 @@
           // $('#qna_table tbody')
             // location.href="<%=request.getContextPath() %>/board/qnaBoardList?cPage=" + pageNo;
 
-            $('div#memberList-wrapper').html(html.find('section#memberList-container'));
+          $('div#memberList-wrapper').html(html.find('section#memberList-container'));
         },
         error: function(request, status, error){
           console.log("error 함수 실행!");
