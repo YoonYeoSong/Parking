@@ -44,7 +44,6 @@
   <meta name="description" content="parking web application">
   <meta name="google-signin-scope" content="profile email">
   <meta name="google-signin-client_id" content="847270498494-dj5o04t83q5uja6ccp6eekr3en7qcb8p.apps.googleusercontent.com">
-  <script src="https://apis.google.com/js/platform.js" async defer></script>
   <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
   <title>Locate Parking Spaces</title>
 
@@ -109,11 +108,11 @@
                 <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-list">&nbsp;&nbsp;</i>Member List</a>
               <% } else { %>
                 <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-cog">&nbsp;&nbsp;</i>Account Settings</a>
+                <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-bookmark">&nbsp;&nbsp;</i>Bookmark</a>
                 <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-calendar">&nbsp;&nbsp;</i>My Reservations</a>
                 <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-credit-card">&nbsp;&nbsp;</i>Payment Methods</a>
                 <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-won">&nbsp;&nbsp;</i>Credit Balance</a>
                 <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-car">&nbsp;&nbsp;</i>My Vehicle</a>
-                <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-bookmark">&nbsp;&nbsp;</i>Bookmark</a>
               <% } %>
               </div>
             </li>
@@ -131,8 +130,6 @@
                   return true;
                 }
               </script>
-
-              
 
             <%} else{%>
               <li class="nav-item">
