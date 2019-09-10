@@ -11,9 +11,9 @@
         <p class="h3 text-white row justify-content-center font-weight-bold">SEARCH FOR PARKING</p>
         <p class="h7 text-white row justify-content-center font-weight-bold">Around 23 Seoul Districts!</p>
         <div class="mx-auto col-lg-8">
-          <form id="main-searchbar" action="" class="" role="form">
+          <form id="main-searchbar" action="<%=request.getContextPath()%>/map/mapListView" class="" role="form">
             <div class="input-group">
-              <input type="search" class="form-control" placeholder="Where do you need parking?" aria-describedby="button-addon5">
+              <input type="search" class="form-control" name="search" placeholder="Where do you need parking?" aria-describedby="button-addon5">
               <div class="input-group-append">
               <button id="button-addon5" type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
               </div>
@@ -285,6 +285,21 @@
         }
       });
     });/* $(function()){} */
+
+  </script>
+  
+  <script>
+    
+      //테스트 자신의 위치 자겨오기
+      // navigator.geolocation.getCurrentPosition(function(pos)
+      // {
+      //   var latitude = pos.coords.latitude;
+      //   var longitude = pos.coords.longitude;
+      //   alert("현재위치 : " + latitude + "," + longitude);
+      //   console.log("위도 : " + latitude);
+      //   console.log("경도 : " + longitude);
+        
+      // });
 
   </script>
 

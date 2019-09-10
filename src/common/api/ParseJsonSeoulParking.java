@@ -1,4 +1,4 @@
-package api.test.main;
+package common.api;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -15,39 +15,49 @@ import org.json.JSONObject;
 
 import com.parking.api.model.vo.Parking;
 
-public class ParseJSON {
-	public static void main(String[] args) {
-		Properties prop = new Properties();
-		try {
-			prop.load(new FileReader("config.properties"));
-		} catch(IOException e) {
+public class ParseJsonSeoulParking {
+	Properties prop = null;
+
+	public ParseJsonSeoulParking() {
+		prop = new Properties();
+		
+		try
+		{
+			prop.load(new FileReader(ParseJsonSeoulParking.class.getResource("config.properties").getPath()));
+		}catch(IOException e) 
+		{
 			e.printStackTrace();
 		}
+	}
+
+	public List<Parking> parseJsonSeoulParkingApi(String addrName, int cnt)
+	{
+		
+		
 
 		List<Parking> list = new ArrayList<Parking>();
 		String serviceKey = prop.getProperty("serviceKey");
 		JSONObject obj = null;
 		Parking p = null;
-		int cc = 0;
 		String urlStr= null;
 		JSONArray arr = null;
 
 		try {
-			for(int count = 1; count <= 2; count++) {
+			//카운트 만큼 1~부터 시작해서 카운트 수만큼 반복돌기
+			for(int count = 1; count <= cnt; count++) {
 				int start_index = 1;
 				int end_index = 1000;
 
 				if(count > 1)
 				{
 					urlStr = "http://openapi.seoul.go.kr:8088/" + serviceKey 
-							+ "/json/GetParkInfo/"+((end_index*(count-1))+1) +"/"+end_index*count+"/강남";
+							+ "/json/GetParkInfo/"+((end_index*(count-1))+1) +"/"+end_index*count+"/"+addrName;
 				}else
 				{
 					urlStr = "http://openapi.seoul.go.kr:8088/" + serviceKey 
-							+ "/json/GetParkInfo/"+start_index +"/"+end_index+"/강남";
+							+ "/json/GetParkInfo/"+start_index +"/"+end_index+"/"+addrName;
 				}
-				//	    urlStr = "http://openapi.seoul.go.kr:8088/" + serviceKey 
-				//	        + "/json/GetParkInfo/"+start_index*count +"/"+end_index*count+"/강남";
+
 
 				BufferedReader br = null;
 				URL url = new URL(urlStr);
@@ -64,8 +74,6 @@ public class ParseJSON {
 				//System.out.println(result);
 				obj = new JSONObject(result);
 				arr = obj.getJSONObject("GetParkInfo").getJSONArray("row");
-
-				cc += arr.length();
 
 				//System.out.println("Parsing List Num # = " + arr.length());
 
@@ -120,8 +128,7 @@ public class ParseJSON {
 					}
 				}
 				else
-				{
-					System.out.println("2번째 길이 : " + arr.length());
+				{					
 					int number = 0;
 					for(int i = end_index; i < end_index+arr.length(); i++) 
 					{
@@ -143,31 +150,20 @@ public class ParseJSON {
 
 						if(p.getParkingName().equals(list.get(list.size()-1).getParkingName()))
 						{
-							
+
 							p = null;
-							
+
 
 						}else
-						{
-							System.out.println("여기옴");
-							list.add(p);
-							number++;
-							System.out.println(list.get(list.size()-1));
-						}
-						
+						{							
+							list.add(p);				
+						}	
 					}
-					System.out.println("number" + number);		
 				}
 			}
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
-		
-		System.out.println(cc);
-		
-
-
-
 
 		System.out.println(list.size());
 		for(Parking pk : list)
@@ -175,5 +171,8 @@ public class ParseJSON {
 			System.out.println(pk);
 		}
 
+		return list;
 	}
+
+
 }
