@@ -14,7 +14,7 @@ import com.parking.member.model.vo.Member;
 /**
  * Servlet implementation class BookmarkViewServlet
  */
-@WebServlet("/bookmark/bookmarkViewLoad")
+@WebServlet("/bookmark/bookmarkView")
 public class BookmarkViewServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -32,8 +32,8 @@ public class BookmarkViewServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	  String userCode = request.getParameter("userCode");
 	  Member m = new MemberService().selectUserCode(userCode);
+
 	  request.setAttribute("loginMember", m);
-	  
 	  request.getRequestDispatcher("/views/bookmark/bookmarkView.jsp").forward(request, response);
 	}
 

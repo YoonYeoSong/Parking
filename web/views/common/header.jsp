@@ -21,8 +21,8 @@
   if(loginMember != null){
     if(loginMember.getUserEmail().equals("admin@com"))
       mypageUrl += "/admin/memberList";
-    else
-      mypageUrl += "/views/member/mypageMember.jsp";
+    //else
+    //  mypageUrl += "/views/member";
   }
   else
       mypageUrl += "/views/member/loginView.jsp";
@@ -106,7 +106,15 @@
               <% if(loginMember != null 
                   && loginMember.getUserEmail().equals("admin@com")) { %>
                 <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-list">&nbsp;&nbsp;</i>Member List</a>
-              <% } else { %>
+              <% } else if(loginMember != null
+                  && !loginMember.getUserEmail().equals("admin@com")) { %>
+                <a class="dropdown-item" href="<%=request.getContextPath() %>/views/member/accountView.jsp"><i class="fa fa-cog">&nbsp;&nbsp;</i>Account Settings</a>
+                <a class="dropdown-item" href="<%=request.getContextPath() %>/views/bookmark/bookmarkView.jsp"><i class="fa fa-bookmark">&nbsp;&nbsp;</i>Bookmark</a>
+                <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-calendar">&nbsp;&nbsp;</i>My Reservations</a>
+                <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-credit-card">&nbsp;&nbsp;</i>Payment Methods</a>
+                <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-won">&nbsp;&nbsp;</i>Credit Balance</a>
+                <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-car">&nbsp;&nbsp;</i>My Vehicle</a>
+              <% } else { %> <!-- (loginMember == null) -->
                 <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-cog">&nbsp;&nbsp;</i>Account Settings</a>
                 <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-bookmark">&nbsp;&nbsp;</i>Bookmark</a>
                 <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-calendar">&nbsp;&nbsp;</i>My Reservations</a>
@@ -114,6 +122,38 @@
                 <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-won">&nbsp;&nbsp;</i>Credit Balance</a>
                 <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-car">&nbsp;&nbsp;</i>My Vehicle</a>
               <% } %>
+
+              <form action="" name="mypageSubMenuFrm">
+                <input type="hidden" name="subMenu" id="subMenu">
+              </form>
+
+              <script>
+
+                /**
+                * sends a request to the specified url from a form. this will change the window location.
+                * @param {string} urlMapping the path to send the post request to
+                * @param {object} params the paramiters to add to the url
+                * @param {string} [method=post] the method to use on the form
+                */
+
+                function mypageLoad(urlMapping, params){
+                  var form = $("<form>");
+                  form.attr({"method": "POST",
+                             "action" : urlMapping,
+                  });
+                  $.each(params, function(key, value){
+                    var input = $("<input>");
+                    input.attr({"type": "hidden",
+                                "name": key,
+                                "value": value,
+                    });
+                    form.append(input);
+                  });
+
+                  form.submit();
+                }
+              </script>
+
               </div>
             </li>
 
