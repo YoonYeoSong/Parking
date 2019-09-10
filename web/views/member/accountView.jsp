@@ -3,11 +3,9 @@
 
 <%@ page import="com.parking.member.model.vo.Member" %>
 
-<%
-  Member loginMember = (Member)request.getAttribute("loginMember");
-%>
+<%@ include file="/views/common/mypageHeader.jsp" %>
 
-    <section class="py-4" id="accountSetting-container">
+    <section class="py-4 subMenu-container">
       <div class="card card-fluid">
         <h6 class="card-header">Account Settings</h6>
         <!-- .card-body -->
@@ -71,20 +69,20 @@
               <!-- /form column -->
             </div>
             <div class="form-row">
-              <label for="input04" class="col-md-3">Receive SMS</label>
+              <label for="input04" class="col-md-3">SMS</label>
               <div class="col-md-9 mb-3">
                 <div class="custom-control custom-checkbox">
                   <input type="checkbox" class="custom-control-input" id="smsChk" checked="">
-                  <label class="custom-control-label" for="smsChk">SMS</label>
+                  <label class="custom-control-label" for="smsChk">Subscribe to SMS</label>
                 </div>
               </div>
             </div>
             <div class="form-row">
-              <label for="input04" class="col-md-3">Receive Email</label>
+              <label for="input04" class="col-md-3">Email</label>
               <div class="col-md-9 mb-3">
                 <div class="custom-control custom-checkbox">
                   <input type="checkbox" class="custom-control-input" id="emailChk" checked="">
-                  <label class="custom-control-label" for="emailChk">Email</label>
+                  <label class="custom-control-label" for="emailChk">Subscribe to Email</label>
                 </div>
               </div>
             </div>
@@ -100,3 +98,5 @@
       </div>
 
     </section>
+
+<%@ include file="/views/common/mypageFooter.jsp" %>
