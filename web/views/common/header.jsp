@@ -75,7 +75,7 @@
         <a class="navbar-brand " href="<%=request.getContextPath() %>" >
           <img src="<%=request.getContextPath() %>/images/logo_white.png">
         </a>
-        <form id="nav-searchbar" action="<%=request.getContextPath() %>/map/mapListView" method="post" class="navbar-form" style="width: 410px">
+        <form id="nav-searchbar" action="<%=request.getContextPath()%>/map/mapListView" method="post" class="navbar-form" style="width: 410px">
           <div class="input-group">
             <input type="search" placeholder="Where do you need parking?" aria-describedby="button-addon5" class="form-control" name="search">
             <div class="input-group-append">
