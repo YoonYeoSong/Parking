@@ -89,6 +89,11 @@
         <div class="collapse navbar-collapse" id="navbarCollapsible">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
+                <a href="<%=request.getContextPath() %>/views/common/papagoApi.jsp" class="nav-link menu-item">
+                  <i class="fa fa-language"></i>&nbsp;번역
+                </a>
+            </li>
+            <li class="nav-item">
               <a href="<%=request.getContextPath() %>/views/aboutView.jsp" class="nav-link menu-item">About</a>
             </li>
             <li class="nav-item dropdown">
