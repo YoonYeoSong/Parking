@@ -28,8 +28,9 @@
           <div class="d-flex justify-content-end social_icon">
               <span><i class="fa fa-facebook-official"></i></span>
               <span id="googleSignIn"><i class="fa fa-google-plus-square"></i></span>
-              <span onclick="loginWithKakao()"><img src="<%=request.getContextPath() %>/images/kakaobutton.png" class="kakaobutton"></span>
+             <!--   <span onclick="loginWithKakao()"><img src="<%=request.getContextPath() %>/images/kakaobutton.png" class="kakaobutton"></span>
               <input type="hidden" id="kakao-email" >
+              -->
               <!-- <div class="fa fa-google-plus-square" data-onsuccess="onSignIn" data-theme="dark" id="myP"></div> -->
           </div>
 
