@@ -22,6 +22,50 @@
 --PARKING_SEOUL ps_parking_code, ps_addr, ps_parking_name, ps_latitude, ps_longitude
 -----------------------------------------------------------------------------------
 
+--주소 검색 자동기능 (주소+주차장명으로 가능하도록)
+--사업자 테이블parking_owner
+--사업자번호pk, parckingcode fk,
+
+--공간테이블:  사업자번호 fk, 시작끝 시간, usercode
+-- parking에 1,0 주차가능/불가능
+
+-- api에서 사용자가 검색한 각 주차장들에 대해 (주차가능 대수 - 공간테이블 count) >0 이면 
+-- 지도상에 주차가능 표시, 작으면 주차불가능표시
+-- hidden input에 usercode parkingcode, 시작시간 등 데이터 넘겨서 ,
+--insert into parking_space 주차공간 테이블
+
+CREATE TABLE PARKING_OWNER(
+  owner_business_no CHAR(6) NOT NULL, --6자리 숫자
+  owner_parking_code CHAR(7) NOT NULL
+);
+COMMENT ON COLUMN PARKING_OWNER.owner_business_no IS '주차장사업자번호';
+COMMENT ON COLUMN PARKING_OWNER.owner_parking_code IS '주차장코드';
+
+ALTER TABLE PARKING_OWNER
+  ADD CONSTRAINT pk_parking_owner PRIMARY KEY(owner_business_no);
+ALTER TABLE PARKING_OWNER
+  ADD CONSTRAINT fk_parkowner_ps FOREIGN KEY(owner_parking_code) REFERENCES PARKING_SEOUL(ps_parking_code) ON DELETE CASCADE;
+
+CREATE TABLE PARKING_SLOT(
+  slot_business_no CHAR(6) NOT NULL,
+  slot_user_code CHAR(6) NOT NULL,
+  slot_begin_time DATE DEFAULT SYSDATE,
+  slot_end_time DATE
+);
+COMMENT ON COLUMN PARKING_SLOT.slot_business_no IS '주차장사업자번호';
+COMMENT ON COLUMN PARKING_SLOT.slot_user_code IS '회원코드';
+COMMENT ON COLUMN PARKING_SLOT.slot_begin_time IS '주차시작시간';
+COMMENT ON COLUMN PARKING_SLOT.slot_end_time IS '주차종료시간';
+
+ALTER TABLE PARKING_SLOT
+  ADD CONSTRAINT fk_parkingslot_owner FOREIGN KEY(slot_business_no) REFERENCES PARKING_OWNER(owner_business_no) ON DELETE CASCADE;
+
+ALTER TABLE PARKING_SLOT
+  ADD CONSTRAINT fk_parkingslot_user FOREIGN KEY(slot_user_code) REFERENCES MEMBER(user_code) ON DELETE CASCADE;
+
+
+
+
 SELECT user_code, user_email, user_pw, user_phone, user_name, user_addr,
   TO_CHAR(user_created_date, 'yyyy-MM-dd hh24:mi:ss') AS created_date,
   TO_CHAR(user_login_date, 'yyyy-MM-dd hh24:mi:ss') AS login_date,
