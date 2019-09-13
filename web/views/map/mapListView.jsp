@@ -7,58 +7,6 @@
 <% List<Parking> list = (List)request.getAttribute("list"); %>
 
 <!-- overflow:auto 사용하여 list 내용이 잘릴때 스크롤 사용  -->
-<!-- <script type="text/javascript">
-
-    $( function() {
-      $( "#datepicker1" ).datepicker({minDate:0});
-    } );
-
-    $( function() {
-      $( "#datepicker2" ).datepicker({minDate:0});
-    } );
-
-    ---------------------------------------------------
-    $(document).ready(function () {
-            $.datepicker.setDefaults($.datepicker.regional['ko']); 
-            $( "#startDate" ).datepicker({
-                 changeMonth: true, 
-                 changeYear: true,
-                 nextText: '다음 달',
-                 prevText: '이전 달', 
-                 dayNames: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'],
-                 dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'], 
-                 monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-                 monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-                 dateFormat: "yymmdd",
-                 maxDate: 0,                       // 선택할수있는 최소날짜, ( 0 : 오늘 이후 날짜 선택 불가)
-                 onClose: function( selectedDate ) {    
-                      //시작일(startDate) datepicker가 닫힐때
-                      //종료일(endDate)의 선택할수있는 최소 날짜(minDate)를 선택한 시작일로 지정
-                     $("#endDate").datepicker( "option", "minDate", selectedDate );
-                 }    
- 
-            });
-            $( "#endDate" ).datepicker({
-                 changeMonth: true, 
-                 changeYear: true,
-                 nextText: '다음 달',
-                 prevText: '이전 달', 
-                 dayNames: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'],
-                 dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'], 
-                 monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-                 monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-                 dateFormat: "yymmdd",
-                 maxDate: 0,                       // 선택할수있는 최대날짜, ( 0 : 오늘 이후 날짜 선택 불가)
-                 onClose: function( selectedDate ) {    
-                     // 종료일(endDate) datepicker가 닫힐때
-                     // 시작일(startDate)의 선택할수있는 최대 날짜(maxDate)를 선택한 시작일로 지정
-                     $("#startDate").datepicker( "option", "maxDate", selectedDate );
-                 }    
- 
-            });    
-    });
-</script> -->
-
 
 <style>
 .site-header {
@@ -111,23 +59,22 @@ ul li {
 .width {
 	width: 80px;
 }
-#listScroll
-{
+
+#listScroll {
 	overflow: scroll;
 }
-
-
-
 </style>
-
 <body>
 
-	<div class="">
+	<div class="container-fluid">
+
 		<!-- row h-100 mt-1 pt-2 -->
-		<div class="card-deck text-center">
+		<div class="card-deck text-center container-fluid"
+			style="margin-top: 51px;">
 
 			<!--상단div_1-->
 			<div class="shadow-sm col-sm-3">
+
 				<!--card / shadow-sm -->
 				<div class="card-body align-left">
 					<label for="firstName">From</label>
@@ -137,8 +84,9 @@ ul li {
 						<option class="">Start Time</option>
 					</select> <label for="firstName" class="mt-3">To</label>
 					<!--To-->
-					<input type="text" class="form-control" id="datepicker_end">
-					<select name="" class="custom-select d-block w-100">
+					<input type="text" class="form-control" id="datepicker_end"
+						size="20"> <select name=""
+						class="custom-select d-block w-100">
 						<option>End Time</option>
 					</select> <label class="mt-3">Sort By</label> <select name="sort by"
 						class="custom-select d-block w-100">
@@ -159,79 +107,78 @@ ul li {
 						<option>Illigal Scan</option>
 						<option>Valet</option>
 						<option>Wheelchair Accessible</option>
-					</select>
+					</select> <span class="mt-3 pb-5">Duration : 1D2H</span>
+				</div>
 
-					<div class="mt-3 pb-5">Duration : 1D2H</div>
+				<!--하단 list-->
+				<div class="card shadow-sm text-left" id="listScroll">
+					<a class="list-group-item list-group-item-action"> <img
+						src=".jpg"> <span> <span>Hyatt Place -
+								Uncovered Self Park 110.9 miles away Hyatt Place - Uncovered
+								Self Park 110.9 miles away Hyatt Place - Uncovered Self Park
+								110.9 miles away
+								<button>$14.70</button>
+								<button>Reserve</button>
+						</span>
+					</span>
+					</a> <a class="list-group-item list-group-item-action"> <img
+						src=".jpg"> <span> <span>Hyatt Place -
+								Uncovered Self Park</span> <span>110.9 miles away</span> <span><button>$14.70</button>
+								<button>Reserve</button></span>
+					</span>
+					</a> <a class="list-group-item list-group-item-action"> <img
+						src=".jpg"> <span> <span>Hyatt Place -
+								Uncovered Self Park</span> <span>110.9 miles away</span> <span><button>$14.70</button>
+								<button>Reserve</button></span>
+					</span>
+					</a>
+
+
 
 				</div>
+
+
 			</div>
 
-			<!-- div class="container"-->
-			<!-- div class="card-deck text-center"-->
+			<style>
+.style_width {
+	width: 100%;
+}
+</style>
 
 
-			<!--상단div_2-->
-			<!--div class="shadow-sm col-sm-9 "-->
-			<!--card / shadow-sm ml-2-->
+
 			<!--지도 API-->
 			<div class="shadow-sm col-sm-9" id="map"></div>
 			<!-- style="width:950px;height:500px;" -->
 			<script type="text/javascript"
 				src="//dapi.kakao.com/v2/maps/sdk.js?appkey=002ce24c1581207f304dfb0ead53db42"></script>
 			<script>
-		var container = document.getElementById('map');
-		var options = {
-			center: new kakao.maps.LatLng(33.450701, 126.570667),
-			level: 3
-		};
+         var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+            mapOption = {
+               center : new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+               level : 3,
+               /* mapTypeId: new kakao.maps.MapTypeId(SKYVIEW) */
+            // 지도의 확대 레벨
+            };
 
-		var map = new kakao.maps.Map(container, options);
-	</script>
+            var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+            // 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성합니다
+            var mapTypeControl = new kakao.maps.MapTypeControl();
+
+            // 지도에 컨트롤을 추가해야 지도위에 표시됩니다
+            // kakao.maps.ControlPosition은 컨트롤이 표시될 위치를 정의하는데 TOPRIGHT는 오른쪽 위를 의미합니다
+            map.addControl(mapTypeControl,
+                  kakao.maps.ControlPosition.TOPRIGHT);
+
+            // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+            var zoomControl = new kakao.maps.ZoomControl();
+            map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+   </script>
 
 		</div>
 	</div>
-	<!-- </div> -->
-
-	<!--하단 list-->
-	<div class="card shadow-sm text-left" id="listScroll" style="height:300px;">
-		<%if(list != null){ %>
-		<% System.out.println(list.size()); %>
-		<%for(int i = 0; i < list.size(); i++){ %>
-
-		<a class="list-group-item list-group-item-action col-sm-4"> <img src=".jpg">
-			<span> <span>Hyatt Place - Uncovered Self Park</span> <span>110.9
-					miles away</span> <span>
-					<button>$14.70</button>
-					<button>Reserve</button>
-			</span>
-		</span>
-		</a>
-		<%} %>
-		<%
-			}
-		%>
-		<!-- <a class="list-group-item list-group-item-action"> <img src=".jpg">
-			<span> <span>Hyatt Place - Uncovered Self Park</span> <span>110.9
-					miles away</span> <span>
-					<button>$14.70</button>
-					<button>Reserve</button>
-			</span>
-		</span>
-		</a> <a class="list-group-item list-group-item-action"> <img
-			src=".jpg"> <span> <span>Hyatt Place - Uncovered
-					Self Park</span> <span>110.9 miles away</span> <span> <input
-					type="button" value="$14.70">
-					<button>Reserve</button>
-			</span>
-		</span>
-		</a> -->
-	</div>
-
-
-
-
-
-
 </body>
 
 
@@ -239,28 +186,26 @@ ul li {
 
 
 <script>
-	
-	$(document).ready(
-			function() {
-				$("#datepicker_start").datepicker(
-						{
-							numberOfMonths : 1,
-							minDate : 0,
-							onSelect : function(selected) {
-								$("#datepicker_end").datepicker("option",
-										"minDate", selected)
-							}
-						});
-
-				$("#datepicker_end").datepicker(
-						{
-							numberOfMonths : 1,
-							minDate : 0,
-							onSelect : function(selected) {
-								$("#datepicker_start").datepicker("option",
-										"maxDate", selected)
-							}
-						});
-			});
+   $(document).ready(
+      function() {
+         $("#datepicker_start").datepicker(
+            {
+               numberOfMonths : 1,
+               minDate : 0,
+               onSelect : function(selected) {
+                  $("#datepicker_end").datepicker("option", "minDate", selected)
+               }
+            });
+         $("#datepicker_end").datepicker(
+            {
+               numberOfMonths : 1,
+               minDate : 0,
+               onSelect : function(selected) {
+                  $("#datepicker_start").datepicker("option", "maxDate", selected)
+               }
+            });
+         });
 </script>
-<%@ include file="../common/footer.jsp"%>
+<!-- %@ include file="../common/footer.jsp"%-->
+
+

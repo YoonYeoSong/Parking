@@ -38,6 +38,9 @@ public class MapListViewServlet extends HttpServlet {
 		ParkingApiService parkingService = new ParkingApiService();
 		//주소 네임을 가져와서 서비스로 넘겨주고 데이터를 담는다
 		List<Parking> list = parkingService.selectParkingList(search);
+		System.out.println("리스트 사이즈 : " +list.size());
+		
+		
 
 		if(list.get(0) != null)
 		{
