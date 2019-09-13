@@ -182,14 +182,14 @@
           <img class="" width="100%" height="100%" src="<%=request.getContextPath()%>/images/about1.jpg" alt="">
           <div class="container">
             <div class="carousel-caption text-center text-dark">
-              <p class='h2 font-weight-bold'>About</p><br>
+              <p class='h2 font-weight-bold'>About Us</p><br>
               <p class='about-text'>The leading provider of parking reservations. Drivers plan and commute smarter by booking guaranteed parking in advance. </p>
               <p class='text-left'>
                 <button class="learn-more" onclick="location.href='<%=request.getContextPath() %>/views/aboutView.jsp'" >
                   <div class="circle">
                     <span class="icon arrow"></span>
                   </div>
-                  <p class="button-text">About</p>
+                  <p class="button-text">About Us</p>
                 </button>
               </p>
             </div>
@@ -199,7 +199,7 @@
           <img class="" width="100%" height="100%" src="<%=request.getContextPath() %>/images/about2.jpg" alt="">
           <div class="container">
             <div class="carousel-caption text-center text-dark">
-              <p class='h2 font-weight-bold'>About</p><br>
+              <p class='h2 font-weight-bold'>About Us</p><br>
               <p class='about-text'>Customers are empowered with the ability to search and compare thousands of 
                 parking options and prices in 25 areas.
               </p>
@@ -208,7 +208,7 @@
                   <div class="circle">
                     <span class="icon arrow"></span>
                   </div>
-                  <p class="button-text">About</p>
+                  <p class="button-text">About Us</p>
                 </button>
               </p>
             </div>
@@ -218,14 +218,14 @@
           <img class="" width="100%" height="100%" src="<%=request.getContextPath()%>/images/about3.jpg" alt="">
           <div class="container">
             <div class="carousel-caption text-center text-dark">
-              <p class='h2 font-weight-bold'>About</p><br>
+              <p class='h2 font-weight-bold'>About Us</p><br>
               <p class='about-text'>Drivers can easily book a spot ahead of time at parking lots, garages, and valets in their city, or they can reserve on-the-go with the company’s award-winning mobile app for iOS and Android.</p>
               <p class='text-left'>
                 <button class="learn-more" onclick="location.href='<%=request.getContextPath() %>/views/aboutView.jsp'" >
                   <div class="circle">
                     <span class="icon arrow"></span>
                   </div>
-                  <p class="button-text">About</p>
+                  <p class="button-text">About Us</p>
                 </button>
               </p>
             </div>
