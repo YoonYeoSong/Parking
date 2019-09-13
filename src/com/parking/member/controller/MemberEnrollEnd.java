@@ -47,9 +47,6 @@ public class MemberEnrollEnd extends HttpServlet {
 	  Date createdDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 	  Date loginDate = null;
 
-	  String company = email.substring(email.indexOf('@'), email.indexOf('.'));
-	  System.out.println(company);
-
 	  Member m = new Member(userCode, email, pwEnroll, phone, userName, userAddr,
                           createdDate, loginDate, smsYn, emailYn, emailVerified, snsAccount);
 
