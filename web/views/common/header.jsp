@@ -85,6 +85,9 @@
   .goog-te-gadget-simple  {
     border: 1px solid rgba(255, 255, 255, .0);
   }
+  .nav-item{
+    color: #B8C8D6 !important;
+  }
   </style>
 
 </head>
@@ -125,7 +128,14 @@
             </li> -->
 
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle menu-item mt-1 mr-0" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Help</a>
+              <a class="nav-link dropdown-toggle menu-item mt-1 mr-0 text-white" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-globe"></i></a>
+
+              <div class="dropdown-menu mt-1" aria-labelledby="dropdown01">
+                <div id="google_translate_element" class="dropdown-item fa fa-globe"></div>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle menu-item mt-1 mr-0 text-white" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Help</a>
 
               <div class="dropdown-menu mt-1" aria-labelledby="dropdown01">
                 <a class="dropdown-item" href="<%=request.getContextPath() %>/views/helpView.jsp" ><i class="fa fa-info-circle">&nbsp;&nbsp;</i>Help</a>
@@ -133,10 +143,9 @@
               </div>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle menu-item mt-1 mr-2" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%=dropdownTxt %></a>
+              <a class="nav-link dropdown-toggle menu-item mt-1 mr-2 text-white" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%=dropdownTxt %></a>
 
               <div class="dropdown-menu mt-1" aria-labelledby="dropdown01">
-                <div id="google_translate_element" class="dropdown-item fa fa-globe"></div>
               <% if(loginMember != null 
                   && loginMember.getUserEmail().equals("admin@com")) { %>
                 <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-list">&nbsp;&nbsp;</i>Member List</a>

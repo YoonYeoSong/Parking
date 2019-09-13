@@ -181,7 +181,6 @@
           }
         );
       });
-      
 
       // if(document.getElementById('googleSignIn') != null){
       //   element = document.getElementById('googleSignIn');
