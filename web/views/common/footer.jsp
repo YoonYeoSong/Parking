@@ -37,7 +37,7 @@
       </ul>
       </div>
       <div class="col-6 col-md">
-      <p class='h5'>About</p>
+      <p class='h5'>About Us</p>
       <ul class="list-unstyled text-small">
         <li><a class="text-muted" href="#">Team</a></li>
         <li><a class="text-muted" href="#">Locations</a></li>

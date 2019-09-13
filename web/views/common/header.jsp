@@ -55,6 +55,7 @@
   <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   <link rel="stylesheet" href="<%=request.getContextPath() %>/css/mainpage.css">
   <link rel="stylesheet" href="<%=request.getContextPath() %>/css/button.css">
+  <link rel="stylesheet" href="<%=request.getContextPath() %>/css/translate.css">
   
   <!-- JQUERY -->
   <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -66,6 +67,26 @@
   <!-- 카카오 -->
   <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
   
+  <script>
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement(
+      {
+        pageLanguage: 'en',
+        includedLanguages: 'en,es,ja,ko,pt,ru,zh-CN,zh-TW',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        autoDisplay: false
+      },'google_translate_element'
+    );
+  }
+  </script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+  <style>
+  .goog-te-gadget-simple  {
+    border: 1px solid rgba(255, 255, 255, .0);
+  }
+  </style>
+
 </head>
 <body>
   <!-- navigation bar -->
@@ -88,16 +109,23 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapsible">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a href="<%=request.getContextPath() %>/views/common/papagoApi.jsp" class="nav-link menu-item">
-                  <i class="fa fa-language"></i>&nbsp;번역
-                </a>
-            </li>
-            <li class="nav-item">
-              <a href="<%=request.getContextPath() %>/views/aboutView.jsp" class="nav-link menu-item">About</a>
-            </li>
+
+            
+            
+            <!-- <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle menu-item mt-1 mr-0" href="#" id="dropdown_lang" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Papago</a>
+
+              <div class="dropdown-menu mt-1" >
+                <a class="dropdown-item" href="<%=request.getContextPath() %>/views/common/papagoApi.jsp"><i class="fa fa-language">&nbsp;&nbsp;</i>Papago</a>
+              </div>
+            </li> -->
+
+            <!-- <li class="nav-item">
+              <a href="<%=request.getContextPath() %>/views/aboutView.jsp" class="nav-link menu-item mt-1">About Us</a>
+            </li> -->
+
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle menu-item mr-2" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Help</a>
+              <a class="nav-link dropdown-toggle menu-item mt-1 mr-0" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Help</a>
 
               <div class="dropdown-menu mt-1" aria-labelledby="dropdown01">
                 <a class="dropdown-item" href="<%=request.getContextPath() %>/views/helpView.jsp" ><i class="fa fa-info-circle">&nbsp;&nbsp;</i>Help</a>
@@ -105,9 +133,10 @@
               </div>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle menu-item mr-2" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%=dropdownTxt %></a>
+              <a class="nav-link dropdown-toggle menu-item mt-1 mr-2" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%=dropdownTxt %></a>
 
               <div class="dropdown-menu mt-1" aria-labelledby="dropdown01">
+                <div id="google_translate_element" class="dropdown-item fa fa-globe"></div>
               <% if(loginMember != null 
                   && loginMember.getUserEmail().equals("admin@com")) { %>
                 <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-list">&nbsp;&nbsp;</i>Member List</a>
@@ -141,8 +170,7 @@
                 * @param {string} [method=post] the method to use on the form
                 */
 
-                function mypageLoad(urlMapping, params){
-                  var form = $("<form>");
+                function mypageLoad(urlMapping, params){ var form = $("<form>");
                   form.attr({"method": "POST",
                              "action" : urlMapping,
                   });
@@ -165,7 +193,7 @@
             <% if(loginMember != null) {%>
               <li class="nav-item">
                 <form action="<%=request.getContextPath() %>/logout" method="post">
-                  <button type="submit" class="btn btn-sm btn-outline-light mt-1 mr-1" onclick="return logoutSnsAccount();">Log Out</button>
+                  <button type="submit" class="btn btn-sm btn-outline-light mt-2 mr-1" onclick="return logoutSnsAccount();">Log Out</button>
                 </form>
               </li>
 
@@ -179,11 +207,11 @@
             <%} else{%>
               <li class="nav-item">
                 <form action="<%=request.getContextPath() %>/views/member/loginView.jsp" method="post">
-                  <button type="submit" class="btn btn-sm btn-outline-light mt-1 mr-1">Log In</button>
+                  <button type="submit" class="btn btn-sm btn-outline-light mt-2 mr-1">Log In</button>
                 </form>
               </li>
               <li class="nav-item">
-                  <button class="btn btn-sm btn-outline-light mt-1" onclick='location.href="<%=request.getContextPath() %>/memberEnroll"'>Sign Up</button>
+                  <button class="btn btn-sm btn-outline-light mt-2" onclick='location.href="<%=request.getContextPath() %>/memberEnroll"'>Sign Up</button>
               </li>
             <%} %>
           </ul>

@@ -2,12 +2,14 @@ package common.api;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.Properties;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -51,11 +53,16 @@ public class PapagoNMTApi extends HttpServlet {
 
 // nmtReturnResult의 함수를 통해서 한글 - > 영어로 번역
   private String nmtReturnRseult(String original_str){
+    Properties prop = new Properties();
+    try {
+      String path = PapagoNMTApi.class.getResource("config.properties").getPath();
+      prop.load(new FileReader(path));
+    } catch(IOException e) {
+      e.printStackTrace();
+    }
     
-    //애플리케이션 클라이언트 아이디값";
-    String clientId = "9z0MKAY3Nggwp3JGSB7I";
-    //애플리케이션 클라이언트 시크릿값";
-    String clientSecret = "SjYqcHQ9q2";
+    String clientId = prop.getProperty("client_id_papago"); //애플리케이션 클라이언트 아이디값";
+    String clientSecret = prop.getProperty("client_secret_papago"); //애플리케이션 클라이언트 시크릿값";
     
     String resultString ="";
     try {
