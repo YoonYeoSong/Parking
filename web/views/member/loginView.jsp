@@ -38,7 +38,7 @@
             <img id="myImg"><br>
             <div id="name" class="text-white"></div>
             <!-- <div id="status"></div> -->
-            <button id="googleLogoutBtn" onclick="googleLogout()" class="btn btn-sm btn-outline-light mt-1 mr-1">Google Log Out</button>
+            <!-- <button id="googleLogoutBtn" onclick="googleLogout()" class="btn btn-sm btn-outline-light mt-1 mr-1">Google Log Out</button> -->
           </div>
         </div>
         <div class="card-body">
