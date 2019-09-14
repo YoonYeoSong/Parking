@@ -16,13 +16,16 @@ public class Member {
   private int userEmailYn;
   private int userEmailVerified;
   private String userSnsAccount;
+  private String userOriginalFilename;
+  private String userRenamedFilename;
 
   public Member() {
     // TODO Auto-generated constructor stub
   }
   
   public Member(String userCode, String userEmail, String userPw, String userPhone, String userName, String userAddr,
-      Date userCreatedDate, Date userLoginDate, int userSmsYn, int userEmailYn, int userEmailVerified, String userSnsAccount) {
+      Date userCreatedDate, Date userLoginDate, int userSmsYn, int userEmailYn, int userEmailVerified, String userSnsAccount,
+      String userOriginalFilename, String userRenamedFilename) {
     super();
     this.userCode = userCode;
     this.userEmail = userEmail;
@@ -36,6 +39,8 @@ public class Member {
     this.userEmailYn = userEmailYn;
     this.userEmailVerified = userEmailVerified;
     this.userSnsAccount = userSnsAccount;
+    this.userOriginalFilename = userOriginalFilename;
+    this.userRenamedFilename = userRenamedFilename;
   }
   
   @Override
@@ -47,7 +52,8 @@ public class Member {
 
     return "Member [userCode=" + userCode + ", userEmail=" + userEmail + ", userPw=" + userPw + ", userPhone=" + userPhone + ", userName="
         + userName + ", userAddr=" + userAddr + ", userCreatedDate=" + user_created_date + ", userLoginDate=" + user_login_date + ", userSmsYn="
-        + userSmsYn + ", userEmailYn=" + userEmailYn + ", userEmailVerified=" + userEmailVerified + ", userSnsAccount="+ userSnsAccount + "]";
+        + userSmsYn + ", userEmailYn=" + userEmailYn + ", userEmailVerified=" + userEmailVerified + ", userSnsAccount="
+        + userSnsAccount + ", userOriginalFilename=" + userOriginalFilename + ",userRenamedFilename=" + userRenamedFilename  + "]";
   }
   
   
@@ -75,5 +81,10 @@ public class Member {
   public int getUserEmailVerified() { return userEmailVerified; } 
   public void setUserEmailVerified(int userEmailVerified) { this.userEmailVerified = userEmailVerified; }
   public String getUserSnsAccount() { return userSnsAccount; } 
-  public void setUserSnsAccount(String userSnsAccount) { this.userSnsAccount = userSnsAccount; } 
+  public void setUserSnsAccount(String userSnsAccount) { this.userSnsAccount = userSnsAccount; }
+  public String getUserOriginalFilename() { return userOriginalFilename; } 
+  public void setUserOriginalFilename(String userOriginalFilename) { this.userOriginalFilename = userOriginalFilename; } 
+  public String getUserRenamedFilename() { return userRenamedFilename; } 
+  public void setUserRenamedFilename(String userRenamedFilename) { this.userRenamedFilename = userRenamedFilename; } 
+
 }

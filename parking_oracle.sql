@@ -34,49 +34,17 @@
 -- hidden input에 usercode parkingcode, 시작시간 등 데이터 넘겨서 ,
 --insert into parking_space 주차공간 테이블
 
-CREATE TABLE PARKING_OWNER(
-  owner_business_no CHAR(6) NOT NULL, --6자리 숫자
-  owner_parking_code CHAR(7) NOT NULL
-);
-COMMENT ON COLUMN PARKING_OWNER.owner_business_no IS '주차장사업자번호';
-COMMENT ON COLUMN PARKING_OWNER.owner_parking_code IS '주차장코드';
-
-ALTER TABLE PARKING_OWNER
-  ADD CONSTRAINT pk_parking_owner PRIMARY KEY(owner_business_no);
-ALTER TABLE PARKING_OWNER
-  ADD CONSTRAINT fk_parkowner_ps FOREIGN KEY(owner_parking_code) REFERENCES PARKING_SEOUL(ps_parking_code) ON DELETE CASCADE;
-
-CREATE TABLE PARKING_SLOT(
-  slot_business_no CHAR(6) NOT NULL,
-  slot_user_code CHAR(6) NOT NULL,
-  slot_begin_time DATE DEFAULT SYSDATE,
-  slot_end_time DATE
-);
-COMMENT ON COLUMN PARKING_SLOT.slot_business_no IS '주차장사업자번호';
-COMMENT ON COLUMN PARKING_SLOT.slot_user_code IS '회원코드';
-COMMENT ON COLUMN PARKING_SLOT.slot_begin_time IS '주차시작시간';
-COMMENT ON COLUMN PARKING_SLOT.slot_end_time IS '주차종료시간';
-
-ALTER TABLE PARKING_SLOT
-  ADD CONSTRAINT fk_parkingslot_owner FOREIGN KEY(slot_business_no) REFERENCES PARKING_OWNER(owner_business_no) ON DELETE CASCADE;
-
-ALTER TABLE PARKING_SLOT
-  ADD CONSTRAINT fk_parkingslot_user FOREIGN KEY(slot_user_code) REFERENCES MEMBER(user_code) ON DELETE CASCADE;
-
-
-
-
 SELECT user_code, user_email, user_pw, user_phone, user_name, user_addr,
   TO_CHAR(user_created_date, 'yyyy-MM-dd hh24:mi:ss') AS created_date,
   TO_CHAR(user_login_date, 'yyyy-MM-dd hh24:mi:ss') AS login_date,
-  user_sms_yn, user_email_yn, user_email_verified, user_sns_account
+  user_sms_yn, user_email_yn, user_email_verified, user_sns_account, user_original_filename, user_renamed_filename
 FROM MEMBER;
 --DELETE FROM MEMBER;
-select * from member where user_email='admin@com';
+--select * from member where user_email='admin@com';
 SELECT * FROM TAB;
 --update member set email='dbsduthd123@nate.com' where user_code='482581';
 
---delete from member where user_email='lopehih@gmail.com';
+--delete from member where user_email='';
 COMMIT;
 --update member set created_date=TO_DATE('2019/08/26 01:30:44', 'yyyy/mm/dd hh24:mi:ss') where user_code='482581';
 
@@ -124,6 +92,8 @@ COMMIT;
 SELECT * FROM user_constraints WHERE table_name IN
   ('MEMBER', 'USERHISTORY', 'CAR', 'PAYMENTHISTORY', 'REVIEW', 'QNABOARD', 'NOTICE', 'BOOKMARK', 'COUPON');
 
+ALTER table member add (user_original_filename varchar2(100), user_renamed_filename varchar2(100));
+
 CREATE TABLE MEMBER (
   user_code CHAR(6) NOT NULL,
   user_email VARCHAR2(50) NOT NULL,
@@ -136,7 +106,9 @@ CREATE TABLE MEMBER (
   user_sms_yn NUMBER(1,0) NOT NULL,
   user_email_yn NUMBER(1,0) NOT NULL,
   user_email_verified NUMBER(1,0) DEFAULT 0,
-  user_sns_account VARCHAR(3) DEFAULT 'N/A'
+  user_sns_account VARCHAR(3) DEFAULT 'N/A',
+  user_original_filename VARCHAR2(100),
+  user_renamed_filename VARCHAR2(100)
 );
 
 COMMENT ON COLUMN MEMBER.user_code IS '회원코드';
@@ -151,6 +123,8 @@ COMMENT ON COLUMN MEMBER.user_sms_yn IS '문자 수신여부(1/0)';
 COMMENT ON COLUMN MEMBER.user_email_yn IS '이메일 수신여부(1/0)';
 COMMENT ON COLUMN MEMBER.user_email_verified IS '이메일 인증여부(1/0)';
 COMMENT ON COLUMN MEMBER.user_sns_account IS 'SNS계정여부(Google/Facebook/Kakao/ N/A)';
+COMMENT ON COLUMN MEMBER.user_original_filename IS '첨부파일 원래이름';
+COMMENT ON COLUMN MEMBER.user_renamed_filename IS '첨부파일 변경이름';
 
 ALTER TABLE MEMBER 
   ADD CONSTRAINT pk_user PRIMARY KEY(user_code);
@@ -192,6 +166,35 @@ COMMENT ON COLUMN PARKING_SEOUL.ps_longitude IS '주차장경도(0~180)';
 --SELECT * FROM COUPON;
 ALTER TABLE PARKING_SEOUL
   ADD CONSTRAINT pk_ps PRIMARY KEY(ps_parking_code);
+
+CREATE TABLE PARKING_OWNER(
+  owner_business_no CHAR(6) NOT NULL, --6자리 숫자
+  owner_parking_code CHAR(7) NOT NULL
+);
+COMMENT ON COLUMN PARKING_OWNER.owner_business_no IS '주차장사업자번호';
+COMMENT ON COLUMN PARKING_OWNER.owner_parking_code IS '주차장코드';
+
+ALTER TABLE PARKING_OWNER
+  ADD CONSTRAINT pk_parking_owner PRIMARY KEY(owner_business_no);
+ALTER TABLE PARKING_OWNER
+  ADD CONSTRAINT fk_parkowner_ps FOREIGN KEY(owner_parking_code) REFERENCES PARKING_SEOUL(ps_parking_code) ON DELETE CASCADE;
+
+CREATE TABLE PARKING_SLOT(
+  slot_business_no CHAR(6) NOT NULL,
+  slot_user_code CHAR(6) NOT NULL,
+  slot_begin_time DATE DEFAULT SYSDATE,
+  slot_end_time DATE
+);
+COMMENT ON COLUMN PARKING_SLOT.slot_business_no IS '주차장사업자번호';
+COMMENT ON COLUMN PARKING_SLOT.slot_user_code IS '회원코드';
+COMMENT ON COLUMN PARKING_SLOT.slot_begin_time IS '주차시작시간';
+COMMENT ON COLUMN PARKING_SLOT.slot_end_time IS '주차종료시간';
+
+ALTER TABLE PARKING_SLOT
+  ADD CONSTRAINT fk_parkingslot_owner FOREIGN KEY(slot_business_no) REFERENCES PARKING_OWNER(owner_business_no) ON DELETE CASCADE;
+
+ALTER TABLE PARKING_SLOT
+  ADD CONSTRAINT fk_parkingslot_user FOREIGN KEY(slot_user_code) REFERENCES MEMBER(user_code) ON DELETE CASCADE;
 
 
 --DROP TABLE USERHISTORY CASCADE CONSTRAINTS;

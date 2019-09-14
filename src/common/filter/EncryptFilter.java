@@ -16,8 +16,12 @@ import common.filter.wrapper.EncryptWrapper;
 /**
  * Servlet Filter implementation class EncryptFilter
  */
-@WebFilter(servletNames = { /* "MemberLogin", */
-              "MemberEnroll", "UpdatePassword",
+@WebFilter(servletNames = { "MemberEnroll",
+                            "UpdatePassword"
+                            /* "MemberLogin", */ 
+// our encryption algorithm will have different hashed pw
+// each time it encrypts a user login password input,
+// therefore we will validate user pw in LoginServlet.
                           })
 public class EncryptFilter implements Filter {
 

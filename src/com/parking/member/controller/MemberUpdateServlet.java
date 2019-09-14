@@ -12,16 +12,16 @@ import com.parking.member.model.service.MemberService;
 import com.parking.member.model.vo.Member;
 
 /**
- * Servlet implementation class BookmarkViewServlet
+ * Servlet implementation class MemberUpdateServlet
  */
-@WebServlet("/member/accountView")
-public class AccountViewServlet extends HttpServlet {
+@WebServlet("/member/memberUpdate")
+public class MemberUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AccountViewServlet() {
+    public MemberUpdateServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,11 +30,7 @@ public class AccountViewServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	  String userCode = request.getParameter("userCode");
-	  Member m = new MemberService().selectUserCode(userCode);
-
-	  request.setAttribute("loginMember", m);
-	  request.getRequestDispatcher("/views/member/accountView.jsp").forward(request, response);
+	  request.getRequestDispatcher("/views/member/memberUpdateView.jsp").forward(request, response);
 	}
 
 	/**

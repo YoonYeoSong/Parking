@@ -13,7 +13,7 @@
         <% if(loginMember!=null && loginMember.getUserEmail().equals("admin@com")){ %>
           <a href="<%=request.getContextPath() %>/admin/memberList" class="list-group-item">Member List</a>
           <% } else { %>
-          <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('/member/accountView');">Account Settings</a>
+          <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('/member/memberView');">Account Settings</a>
           <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('/bookmark/bookmarkView');">Bookmark</a>
           <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('/board/review');">My Reviews</a>
           <a href="#" class="list-group-item">Payment Methods</a>

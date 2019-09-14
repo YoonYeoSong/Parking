@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.Map;
 import java.util.Properties;
 
 import com.parking.member.model.vo.Member;
@@ -61,6 +62,8 @@ public class MemberDao {
         m.setUserSmsYn(rs.getInt("user_sms_yn"));
         m.setUserEmailYn(rs.getInt("user_email_yn"));
         m.setUserEmailVerified(rs.getInt("user_email_verified"));
+        m.setUserOriginalFilename(rs.getString("user_original_filename"));
+        m.setUserRenamedFilename(rs.getString("user_renamed_filename"));
       }
     } catch(SQLException e) {
       e.printStackTrace();
@@ -113,7 +116,9 @@ public class MemberDao {
       pstmt.setInt(10, m.getUserEmailYn());
       pstmt.setInt(11, m.getUserEmailVerified());
       pstmt.setString(12, m.getUserSnsAccount());
-      //insertMember=insert into member values(?,?,?,?,?,?,?,?,?,?,?,?)
+      pstmt.setString(13, m.getUserOriginalFilename());
+      pstmt.setString(14, m.getUserRenamedFilename());
+      //insertMember=insert into member values(?,?,?,?,?,?,?,?,?,?,?,?, ?,?)
 
       result = pstmt.executeUpdate();
 
@@ -161,6 +166,8 @@ public class MemberDao {
         m.setUserEmailYn(rs.getInt("user_email_yn"));
         m.setUserEmailVerified(rs.getInt("user_email_verified"));
         m.setUserSnsAccount(rs.getString("user_sns_account"));
+        m.setUserOriginalFilename(rs.getString("user_original_filename"));
+        m.setUserRenamedFilename(rs.getString("user_renamed_filename"));
       }
     } catch(SQLException e) {
       e.printStackTrace();
@@ -198,6 +205,50 @@ public class MemberDao {
     return logged;
   }
 
+  public int updateMember(Connection conn, Member m, Map<String, String> newAttr) {
+    PreparedStatement pstmt = null;
+    int result = 0;
+    String sql = prop.getProperty("updateMember");
+    
+    String userPhone = newAttr.get("userPhone");
+    String userName = newAttr.get("userName");
+    String userAddr = newAttr.get("userAddr");
+    int userSmsYn = Integer.parseInt(newAttr.get("userSmsYn"));
+    int userEmailYn = Integer.parseInt(newAttr.get("userEmailYn"));
+    String ori = newAttr.get("ori");
+    String re = newAttr.get("re");
+    String userCode = m.getUserCode();
+    
+    try {
+      pstmt = conn.prepareStatement(sql);
+
+      pstmt.setString(1, userPhone);
+      pstmt.setString(2, userName);
+      pstmt.setString(3, userAddr);
+      pstmt.setInt(4, userSmsYn);
+      pstmt.setInt(5, userEmailYn);
+      pstmt.setString(6, ori);
+      pstmt.setString(7, re);
+      pstmt.setString(8, userCode);
+
+      result = pstmt.executeUpdate();
+
+    } catch(SQLException e) {
+      e.printStackTrace();
+    } finally {
+      close(pstmt);
+    }
+    
+    m.setUserPhone(userPhone);
+    m.setUserName(userName);
+    m.setUserAddr(userAddr);
+    m.setUserSmsYn(userSmsYn);
+    m.setUserEmailYn(userEmailYn);
+    m.setUserOriginalFilename(ori);
+    m.setUserRenamedFilename(re);
+    
+    return result;
+  }
 }
 
 
