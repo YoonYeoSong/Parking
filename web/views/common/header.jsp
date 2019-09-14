@@ -151,7 +151,7 @@
                 <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-list">&nbsp;&nbsp;</i>Member List</a>
               <% } else if(loginMember != null
                   && !loginMember.getUserEmail().equals("admin@com")) { %>
-                <a class="dropdown-item" href="<%=request.getContextPath() %>/views/member/accountView.jsp"><i class="fa fa-cog">&nbsp;&nbsp;</i>Account Settings</a>
+                <a class="dropdown-item" href="<%=request.getContextPath() %>/views/member/memberView.jsp"><i class="fa fa-cog">&nbsp;&nbsp;</i>Account Settings</a>
                 <a class="dropdown-item" href="<%=request.getContextPath() %>/views/bookmark/bookmarkView.jsp"><i class="fa fa-bookmark">&nbsp;&nbsp;</i>Bookmark</a>
                 <a class="dropdown-item" href="<%=request.getContextPath() %>/views/board/review.jsp"><i class="fa fa-edit">&nbsp;&nbsp;</i>My Reviews</a>
                 <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-calendar">&nbsp;&nbsp;</i>My Reservations</a>

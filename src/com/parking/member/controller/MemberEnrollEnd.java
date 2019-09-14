@@ -48,7 +48,7 @@ public class MemberEnrollEnd extends HttpServlet {
 	  Date loginDate = null;
 
 	  Member m = new Member(userCode, email, pwEnroll, phone, userName, userAddr,
-                          createdDate, loginDate, smsYn, emailYn, emailVerified, snsAccount);
+                          createdDate, loginDate, smsYn, emailYn, emailVerified, snsAccount, null, null);
 
 	  int result = new MemberService().insertMember(m);
 

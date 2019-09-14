@@ -1,11 +1,12 @@
 package com.parking.member.model.service;
 
 import static common.template.JDBCTemplate.close;
-import static common.template.JDBCTemplate.getConnection;
 import static common.template.JDBCTemplate.commit;
+import static common.template.JDBCTemplate.getConnection;
 import static common.template.JDBCTemplate.rollback;
 
 import java.sql.Connection;
+import java.util.Map;
 
 import com.parking.member.model.dao.MemberDao;
 import com.parking.member.model.vo.Member;
@@ -71,4 +72,21 @@ public class MemberService {
     return logged;
     
   }
+  
+//  public int updateBoard(Connection conn, Board b, Map<String, String> newAttr) {
+  public int updateMember(Member m, Map<String, String> newAttr) {
+    Connection conn = getConnection();
+
+    int result = dao.updateMember(conn, m, newAttr);
+    
+    if(result > 0)
+      commit(conn);
+    else
+      rollback(conn);
+    
+    close(conn);
+    
+    return result;
+  }
+
 }
