@@ -35,6 +35,7 @@
             dataType: "html",
             success: function(data){
               html = $('<div>').html(data);
+              console.log(html.find('section.subMenu-container'));
               $('div#mypage-container').html(html.find('section.subMenu-container'));
             }
           });
