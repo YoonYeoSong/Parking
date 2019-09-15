@@ -98,10 +98,6 @@
       color: #B8C8D6 !important;
     }
 
-    .site-header {
-      background-color: rgba(2, 3, 3, 0.75);
-    }
-
     .align-left {
       text-align: left;
     }
@@ -173,7 +169,7 @@
         <a class="navbar-brand " href="<%=request.getContextPath() %>">
           <img src="<%=request.getContextPath() %>/images/logo_white.png">
         </a>
-        <form id="nav-searchbar" action="./" method="post" class="navbar-form" style="width: 410px">
+        <form id="nav-searchbar" action="./" method="post" class="navbar-form mb-0" style="width: 410px">
           <div class="input-group">
             <input type="search" placeholder="Where do you need parking?" aria-describedby="button-addon5"
               class="form-control" name="search" id="searchAddr">
@@ -214,7 +210,7 @@
                 <div id="google_translate_element" class="dropdown-item fa fa-globe"></div>
               </div>
             </li>
-            <li class="nav-item dropdown"><a class="nav-link dropdown-toggle menu-item mt-1 mr-0 text-white" href="#"
+            <li class="nav-item dropdown"><a class="nav-link dropdown-toggle menu-item mr-0 text-white" href="#"
                 id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Help</a>
 
               <div class="dropdown-menu mt-1" aria-labelledby="dropdown01">
@@ -224,37 +220,35 @@
                     class="fa fa-question-circle-o">&nbsp;&nbsp;</i>Q&amp;A Board</a>
               </div>
             </li>
-            <li class="nav-item dropdown"><a class="nav-link dropdown-toggle menu-item mt-1 mr-2 text-white" href="#"
+            <li class="nav-item dropdown"><a class="nav-link dropdown-toggle menu-item mr-2 text-white" href="#"
                 id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%=dropdownTxt %></a>
 
               <div class="dropdown-menu mt-1" aria-labelledby="dropdown01">
-                <% if(loginMember != null 
-                  && loginMember.getUserEmail().equals("admin@com")) { %>
-                <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-list">&nbsp;&nbsp;</i>Member List</a>
-                <% } else if(loginMember != null
-                  && !loginMember.getUserEmail().equals("admin@com")) { %>
-                <a class="dropdown-item" href="<%=request.getContextPath() %>/views/member/memberView.jsp"><i
-                    class="fa fa-cog">&nbsp;&nbsp;</i>Account Settings</a> <a class="dropdown-item"
-                  href="<%=request.getContextPath() %>/views/bookmark/bookmarkView.jsp"><i
-                    class="fa fa-bookmark">&nbsp;&nbsp;</i>Bookmark</a> <a class="dropdown-item"
-                  href="<%=request.getContextPath() %>/views/board/review.jsp"><i class="fa fa-edit">&nbsp;&nbsp;</i>My
-                  Reviews</a> <a class="dropdown-item" href="<%=mypageUrl %>"><i
-                    class="fa fa-calendar">&nbsp;&nbsp;</i>My Reservations</a> <a class="dropdown-item"
-                  href="<%=mypageUrl %>"><i class="fa fa-credit-card">&nbsp;&nbsp;</i>Payment Methods</a> <a
-                  class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-won">&nbsp;&nbsp;</i>Credit Balance</a>
-                <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-car">&nbsp;&nbsp;</i>My Vehicle</a>
-                <% } else { %>
-                <!-- (loginMember == null) -->
-                <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-cog">&nbsp;&nbsp;</i>Account
-                  Settings</a> <a class="dropdown-item" href="<%=mypageUrl %>"><i
-                    class="fa fa-bookmark">&nbsp;&nbsp;</i>Bookmark</a> <a class="dropdown-item"
-                  href="<%=mypageUrl %>"><i class="fa fa-edit">&nbsp;&nbsp;</i>My Reviews</a> <a class="dropdown-item"
-                  href="<%=mypageUrl %>"><i class="fa fa-calendar">&nbsp;&nbsp;</i>My Reservations</a> <a
-                  class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-credit-card">&nbsp;&nbsp;</i>Payment
-                  Methods</a> <a class="dropdown-item" href="<%=mypageUrl %>"><i
-                    class="fa fa-won">&nbsp;&nbsp;</i>Credit Balance</a> <a class="dropdown-item"
-                  href="<%=mypageUrl %>"><i class="fa fa-car">&nbsp;&nbsp;</i>My Vehicle</a>
+
+              <% if(loginMember == null) { %>
+              <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-cog">&nbsp;&nbsp;</i>Account Settings</a>
+              <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-bookmark">&nbsp;&nbsp;</i>Bookmark</a>
+              <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-edit">&nbsp;&nbsp;</i>My Reviews</a>
+              <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-calendar">&nbsp;&nbsp;</i>My Reservations</a>
+              <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-credit-card">&nbsp;&nbsp;</i>Payment Methods</a>
+              <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-won">&nbsp;&nbsp;</i>Credit Balance</a>
+              <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-car">&nbsp;&nbsp;</i>My Vehicle</a>
+
+              <% } else { %>
+                <a class="dropdown-item" href="<%=request.getContextPath() %>/views/member/memberView.jsp"><i class="fa fa-cog">&nbsp;&nbsp;</i>Settings</a>
+                <a class="dropdown-item" href="<%=request.getContextPath() %>/views/bookmark/bookmarkView.jsp"><i class="fa fa-bookmark">&nbsp;&nbsp;</i>Bookmark</a>
+
+                <% if(loginMember != null && loginMember.getUserEmail().equals("admin@com")) { %>
+                  <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-list">&nbsp;&nbsp;</i>Member List</a>
+
+                <%}else if(loginMember != null && !loginMember.getUserEmail().equals("admin@com")) { %>
+                  <a class="dropdown-item" href="<%=request.getContextPath() %>/views/board/review.jsp"><i class="fa fa-edit">&nbsp;&nbsp;</i>My Reviews</a>
+                  <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-calendar">&nbsp;&nbsp;</i>My Reservations</a>
+                  <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-credit-card">&nbsp;&nbsp;</i>Payment Methods</a>
+                  <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-won">&nbsp;&nbsp;</i>Credit Balance</a>
+                  <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-car">&nbsp;&nbsp;</i>My Vehicle</a>
                 <% } %>
+              <% } %>
 
                 <form action="" name="mypageSubMenuFrm">
                   <input type="hidden" name="subMenu" id="subMenu">
@@ -295,7 +289,7 @@
             <% if(loginMember != null) {%>
             <li class="nav-item">
               <form action="<%=request.getContextPath() %>/logout" method="post">
-                <button type="submit" class="btn btn-sm btn-outline-light mt-2 mr-1"
+                <button type="submit" class="btn btn-sm btn-outline-light mt-1 mr-1"
                   onclick="return logoutSnsAccount();">Log Out</button>
               </form>
             </li>
@@ -309,12 +303,12 @@
 
             <%} else{%>
             <li class="nav-item">
-              <form action="<%=request.getContextPath() %>/views/member/loginView.jsp" method="post">
-                <button type="submit" class="btn btn-sm btn-outline-light mt-2 mr-1">Log In</button>
+              <form action="<%=request.getContextPath() %>/views/member/loginView.jsp" method="post" class="mb-0">
+                <button type="submit" class="btn btn-sm btn-outline-light mt-1 mr-1">Log In</button>
               </form>
             </li>
             <li class="nav-item">
-              <button class="btn btn-sm btn-outline-light mt-2"
+              <button class="btn btn-sm btn-outline-light mt-1"
                 onclick='location.href="<%=request.getContextPath() %>/memberEnroll"'>Sign
                 Up</button>
             </li>

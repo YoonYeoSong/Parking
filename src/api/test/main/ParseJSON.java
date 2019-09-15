@@ -19,7 +19,8 @@ public class ParseJSON {
 	public static void main(String[] args) {
 		Properties prop = new Properties();
 		try {
-			prop.load(new FileReader("config.properties"));
+		  String path = ParseJSON.class.getResource("config.properties").getPath();
+			prop.load(new FileReader(path));
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
@@ -35,7 +36,7 @@ public class ParseJSON {
 		try {
 			for(int count = 1; count <= 2; count++) {
 				int start_index = 1;
-				int end_index = 1000;
+				int end_index = 100;
 
 				if(count > 1)
 				{

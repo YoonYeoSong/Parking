@@ -13,26 +13,25 @@
 
 <%@ include file="/views/common/mypageHeader.jsp" %>
   <style>
-    #search-email{display: inline-block;}
+    #search-user_Email{display: inline-block;}
     #search-user_Name{display: none;}
   </style>
 
-  <div class="container" id="memberList-wrapper">
-    <section class="py-4" id="memberList-container">
+    <section class="py-4 subMenu-container" id="memberList-container">
       <h2>Member List</h2>
       <div id="neck-container">
         <div id="search-container">
           SEARCH TYPE : 
           <select id="searchType">
-            <option value="email" <%="email".equals(searchType)?"selected":"" %>>Email</option>
+            <option value="user_Email" <%="user_Email".equals(searchType)?"selected":"" %>>Email</option>
             <option value="user_Name" <%="user_Name".equals(searchType)?"selected":"" %>>UserName</option>
           </select>
-          <div id="search-email">
+          <div id="search-user_Email">
             <form action="<%=request.getContextPath() %>/admin/memberFinder">
-              <input type="hidden" name="searchType" value="email"/>
+              <input type="hidden" name="searchType" value="user_Email"/>
               <input type="hidden" name="cPage" value="<%=cPage%>"/>
               <input type="text" placeholder="Search Email" name="searchKeyword"
-                     value='<%="email".equals(searchType)? searchKeyword:"" %>' size="25"/>
+                     value='<%="user_Email".equals(searchType)? searchKeyword:"" %>' size="25"/>
               <button type="submit" class="btn btn-primary">SEARCH</button>
             </form>
           </div>
@@ -49,7 +48,7 @@
       </div>
       <script>
         $(function(){
-          var sEmail=$("#search-email");
+          var sEmail=$("#search-user_Email");
           var sUserName=$("#search-user_Name");
           var searchType=$("#searchType"); //<select>
   
@@ -61,7 +60,7 @@
           searchType.trigger("change"); // trigger change event
         });
       </script>
-      <table class="table">
+      <table class="table table-sm">
         <thead>
           <tr>
             <th scope="col">NO.</th>
@@ -105,35 +104,58 @@
           <%=pageBar %>
         </ul>
       </nav>
+      <script>
+        function ajaxReqList(pageNo){
+          var url = "<%=request.getContextPath() %>/admin/memberList?cPage=" + pageNo;
+          $.ajax({
+            type: "POST",
+            url: url,
+            dataType: "html",
+            success: function(data){
+              html = $('<div>').html(data);
+              console.log(html);
+              console.log(html.find('section#memberList-container'));
+              // var tag = $("<h3>").html(data).css("color", "blue");
+              // $('#content').append(tag);
+              // $('#qna_table tbody')
+                // location.href="<%=request.getContextPath() %>/board/qnaBoardList?cPage=" + pageNo;
+
+              $('div#mypage-container').html(html.find('section#memberList-container'));
+            },
+            error: function(request, status, error){
+              console.log("error 함수 실행!");
+              console.log(request);
+              console.log(status);
+              console.log(error);
+            },
+          });
+        }
+
+        function ajaxReqSearchList(pageNo, searchType, searchKeyword){
+          var url = "<%=request.getContextPath() %>/admin/memberFinder?cPage=" + pageNo
+                                                                + "&searchType="+searchType 
+                                                                + "&searchKeyword=" +searchKeyword;
+          $.ajax({
+            type: "POST",
+            url: url,
+            dataType: "html",
+            success: function(data){
+              html = $('<div>').html(data);
+              console.log(html);
+              console.log(html.find('section#memberList-container'));
+
+              $('div#mypage-container').html(html.find('section#memberList-container'));
+            },
+            error: function(request, status, error){
+              console.log("error 함수 실행!");
+              console.log(request);
+              console.log(status);
+              console.log(error);
+            },
+          });
+        }
+      </script>
     </section>
-  </div>
 
-  <script>
-    function ajaxRequestPage(pageNo){
-      var url = "<%=request.getContextPath() %>/admin/memberList?cPage=" + pageNo;
-      $.ajax({
-        type: "POST",
-        url: url,
-        dataType: "html",
-        success: function(data){
-          html = $('<div>').html(data);
-          console.log(html);
-          console.log(html.find('section#memberList-container'));
-          // var tag = $("<h3>").html(data).css("color", "blue");
-          // $('#content').append(tag);
-          // $('#qna_table tbody')
-            // location.href="<%=request.getContextPath() %>/board/qnaBoardList?cPage=" + pageNo;
-
-          $('div#memberList-wrapper').html(html.find('section#memberList-container'));
-        },
-        error: function(request, status, error){
-          console.log("error 함수 실행!");
-          console.log(request);
-          console.log(status);
-          console.log(error);
-        },
-      });
-    }
-  </script>
 
 <%@ include file="/views/common/mypageFooter.jsp" %>

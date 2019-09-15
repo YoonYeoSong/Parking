@@ -62,6 +62,7 @@ public class MemberDao {
         m.setUserSmsYn(rs.getInt("user_sms_yn"));
         m.setUserEmailYn(rs.getInt("user_email_yn"));
         m.setUserEmailVerified(rs.getInt("user_email_verified"));
+        m.setUserSnsAccount(rs.getString("user_sns_account"));
         m.setUserOriginalFilename(rs.getString("user_original_filename"));
         m.setUserRenamedFilename(rs.getString("user_renamed_filename"));
       }

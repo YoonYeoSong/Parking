@@ -114,6 +114,7 @@
           </div> -->
           <hr>
           <div class="form-actions row">
+            <button type="button" class="btn btn-secondary " id="cancelBtn">Cancel</button>
             <button type="button" class="btn btn-outline-primary ml-auto mr-3" id="confirmBtn">Confirm Update</button>
             <button type="button" class="btn btn-outline-danger mr-auto" id="deleteBtn">Delete Account</button>
           </div>
@@ -167,6 +168,9 @@
           }
         })
 
+        $('button#cancelBtn').on('click', function(){
+          location.href="<%=request.getContextPath() %>/member/memberView";
+        })
       });
 
     </script>
