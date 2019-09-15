@@ -42,7 +42,7 @@ SELECT user_code, user_email, user_phone, user_name, user_addr,
   user_pw
 FROM MEMBER;
 --DELETE FROM MEMBER;
-select * from member where user_email='admin@com';
+--select * from member where user_email='admin@com';
 SELECT * FROM TAB;
 --update member set email='dbsduthd123@nate.com' where user_code='482581';
 
@@ -356,40 +356,40 @@ ALTER TABLE QNABOARD
   ON DELETE CASCADE;
 
 
---DROP TABLE QNABOARD cascade constraints;
+--DROP TABLE QNABOARD;
 --DROP TRIGGER QNABOARD_TRG;
 --DROP SEQUENCE QNABOARD_SEQ;
 --select * from qnaboard;
 --select count(*) from qnaboard;
 --delete from qnaboard;
 commit;
-insert into qnaboard values(DEFAULT,'a_title', '181862', 'this is a content1', null,null, default, default);
-insert into qnaboard values(DEFAULT,'b_title', '181862', 'this is a content2', null,null, default, default);
-insert into qnaboard values(DEFAULT,'c_title', '181862', 'this is a content3', null,null, default, default);
-insert into qnaboard values(DEFAULT,'d_title', '181862', 'this is a content4', null,null, default, default);
-insert into qnaboard values(DEFAULT,'e_title', '181862', 'this is a content5', null,null, default, default);
-insert into qnaboard values(DEFAULT,'f_title', '181862', 'this is a content6', null,null, default, default);
-insert into qnaboard values(DEFAULT,'g_title', '181862', 'this is a content7', null,null, default, default);
-insert into qnaboard values(DEFAULT,'h_title', '181862', 'this is a content8', null,null, default, default);
-insert into qnaboard values(DEFAULT,'i_title', '181862', 'this is a content9', null,null, default, default);
-insert into qnaboard values(DEFAULT,'j_title', '181862', 'this is a content10', null,null, default, default);
-insert into qnaboard values(DEFAULT,'k_title', '181862', 'this is a content11', null,null, default, default);
-insert into qnaboard values(DEFAULT,'l_title', '181862', 'this is a content12', null,null, default, default);
-insert into qnaboard values(DEFAULT,'m_title', '181862', 'this is a content13', null,null, default, default);
-insert into qnaboard values(DEFAULT,'n_title', '181862', 'this is a content14', null,null, default, default);
-insert into qnaboard values(DEFAULT,'o_title', '181862', 'this is a content15', null,null, default, default);
-insert into qnaboard values(DEFAULT,'p_title', '181862', 'this is a content16', null,null, default, default);
-insert into qnaboard values(DEFAULT,'q_title', '181862', 'this is a content17', null,null, default, default);
-insert into qnaboard values(DEFAULT,'r_title', '181862', 'this is a content18', null,null, default, default);
-insert into qnaboard values(DEFAULT,'s_title', '181862', 'this is a content19', null,null, default, default);
-insert into qnaboard values(DEFAULT,'t_title', '181862', 'this is a content20', null,null, default, default);
-insert into qnaboard values(DEFAULT,'u_title', '181862', 'this is a content21', null,null, default, default);
-insert into qnaboard values(DEFAULT,'v_title', '181862', 'this is a content22', null,null, default, default);
-insert into qnaboard values(DEFAULT,'w_title', '181862', 'this is a content23', null,null, default, default);
-insert into qnaboard values(DEFAULT,'x_title', '181862', 'this is a content24', null,null, default, default);
-insert into qnaboard values(DEFAULT,'y_title', '181862', 'this is a content25', null,null, default, default);
-insert into qnaboard values(DEFAULT,'z_title', '181862', 'this is a content26', null,null, default, default);
-insert into qnaboard values(DEFAULT,'zzz_title', '181862', 'this is a content27', null,null, default, default);
+insert into qnaboard values(DEFAULT,'a_title', '237729', 'this is a content1', null,null, default, default);
+insert into qnaboard values(DEFAULT,'b_title', '237729', 'this is a content2', null,null, default, default);
+insert into qnaboard values(DEFAULT,'c_title', '237729', 'this is a content3', null,null, default, default);
+insert into qnaboard values(DEFAULT,'d_title', '237729', 'this is a content4', null,null, default, default);
+insert into qnaboard values(DEFAULT,'e_title', '237729', 'this is a content5', null,null, default, default);
+insert into qnaboard values(DEFAULT,'f_title', '237729', 'this is a content6', null,null, default, default);
+insert into qnaboard values(DEFAULT,'g_title', '237729', 'this is a content7', null,null, default, default);
+insert into qnaboard values(DEFAULT,'h_title', '237729', 'this is a content8', null,null, default, default);
+insert into qnaboard values(DEFAULT,'i_title', '237729', 'this is a content9', null,null, default, default);
+insert into qnaboard values(DEFAULT,'j_title', '237729', 'this is a content10', null,null, default, default);
+insert into qnaboard values(DEFAULT,'k_title', '237729', 'this is a content11', null,null, default, default);
+insert into qnaboard values(DEFAULT,'l_title', '237729', 'this is a content12', null,null, default, default);
+insert into qnaboard values(DEFAULT,'m_title', '237729', 'this is a content13', null,null, default, default);
+insert into qnaboard values(DEFAULT,'n_title', '237729', 'this is a content14', null,null, default, default);
+insert into qnaboard values(DEFAULT,'o_title', '237729', 'this is a content15', null,null, default, default);
+insert into qnaboard values(DEFAULT,'p_title', '237729', 'this is a content16', null,null, default, default);
+insert into qnaboard values(DEFAULT,'q_title', '237729', 'this is a content17', null,null, default, default);
+insert into qnaboard values(DEFAULT,'r_title', '237729', 'this is a content18', null,null, default, default);
+insert into qnaboard values(DEFAULT,'s_title', '237729', 'this is a content19', null,null, default, default);
+insert into qnaboard values(DEFAULT,'t_title', '237729', 'this is a content20', null,null, default, default);
+insert into qnaboard values(DEFAULT,'u_title', '237729', 'this is a content21', null,null, default, default);
+insert into qnaboard values(DEFAULT,'v_title', '237729', 'this is a content22', null,null, default, default);
+insert into qnaboard values(DEFAULT,'w_title', '237729', 'this is a content23', null,null, default, default);
+insert into qnaboard values(DEFAULT,'x_title', '237729', 'this is a content24', null,null, default, default);
+insert into qnaboard values(DEFAULT,'y_title', '237729', 'this is a content25', null,null, default, default);
+insert into qnaboard values(DEFAULT,'z_title', '237729', 'this is a content26', null,null, default, default);
+insert into qnaboard values(DEFAULT,'zzz_title', '237729', 'this is a content27', null,null, default, default);
 commit;
 
 

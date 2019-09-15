@@ -39,7 +39,7 @@ public class AdminMemberListServlet extends HttpServlet {
       return;
     }
     
-    int cPage;
+    int cPage = 0;
     try {
       cPage = Integer.parseInt(request.getParameter("cPage"));
     } catch(NumberFormatException e) {
@@ -63,7 +63,7 @@ public class AdminMemberListServlet extends HttpServlet {
     }
     else {
       pageBar += "<li class='page-item'>"
-                  +"<a class='page-link' href='javascript:;' onclick='ajaxReqList(" +(pageNo-1) + ");'>Previous</a>"
+                  +"<a class='page-link' href='javascript:;' onclick='ajaxRequestPage(" +(pageNo-1) + ");'>Previous</a>"
                + "</li>";
     }
     while(!(pageNo > pageEnd || pageNo > totalPage)) {
@@ -72,8 +72,8 @@ public class AdminMemberListServlet extends HttpServlet {
       }
       else {
         pageBar += "<li class='page-item'>"
-                    + "<a class='page-link' href='javascript:;' onclick='ajaxReqList(" +pageNo +");'>"
-                    + pageNo + "</a>"
+                    + "<a href='javascript:;' onclick='ajaxRequestPage(" +pageNo +");'"
+                    + " class='page-link'>"+ pageNo + "</a>"
                  + "</li>";
       }
 
@@ -86,8 +86,8 @@ public class AdminMemberListServlet extends HttpServlet {
     }
     else {
       pageBar += "<li class='page-item'>"
-                  + "<a class='page-link' href='javascript:;' onclick='ajaxReqList("+ pageNo + ");'>"
-               + "Next</a>"
+                  + "<a href='javascript:;' onclick='ajaxRequestPage("+ pageNo + ");'"
+                  + " class='page-link'>Next</a>"
                + "</li>";
     }
 
