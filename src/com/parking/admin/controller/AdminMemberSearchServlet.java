@@ -40,52 +40,77 @@ public class AdminMemberSearchServlet extends HttpServlet {
     }catch(NumberFormatException e) {
       cPage=1;
     }
-    int numPerPage=5;
     
-    int totalData=new AdminService().selectCountMember(searchType,searchKeyword);
+    int totalMember =new AdminService().selectCountMember(searchType,searchKeyword);
+    int numPerPage=10;
     List<Member> list=new AdminService().selectListPage(searchType,searchKeyword,cPage,numPerPage);
     
     //전체page계산
-    int totalPage=(int)Math.ceil((double)totalData/numPerPage);
-    
-    //pageBar구성
-    int pageSizeBar=5;//페이지바크기(나오는 숫자갯수)
+    int totalPage=(int)Math.ceil((double)totalMember/numPerPage);
+    int pageBarSize=5;//페이지바크기(나오는 숫자갯수)
+    int pageNo=((cPage-1)/pageBarSize)*pageBarSize+1;
+    int pageEnd=pageNo+pageBarSize-1;
+
+    //pageBar
     String pageBar="";//전송할 코드(pageBar구성) 누적할 문자열
-    int pageNo=((cPage-1)/pageSizeBar)*pageSizeBar+1;
-    int pageEnd=pageNo+pageSizeBar-1;
-    
-    //출력코드 pageBar에 누적하기
     if(pageNo==1) {
-      pageBar+="<span>[이전]</span>";
+      pageBar += "<li class='page-item disabled'>"
+                  + "<span class='page-link'>Previous</span></li>";
+//      pageBar+="<span>[이전]</span>";
     }else {
-      pageBar+="<a href='"+request.getContextPath()
-      +"/admin/memberFinder?cPage="+(pageNo-1)
-      +"&searchType="+searchType+"&searchKeyword="+searchKeyword
-      +"'>[이전]</a>";
+      pageBar += "<li class='page-item'>"
+                  +"<a class='page-link' href='javascript:;' " 
+                  + " onclick='ajaxReqSearchList("+(pageNo-1) + ","
+                                                +searchType+","
+                                                +searchKeyword+ ");'> "
+                  + "Previous</a>"
+               + "</li>";
+//      pageBar+="<a href='"+request.getContextPath()
+//      +"/admin/memberFinder?cPage="+(pageNo-1)
+//      +"&searchType="+searchType+"&searchKeyword="+searchKeyword
+//      +"'>[이전]</a>";
     }
     while(!(pageNo>pageEnd||pageNo>totalPage)) {
       if(cPage==pageNo) {
-        pageBar+="<span class='cPage'>"+pageNo+"</span>";
+        pageBar += "<li class='page-item active'> <span class='page-link'>"+ pageNo + "</span> </li>";
+//        pageBar+="<span class='cPage'>"+pageNo+"</span>";
       }else {
-        pageBar+="<a href='"+request.getContextPath()
-        +"/admin/memberFinder?cPage="+(pageNo)
-        +"&searchType="+searchType+"&searchKeyword="+searchKeyword
-        +"'>"+pageNo+"</a>";
+      pageBar += "<li class='page-item'>"
+                  +"<a class='page-link' href='javascript:;' " 
+                  + " onclick='ajaxReqSearchList("+pageNo + ","
+                                                +searchType+","
+                                                +searchKeyword+ ");'> " + pageNo
+                  + "</a>"
+               + "</li>";
+//        pageBar+="<a href='"+request.getContextPath()
+//        +"/admin/memberFinder?cPage="+(pageNo)
+//        +"&searchType="+searchType+"&searchKeyword="+searchKeyword
+//        +"'>"+pageNo+"</a>";
       }
       pageNo++;
     }
     if(pageNo>totalPage) {
-      pageBar+="<span>[다음]</span>";
+      pageBar += "<li class='page-item disabled'>"
+                  + "<span class='page-link'>Next</span></li>";
+//      pageBar+="<span>[다음]</span>";
     }else {
-      pageBar+="<a href='"+request.getContextPath()
-      +"/admin/memberFinder?cPage="+(pageNo)
-      +"&searchType="+searchType+"&searchKeyword="+searchKeyword
-      +"'>[다음]</a>";
+      pageBar += "<li class='page-item'>"
+                  +"<a class='page-link' href='javascript:;' " 
+                  + " onclick='ajaxReqSearchList("+pageNo + ","
+                                                +searchType+","
+                                                +searchKeyword+ ");'> "
+                  + "Next</a>"
+               + "</li>";
+//      pageBar+="<a href='"+request.getContextPath()
+//      +"/admin/memberFinder?cPage="+(pageNo)
+//      +"&searchType="+searchType+"&searchKeyword="+searchKeyword
+//      +"'>[다음]</a>";
     }
     request.setAttribute("pageBar", pageBar);
     request.setAttribute("searchType", searchType);
     request.setAttribute("searchKeyword",searchKeyword);
     request.setAttribute("cPage",cPage);
+    request.setAttribute("numPerPage",numPerPage);
     request.setAttribute("members",list);
     request.getRequestDispatcher("/views/admin/memberList.jsp").forward(request, response);
   

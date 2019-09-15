@@ -5,17 +5,6 @@
 
 
 <style>
-    .site-header {
-      background-color: rgba(0, 10, 10, 0.7);
-      /* -webkit-backdrop-filter: saturate(180%) blur(20px);
-        backdrop-filter: saturate(180%) blur(20px); */
-    }
-
-    .site-header a {
-      color: #999;
-      transition: ease-in-out color .15s;
-    }
-
     .bd-placeholder-img {
       font-size: 1.125rem;
       text-anchor: middle;
@@ -32,7 +21,6 @@
     }
   </style>
   <!-- <link href="pricing.css" rel="stylesheet"> -->
-
 
 <body>
 
