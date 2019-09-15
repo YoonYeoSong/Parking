@@ -34,17 +34,19 @@
 -- hidden input에 usercode parkingcode, 시작시간 등 데이터 넘겨서 ,
 --insert into parking_space 주차공간 테이블
 
-SELECT user_code, user_email, user_pw, user_phone, user_name, user_addr,
+SELECT user_code, user_email, user_phone, user_name, user_addr,
   TO_CHAR(user_created_date, 'yyyy-MM-dd hh24:mi:ss') AS created_date,
   TO_CHAR(user_login_date, 'yyyy-MM-dd hh24:mi:ss') AS login_date,
-  user_sms_yn, user_email_yn, user_email_verified, user_sns_account, user_original_filename, user_renamed_filename
+  user_sms_yn, user_email_yn, user_email_verified AS emailVerified, user_sns_account AS sns,
+  user_original_filename AS ori, user_renamed_filename AS re,
+  user_pw
 FROM MEMBER;
 --DELETE FROM MEMBER;
 --select * from member where user_email='admin@com';
 SELECT * FROM TAB;
 --update member set email='dbsduthd123@nate.com' where user_code='482581';
 
---delete from member where user_email='';
+--delete from member where user_email in ('');
 COMMIT;
 --update member set created_date=TO_DATE('2019/08/26 01:30:44', 'yyyy/mm/dd hh24:mi:ss') where user_code='482581';
 
