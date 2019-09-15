@@ -177,6 +177,7 @@
           <div class="input-group">
             <input type="search" placeholder="Where do you need parking?" aria-describedby="button-addon5"
               class="form-control" name="search" id="searchAddr">
+            <input type="hidden" name="searchCopy" id="searchCopy" >
             <div class="input-group-append">
               <button type="button" id="button-addon5" class="btn btn-primary">
                 <i class="fa fa-search"></i>
@@ -522,11 +523,17 @@
 
   function parkingMarker(data, pos) {
     //테스트 자신의 위치 자겨오기
+ 	
     var obj = data;
-    var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+    if($("#map") != null)
+    {
+    	$("#map").empty();
+    }
+    var mapContainer = document.getElementById('map'),
+    //var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
       mapOption = {
         center: new kakao.maps.LatLng(pos.coords.latitude, pos.coords.longitude), // 지도의 중심좌표
-        level: 5,
+        level: 3,
         /* mapTypeId: new kakao.maps.MapTypeId(SKYVIEW) */
         // 지도의 확대 레벨
       };
@@ -543,16 +550,32 @@
 
     // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
     var zoomControl = new kakao.maps.ZoomControl();
+    
     map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
 
     var positions = [];
+    var iwContents = [];
     for (var d in data) {
       positions.push({
         title: data[d]['parkingName'],
-        latlng: new kakao.maps.LatLng(data[d]['latitude'], data[d]['hardness'])
+        latlng: new kakao.maps.LatLng(data[d]['latitude'], data[d]['hardness']),
+        clickable:true
       });
+      
+      
+      
+      iwContents.push({
+  		iwContent : '<div style="padding:2px;">'+data[d]['parkingName']+'</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+  	    iwPosition : new kakao.maps.LatLng(data[d]['latitude'], data[d]['hardness']), //인포윈도우 표시 위치입니다
+  	    iwRemoveable : true // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+  	});
+      
     }
+    
+  /*   var iwContent = '<div style="padding:5px;">Hello World!</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+    iwPosition = new kakao.maps.LatLng(33.450701, 126.570667), //인포윈도우 표시 위치입니다
+    iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다 */
 
     for (var i in data) {
       console.log(data[d]);
@@ -591,14 +614,29 @@
 
       // 마커를 생성합니다
       var marker = new kakao.maps.Marker({
-        map: map, // 마커를 표시할 지도
+        //map: map, // 마커를 표시할 지도
         position: positions[i].latlng, // 마커를 표시할 위치
         title: positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-        image: markerImage // 마커 이미지 
+        clickable: true
+        //image: markerImage // 마커 이미지 
       });
-    }
-
-
+      marker.setMap(map);
+      
+      // 인포윈도우를 생성하고 지도에 표시합니다
+    /*   var infowindow = new kakao.maps.InfoWindow({
+          //map: map, // 인포윈도우가 표시될 지도
+          position : iwContents[i].iwPosition, 
+          content : iwContents[i].iwContent,
+          removable : iwContents[i].iwRemoveable
+      }); */
+      
+      	var infowindow  = new kakao.maps.InfoWindow({
+    	    content: iwContents[i].iwContent, // 인포윈도우 내부에 들어갈 컨텐츠 입니다.
+    	    removable : iwContents[i].iwRemoveable
+    	});
+     	 infowindow.open(map, marker); // 지도에 올리면서, 두번째 인자로 들어간 마커 위에 올라가도록 설정합니다.
+    	
+    }  
   }
 
 
