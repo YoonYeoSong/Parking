@@ -97,6 +97,8 @@ public class ParseJsonSeoulParking {
 							p.setQueStatusNm(arr.getJSONObject(i).getString("QUE_STATUS_NM"));
 							p.setCapacity(arr.getJSONObject(i).getInt("CAPACITY"));
 							p.setCurParking(arr.getJSONObject(i).getInt("CUR_PARKING"));
+							p.setLatitude(arr.getJSONObject(i).getDouble("LAT"));
+							p.setHardness(arr.getJSONObject(i).getDouble("LNG"));
 
 							list.add(p);
 						}
@@ -115,6 +117,8 @@ public class ParseJsonSeoulParking {
 							p.setQueStatusNm(arr.getJSONObject(i).getString("QUE_STATUS_NM"));
 							p.setCapacity(arr.getJSONObject(i).getInt("CAPACITY"));
 							p.setCurParking(arr.getJSONObject(i).getInt("CUR_PARKING"));
+							p.setLatitude(arr.getJSONObject(i).getDouble("LAT"));
+							p.setHardness(arr.getJSONObject(i).getDouble("LNG"));
 
 							if(p.getParkingName().equals(list.get(list.size()-1).getParkingName()))
 							{
@@ -146,6 +150,8 @@ public class ParseJsonSeoulParking {
 						p.setQueStatusNm(arr.getJSONObject(i-end_index).getString("QUE_STATUS_NM"));
 						p.setCapacity(arr.getJSONObject(i-end_index).getInt("CAPACITY"));
 						p.setCurParking(arr.getJSONObject(i-end_index).getInt("CUR_PARKING"));
+						p.setLatitude(arr.getJSONObject(i-end_index).getDouble("LAT"));
+						p.setHardness(arr.getJSONObject(i-end_index).getDouble("LNG"));
 
 
 						if(p.getParkingName().equals(list.get(list.size()-1).getParkingName()))
