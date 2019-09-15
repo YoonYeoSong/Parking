@@ -55,7 +55,6 @@
           $(function(){
             loadKakaoMap();
           });
-
           /* Show Kakao Map */
           function loadKakaoMap(){
             var mapContainer = document.getElementById('map'); // 지도를 표시할 container
@@ -70,8 +69,6 @@
             var mapTypeControl = new kakao.maps.MapTypeControl();
             // 지도 타입 컨트롤을 지도에 표시
             map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
-
-
             /* get Info */
             // 지도의 현재 중심좌표를 얻어옵니다 
             var center = map.getCenter(); 
@@ -104,7 +101,6 @@
             // 개발자도구를 통해 직접 message 내용을 확인해 보세요.
             console.log(message);
           }
-
         </script>
             
       </div>
