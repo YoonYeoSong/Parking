@@ -9,48 +9,42 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 import com.parking.api.model.service.ParkingApiService;
 import com.parking.api.model.vo.Parking;
 
 /**
- * Servlet implementation class MapListViewServlet
+ * Servlet implementation class SearchAddrServlet
  */
-@WebServlet("/map/mapListView")
-public class MapListViewServlet extends HttpServlet {
+@WebServlet("/ajax/searchAddr.do")
+public class SearchAddrServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public MapListViewServlet() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public SearchAddrServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//1 주소를 토대로한 글자를 가져오고
-		String search = request.getParameter("search");
-		System.out.println("서블릿 :" + search);
+		String addr = request.getParameter("addr");
+		
+		System.out.println(" search 서블릿 :" + addr);
 
 		ParkingApiService parkingService = new ParkingApiService();
 		//주소 네임을 가져와서 서비스로 넘겨주고 데이터를 담는다
-		List<Parking> list = parkingService.selectParkingList(search);
-		System.out.println("리스트 사이즈 : " +list.size());
+		List<Parking> list = parkingService.selectParkingList(addr);
+		System.out.println("searchAddr 리스트 사이즈 : " +list.size());
 		
-		
+		response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        new Gson().toJson(list, response.getWriter());
 
-		if(list.get(0) != null)
-		{
-			request.setAttribute("list", list);	
-			request.getRequestDispatcher("/views/map/mapListView.jsp").forward(request, response);			
-		}else
-		{
-			request.setAttribute("msg", "Search Failed!");
-			request.getRequestDispatcher("/views/common/msg.jsp").forward(request, response);
-		}
 
 	}
 
