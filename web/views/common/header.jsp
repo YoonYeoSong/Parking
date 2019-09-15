@@ -146,26 +146,30 @@
               <a class="nav-link dropdown-toggle menu-item mt-1 mr-2 text-white" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%=dropdownTxt %></a>
 
               <div class="dropdown-menu mt-1" aria-labelledby="dropdown01">
-              <% if(loginMember != null 
-                  && loginMember.getUserEmail().equals("admin@com")) { %>
-                <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-list">&nbsp;&nbsp;</i>Member List</a>
-              <% } else if(loginMember != null
-                  && !loginMember.getUserEmail().equals("admin@com")) { %>
-                <a class="dropdown-item" href="<%=request.getContextPath() %>/views/member/memberView.jsp"><i class="fa fa-cog">&nbsp;&nbsp;</i>Account Settings</a>
+
+              <% if(loginMember == null) { %>
+              <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-cog">&nbsp;&nbsp;</i>Account Settings</a>
+              <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-bookmark">&nbsp;&nbsp;</i>Bookmark</a>
+              <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-edit">&nbsp;&nbsp;</i>My Reviews</a>
+              <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-calendar">&nbsp;&nbsp;</i>My Reservations</a>
+              <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-credit-card">&nbsp;&nbsp;</i>Payment Methods</a>
+              <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-won">&nbsp;&nbsp;</i>Credit Balance</a>
+              <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-car">&nbsp;&nbsp;</i>My Vehicle</a>
+
+              <% } else { %>
+                <a class="dropdown-item" href="<%=request.getContextPath() %>/views/member/memberView.jsp"><i class="fa fa-cog">&nbsp;&nbsp;</i>Settings</a>
                 <a class="dropdown-item" href="<%=request.getContextPath() %>/views/bookmark/bookmarkView.jsp"><i class="fa fa-bookmark">&nbsp;&nbsp;</i>Bookmark</a>
-                <a class="dropdown-item" href="<%=request.getContextPath() %>/views/board/review.jsp"><i class="fa fa-edit">&nbsp;&nbsp;</i>My Reviews</a>
-                <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-calendar">&nbsp;&nbsp;</i>My Reservations</a>
-                <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-credit-card">&nbsp;&nbsp;</i>Payment Methods</a>
-                <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-won">&nbsp;&nbsp;</i>Credit Balance</a>
-                <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-car">&nbsp;&nbsp;</i>My Vehicle</a>
-              <% } else { %> <!-- (loginMember == null) -->
-                <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-cog">&nbsp;&nbsp;</i>Account Settings</a>
-                <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-bookmark">&nbsp;&nbsp;</i>Bookmark</a>
-                <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-edit">&nbsp;&nbsp;</i>My Reviews</a>
-                <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-calendar">&nbsp;&nbsp;</i>My Reservations</a>
-                <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-credit-card">&nbsp;&nbsp;</i>Payment Methods</a>
-                <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-won">&nbsp;&nbsp;</i>Credit Balance</a>
-                <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-car">&nbsp;&nbsp;</i>My Vehicle</a>
+
+                <% if(loginMember != null && loginMember.getUserEmail().equals("admin@com")) { %>
+                  <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-list">&nbsp;&nbsp;</i>Member List</a>
+
+                <%}else if(loginMember != null && !loginMember.getUserEmail().equals("admin@com")) { %>
+                  <a class="dropdown-item" href="<%=request.getContextPath() %>/views/board/review.jsp"><i class="fa fa-edit">&nbsp;&nbsp;</i>My Reviews</a>
+                  <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-calendar">&nbsp;&nbsp;</i>My Reservations</a>
+                  <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-credit-card">&nbsp;&nbsp;</i>Payment Methods</a>
+                  <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-won">&nbsp;&nbsp;</i>Credit Balance</a>
+                  <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-car">&nbsp;&nbsp;</i>My Vehicle</a>
+                <% } %>
               <% } %>
 
               <form action="" name="mypageSubMenuFrm">

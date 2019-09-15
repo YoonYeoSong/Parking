@@ -39,7 +39,7 @@
             <%} %>
           </div>
 
-          <table class="table" id='qna_table'>
+          <table class="table table-sm" id='qna_table'>
             <thead>
               <tr>
                 <th>NO.</th>
