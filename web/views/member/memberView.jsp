@@ -107,8 +107,8 @@
             </div>
           </div>
           <hr>
-          <div class="form-actions">
-            <button type="submit" class="btn btn-primary ml-auto">Update Profile</button>
+          <div class="form-actions row" >
+            <button type="submit" class="btn btn-primary mx-auto">Update Profile</button>
           </div>
           <!-- /.form-actions -->
         </form>

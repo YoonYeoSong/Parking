@@ -16,8 +16,7 @@
       <!-- .card-body -->
       <div class="card-body">
 
-        <form action="<%=request.getContextPath() %>/member/memberUpdateEnd"
-              enctype="multipart/form-data" method="POST" >
+        <form id="updateFrm" method="POST" enctype="multipart/form-data">
 
           <div class="media mb-3">
             <!-- avatar -->
@@ -54,27 +53,27 @@
           <!-- form row -->
           <div class="form-row">
             <!-- form column -->
-            <label for="input02" class="col-md-3">Phone</label>
+            <label for="phone" class="col-md-3">Phone</label>
             <!-- /form column -->
             <!-- form column -->
             <div class="col-md-9 mb-3">
-              <input type="text" class="form-control" name="phone" value="<%=loginMember.getUserPhone() %>">
+              <input type="text" class="form-control" name="phone" id="phone" value="<%=loginMember.getUserPhone() %>">
             </div>
             <!-- /form column -->
           </div>
           <div class="form-row">
             <!-- form column -->
-            <label for="input02" class="col-md-3">User Name</label>
+            <label for="name" class="col-md-3">User Name</label>
             <!-- /form column -->
             <!-- form column -->
             <div class="col-md-9 mb-3">
-              <input type="text" class="form-control" name="name" value="<%=loginMember.getUserName() %>">
+              <input type="text" class="form-control" name="name" id="name" value="<%=loginMember.getUserName() %>">
             </div>
             <!-- /form column -->
           </div>
           <div class="form-row">
             <!-- form column -->
-            <label for="input03" class="col-md-3" >Address</label>
+            <label for="addr" class="col-md-3" >Address</label>
             <!-- /form column -->
             <!-- form column -->
             <div class="col-md-9 mb-3">
@@ -101,9 +100,23 @@
               </div>
             </div>
           </div>
+          <!-- <div class="form-row">
+            <label for="updatePw" class="col-md-3">Password</label>
+            <div class="col-md-9 mb-3">
+              <input type="password" class="form-control" name="updatePw" id="updatePw" />
+            </div>
+          </div>
+          <div class="form-row">
+            <label for="updatePwChk" class="col-md-3">Password Check</label>
+            <div class="col-md-9 mb-3">
+              <input type="password" class="form-control" name="updatePwChk" id="updatePwChk" />
+            </div>
+          </div> -->
           <hr>
-          <div class="form-actions">
-            <button type="submit" class="btn btn-primary ml-auto">Update Profile</button>
+          <div class="form-actions row">
+            <button type="button" class="btn btn-outline-primary ml-auto mr-3" id="confirmBtn">Confirm Update</button>
+            <button type="button" class="btn btn-outline-danger mr-auto" id="deleteBtn">Delete Account</button>
+          </div>
           </div>
           <!-- /.form-actions -->
         </form>
@@ -133,7 +146,29 @@
         $(".upload-button").on('click', function() {
           $(".file-upload").click();
         });
+
+
+        $('button#confirmBtn').on('click', function(){
+          var frm = $('form#updateFrm');
+
+          if(confirm("Are you sure to Update?")){
+            var url="<%=request.getContextPath() %>/member/memberUpdateEnd";
+            frm.attr({"action" : url});
+            frm.submit();
+          }
+        })
+        $('button#deleteBtn').on('click', function(){
+          var frm = $('form#updateFrm');
+
+          if(confirm("Are you sure to DELETE Your Account?")){
+            var url="<%=request.getContextPath() %>/member/memberDelete";
+            frm.attr({"action" : url});
+            frm.submit();
+          }
+        })
+
       });
+
     </script>
 
   </section>
