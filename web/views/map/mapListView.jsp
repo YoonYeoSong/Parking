@@ -77,7 +77,7 @@
   
   	
   	$(function(){
-  		if(<%=search%> != null)
+  		<%if(search != null){%>
 		{
 		      $.ajax({
 		      url: "<%=request.getContextPath()%>/ajax/searchAddr.do",
@@ -96,7 +96,8 @@
 		          }  */
 		        navigator.geolocation.getCurrentPosition(function (pos) {
 		          //latitude = pos.coords.latitude;
-		          //longitude = pos.coords.longitude;
+				  //longitude = pos.coords.longitude;
+				  parkingList(data);
 		          parkingMarker(data, pos);
 		          // console.log("위도 : " + latitude);
 		          //console.log("경도 : " + longitude);
@@ -108,9 +109,10 @@
 		
 		    });
 		
-		}else{
-			return;
 		}
+		<%}else{%>
+			return;
+		<%}%>
   		
   	});
   	
@@ -195,6 +197,8 @@
     .style_width {
       width: 100%;
     }
+	
+
   </style>
 
 </head>
@@ -364,7 +368,7 @@
 
 
     <!-- row h-100 mt-1 pt-2 -->
-    <div class="card-deck text-center container-fluid" style="margin-top: 51px;">
+    <div class="card-deck text-center container-fluid" style="margin-top: 51px;" id="cardmap">
 
       <!--상단div_1-->
       <div class="shadow-sm col-sm-4">
@@ -424,14 +428,85 @@
                 <button>Reserve</button></span>
             </span> </a>
             -->
-        </div>
+		</div>
+		<script>
+			$('#listScroll').click(function(e){
+				console.log($(e.target).children().first().attr('id'));
+				var idValue = $(e.target).children().first().attr('id');
+				var data = JSON.parse(localStorage.getItem("parkingList"));
+				console.log(data);
+				for(var d in data)
+				{
+					if(d == idValue)
+					{
+						loadView(data[idValue]["latitude"],data[idValue]["hardness"],data[d]["parkingName"]);	
+					}
+				}
+				//console.log($("#map").children().eq(2).css("position"));
+				//$("#map").children().css("position","relative");
+				//$("#map").attr("style","position:relative");
+			});
+			$('object').attr("style","position:relative;");
+			
+			
+			function loadView(lat,lon,pName)
+			{
+				var map = $("#map");
+				//var roadview = $("#loadview");
+				//var placePosition = mapCopy.setCenter(new kakao.maps.LatLng(lat, lon));			
+				//mapCopy.setLevel(2);
+				
+				if($("#map").val() != null)
+				{
+					$("#map").empty();
+					//$("roadview").empty();
+				}
+				//map.attr("type","hidden");
+				//roadview.removeAttr("type");
+								
+				var roadviewContainer = document.getElementById('map'); //로드뷰를 표시할 div
+				var roadview = new kakao.maps.Roadview(roadviewContainer); //로드뷰 객체
+				var roadviewClient = new kakao.maps.RoadviewClient(); //좌표로부터 로드뷰 파노ID를 가져올 로드뷰 helper객체
+
+				var position = new kakao.maps.LatLng(lat, lon);
+
+				// 특정 위치의 좌표와 가까운 로드뷰의 panoId를 추출하여 로드뷰를 띄운다.
+					roadviewClient.getNearestPanoId(position, 800, function(panoId) {
+					roadview.setPanoId(panoId, position); //panoId와 중심좌표를 통해 로드뷰 실행
+				});
+			}
+			
+			$('#realLocbtn').click(function(){
+				
+				navigator.geolocation.getCurrentPosition(function (pos) {
+					mapCopy.setCenter(new kakao.maps.LatLng(pos.coords.latitude, pos.coords.longitude));			
+					mapCopy.setLevel(2);
+        		});
+				
+			});
+			
+			$('#loadviewbtn').click(function(){
+				var mapbtn = $('#mapbtn')
+				mapbtn.attr("type","button");
+				var loadviewbtn = $('#loadviewbtn');
+				loadviewbtn.attr("type","hidden");
+			});
+			
+			$('#mapbtn').click(function(){
+				var mapbtn = $('#mapbtn')
+				mapbtn.attr("type","hidden");
+				var loadviewbtn = $('#loadviewbtn');
+				loadviewbtn.attr("type","button");
+			});
+			
+			
+		</script>
 
 
       </div>
 
       <!--지도 API-->
-      <div class="shadow-sm col-sm-8" id="map"></div>
-      <input type="hidden" id="lat"> <input type="hidden" id="lon">
+	  <div class="shadow-sm col-sm-8" id="map" style="position: relative;"></div>
       <!-- style="width:950px;height:500px;" -->
       <script type="text/javascript"
         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=002ce24c1581207f304dfb0ead53db42"></script>
@@ -441,29 +516,23 @@
 </body>
 
 
+<style>
+	
+	#realLocbtn {
+		z-index: 1;
+	}
+	#loadviewbtn {
+		z-index: 1;
+	}
+	#mapbtn {
+		z-index: 1;
+	}
 
+
+</style>
 
 
 <script>
-
-
-
-  function loadView(num) {
-    var roadviewContainer = document.getElementById('roadview'); //로드뷰를 표시할 div
-    var roadview = new kakao.maps.Roadview(roadviewContainer); //로드뷰 객체
-    var roadviewClient = new kakao.maps.RoadviewClient(); //좌표로부터 로드뷰 파노ID를 가져올 로드뷰 helper객체
-
-    var position = new kakao.maps.LatLng(37.63322721, 127.02071053);
-
-    // 특정 위치의 좌표와 가까운 로드뷰의 panoId를 추출하여 로드뷰를 띄운다.
-    roadviewClient.getNearestPanoId(position, 50, function (panoId) {
-      roadview.setPanoId(panoId, position); //panoId와 중심좌표를 통해 로드뷰 실행
-    });
-  }
-
-
-
-
 
   $("#button-addon5").click(function () {
     $.ajax({
@@ -517,9 +586,10 @@
         /* mapTypeId: new kakao.maps.MapTypeId(SKYVIEW) */
         // 지도의 확대 레벨
       };
-
+	mapCopy = null;
     var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
+	mapCopy = map;
     // 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성합니다
     var mapTypeControl = new kakao.maps.MapTypeControl();
 
@@ -532,26 +602,37 @@
     var zoomControl = new kakao.maps.ZoomControl();
     
     map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
-
-
+ 
+	var realLoc = [];
+	var realiwContens=[];
     var positions = [];
-    var iwContents = [];
-    for (var d in data) {
-      positions.push({
-        title: data[d]['parkingName'],
-        latlng: new kakao.maps.LatLng(data[d]['latitude'], data[d]['hardness']),
-        //clickable:true
-      });
-      
-      
-      
-      iwContents.push({
-  		iwContent : '<div style="padding:2px;">'+data[d]['parkingName']+'</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-  	   // iwPosition : new kakao.maps.LatLng(data[d]['latitude'], data[d]['hardness']), //인포윈도우 표시 위치입니다
-  	    iwRemoveable : true // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
-  	});
-      
-    }
+	var iwContents = [];
+	
+	positions.push({
+		title: "나",
+		latlng: new kakao.maps.LatLng(pos.coords.latitude, pos.coords.longitude),
+		//clickable:true
+	});
+	
+	iwContents.push({
+		iwContent : '<div style="padding:2px;">'+"나"+'</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+	// iwPosition : new kakao.maps.LatLng(data[d]['latitude'], data[d]['hardness']), //인포윈도우 표시 위치입니다
+		iwRemoveable : true // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+	});		
+	
+    for (var d in data) {	
+			positions.push({
+				title: data[d]['parkingName'],
+				latlng: new kakao.maps.LatLng(data[d]['latitude'], data[d]['hardness']),
+				//clickable:true
+			});
+				
+			iwContents.push({
+				iwContent : '<div style="padding:2px;">'+data[d]['parkingName']+'</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+			// iwPosition : new kakao.maps.LatLng(data[d]['latitude'], data[d]['hardness']), //인포윈도우 표시 위치입니다
+				iwRemoveable : true // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+			});		  
+	}
     
   /*   var iwContent = '<div style="padding:5px;">Hello World!</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
     iwPosition = new kakao.maps.LatLng(33.450701, 126.570667), //인포윈도우 표시 위치입니다
@@ -613,14 +694,19 @@
       	var infowindow  = new kakao.maps.InfoWindow({
     	    content: iwContents[i].iwContent, // 인포윈도우 내부에 들어갈 컨텐츠 입니다.
     	    removable : iwContents[i].iwRemoveable
-      });
+	  });
+	  
+	  if(marker.getTitle() == "나")
+	  {
+		infowindow.open(map,marker);
+	  }
       
       kakao.maps.event.addListener(marker,'click',makeOverListener(map, marker, infowindow));
       //kakao.maps.event.addListener(marker,'click',makeOutListener(infowindow));     
      	 //infowindow.open(map, marker); // 지도에 올리면서, 두번째 인자로 들어간 마커 위에 올라가도록 설정합니다.
-    }
+	}
   }
-
+  
   function makeOverListener(map,marker,infowindow)
   {
     return function(){
@@ -641,18 +727,20 @@
     window.localStorage.setItem("parkingList",JSON.stringify(data));
     for(var d in data)
     {
-      var listScroll = $("#listScroll");
-      var aTag = $("<a class='list-group-item list-group-item-action'>");
-      var span0 = $("<span>");
-      var span1 = $("<span>").html(data[d]["parkingName"]+"<br>");
-      var span2 = $("<span>").html(data[d]["addr"]+"<br>");
-      var span3 = $("<span>");
-      var input1 = $("<input type='button' class='btn btn-info more-info' onclick='parkingInfoPopup()' value='More Info'>");
-      var input2 = $("<input type='button' class='btn btn-info more-info' onclick='payment()' value='Pay'>");
-      span3.append(input1).append(input2);
-      span0.append(span1).append(span2).append(span3);
-      aTag.append(span0);
-      listScroll.append(aTag);
+		
+			var listScroll = $("#listScroll");
+			var aTag = $("<a class='list-group-item list-group-item-action'>");
+			var span0 = $("<span id='"+d+"'>");
+			var span1 = $("<span>").html(data[d]["parkingName"]+"<br>");
+			var span2 = $("<span>").html(data[d]["addr"]+"<br>");
+			var span3 = $("<span>");
+			var input1 = $("<input type='button' class='btn btn-info more-info' onclick='parkingInfoPopup()' value='More Info'>");
+			var input2 = $("<input type='button' class='btn btn-info more-info' onclick='payment()' value='Pay'>");
+			span3.append(input1).append(input2);
+			span0.append(span1).append(span2).append(span3);
+			aTag.append(span0);
+			listScroll.append(aTag);		
+		
     }
                   /*
                   <div class="card shadow-sm text-left" id="listScroll">
