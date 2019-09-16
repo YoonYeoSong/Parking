@@ -74,6 +74,8 @@
   <script>
   
   	
+  
+  	
   	$(function(){
   		if(<%=search%> != null)
 		{
@@ -83,6 +85,7 @@
 		      data: { addr: "<%=search%>" },
 		      dataType: "json",
 		      success: function (data) {
+		    	
 		        console.log("들어오냐?");
 		        console.log(data);
 		
@@ -364,7 +367,7 @@
     <div class="card-deck text-center container-fluid" style="margin-top: 51px;">
 
       <!--상단div_1-->
-      <div class="shadow-sm col-sm-3">
+      <div class="shadow-sm col-sm-4">
 
         <!--card / shadow-sm -->
         <div class="card-body align-left">
@@ -399,35 +402,35 @@
         </div>
 
         <!--하단 list-->
-        <div class="card shadow-sm text-left" id="listScroll">
-          <a class="list-group-item list-group-item-action"> <span id="roadview"></span> <span> <span>Hyatt Place -
-                Uncovered Self Park 110.9 miles away Hyatt Place - Uncovered
-                Self Park 110.9 miles away Hyatt Place - Uncovered Self Park
-                110.9 miles away
-                <button>$14.70</button>
-                <button>Reserve</button>
+        <div class="card shadow-sm text-left" id="listScroll" style="height:300px">
+          
+          <!--
+          <a class="list-group-item list-group-item-action">
+            </span>
+          </a> 
+          <a class="list-group-item list-group-item-action"> 
+            <span>
+              <span>Hyatt Place - Uncovered Self Park</span>
+               <span>110.9miles away</span>
+                <span>
+                    <input type="button" class="btn btn-info more-info" onclick="parkingInfoPopup()" value="More Info">    
+                    <input type="button" class="btn btn-info more-info" onclick="" value="Pay">           
               </span>
             </span>
-          </a> <a class="list-group-item list-group-item-action"> <span>
-              <span>Hyatt Place - Uncovered Self Park</span> <span>110.9
-                miles away</span> <span><button>$14.70</button>
-                <button>Reserve</button></span>
-            </span>
-          </a> <a class="list-group-item list-group-item-action"><span>
+          </a> 
+          <a class="list-group-item list-group-item-action"><span>
               <span>Hyatt Place - Uncovered Self Park</span> <span>110.9
                 miles away</span> <span><button>$14.70</button>
                 <button>Reserve</button></span>
             </span> </a>
-
-
-
+            -->
         </div>
 
 
       </div>
 
       <!--지도 API-->
-      <div class="shadow-sm col-sm-9" id="map"></div>
+      <div class="shadow-sm col-sm-8" id="map"></div>
       <input type="hidden" id="lat"> <input type="hidden" id="lon">
       <!-- style="width:950px;height:500px;" -->
       <script type="text/javascript"
@@ -477,12 +480,16 @@
                   
             console.log(typeof data[d]);
           }  */
+
         navigator.geolocation.getCurrentPosition(function (pos) {
           //latitude = pos.coords.latitude;
           //longitude = pos.coords.longitude;
+
+          //
+          parkingList(data);
+          //주차장 마커찍기
           parkingMarker(data, pos);
-          // console.log("위도 : " + latitude);
-          //console.log("경도 : " + longitude);
+         
         });
       },
       error: function (data) { // 데이터 통신에 실패한 것
@@ -498,10 +505,10 @@
     //테스트 자신의 위치 자겨오기
  	
     var obj = data;
-    if($("#map") != null)
-    {
-    	$("#map").empty();
-    }
+    // if($("#map") != null)
+    // {
+    // 	$("#map").empty();
+    // }
     var mapContainer = document.getElementById('map'),
     //var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
       mapOption = {
@@ -608,9 +615,8 @@
     	    removable : iwContents[i].iwRemoveable
       });
       
-      kakao.maps.event.addListener(marker,'click',makeOverListener(map,marker,infowindow));
-      //kakao.maps.event.addListener(marker,'click',makeOutListener(infowindow));
-      
+      kakao.maps.event.addListener(marker,'click',makeOverListener(map, marker, infowindow));
+      //kakao.maps.event.addListener(marker,'click',makeOutListener(infowindow));     
      	 //infowindow.open(map, marker); // 지도에 올리면서, 두번째 인자로 들어간 마커 위에 올라가도록 설정합니다.
     }
   }
@@ -618,6 +624,7 @@
   function makeOverListener(map,marker,infowindow)
   {
     return function(){
+      console.log(marker.getTitle());
       infowindow.open(map,marker);
     };
   }
@@ -628,6 +635,41 @@
       infowindow.close();
     };
   }
+  
+  function parkingList(data)
+  {
+    window.localStorage.setItem("parkingList",JSON.stringify(data));
+    for(var d in data)
+    {
+      var listScroll = $("#listScroll");
+      var aTag = $("<a class='list-group-item list-group-item-action'>");
+      var span0 = $("<span>");
+      var span1 = $("<span>").html(data[d]["parkingName"]+"<br>");
+      var span2 = $("<span>").html(data[d]["addr"]+"<br>");
+      var span3 = $("<span>");
+      var input1 = $("<input type='button' class='btn btn-info more-info' onclick='parkingInfoPopup()' value='More Info'>");
+      var input2 = $("<input type='button' class='btn btn-info more-info' onclick='payment()' value='Pay'>");
+      span3.append(input1).append(input2);
+      span0.append(span1).append(span2).append(span3);
+      aTag.append(span0);
+      listScroll.append(aTag);
+    }
+                  /*
+                  <div class="card shadow-sm text-left" id="listScroll">
+                    <a class="list-group-item list-group-item-action"> 
+                          <span>
+                            <span>Hyatt Place - Uncovered Self Park</span>
+                            <span>110.9miles away</span>
+                              <span>
+                                  <input type="button" class="btn btn-info more-info" onclick="parkingInfoPopup()" value="More Info">    
+                                  <input type="button" class="btn btn-info more-info" onclick="" value="Pay">           
+                            </span>
+                          </span>
+                        </a> 
+                  */
+	  
+  }
+  
 
 
 
