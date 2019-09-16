@@ -60,9 +60,9 @@ public class AdminMemberSearchServlet extends HttpServlet {
     }else {
       pageBar += "<li class='page-item'>"
                   +"<a class='page-link' href='javascript:;' " 
-                  + " onclick='ajaxReqSearchList("+(pageNo-1) + ","
-                                                +searchType+","
-                                                +searchKeyword+ ");'> "
+                  + " onclick=\"ajaxReqSearchList("+(pageNo-1) + ",'"
+                                                +searchType+"','"
+                                                +searchKeyword+ "');\"> "
                   + "Previous</a>"
                + "</li>";
 //      pageBar+="<a href='"+request.getContextPath()
@@ -77,9 +77,9 @@ public class AdminMemberSearchServlet extends HttpServlet {
       }else {
       pageBar += "<li class='page-item'>"
                   +"<a class='page-link' href='javascript:;' " 
-                  + " onclick='ajaxReqSearchList("+pageNo + ","
-                                                +searchType+","
-                                                +searchKeyword+ ");'> " + pageNo
+                  + " onclick=\"ajaxReqSearchList("+pageNo + ",'"
+                                                +searchType+"','"
+                                                +searchKeyword+ "');\"> " + pageNo
                   + "</a>"
                + "</li>";
 //        pageBar+="<a href='"+request.getContextPath()
@@ -96,9 +96,9 @@ public class AdminMemberSearchServlet extends HttpServlet {
     }else {
       pageBar += "<li class='page-item'>"
                   +"<a class='page-link' href='javascript:;' " 
-                  + " onclick='ajaxReqSearchList("+pageNo + ","
-                                                +searchType+","
-                                                +searchKeyword+ ");'> "
+                  + " onclick=\"ajaxReqSearchList("+pageNo + ",'"
+                                                +searchType+"','"
+                                                +searchKeyword+ "');\"> "
                   + "Next</a>"
                + "</li>";
 //      pageBar+="<a href='"+request.getContextPath()

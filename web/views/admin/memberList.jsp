@@ -130,9 +130,13 @@
           });
         }
         function ajaxReqSearchList(pageNo, searchType, searchKeyword){
-          var url = "<%=request.getContextPath() %>/admin/memberFinder?cPage=" + pageNo
-                                                                + "&searchType="+searchType 
-                                                                + "&searchKeyword=" +searchKeyword;
+          var url;
+          console.log(searchType);
+          console.log(searchKeyword);
+          url = "<%=request.getContextPath() %>/admin/memberFinder?cPage=" + pageNo
+                                                            + "&searchType="+searchType 
+                                                            + "&searchKeyword=" +searchKeyword;
+
           $.ajax({
             type: "POST",
             url: url,

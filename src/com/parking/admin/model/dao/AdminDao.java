@@ -111,7 +111,7 @@ public class AdminDao {
     PreparedStatement pstmt = null;
     ResultSet rs = null;
 //    String sql = prop.getProperty("selectCountMemberPartial");
-    String sql = "select count(*) as cnt from member where "+ searchType+ " like '%" + keyword + "%'";
+    String sql = "select count(*) as cnt from member where upper("+ searchType+ ") like '%" + keyword.toUpperCase() + "%'";
     int count =0;
     
     try {
@@ -144,8 +144,8 @@ public class AdminDao {
 //    String sql = prop.getProperty("selectListPagePartial");
     String sql="select * from ("
         + "select rownum as rnum, a.* from("
-        + "select * from member where "
-        + searchType+" like '%"+keyword+"%' )a) "
+        + "select * from member where upper("
+        + searchType+") like '%"+keyword.toUpperCase()+"%' )a) "
         + "where rnum between "+start+" and "+end;
 
     List<Member> list = new ArrayList<Member>();
