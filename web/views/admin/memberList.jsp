@@ -18,8 +18,15 @@
   </style>
 
     <section class="py-4 subMenu-container" id="memberList-container">
-      <h2>Member List</h2>
-      <div id="neck-container">
+      <div class="d-flex align-items-center p-3 mt-0 mb-3 text-white-50 bg-primary rounded shadow-sm">
+        <!-- <img class="mr-3" src="" alt="" width="48" height="48"> -->
+        <img src="<%=request.getContextPath() %>/images/list.png" class="mr-3" width="30px">
+        <div class="lh-100">
+          <p class="h5 mb-0 text-white lh-100">&nbsp;Member List</p>
+          <small>Since 2019.09</small>
+        </div>
+      </div>
+      <div id="neck-container" class="my-2">
         <div id="search-container">
           SEARCH TYPE : 
           <select id="searchType">
@@ -32,7 +39,7 @@
               <input type="hidden" name="cPage" value="<%=cPage%>"/>
               <input type="text" placeholder="Search Email" name="searchKeyword"
                      value='<%="user_Email".equals(searchType)? searchKeyword:"" %>' size="25"/>
-              <button type="submit" class="btn btn-primary">SEARCH</button>
+              <button type="submit" class="btn btn-sm btn-outline-primary mb-1">SEARCH</button>
             </form>
           </div>
           <div id="search-user_Name">
@@ -41,7 +48,7 @@
               <input type="hidden" name="cPage" value="<%=cPage%>"/>
               <input type="text" placeholder="Search User Name" name="searchKeyword"
                      value='<%="user_Name".equals(searchType)? searchKeyword: ""%>' size="25"/>
-              <button type="submit" class="btn btn-primary">SEARCH</button>
+              <button type="submit" class="btn btn-sm btn-outline-primary mb-1">SEARCH</button>
             </form>
           </div>
         </div>
@@ -69,10 +76,10 @@
             <th scope="col">Name</th>
             <th scope="col">Created</th>
             <th scope="col">Logged</th>
-            <th scope="col">SMS(Y/N)</th>
-            <th scope="col">Email(Y/N)</th>
-            <th scope="col">Email Verified(Y/N)</th>
-            <th scope="col">SNS account</th>
+            <!-- <th scope="col">SMS(Y/N)</th>
+            <th scope="col">Email(Y/N)</th> -->
+            <th scope="col">Verified(Y/N)</th>
+            <th scope="col">SNS</th>
           </tr>
         </thead>
         <tbody>
@@ -90,8 +97,8 @@
               <td><%=m.getUserName() %></td>
               <td><%=m.getUserCreatedDate() %></td>
               <td><%=m.getUserLoginDate() %></td>
-              <td><%=m.getUserSmsYn()==1? 'Y':'N' %></td>
-              <td><%=m.getUserEmailYn()==1? 'Y':'N' %></td>
+              <!-- <td><%=m.getUserSmsYn()==1? 'Y':'N' %></td>
+              <td><%=m.getUserEmailYn()==1? 'Y':'N' %></td> -->
               <td><%=m.getUserEmailVerified()==1? 'Y':'N' %></td>
               <td><%=m.getUserSnsAccount() %></td>
             </tr>

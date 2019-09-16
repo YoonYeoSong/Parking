@@ -646,11 +646,11 @@
       var span0 = $("<span>");
       var span1 = $("<span>").html(data[d]["parkingName"]+"<br>");
       var span2 = $("<span>").html(data[d]["addr"]+"<br>");
-      var span3 = $("<span>");
-      var input1 = $("<input type='button' class='btn btn-info more-info' onclick='parkingInfoPopup()' value='More Info'>");
-      var input2 = $("<input type='button' class='btn btn-info more-info' onclick='payment()' value='Pay'>");
-      span3.append(input1).append(input2);
-      span0.append(span1).append(span2).append(span3);
+      var div = $("<div class='mt-2'>");
+      var input1 = $("<input type='button' class='btn btn-sm btn-outline-info more-info mr-1' onclick='parkingInfoPopup(this)' value='More Info'>");
+      var input2 = $("<input type='button' class='btn btn-sm btn-outline-info more-info' onclick='payment()' value='Pay'>");
+      div.append(input1).append(input2);
+      span0.append(span1).append(span2).append(div);
       aTag.append(span0);
       listScroll.append(aTag);
     }
@@ -669,8 +669,13 @@
                   */
 	  
   }
-  
 
+  function parkingInfoPopup(ele){
+    var data = window.localStorage.getItem("parkingList");
+    console.log(data);
+    console.log(ele.parentNode.id)
+    
+  }
 
 
 
