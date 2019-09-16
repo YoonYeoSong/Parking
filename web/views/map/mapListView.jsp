@@ -8,7 +8,8 @@
 
 <%-- <%@ include file="/views/common/header.jsp"%> --%>
 
-<% List<Parking> list = (List)request.getAttribute("list");
+<% /* List<Parking> list = (List)request.getAttribute("list"); */
+	String search = (String)request.getAttribute("search");
 	Object[] obj = null;
 %>
 <%
@@ -35,10 +36,6 @@
 <!-- overflow:auto 사용하여 list 내용이 잘릴때 스크롤 사용  -->
 
 <head>
-  <script>
-    var lat = null;
-    var lon = null;
-  </script>
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -75,6 +72,45 @@
   <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 
   <script>
+  
+  	
+  	$(function(){
+  		if(<%=search%> != null)
+		{
+		      $.ajax({
+		      url: "<%=request.getContextPath()%>/ajax/searchAddr.do",
+		      type: "post",
+		      data: { addr: "<%=search%>" },
+		      dataType: "json",
+		      success: function (data) {
+		        console.log("들어오냐?");
+		        console.log(data);
+		
+		        /*    for(var d in data) {
+		            console.log(data[d]);
+		                  
+		            console.log(typeof data[d]);
+		          }  */
+		        navigator.geolocation.getCurrentPosition(function (pos) {
+		          //latitude = pos.coords.latitude;
+		          //longitude = pos.coords.longitude;
+		          parkingMarker(data, pos);
+		          // console.log("위도 : " + latitude);
+		          //console.log("경도 : " + longitude);
+		        });
+		      },
+		      error: function (data) { // 데이터 통신에 실패한 것
+		        console.log("서버 전송 실패");
+		      }
+		
+		    });
+		
+		}else{
+			return;
+		}
+  		
+  	});
+  	
     function googleTranslateElementInit() {
       new google.translate.TranslateElement(
         {
@@ -397,58 +433,6 @@
       <script type="text/javascript"
         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=002ce24c1581207f304dfb0ead53db42"></script>
 
-
-      <p id="demo" type="hidden"></p>
-
-
-
-      <script>
-
-        var x = document.getElementById("demo");
-
-        function getLocation() {
-          if (navigator.geolocation) {
-            navigator.geolocation.watchPosition(showPosition);
-          } else {
-            x.innerHTML = "Geolocation is not supported by this browser.";
-          }
-        }
-
-        function showPosition(position) {
-          x.innerHTML = "Latitude: " + position.coords.latitude +
-            "<br>Longitude: " + position.coords.longitude;
-        }
-
-
-
-
-        var loc = [];
-
-        var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-          mapOption = {
-
-            center: new kakao.maps.LatLng(lat, lon), // 지도의 중심좌표
-            level: 3,
-            /* mapTypeId: new kakao.maps.MapTypeId(SKYVIEW) */
-            // 지도의 확대 레벨
-          };
-
-        var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-
-        // 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성합니다
-        var mapTypeControl = new kakao.maps.MapTypeControl();
-
-        // 지도에 컨트롤을 추가해야 지도위에 표시됩니다
-        // kakao.maps.ControlPosition은 컨트롤이 표시될 위치를 정의하는데 TOPRIGHT는 오른쪽 위를 의미합니다
-        map.addControl(mapTypeControl,
-          kakao.maps.ControlPosition.TOPRIGHT);
-
-        // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
-        var zoomControl = new kakao.maps.ZoomControl();
-        map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
-
-      </script>
-
     </div>
   </div>
 </body>
@@ -458,11 +442,6 @@
 
 
 <script>
-
-  function mapGelocation() {
-
-
-  }
 
 
 
@@ -554,14 +533,14 @@
       positions.push({
         title: data[d]['parkingName'],
         latlng: new kakao.maps.LatLng(data[d]['latitude'], data[d]['hardness']),
-        clickable:true
+        //clickable:true
       });
       
       
       
       iwContents.push({
   		iwContent : '<div style="padding:2px;">'+data[d]['parkingName']+'</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-  	    iwPosition : new kakao.maps.LatLng(data[d]['latitude'], data[d]['hardness']), //인포윈도우 표시 위치입니다
+  	   // iwPosition : new kakao.maps.LatLng(data[d]['latitude'], data[d]['hardness']), //인포윈도우 표시 위치입니다
   	    iwRemoveable : true // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
   	});
       
@@ -596,25 +575,25 @@
      ]; */
 
     // 마커 이미지의 이미지 주소입니다
-    var imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+    //var imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
 
     for (var i = 0; i < positions.length; i++) {
 
       // 마커 이미지의 이미지 크기 입니다
-      var imageSize = new kakao.maps.Size(24, 35);
+      //var imageSize = new kakao.maps.Size(24, 35);
 
       // 마커 이미지를 생성합니다    
-      var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+      //var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
 
       // 마커를 생성합니다
       var marker = new kakao.maps.Marker({
-        //map: map, // 마커를 표시할 지도
+        map: map, // 마커를 표시할 지도
         position: positions[i].latlng, // 마커를 표시할 위치
         title: positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-        clickable: true
         //image: markerImage // 마커 이미지 
       });
-      marker.setMap(map);
+      marker.setClickable(true);
+      //marker.setMap(map);
       
       // 인포윈도우를 생성하고 지도에 표시합니다
     /*   var infowindow = new kakao.maps.InfoWindow({
@@ -627,10 +606,27 @@
       	var infowindow  = new kakao.maps.InfoWindow({
     	    content: iwContents[i].iwContent, // 인포윈도우 내부에 들어갈 컨텐츠 입니다.
     	    removable : iwContents[i].iwRemoveable
-    	});
-     	 infowindow.open(map, marker); // 지도에 올리면서, 두번째 인자로 들어간 마커 위에 올라가도록 설정합니다.
-    	
-    }  
+      });
+      
+      kakao.maps.event.addListener(marker,'click',makeOverListener(map,marker,infowindow));
+      //kakao.maps.event.addListener(marker,'click',makeOutListener(infowindow));
+      
+     	 //infowindow.open(map, marker); // 지도에 올리면서, 두번째 인자로 들어간 마커 위에 올라가도록 설정합니다.
+    }
+  }
+
+  function makeOverListener(map,marker,infowindow)
+  {
+    return function(){
+      infowindow.open(map,marker);
+    };
+  }
+
+  function makeOutListener(infowindow)
+  {
+    return function(){
+      infowindow.close();
+    };
   }
 
 
