@@ -38,8 +38,8 @@
         <!-- 카카오 Map container-->
         <div class="container map-container" id="map-container-google-2" style="height: 500px">
 
-          <button class="btn btn-outline-primary mb-2" onclick="refreshMap()"><i class="fa fa-map-marker">&nbsp;&nbsp;</i>Where Am I?</button>
-          <div id="map" class="card shadow-sm row " style="width:100%;height:400px;" style="border:0;"></div>
+          <button class="btn btn-sm btn-outline-primary mb-2" onclick="refreshMap()"><i class="fa fa-map-marker">&nbsp;&nbsp;</i>Where Am I?</button>
+          <div id="map" class="card shadow-sm row mx-auto" style="width:100%;height:400px;" style="border:0;"></div>
         </div>
 
         <style>
@@ -97,7 +97,7 @@
             var mapOption = { 
                 center: new kakao.maps.LatLng(lat, lon),
                 // 지도의 중심좌표
-                level: 7 // 지도의 확대 레벨
+                level: 8 // 지도의 확대 레벨
             };
 
             var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성
