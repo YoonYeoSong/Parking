@@ -100,6 +100,7 @@
 		          //latitude = pos.coords.latitude;
 				  //longitude = pos.coords.longitude;
 						$('#listScroll').empty();
+
 				      parkingList(data);
 		          parkingMarker(data, pos);
 		          // console.log("위도 : " + latitude);
@@ -365,7 +366,7 @@
 
             <% if(loginMember != null) {%>
             <li class="nav-item">
-              <form action="<%=request.getContextPath() %>/logout" method="post">
+              <form action="<%=request.getContextPath() %>/logout" method="post" class="mb-0">
                 <button type="submit" class="btn btn-sm btn-outline-light mt-1 mr-1"
                   onclick="return logoutSnsAccount();">Log Out</button>
               </form>
@@ -887,11 +888,14 @@
       var span1 = $("<span>").html(data[d]["parkingName"]+"<br>");
       var span2 = $("<span>").html(data[d]["addr"]+"<br>");
       var div = $("<div class='mt-2'>");
+      // var btnStr = "<button class='btn btn-sm btn-outline-info mr-1' "
+      //                       // + "data-toggle='modal' "
+      //                       // + "data-target='#myModal' "
+      //                       + "onclick='parkingListPopup();' "
+      //                       + ">More Info</button>";
       var btnStr = "<button class='btn btn-sm btn-outline-info mr-1' "
-                            // + "data-toggle='modal' "
-                            // + "data-target='#myModal' "
-                            + "onclick='parkingListPopup();' "
-                            + ">More Info</button>";
+                            + "id='parking" + d + "'>"
+                            + "More Info</button>";
       var infoBtn = $(btnStr);
       var input2 = $("<input type='button' class='btn btn-sm btn-outline-info pay' onclick='payment()' value='Pay'>");
       div.append(infoBtn).append(input2);
@@ -900,6 +904,45 @@
       listScroll.append(aTag);	
 
     }
+    // + "onclick='parkingListPopup();' "
+    $(function(){
+      var data = JSON.parse(window.localStorage.getItem('parkingList'));
+
+      /* read  */
+      $.each(data, function(d, item) {
+        // console.log(item);
+        $('#parking' + d).click(function(){
+          var parkingName = data[d]["parkingName"];
+          var addr = data[d]["addr"];
+          var operationRuleNm = data[d]["operationRuleNm"];
+          var parkingTypeNm = data[d]["parkingTypeNm"];
+          var tel = data[d]["tel"];
+          var capacity = data[d]["capacity"];
+          var curParking = data[d]["curParking"];
+          // var latitude = data[d]["latitude"];
+          // var longitude = data[d]["hardness"];
+          console.log(parkingName);
+
+          $('#myModal').modal('show');
+
+          $('#modalLabelParkingName').html(parkingName);
+          $('#parkingName').html(parkingName);
+          $('#addr').html(addr);
+          $('#operationRuleNm').html(operationRuleNm);
+          $('#parkingTypeNm').html(parkingTypeNm);
+          $('#tel').html(tel);
+          $('#capacity').html(capacity);
+          $('#curParking').html(curParking);
+
+
+        });
+        // alert(data[i]);
+      });
+
+
+
+
+    });
                   /*
                   <div class="card shadow-sm text-left" id="listScroll">
                     <a class="list-group-item list-group-item-action"> 
@@ -915,10 +958,6 @@
                   */
   }
 
-  function parkingListPopup(){
-    $('#myModal').modal('show');
-    
-  }
 
 
 
@@ -954,11 +993,11 @@
 </div>
 <!-- Button trigger modal -->
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="modalLabelParkingName" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title ml-auto" id="myModalLabel">Location Name</h5>
+        <h5 class="modal-title ml-auto" id="modalLabelParkingName"></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -978,13 +1017,11 @@
           <div class="card-body text-center">
             <div class="row">
               <div class="col border-right">
-                <i class="fa fa-bookmark text-twitter"></i>
-                <span class="text-muted">Bookmark</span>
+                <span class="text-muted"><a href="#"><i class="fa fa-bookmark text-twitter">&nbsp;&nbsp;</i>Bookmark</a></span>
                 <div class="font-weight-bold">12K</div>
               </div>
               <div class="col">
-                <i class="fa fa-edit text-twitter"></i>
-                <span class="text-muted">Review</span>
+                <span class="text-muted"><a href="#"><i class="fa fa-edit text-twitter">&nbsp;&nbsp;</i>Review</a></span>
                 <div class="font-weight-bold">1K</div>
               </div>
             </div>
@@ -992,27 +1029,43 @@
         </div>
         <div class="card mb-4 rounded">
           <div class="card-body">
-            <h3 class="mr-auto text-center my-4">Information</h3>
+            <!-- <h3 class="mr-auto text-center my-4">Information</h3> -->
 
             <div class="row my-2">
-              <div class="col-md-4 border-right"><i class="fa fa-map-signs">&nbsp;&nbsp;</i>Name</div>
-              <div class="col-md-8"><i class=""></i>주차장이름</div>
+              <div class="col-md-4 border-right"><i class="fa fa-map-signs">&nbsp;&nbsp;</i>Parking lot Name</div>
+              <div class="col-md-8" id="parkingName"><i class=""></i></div>
             </div>
             <div class="row my-2">
               <div class="col-md-4 border-right"><i class="fa fa-map-marker">&nbsp;&nbsp;</i>Address</div>
-              <div class="col-md-8">서울시 강남구 대치동</div>
+              <div class="col-md-8" id="addr"></div>
             </div>
             <div class="row my-2">
               <div class="col-md-4 border-right"><i class="fa fa-hourglass">&nbsp;&nbsp;</i>Operation Time</div>
-              <div class="col-md-8">월~금 08:00 ~ 22:00</div>
+              <div class="col-md-8" id="operationTime"></div>
+            </div>
+            <div class="row my-2">
+              <div class="col-md-4 border-right"><i class="fa fa-info-circle">&nbsp;&nbsp;</i>Operation Rule Name</div>
+              <div class="col-md-8" id="operationRuleNm"></div>
+            </div>
+            <div class="row my-2">
+              <div class="col-md-4 border-right"><i class="fa fa-exclamation-triangle">&nbsp;&nbsp;</i>Parking Type Name</div>
+              <div class="col-md-8" id="parkingTypeNm"></div>
             </div>
             <div class="row my-2">
               <div class="col-md-4 border-right"><i class="fa fa-globe">&nbsp;&nbsp;</i>Web Link</div>
-              <div class="col-md-8"><a href="#">https://example.com</a></div>
+              <div class="col-md-8 "><a href="#">https://example.com</a></div>
+            </div>
+            <div class="row my-2">
+              <div class="col-md-4 border-right"><i class="fa fa-car">&nbsp;&nbsp;</i>Capacity</div>
+              <div class="col-md-8" id="capacity"></div>
+            </div>
+            <div class="row my-2">
+              <div class="col-md-4 border-right"><i class="fa fa-car">&nbsp;&nbsp;</i>Current Parking</div>
+              <div class="col-md-8" id="curParking"></div>
             </div>
             <div class="row my-2">
               <div class="col-md-4 border-right"><i class="fa fa-phone">&nbsp;&nbsp;</i>Tel</div>
-              <div class="col-md-8">02-123-4567</div>
+              <div class="col-md-8" id="tel"></div>
             </div>
           </div>
         </div>
