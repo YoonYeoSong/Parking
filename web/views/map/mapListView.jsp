@@ -731,7 +731,6 @@
     window.localStorage.setItem("parkingList",JSON.stringify(data));
     for(var d in data)
     {
-
       var listScroll = $("#listScroll");
       var aTag = $("<a class='list-group-item list-group-item-action'>");
       var span0 = $("<span id="+d+">");
@@ -739,10 +738,10 @@
       var span2 = $("<span>").html(data[d]["addr"]+"<br>");
       var div = $("<div class='mt-2'>");
       var btnStr = "<button class='btn btn-sm btn-outline-info mr-1' "
-                            + "data-toggle='modal'"
-                            + "data-target='#myModal'"
+                            // + "data-toggle='modal' "
+                            // + "data-target='#myModal' "
+                            + "onclick='parkingListPopup();' "
                             + ">More Info</button>";
-                            // + "onclick='parkingInfoPopup()'>More Info</button>";
       var infoBtn = $(btnStr);
       var input2 = $("<input type='button' class='btn btn-sm btn-outline-info pay' onclick='payment()' value='Pay'>");
       div.append(infoBtn).append(input2);
@@ -764,19 +763,13 @@
                           </span>
                         </a> 
                   */
-	  
   }
 
-  function parkingInfoPopup(){
-    console.log("hello");
-    // $.ajax({
-
-    // });
-    // var data = window.localStorage.getItem("parkingList");
-    // console.log(data);
-    // console.log(ele.parentNode.id)
+  function parkingListPopup(){
+    $('#myModal').modal('show');
     
   }
+
 
 
 
@@ -815,7 +808,7 @@
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title ml-auto" id="myModalLabel">Parking Lot Details</h5>
+        <h5 class="modal-title ml-auto" id="myModalLabel">Location Name</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
