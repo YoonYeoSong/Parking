@@ -99,6 +99,7 @@
 		        navigator.geolocation.getCurrentPosition(function (pos) {
 		          //latitude = pos.coords.latitude;
 				  //longitude = pos.coords.longitude;
+						$('#listScroll').empty();
 				      parkingList(data);
 		          parkingMarker(data, pos);
 		          // console.log("위도 : " + latitude);
@@ -199,10 +200,14 @@
     .style_width {
       width: 100%;
     }
-    object#daum\:roadview\:1
+  <%for(int i = 1; i < 1000; i++){%>
+    object#daum\:roadview\:<%=i%>
     {
       position: relative !important;
     }
+	<%}%>
+		
+	
     #mapbtn{
       z-index: 2;
       position: absolute;
@@ -224,6 +229,7 @@
       border-radius: 3px;
       box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 2px 0px;
     }
+	
     
 	
 
@@ -463,40 +469,45 @@
 				var idValue = $(e.target).children().first().attr('id');       
 				var data = JSON.parse(localStorage.getItem("parkingList"));
 				console.log(data);
-        $("#loadviewbtn").attr("disabled","true");
 				for(var d in data)
 				{
+					
 					if(d == idValue)
 					{
+						if($("#loadview").css("display") != 'none')
+						{
+							loadView(data[d]["latitude"],data[d]["hardness"],data[idValue]["hardness"]);
+							idValue = window.localStorage.setItem("selectNum", idValue);
+						}else{
+							
+							window.localStorage.setItem("selectNum", idValue);
+							mapCopy.setCenter(new kakao.maps.LatLng(data[idValue]["latitude"], data[idValue]["hardness"]));			
+							mapCopy.setLevel(2);
+						}
             //window.localStorage.setItem("realLat",JSON.data[idValue]["latitude"]);
             //window.localStorage.setItem("realLon",data[idValue]["hardness"]);
             //window.localStorage.setItem("pName",data[d]["parkingName"]);
-            window.localStorage.setItem("selectNum", idValue);
-            mapCopy.setCenter(new kakao.maps.LatLng(data[idValue]["latitude"], data[idValue]["hardness"]));			
-				    mapCopy.setLevel(2);
 						//loadView(data[idValue]["latitude"],data[idValue]["hardness"],data[d]["parkingName"]);	
 					}
 				}
-				//console.log($("#map").children().eq(2).css("position"));
-				//$("#map").children().css("position","relative");
-				//$("#map").attr("style","position:relative");
+			
 			});
-			//$('object').attr("style","position:relative;");
+			
 			
 			
 			function loadView(lat,lon,pName)
 			{
-				var map = $("#loadview");
+				var load = $("#loadview");
 				//var roadview = $("#loadview");
 				//var placePosition = mapCopy.setCenter(new kakao.maps.LatLng(lat, lon));			
 				//mapCopy.setLevel(2);
 				
-				if($("#loadview").val() != null)
+				if($("#loadview") != null)
 				{
 					$("#loadview").empty();
-					//$("roadview").empty();
 				}
-        mapTaginit(1);
+				
+        		mapTaginit(2);
 								
 				var roadviewContainer = document.getElementById('loadview'); //로드뷰를 표시할 div
 				var roadview = new kakao.maps.Roadview(roadviewContainer); //로드뷰 객체
@@ -508,6 +519,7 @@
 					roadviewClient.getNearestPanoId(position, 800, function(panoId) {
 					roadview.setPanoId(panoId, position); //panoId와 중심좌표를 통해 로드뷰 실행
 				});
+				
 			}
 
       function realLocClick()
@@ -522,31 +534,31 @@
       function loadviewClick()
       {   
 				var idValue = localStorage.getItem("selectNum");     
+				console.log("id value : " + idValue);
 				var data = JSON.parse(localStorage.getItem("parkingList"));
-        $("#loadviewbtn").attr("disabled","false");
 				for(var d in data)
 				{
-					if(d == idValue)
+					if(d == Number(idValue))
 					{
             //window.localStorage.setItem("realLat",JSON.data[idValue]["latitude"]);
             //window.localStorage.setItem("realLon",data[idValue]["hardness"]);
             //window.localStorage.setItem("pName",data[d]["parkingName"]);
-            window.localStorage.setItem("selectNum", idValue);
-            loadView(data[idValue]["latitude"],data[idValue]["hardness"],data[idValue]["parkingName"]);
+            loadView(data[d]["latitude"], data[d]["hardness"], data[d]["parkingName"]);
+            idValue = window.localStorage.setItem("selectNum", idValue);
 					}
 				}
-        mapTaginit(2);
-        $("#loadviewbtn").attr("disabled","false");
+				
+				
       }
 
       function mapClick()
       {
         var idValue = localStorage.getItem("selectNum");     
 				var data = JSON.parse(localStorage.getItem("parkingList"));
-        $("#loadviewbtn").attr("disabled","true");
+
 				for(var d in data)
 				{
-					if(d == idValue)
+					if(d == Number(idValue))
 					{
             //window.localStorage.setItem("realLat",JSON.data[idValue]["latitude"]);
             //window.localStorage.setItem("realLon",data[idValue]["hardness"]);
@@ -558,7 +570,6 @@
 					}
 				}
         mapTaginit(1);
-        $("#loadviewbtn").attr("disabled","true");
       }
 
 	
@@ -612,7 +623,7 @@
           //latitude = pos.coords.latitude;
           //longitude = pos.coords.longitude;
 
-          //
+          $('#listScroll').empty();
           parkingList(data);
           //주차장 마커찍기
           parkingMarker(data, pos);
@@ -636,53 +647,67 @@
     var mbtn = $("#mapbtn").length;
     var lVbtn = $("#loadviewbtn").length;
 
-    console.log(rbtn);
+    console.log("rbtn :" +rbtn);
+		console.log("lVbtn :" +lVbtn);
+		console.log("mbtn :" +mbtn);
+		
+		// map 이 위로 올라오고 현위치버튼 로드뷰 버튼이 위로 올라온다
     if(rbtn == 0 && num == 1)
     {
       rbtn = null;
-      rbtn = $("<input type='hidden' id='realLocBtn' value='현위치' onclick='realLocClick()'>"); //현위치 버튼
+      rbtn = $("<input type='button' id='realLocBtn' value='현위치' onclick='realLocClick()'>"); //현위치 버튼
       $("#map").append(rbtn);
       console.log("여기왔음");
 
       lVbtn = null;
-      lVbtn = $("<input type='hidden' id='loadviewbtn' value='로드뷰' onclick='loadviewClick()'>"); // 로드뷰 버튼
-      $("map").remove("type");
-      $("#map").append(lVbtn);
-      $("#loadview").attr("type","hidden");
-      $("#realLocBtn").attr("type","button");
-      $("#loadviewbtn").attr("type","button");
-      $("#mapbtn").attr("type","hidden");
-      $("#loadviewbtn").attr("disabled","false");
-    }
-    if(mbtn == 0 && num == 2)
+      lVbtn = $("<input type='button' id='loadviewbtn' value='로드뷰' onclick='loadviewClick()'>"); // 로드뷰 버튼
+			$("#map").append(lVbtn);
+	
+			$("#loadview").hide();
+			
+    }else if(rbtn == 1 && num == 1)
+		{		
+			$("#loadview").hide();
+			$("#map").show();
+		}
+		
+    if(num == 2)
     {
     	mbtn = null;
-      mbtn = $("<input type='hidden' id='mapbtn' value='지도' onclick='mapClick()'>"); // 지도 버튼
-      $("loadview").remove("type");
-      $("#map").attr("type","hidden");
-      $("#loadview").append(mbtn);
-      $("#realLocBtn").attr("type","hidden");
-      $("#mapbtn").attr("type","button");
-      $("#loadviewbtn").attr("type","hidden");
-      $("#loadview").attr("disabled","true");
-
+      mbtn = $("<input type='button' id='mapbtn' value='지도' onclick='mapClick()'>"); // 지도 버튼
+			console.log("여기왔음");
+			$("#loadview").append(mbtn);
+			$("#loadview").show();
+			$("#map").hide();  
+			
+				// /$('#search\\_form\\:expression')
+				//var obj = $("#loadview").find($("#daum\\:roadview\\:2"));
+				//console.log("obj:"+obj);
+				//$("object[id^='daum\\:roadview\\:^\d+$']")
+				//var name = $("div[id*='daum\\:roadview\\:']").attr("id");
+				//var name = document.childNodes;
+				
+				//var name = $("#loadview")['prevObject'].find("object[id^='daum\\:roadview\\:^\d+$']").attr("id");
+			//	console.log(name);
+				// for(var i = 0; i < name.prevObject.length(); i++)
+				// {
+				// 	console.log(name.prevObject[i].children[i]);				
+				// }
+				// for(var i = 0; i < name.length; i++)
+				// {
+				// 	 console.log(i+"번째 : "+ name[i].);
+				// }
+				// console.log(name);
+				// if($("#daum\\:roadview\\:2").length)
+				// {
+				// 	console.log("찾음");
+				// 	//obj = null;
+				// 	$("#daum\\:roadview\\:2").attr("daum\\:roadview\\:1");
+				// }
+        		//$("#loadviewbtn").attr("disabled","disabled");
+			
     }
-   
-
-
-    // if(num == 1)
-    // {
-    //   $("#realLocBtn").attr("type","button");
-    //   $("#loadviewbtn").attr("type","button");
-    //   $("#mapbtn").attr("type","hidden");
-    // }else if(num == 2)
-    // {
-    //   $("#realLocBtn").attr("type","hidden");
-    //   $("#mapbtn").attr("type","button");
-    //   $("#loadviewbtn").attr("type","hidden");
-    // }
-
-
+		
   }
 
   function parkingMarker(data, pos) {
