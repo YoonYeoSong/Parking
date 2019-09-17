@@ -44,6 +44,8 @@
   <meta name="google-signin-client_id"
     content="847270498494-dj5o04t83q5uja6ccp6eekr3en7qcb8p.apps.googleusercontent.com">
   <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+  <script type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=002ce24c1581207f304dfb0ead53db42"></script>
   <title>Locate Parking Spaces</title>
 
   <!-- favicon -->
@@ -70,7 +72,8 @@
   <!-- API -->
   <!-- 카카오 -->
   <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
-
+<script type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=002ce24c1581207f304dfb0ead53db42"></script>
   <script>
   
   	
@@ -368,7 +371,7 @@
 
 
     <!-- row h-100 mt-1 pt-2 -->
-    <div class="card-deck text-center container-fluid" style="margin-top: 51px;" id="cardmap">
+    <div class="card-deck text-center container-fluid" style="margin-top: 51px;">
 
       <!--상단div_1-->
       <div class="shadow-sm col-sm-4">
@@ -440,13 +443,14 @@
 					if(d == idValue)
 					{
 						loadView(data[idValue]["latitude"],data[idValue]["hardness"],data[d]["parkingName"]);	
+            break;
 					}
 				}
 				//console.log($("#map").children().eq(2).css("position"));
 				//$("#map").children().css("position","relative");
 				//$("#map").attr("style","position:relative");
+			  $('object#daum:roadview:3').attr("style","position:relative;");
 			});
-			$('object').attr("style","position:relative;");
 			
 			
 			function loadView(lat,lon,pName)
@@ -471,7 +475,7 @@
 				var position = new kakao.maps.LatLng(lat, lon);
 
 				// 특정 위치의 좌표와 가까운 로드뷰의 panoId를 추출하여 로드뷰를 띄운다.
-					roadviewClient.getNearestPanoId(position, 800, function(panoId) {
+					roadviewClient.getNearestPanoId(position, 50, function(panoId) {
 					roadview.setPanoId(panoId, position); //panoId와 중심좌표를 통해 로드뷰 실행
 				});
 			}
@@ -506,7 +510,7 @@
       </div>
 
       <!--지도 API-->
-	  <div class="shadow-sm col-sm-8" id="map" style="position: relative;"></div>
+	  <div class="shadow-sm col-sm-8" id="map"></div>
       <!-- style="width:950px;height:500px;" -->
       <script type="text/javascript"
         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=002ce24c1581207f304dfb0ead53db42"></script>
@@ -730,7 +734,7 @@
 
       var listScroll = $("#listScroll");
       var aTag = $("<a class='list-group-item list-group-item-action'>");
-      var span0 = $("<span>");
+      var span0 = $("<span id="+d+">");
       var span1 = $("<span>").html(data[d]["parkingName"]+"<br>");
       var span2 = $("<span>").html(data[d]["addr"]+"<br>");
       var div = $("<div class='mt-2'>");
