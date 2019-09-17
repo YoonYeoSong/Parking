@@ -738,9 +738,14 @@
       var span1 = $("<span>").html(data[d]["parkingName"]+"<br>");
       var span2 = $("<span>").html(data[d]["addr"]+"<br>");
       var div = $("<div class='mt-2'>");
-      var input1 = $("<input type='button' class='btn btn-sm btn-outline-info more-info mr-1' onclick='parkingInfoPopup(this)' value='More Info'>");
-      var input2 = $("<input type='button' class='btn btn-sm btn-outline-info more-info' onclick='payment()' value='Pay'>");
-      div.append(input1).append(input2);
+      var btnStr = "<button class='btn btn-sm btn-outline-info mr-1' "
+                            + "data-toggle='modal'"
+                            + "data-target='#myModal'"
+                            + ">More Info</button>";
+                            // + "onclick='parkingInfoPopup()'>More Info</button>";
+      var infoBtn = $(btnStr);
+      var input2 = $("<input type='button' class='btn btn-sm btn-outline-info pay' onclick='payment()' value='Pay'>");
+      div.append(infoBtn).append(input2);
       span0.append(span1).append(span2).append(div);
       aTag.append(span0);
       listScroll.append(aTag);	
@@ -762,10 +767,14 @@
 	  
   }
 
-  function parkingInfoPopup(ele){
-    var data = window.localStorage.getItem("parkingList");
-    console.log(data);
-    console.log(ele.parentNode.id)
+  function parkingInfoPopup(){
+    console.log("hello");
+    // $.ajax({
+
+    // });
+    // var data = window.localStorage.getItem("parkingList");
+    // console.log(data);
+    // console.log(ele.parentNode.id)
     
   }
 
@@ -790,5 +799,92 @@
            }
          });
      }); */
+</script>
+
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      ...
+    </div>
+  </div>
+</div>
+<!-- Button trigger modal -->
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title ml-auto" id="myModalLabel">Parking Lot Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="card mb-4 rounded">
+          <div class="social-card-header align-middle text-center bg-light rounded border"
+               style="height:200px;">
+              <!-- <img class="mr-3" src="" alt="" width="48" height="48"> -->
+              <!-- <img src="<%=request.getContextPath() %>/images/qna.png" class="mr-3" width="60px"> -->
+              <div class="lh-100">
+                <p class="h5 mb-0 text-white lh-100">&nbsp;</p>
+                <!-- <small>Since 2019.09</small> -->
+              </div>
+          </div>
+          <div class="card-body text-center">
+            <div class="row">
+              <div class="col border-right">
+                <i class="fa fa-bookmark text-twitter"></i>
+                <span class="text-muted">Bookmark</span>
+                <div class="font-weight-bold">12K</div>
+              </div>
+              <div class="col">
+                <i class="fa fa-edit text-twitter"></i>
+                <span class="text-muted">Review</span>
+                <div class="font-weight-bold">1K</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card mb-4 rounded">
+          <div class="card-body">
+            <h3 class="mr-auto text-center my-4">Information</h3>
+
+            <div class="row my-2">
+              <div class="col-md-4 border-right"><i class="fa fa-map-signs">&nbsp;&nbsp;</i>Name</div>
+              <div class="col-md-8"><i class=""></i>주차장이름</div>
+            </div>
+            <div class="row my-2">
+              <div class="col-md-4 border-right"><i class="fa fa-map-marker">&nbsp;&nbsp;</i>Address</div>
+              <div class="col-md-8">서울시 강남구 대치동</div>
+            </div>
+            <div class="row my-2">
+              <div class="col-md-4 border-right"><i class="fa fa-hourglass">&nbsp;&nbsp;</i>Operation Time</div>
+              <div class="col-md-8">월~금 08:00 ~ 22:00</div>
+            </div>
+            <div class="row my-2">
+              <div class="col-md-4 border-right"><i class="fa fa-globe">&nbsp;&nbsp;</i>Web Link</div>
+              <div class="col-md-8"><a href="#">https://example.com</a></div>
+            </div>
+            <div class="row my-2">
+              <div class="col-md-4 border-right"><i class="fa fa-phone">&nbsp;&nbsp;</i>Tel</div>
+              <div class="col-md-8">02-123-4567</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script>
+  $('#myModal').on('shown.bs.modal', function () {
+    $('#myInput').trigger('focus')
+  })
 </script>
 <!-- %@ include file="../common/footer.jsp"%-->

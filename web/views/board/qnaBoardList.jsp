@@ -25,7 +25,7 @@
         <!-- <img class="mr-3" src="" alt="" width="48" height="48"> -->
         <img src="<%=request.getContextPath() %>/images/qna.png" class="mr-3" width="60px">
         <div class="lh-100">
-          <p class="h5 mb-0 text-white lh-100">&nbsp;</i>Q&A Board</p>
+          <p class="h5 mb-0 text-white lh-100">&nbsp;Q&A Board</p>
           <small>Since 2019.09</small>
         </div>
       </div>
