@@ -4,6 +4,7 @@ import static common.template.JDBCTemplate.close;
 import static common.template.JDBCTemplate.getConnection;
 
 import java.sql.Connection;
+import java.util.List;
 
 import com.parking.bookmark.model.dao.BookmarkDao;
 import com.parking.bookmark.model.vo.Bookmark;
@@ -19,6 +20,16 @@ public class BookmarkService {
     close(conn);
 
     return b;
+  }
+  
+  public List<Bookmark> selectBookmarkList(String userCode){
+    Connection conn = getConnection();
+    
+    List<Bookmark> list = dao.selectBookmarkList(conn, userCode);
+    
+    close(conn);
+    
+    return list;
   }
   
 }

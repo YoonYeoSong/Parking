@@ -5,11 +5,13 @@
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="com.parking.member.model.vo.Member"%>
 <%@ page import="com.parking.board.model.vo.QnaBoard"%>
+<%@ page import="com.parking.bookmark.model.vo.Bookmark"%>
 
 <%-- <%@ include file="/views/common/header.jsp"%> --%>
 
 <% /* List<Parking> list = (List)request.getAttribute("list"); */
 	String search = (String)request.getAttribute("search");
+  List<Bookmark> bookmarkList = (ArrayList<Bookmark>)request.getAttribute("bookmarkList");
 	Object[] obj = null;
 %>
 <%
@@ -997,6 +999,29 @@
           var parkingCode = data[d]["parkingCode"];
           console.log(parkingName);
 
+          var userCode = "<%=loginMember.getUserCode() %>";
+          var parkingCodeArr = []; //bookmarked list of parking code
+
+          <% for (int i=0; i<bookmarkList.size(); i++) { %>
+            parkingCodeArr[<%=i %>] = "<%= bookmarkList.get(i).getBookmarkParkingCode() %>"; 
+            console.log("<%= bookmarkList.get(i).getBookmarkParkingCode() %>");
+          <% } %>
+          console.log(parkingCodeArr);
+          console.log(parkingCode);
+
+          var isBookmarked = parkingCodeArr.includes(parkingCode);
+          console.log(isBookmarked);
+          if(isBookmarked){
+            if($('i#bookmarkIcon').hasClass("fa-star-o")){
+              $('i#bookmarkIcon').removeClass("fa-star-o").addClass("fa-star");
+            }
+          }
+          else{
+            if($('i#bookmarkIcon').hasClass("fa-star")){
+              $('i#bookmarkIcon').removeClass("fa-star").addClass("fa-star-o");
+            }
+          }
+          
           $('#myModal').modal('show');
 
           $('#modalLabelParkingName').html(parkingName);
@@ -1072,16 +1097,8 @@
 </script>
 
 
-<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      ...
-    </div>
-  </div>
-</div>
-<!-- Button trigger modal -->
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="modalLabelParkingName" aria-hidden="true">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="modalLabelParkingName" aria-hidden="true" data-keyboard="false" data-backdrop="static">
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">

@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import com.parking.bookmark.model.vo.Bookmark;
@@ -52,6 +54,37 @@ public class BookmarkDao {
     }
 
     return b;
+  }
+
+  public List<Bookmark> selectBookmarkList(Connection conn, String userCode){
+    PreparedStatement pstmt = null;
+    ResultSet rs =  null;
+    String sql = prop.getProperty("selectBookmarkList");
+    List<Bookmark> list = new ArrayList<Bookmark>();
+    Bookmark b = null;
+
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, userCode);
+
+      rs = pstmt.executeQuery();
+      while(rs.next()) {
+        b = new Bookmark();
+
+        b.setBookmarkNo(rs.getInt("bookmark_no"));
+        b.setBookmarkParkingCode(rs.getString("bookmark_parking_code"));
+        b.setBookmarkUserCode(rs.getString("bookmark_user_code"));
+        
+        list.add(b);
+      }
+    } catch(SQLException e) {
+      e.printStackTrace();
+    } finally {
+      close(rs);
+      close(pstmt);
+    }
+
+    return list;
   }
 
 }
