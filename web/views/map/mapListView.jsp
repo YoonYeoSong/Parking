@@ -49,8 +49,10 @@
   <title>Locate Parking Spaces</title>
 
   <!-- favicon -->
-  <link rel="icon" href="https://img.icons8.com/ios/50/000000/parking.png?v=1.1">
-
+	<link rel="icon" href="https://img.icons8.com/ios/50/000000/parking.png?v=1.1">
+	<!-- 폰트 -->
+	<!-- <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet"> -->
+	<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap" rel="stylesheet">
   <!-- CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -135,6 +137,14 @@
 
 
   <style>
+			*{
+		font-family: "Nanum Gothic";
+	}
+	
+	#pName{
+		font-size: 22px;
+		font-weight: bold;
+	}
     .goog-te-gadget-simple {
       border: 1px solid rgba(255, 255, 255, .0);
     }
@@ -212,24 +222,50 @@
     #mapbtn{
       z-index: 2;
       position: absolute;
-      left: 0px;
+      left: 15px;
       border-radius: 3px;
       box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 2px 0px;
+			background-color: #3396ff;
+			opacity: 1;
     }
     #loadviewbtn{
       z-index: 2;
       position: absolute;
-      left: 0px;
+      left: 15px;
+			opacity: 1;
       border-radius: 3px;
       box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 2px 0px;
+			background-color: #3396ff;
     }
     #realLocBtn{
       z-index: 2;
       position: absolute;
-      left: 70px;
+      left: 90px;
+			opacity: 1;
       border-radius: 3px;
       box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 2px 0px;
+			background-color: #3396ff;
     }
+		#mapbtn:hover{
+			opacity: .8;			
+		}
+		#realLocBtn:hover{
+			opacity: .8;		
+		}
+		#loadviewbtn:hover{
+			opacity: .8;		
+		}
+		
+	#distanceModal {
+   position: absolute;
+   top: -250px;
+   right: 0px;
+   bottom: 0;
+   left: 0;
+   z-index: 10040;
+   overflow: auto;
+   overflow-y: auto;
+}
 	
     
 	
@@ -437,7 +473,7 @@
             <option>Illigal Scan</option>
             <option>Valet</option>
             <option>Wheelchair Accessible</option>
-          </select> <span class="mt-3 pb-5">Duration : 1D2H</span>
+          </select> <span class="mt-3 pb-5" id="parkingLength"></span>
         </div>
 
         <!--하단 list-->
@@ -477,18 +513,18 @@
 					{
 						if($("#loadview").css("display") != 'none')
 						{
-							loadView(data[d]["latitude"],data[d]["hardness"],data[idValue]["hardness"]);
+							loadView(data[d]["latitude"],data[d]["longitude"],data[idValue]["longitude"]);
 							idValue = window.localStorage.setItem("selectNum", idValue);
 						}else{
 							
 							window.localStorage.setItem("selectNum", idValue);
-							mapCopy.setCenter(new kakao.maps.LatLng(data[idValue]["latitude"], data[idValue]["hardness"]));			
+							mapCopy.setCenter(new kakao.maps.LatLng(data[idValue]["latitude"], data[idValue]["longitude"]));			
 							mapCopy.setLevel(2);
 						}
             //window.localStorage.setItem("realLat",JSON.data[idValue]["latitude"]);
-            //window.localStorage.setItem("realLon",data[idValue]["hardness"]);
+            //window.localStorage.setItem("realLon",data[idValue]["longitude"]);
             //window.localStorage.setItem("pName",data[d]["parkingName"]);
-						//loadView(data[idValue]["latitude"],data[idValue]["hardness"],data[d]["parkingName"]);	
+						//loadView(data[idValue]["latitude"],data[idValue]["longitude"],data[d]["parkingName"]);	
 					}
 				}
 			
@@ -542,9 +578,9 @@
 					if(d == Number(idValue))
 					{
             //window.localStorage.setItem("realLat",JSON.data[idValue]["latitude"]);
-            //window.localStorage.setItem("realLon",data[idValue]["hardness"]);
+            //window.localStorage.setItem("realLon",data[idValue]["longitude"]);
             //window.localStorage.setItem("pName",data[d]["parkingName"]);
-            loadView(data[d]["latitude"], data[d]["hardness"], data[d]["parkingName"]);
+            loadView(data[d]["latitude"], data[d]["longitude"], data[d]["parkingName"]);
             idValue = window.localStorage.setItem("selectNum", idValue);
 					}
 				}
@@ -562,10 +598,10 @@
 					if(d == Number(idValue))
 					{
             //window.localStorage.setItem("realLat",JSON.data[idValue]["latitude"]);
-            //window.localStorage.setItem("realLon",data[idValue]["hardness"]);
+            //window.localStorage.setItem("realLon",data[idValue]["longitude"]);
             //window.localStorage.setItem("pName",data[d]["parkingName"]);
             window.localStorage.setItem("selectNum", idValue);
-            mapCopy.setCenter(new kakao.maps.LatLng(data[idValue]["latitude"], data[idValue]["hardness"]));			
+            mapCopy.setCenter(new kakao.maps.LatLng(data[idValue]["latitude"], data[idValue]["longitude"]));			
 				    mapCopy.setLevel(2);
            
 					}
@@ -656,12 +692,12 @@
     if(rbtn == 0 && num == 1)
     {
       rbtn = null;
-      rbtn = $("<input type='button' id='realLocBtn' value='현위치' onclick='realLocClick()'>"); //현위치 버튼
+      rbtn = $("<input type='button' id='realLocBtn' class='btn btn-primary' value='현위치' onclick='realLocClick()'>"); //현위치 버튼
       $("#map").append(rbtn);
       console.log("여기왔음");
 
       lVbtn = null;
-      lVbtn = $("<input type='button' id='loadviewbtn' value='로드뷰' onclick='loadviewClick()'>"); // 로드뷰 버튼
+      lVbtn = $("<input type='button' id='loadviewbtn' class='btn btn-primary' value='로드뷰' onclick='loadviewClick()'>"); // 로드뷰 버튼
 			$("#map").append(lVbtn);
 	
 			$("#loadview").hide();
@@ -675,7 +711,7 @@
     if(num == 2)
     {
     	mbtn = null;
-      mbtn = $("<input type='button' id='mapbtn' value='지도' onclick='mapClick()'>"); // 지도 버튼
+      mbtn = $("<input type='button' id='mapbtn' class='btn btn-primary' value='지도' onclick='mapClick()'>"); // 지도 버튼
 			console.log("여기왔음");
 			$("#loadview").append(mbtn);
 			$("#loadview").show();
@@ -764,20 +800,20 @@
 	
 	iwContents.push({
 		iwContent : '<div style="padding:2px;">'+"현재내위치"+'</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-	// iwPosition : new kakao.maps.LatLng(data[d]['latitude'], data[d]['hardness']), //인포윈도우 표시 위치입니다
+	// iwPosition : new kakao.maps.LatLng(data[d]['latitude'], data[d]['longitude']), //인포윈도우 표시 위치입니다
 		iwRemoveable : true // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
 	});		
 	
     for (var d in data) {
 			positions.push({
 				title: data[d]['parkingName'],
-				latlng: new kakao.maps.LatLng(data[d]['latitude'], data[d]['hardness']),
+				latlng: new kakao.maps.LatLng(data[d]['latitude'], data[d]['longitude']),
 				//clickable:true
 			});
 				
 			iwContents.push({
 				iwContent : '<div style="padding:2px;">'+data[d]['parkingName']+'</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-			// iwPosition : new kakao.maps.LatLng(data[d]['latitude'], data[d]['hardness']), //인포윈도우 표시 위치입니다
+			// iwPosition : new kakao.maps.LatLng(data[d]['latitude'], data[d]['longitude']), //인포윈도우 표시 위치입니다
 				iwRemoveable : true // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
 			});		  
 	}
@@ -861,9 +897,9 @@
       //$("#map").append(togglebtn);
       //$("#map").append(togglebtn);
       //$("#map").append(togglebtn);
-
-
-
+			map.setCenter(new kakao.maps.LatLng(pos.coords.latitude, pos.coords.longitude));			
+      map.setLevel(7);
+			
   }
   
   function makeOverListener(map, marker, infowindow)
@@ -871,74 +907,180 @@
     return function(){
       alert(marker.getTitle());
       infowindow.open(map,marker);
+			if(marker.getTitle() != "현재내위치")
+			{
+					var linePath = null; 
+					navigator.geolocation.getCurrentPosition(function (pos) {
+								
+							linePath =[
+							new kakao.maps.LatLng(pos.coords.latitude, pos.coords.longitude),
+							marker.getPosition(),
+							];
 
-      var linePath = null; 
-      navigator.geolocation.getCurrentPosition(function (pos) {
-		        
-          linePath =[
-          new kakao.maps.LatLng(pos.coords.latitude, pos.coords.longitude),
-          marker.getPosition(),
-          ];
+							// 지도에 표시할 선을 생성합니다
+							var polyline = new kakao.maps.Polyline({
+									path: linePath, // 선을 구성하는 좌표배열 입니다
+									strokeWeight: 5, // 선의 두께 입니다
+									strokeColor: '#5858FA', // 선의 색깔입니다
+									strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+									strokeStyle: 'solid' // 선의 스타일입니다
+							});
 
-          // 지도에 표시할 선을 생성합니다
-          var polyline = new kakao.maps.Polyline({
-              path: linePath, // 선을 구성하는 좌표배열 입니다
-              strokeWeight: 5, // 선의 두께 입니다
-              strokeColor: '#FFAE00', // 선의 색깔입니다
-              strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-              strokeStyle: 'solid' // 선의 스타일입니다
-          });
+							// 지도에 선을 표시합니다 
+							polyline.setMap(mapCopy);
+							polylineCopy = polyline;
+							var dataMarker = []; // 마커
+							var dataInfo = []; // infowindow
+							//mapCopyMarker;
+							for(var i = 0; i < mapCopyMarker.length; i++)
+							{
+								dataMarker.push(mapCopyMarker[i]);
+							}
 
-          // 지도에 선을 표시합니다 
-          polyline.setMap(mapCopy);  
-          var dataMarker = []; // 마커
-          var dataInfo = []; // infowindow
-          //mapCopyMarker;
-          for(var i = 0; i < mapCopyMarker.length; i++)
-          {
-            dataMarker.push(mapCopyMarker[i]);
-          }
+							for(var j = 0; j < infowindowCopy.length; j++)
+							{
+								dataInfo.push(infowindowCopy[j]);
+							}
 
-          for(var j = 0; j < infowindowCopy.length; j++)
-          {
-            dataInfo.push(infowindowCopy[j]);
-          }
+							for(var dm in dataMarker)
+							{
+								if(dataMarker[dm].getTitle() == "현재내위치")
+								{
+									continue;
+								}else if(dataMarker[dm].getTitle() == marker.getTitle())
+								{
+									continue;
+								}
+								else{
+									dataMarker[dm].setOpacity(.2);
+								}
+							}
 
-          for(var dm in dataMarker)
-          {
-            if(dataMarker[dm].getTitle() == "현재내위치")
-            {
-              continue;
-            }else if(dataMarker[dm].getTitle() == marker.getTitle())
-            {
-              continue;
-            }
-            else{
-              dataMarker[dm].setOpacity(.3);
-            }
-          }
+							for(var di in dataInfo)
+							{				
+								if(dataInfo[di].getContent() == "<div style=\"padding:2px;\">"+marker.getTitle()+"</div>")
+								{
+									continue;
+								}else if(dataInfo[di].getContent() == "<div style=\"padding:2px;\">"+"현재내위치"+"</div>")
+								{
+									continue;
+								}
+								else{
+									console.log("infowindow : " + dataInfo[di].getContent());
+									dataInfo[di].close();
+								}
+							}
 
-          for(var di in dataInfo)
-          {
-            if(dataInfo[di].getContent() == "<div style='padding:2px;'>"+marker.getTitle()+"</div>")
-            {
-              continue;
-            }else if(dataInfo[di].getContent() == "<div style='padding:2px;'>"+"현재내위치"+"</div>")
-            {
-              continue;
-            }
-            else{
-              console.log("infowindow : " + dataInfo[di].getContent().value);
-              dataInfo[di].close();
-            }
-          }
-
-          //marker.setOpacity(1);
-          //길이반환 단위(m)미터
-          console.log("거리 : " + polyline.getLength());
-      });
+							//marker.setOpacity(1);
+							//길이반환 단위(m)미터
+							console.log("거리 : " + polyline.getLength());
+							
+						
+						
+							console.log(marker.getPosition());
+							
+							beforMarkerLat = marker.getPosition()["Ha"];
+							beforMarkerLon = marker.getPosition()["Ga"];
+							
+							$.ajax({
+							url: "<%=request.getContextPath()%>/ajax/centerLatLon.do",
+							type: "post",
+							data: { lat1:  pos.coords.latitude,
+											lon1 : pos.coords.longitude,
+											lat2 : marker.getPosition()["Ha"],
+											lon2 : marker.getPosition()["Ga"]
+							},
+							dataType: "json",
+							success: function (data) {
+								var lat = 0;
+								var lon = 0;
+								for(var d in data)
+								{
+									if(d == 0)
+										lat = data[d];
+									if(d==1)
+										lon = data[d];			
+								}
+								console.log(lat);
+								
+								mapCopy.setCenter(new kakao.maps.LatLng(lat,lon));
+								
+								if(Math.floor(polyline.getLength()*0.001) < 4)
+								{
+									mapCopy.setLevel(3);
+								}
+								else if(Math.floor((polyline.getLength()*0.001)) < 8)
+								{
+									mapCopy.setLevel(4);
+								}
+								else if(Math.floor((polyline.getLength()*0.001)) < 14)
+								{
+									mapCopy.setLevel(6);
+								}
+								else if(Math.floor((polyline.getLength()*0.001)) > 18)
+								{
+									mapCopy.setLevel(8);
+								}
+							
+								$("#distanceModal").modal("show");
+								//$("#distanceModal").modal({backdrop: 'static'});
+								$("#distanceModal-body").html("<h3>about<br>"+Math.floor((polyline.getLength()*0.001))+" kilometers from current location.</h3><br>"+"<h6>Please press OK to close it.</h6>");
+							},
+							error: function (data) { // 데이터 통신에 실패한 것
+								console.log("서버 전송 실패");
+							}			
+						});							
+					});		
+			}else{
+					
+					beforMarkerLat = 0;
+					$("#distanceModal").modal("show");
+					//$("#distanceModal").modal({backdrop: 'static'});
+					$("#distanceModal-body").html("<h3>Don't click on me....</h3><br>"+"<h6>Please press OK to close it.</h6>");		
+			}
     };
   }
+	
+	function distanceMoalClose()
+	{
+			
+			if(beforMarkerLat == 0)
+			{
+					navigator.geolocation.getCurrentPosition(function (pos) {
+						mapCopy.setCenter(new kakao.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
+						mapCopy.setLevel(3);
+					});
+			}
+			else{
+					var dataMarker = []; // 마커
+					var dataInfo = []; // infowindow
+					//mapCopyMarker;
+					polylineCopy.setMap(null);
+					for(var i = 0; i < mapCopyMarker.length; i++)
+					{
+						dataMarker.push(mapCopyMarker[i]);
+					}
+
+					for(var j = 0; j < infowindowCopy.length; j++)
+					{
+						dataInfo.push(infowindowCopy[j]);
+					}
+
+					for(var dm in dataMarker)
+					{		
+							dataMarker[dm].setOpacity(1);
+					}
+
+					for(var di in dataInfo)
+					{				
+						dataInfo[di].open(mapCopy,dataMarker[di]);
+					}
+					mapCopy.setCenter(new kakao.maps.LatLng(beforMarkerLat,beforMarkerLon));
+					mapCopy.setLevel(3);				
+			}
+	}
+	
+	
 
   // 아직 안쓰는 함수
   function makeOutListener(infowindow)
@@ -958,8 +1100,9 @@
       var listScroll = $("#listScroll");
       var aTag = $("<a class='list-group-item list-group-item-action'>");
       var span0 = $("<span id="+d+">");
-      var span1 = $("<span>").html(data[d]["parkingName"]+"<br>");
-      var span2 = $("<span>").html(data[d]["addr"]+"<br>");
+      var span1 = $("<span id='pName'>").html((Number(d)+1)+"."+data[d]["parkingName"]+"<br>");
+			var span2 = $("<span>").html(data[d]["addr"]+"<br>");
+      var span3 = $("<span>").html("전체 주차 대수 : "+data[d]["capacity"]+", 현재 주차 대수 : "+data[d]["curParking"] +"<br>");
       var div = $("<div class='mt-2'>");
       // var btnStr = "<button class='btn btn-sm btn-outline-info mr-1' "
       //                       // + "data-toggle='modal' "
@@ -972,11 +1115,14 @@
       var infoBtn = $(btnStr);
       var input2 = $("<input type='button' class='btn btn-sm btn-outline-info pay' onclick='payment()' value='Pay'>");
       div.append(infoBtn).append(input2);
-      span0.append(span1).append(span2).append(div);
+      span0.append(span1).append(span2).append(span3).append(div);
       aTag.append(span0);
       listScroll.append(aTag);	
-
+			//private int capacity;				// 주차 면(주차 가능 차량 수)
+			//private int curParking;				// 현재 주차중인 대수
     }
+		$("#parkingLength").html("Result : "+data.length+" locations");
+		
     // + "onclick='parkingListPopup();' "
     $(function(){
       var data = JSON.parse(window.localStorage.getItem('parkingList'));
@@ -993,7 +1139,7 @@
           var capacity = data[d]["capacity"];
           var curParking = data[d]["curParking"];
           var latitude = data[d]["latitude"];
-          var longitude = data[d]["hardness"];
+          var longitude = data[d]["longitude"];
           var parkingCode = data[d]["parkingCode"];
           console.log(parkingName);
 
@@ -1070,6 +1216,27 @@
          });
      }); */
 </script>
+
+	<!-- 거리 나오는 모달 -->
+	<div class="modal fade hide in" id="distanceModal" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-target="#distanceModalTitle">
+		<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLongTitle">Distance</h5>
+					<button type="button" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body" id="distanceModal-body">
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="distanceMoalClose()">Ok</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
 
 
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -1180,6 +1347,14 @@
     </div>
   </div>
 </div>
+
+
+
+
+
+
+
+
 
   <script>
   $('#myModal').on('shown.bs.modal', function () {

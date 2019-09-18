@@ -128,7 +128,7 @@ public class ParseJSON2 {
         p.setParkingName(arr.getJSONObject(i).getString("prkplceNm"));
         p.setAddr(arr.getJSONObject(i).getString("lnmadr"));
         p.setLatitude(arr.getJSONObject(i).getDouble("latitude"));
-        p.setHardness(arr.getJSONObject(i).getDouble("hardness"));
+        p.setLongitude(arr.getJSONObject(i).getDouble("longitude"));
         p.setInsttNm(arr.getJSONObject(i).getString("insttNm"));
        // p.setParkingType(arr.getJSONObject(i).getString("PARKING_TYPE"));
         //p.setParkingTypeNm(arr.getJSONObject(i).getString("PARKING_TYPE_NM"));

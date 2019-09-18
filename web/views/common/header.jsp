@@ -55,8 +55,11 @@
   <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   <link rel="stylesheet" href="<%=request.getContextPath() %>/css/mainpage.css">
   <link rel="stylesheet" href="<%=request.getContextPath() %>/css/button.css">
-  <link rel="stylesheet" href="<%=request.getContextPath() %>/css/translate.css">
-  
+	<link rel="stylesheet" href="<%=request.getContextPath() %>/css/translate.css">
+	<!-- 폰트 -->
+	<!-- <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet"> -->
+	<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap" rel="stylesheet">
+Specify in CSS
   <!-- JQUERY -->
   <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
@@ -88,6 +91,9 @@
   .nav-item{
     color: #B8C8D6 !important;
   }
+	*{
+		font-family: "Nanum Gothic";
+	}
   </style>
 
 </head>
