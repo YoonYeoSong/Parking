@@ -98,7 +98,7 @@
 		          }  */
 		        navigator.geolocation.getCurrentPosition(function (pos) {
 		          //latitude = pos.coords.latitude;
-				  //longitude = pos.coords.longitude;
+				    //longitude = pos.coords.longitude;
 						$('#listScroll').empty();
 
 				      parkingList(data);
@@ -736,12 +736,14 @@
     var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
 	  mapCopy = map;
+    mapCopyMarker = [];
+    infowindowCopy = [];
     // 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성합니다
-    var mapTypeControl = new kakao.maps.MapTypeControl();
+    var mapTypeControl = new kakao.maps.MapTypeControl(); 
 
     // 지도에 컨트롤을 추가해야 지도위에 표시됩니다
     // kakao.maps.ControlPosition은 컨트롤이 표시될 위치를 정의하는데 TOPRIGHT는 오른쪽 위를 의미합니다
-    map.addControl(mapTypeControl,
+      map.addControl(mapTypeControl,
       kakao.maps.ControlPosition.TOPRIGHT);
 
     // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
@@ -751,17 +753,17 @@
  
 	var realLoc = [];
 	var realiwContens=[];
-    var positions = [];
+  var positions = [];
 	var iwContents = [];
 	
 	positions.push({
-		title: "나",
+		title: "현재내위치",
 		latlng: new kakao.maps.LatLng(pos.coords.latitude, pos.coords.longitude),
 		//clickable:true
 	});
 	
 	iwContents.push({
-		iwContent : '<div style="padding:2px;">'+"현재 내 위치"+'</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+		iwContent : '<div style="padding:2px;">'+"현재내위치"+'</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
 	// iwPosition : new kakao.maps.LatLng(data[d]['latitude'], data[d]['hardness']), //인포윈도우 표시 위치입니다
 		iwRemoveable : true // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
 	});		
@@ -826,6 +828,7 @@
         title: positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
         //image: markerImage // 마커 이미지 
       });
+      mapCopyMarker.push(marker);
       marker.setClickable(true);
       //marker.setMap(map);
       
@@ -841,11 +844,12 @@
     	    content: iwContents[i].iwContent, // 인포윈도우 내부에 들어갈 컨텐츠 입니다.
     	    removable : iwContents[i].iwRemoveable
       });
-      
-      if(marker.getTitle() == "나")
-      {
+      infowindowCopy.push(infowindow);
+      // if(marker.getTitle() == "나")
+      // {
+      // infowindow.open(map,marker);
+      // }
       infowindow.open(map,marker);
-      }
         
         kakao.maps.event.addListener(marker,'click',makeOverListener(map, marker, infowindow));
         //kakao.maps.event.addListener(marker,'click',makeOutListener(infowindow));     
@@ -862,14 +866,81 @@
 
   }
   
-  function makeOverListener(map,marker,infowindow)
+  function makeOverListener(map, marker, infowindow)
   {
     return function(){
-      console.log(marker.getTitle());
+      alert(marker.getTitle());
       infowindow.open(map,marker);
+
+      var linePath = null; 
+      navigator.geolocation.getCurrentPosition(function (pos) {
+		        
+          linePath =[
+          new kakao.maps.LatLng(pos.coords.latitude, pos.coords.longitude),
+          marker.getPosition(),
+          ];
+
+          // 지도에 표시할 선을 생성합니다
+          var polyline = new kakao.maps.Polyline({
+              path: linePath, // 선을 구성하는 좌표배열 입니다
+              strokeWeight: 5, // 선의 두께 입니다
+              strokeColor: '#FFAE00', // 선의 색깔입니다
+              strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+              strokeStyle: 'solid' // 선의 스타일입니다
+          });
+
+          // 지도에 선을 표시합니다 
+          polyline.setMap(mapCopy);  
+          var dataMarker = []; // 마커
+          var dataInfo = []; // infowindow
+          //mapCopyMarker;
+          for(var i = 0; i < mapCopyMarker.length; i++)
+          {
+            dataMarker.push(mapCopyMarker[i]);
+          }
+
+          for(var j = 0; j < infowindowCopy.length; j++)
+          {
+            dataInfo.push(infowindowCopy[j]);
+          }
+
+          for(var dm in dataMarker)
+          {
+            if(dataMarker[dm].getTitle() == "현재내위치")
+            {
+              continue;
+            }else if(dataMarker[dm].getTitle() == marker.getTitle())
+            {
+              continue;
+            }
+            else{
+              dataMarker[dm].setOpacity(.3);
+            }
+          }
+
+          for(var di in dataInfo)
+          {
+            if(dataInfo[di].getContent() == "<div style='padding:2px;'>"+marker.getTitle()+"</div>")
+            {
+              continue;
+            }else if(dataInfo[di].getContent() == "<div style='padding:2px;'>"+"현재내위치"+"</div>")
+            {
+              continue;
+            }
+            else{
+              console.log("infowindow : " + dataInfo[di].getContent().value);
+              dataInfo[di].close();
+            }
+          }
+
+          //marker.setOpacity(1);
+          //길이반환 단위(m)미터
+          console.log("거리 : " + polyline.getLength());
+      });
     };
   }
 
+  // 아직 안쓰는 함수
   function makeOutListener(infowindow)
   {
     return function(){
@@ -877,6 +948,8 @@
     };
   }
   
+
+  //왼쪽 리스트 출력
   function parkingList(data)
   {
     window.localStorage.setItem("parkingList",JSON.stringify(data));
@@ -968,6 +1041,9 @@
 					roadview.setPanoId(panoId, position); //panoId와 중심좌표를 통해 로드뷰 실행
 				});
   }
+
+
+  
 
 
 
