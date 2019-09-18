@@ -766,7 +766,7 @@
 		iwRemoveable : true // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
 	});		
 	
-    for (var d in data) {	
+    for (var d in data) {
 			positions.push({
 				title: data[d]['parkingName'],
 				latlng: new kakao.maps.LatLng(data[d]['latitude'], data[d]['hardness']),
@@ -919,8 +919,8 @@
           var tel = data[d]["tel"];
           var capacity = data[d]["capacity"];
           var curParking = data[d]["curParking"];
-          // var latitude = data[d]["latitude"];
-          // var longitude = data[d]["hardness"];
+          var latitude = data[d]["latitude"];
+          var longitude = data[d]["hardness"];
           console.log(parkingName);
 
           $('#myModal').modal('show');
@@ -933,15 +933,11 @@
           $('#tel').html(tel);
           $('#capacity').html(capacity);
           $('#curParking').html(curParking);
-
+          listPopRoadView(latitude,longitude); // 팝업로드뷰 생성
 
         });
         // alert(data[i]);
       });
-
-
-
-
     });
                   /*
                   <div class="card shadow-sm text-left" id="listScroll">
@@ -956,6 +952,21 @@
                           </span>
                         </a> 
                   */
+  }
+
+  //팝업 로드뷰생성
+  function listPopRoadView(lat, lon)
+  {							
+				var roadviewContainer = document.getElementById('popRoadView'); //로드뷰를 표시할 div
+				var roadview = new kakao.maps.Roadview(roadviewContainer); //로드뷰 객체
+				var roadviewClient = new kakao.maps.RoadviewClient(); //좌표로부터 로드뷰 파노ID를 가져올 로드뷰 helper객체
+
+				var position = new kakao.maps.LatLng(lat, lon);
+
+				// 특정 위치의 좌표와 가까운 로드뷰의 panoId를 추출하여 로드뷰를 띄운다.
+					roadviewClient.getNearestPanoId(position, 800, function(panoId) {
+					roadview.setPanoId(panoId, position); //panoId와 중심좌표를 통해 로드뷰 실행
+				});
   }
 
 
@@ -1006,13 +1017,13 @@
 
         <div class="card mb-4 rounded">
           <div class="social-card-header align-middle text-center bg-light rounded border"
-               style="height:200px;">
+               style="height:400px;" id="popRoadView">
               <!-- <img class="mr-3" src="" alt="" width="48" height="48"> -->
               <!-- <img src="<%=request.getContextPath() %>/images/qna.png" class="mr-3" width="60px"> -->
-              <div class="lh-100">
+              <!-- <div class="lh-100">
                 <p class="h5 mb-0 text-white lh-100">&nbsp;</p>
-                <!-- <small>Since 2019.09</small> -->
-              </div>
+                 <small>Since 2019.09</small> 
+              </div> -->
           </div>
           <div class="card-body text-center">
             <div class="row">
