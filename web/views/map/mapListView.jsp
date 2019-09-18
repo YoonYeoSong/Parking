@@ -921,7 +921,24 @@
           var curParking = data[d]["curParking"];
           var latitude = data[d]["latitude"];
           var longitude = data[d]["hardness"];
+          var parkingCode = data[d]["parkingCode"];
           console.log(parkingName);
+
+          // $.ajax({
+          //   url: "<%=request.getContextPath()%>/bookmark/checkBookmarkSaved",
+          //   type: "POST",
+          //   data: { "userCode": "<%=loginMember.getUserCode()%>",
+          //           "parkingCode": parkingCode },
+          //   dataType: "JSON",
+          //   success: function (data) {
+          //     console.log("bookmark들어오냐?");
+          //     console.log(data);
+          //   },
+          //   error: function(data){ //데이터 통신에 실패
+          //     console.log("Bookmark retrieval Failed!");
+          //   }
+
+          // });
 
           $('#myModal').modal('show');
 
@@ -1028,8 +1045,23 @@
           <div class="card-body text-center">
             <div class="row">
               <div class="col border-right">
-                <span class="text-muted"><a href="#"><i class="fa fa-bookmark text-twitter">&nbsp;&nbsp;</i>Bookmark</a></span>
-                <div class="font-weight-bold">12K</div>
+                <span class="text-muted"><a href="javascript:;" id="bookmarkToggleBtn">
+                  <i class="fa fa-star-o text-twitter" id="bookmarkIcon">&nbsp;&nbsp;</i>Bookmark</a></span>
+                <div class="font-weight-bold"></div>
+                <script>
+
+                  $(function(){
+                    $('#bookmarkToggleBtn').click(function(){
+                      if($('i#bookmarkIcon').hasClass("fa-star")){
+                        $('i#bookmarkIcon').removeClass("fa-star").addClass("fa-star-o");
+                      }
+                      else if($('i#bookmarkIcon').hasClass("fa-star-o")){
+                        $('i#bookmarkIcon').removeClass("fa-star-o").addClass("fa-star");
+                      }
+                    });
+                  });
+                </script>
+
               </div>
               <div class="col">
                 <span class="text-muted"><a href="#"><i class="fa fa-edit text-twitter">&nbsp;&nbsp;</i>Review</a></span>

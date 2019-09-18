@@ -103,7 +103,7 @@
           <div class="input-group">
             <input type="search" placeholder="Where do you need parking?" aria-describedby="button-addon5" class="form-control" name="search">
             <div class="input-group-append">
-            <button id="button-addon5" type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+            <button id="button-addon6" type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
             </div>
           </div>
         </form>
