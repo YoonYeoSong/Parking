@@ -72,6 +72,9 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/esm/popper-utils.js"
+    integrity="sha256-Fxwx4JC0VO/4EdYrHbDEBXvboZmi+tHYBlFWev8cZqM=" crossorigin="anonymous"></script> -->
+
 
   <!-- API -->
   <!-- 카카오 -->
@@ -1127,7 +1130,6 @@
 		
     // + "onclick='parkingListPopup();' "
     $(function(){
-      var data = JSON.parse(window.localStorage.getItem('parkingList'));
 
       /* read  */
       $.each(data, function(d, item) {
@@ -1145,18 +1147,35 @@
           var parkingCode = data[d]["parkingCode"];
           console.log(parkingName);
 
-          var userCode = "<%=loginMember.getUserCode() %>";
           var parkingCodeArr = []; //bookmarked list of parking code
+          var isBookmarked = false;
 
-          <% for (int i=0; i<bookmarkList.size(); i++) { %>
-            parkingCodeArr[<%=i %>] = "<%= bookmarkList.get(i).getBookmarkParkingCode() %>"; 
-            console.log("<%= bookmarkList.get(i).getBookmarkParkingCode() %>");
-          <% } %>
-          console.log(parkingCodeArr);
-          console.log(parkingCode);
+          if(localStorage.hasOwnProperty("bookmarkList")){
+            var bookmarkData = JSON.parse(localStorage.getItem("bookmarkList"));
 
-          var isBookmarked = parkingCodeArr.includes(parkingCode);
-          console.log(isBookmarked);
+            for(var b in bookmarkData){
+              var pcode = parseInt(bookmarkData[b]["bookmarkParkingCode"], 10);
+              parkingCodeArr.push(pcode);
+              if(pcode == parseInt(parkingCode,10))
+                isBookmarked = true;
+            }
+          }
+          else{
+            <% if(bookmarkList != null){
+              for (int i=0; i<bookmarkList.size(); i++) { %>
+                console.log(<%= bookmarkList.get(i).getBookmarkParkingCode() %>);
+                parkingCodeArr.push(<%= bookmarkList.get(i).getBookmarkParkingCode() %>);
+                if(parkingCode == "<%= bookmarkList.get(i).getBookmarkParkingCode() %>")
+                  isBookmarked = true;
+              <% } %>
+            <% } %>
+          }
+
+          if(parkingCodeArr == null || parkingCodeArr.length == 0)
+          console.log("Both localStorage and bookmarkList are null!");
+          
+          // var isBookmarked = parkingCodeArr.includes(parseInt(parkingCode, 10));
+
           if(isBookmarked){
             if($('i#bookmarkIcon').hasClass("fa-star-o")){
               $('i#bookmarkIcon').removeClass("fa-star-o").addClass("fa-star");
@@ -1170,6 +1189,7 @@
           
           $('#myModal').modal('show');
 
+          $('input#parkingCode').val(parkingCode);
           $('#modalLabelParkingName').html(parkingName);
           $('#parkingName').html(parkingName);
           $('#addr').html(addr);
@@ -1289,21 +1309,59 @@
           <div class="card-body text-center">
             <div class="row">
               <div class="col border-right">
-                <span class="text-muted"><a href="javascript:;" id="bookmarkToggleBtn">
+                <span class="text-muted" id="toggleTooltip"><a href="javascript:;" id="bookmarkToggleBtn">
                   <i class="fa fa-star-o text-twitter" id="bookmarkIcon">&nbsp;&nbsp;</i>Bookmark</a></span>
                 <div class="font-weight-bold"></div>
-                <script>
 
+                <script>
                   $(function(){
+                    <% if(loginMember == null){ %>
+                      console.log("not logged!");
+                      $('#toggleTooltip').attr({"data-toggle" : "tooltip",
+                                                "title" : "login required!"});
+                    <% }else{ %>
+                      $('#toggleTooltip').removeAttr("data-toggle");
+                      $('#toggleTooltip').removeAttr("title");
+                    <% } %>
+
                     $('#bookmarkToggleBtn').click(function(){
-                      if($('i#bookmarkIcon').hasClass("fa-star")){
-                        $('i#bookmarkIcon').removeClass("fa-star").addClass("fa-star-o");
-                      }
-                      else if($('i#bookmarkIcon').hasClass("fa-star-o")){
-                        $('i#bookmarkIcon').removeClass("fa-star-o").addClass("fa-star");
-                      }
+                      var toggleOption = "";
+                      <% if(loginMember != null){ %>
+
+                        if($('i#bookmarkIcon').hasClass("fa-star")){
+                          toggleOption = "delete";
+                          $('i#bookmarkIcon').removeClass("fa-star").addClass("fa-star-o");
+                        }
+                        else if($('i#bookmarkIcon').hasClass("fa-star-o")){
+                          toggleOption = "insert";
+                          $('i#bookmarkIcon').removeClass("fa-star-o").addClass("fa-star");
+                        }
+
+                        $.ajax({
+                          url: "<%=request.getContextPath()%>/bookmark/toggleBookmark",
+                          type: "POST",
+                          dataType: "JSON",
+                          data: {"toggleOption" : toggleOption,
+                                  userCode: "<%=loginMember.getUserCode() %>",
+                                  parkingCode: $('input#parkingCode').val() },
+                          success: function (data) {
+                            console.log("bookmark toggle successful!");
+                            if(localStorage.hasOwnProperty("bookmarkList")){
+                              localStorage.removeItem("bookmarkList");
+                            }
+                            localStorage.setItem("bookmarkList", JSON.stringify(data));
+                            // var data = JSON.parse(localStorage.getItem("parkingList"));
+                          },
+                          error: function(data){
+                            console.log("bookmark toggle failed!");
+                          }
+                        });
+                      <% } %>
+                      //enable tooltips on the page
+                      $('[data-toggle="tooltip"]').tooltip();
                     });
                   });
+
                 </script>
 
               </div>
@@ -1317,6 +1375,7 @@
         <div class="card mb-4 rounded">
           <div class="card-body">
             <!-- <h3 class="mr-auto text-center my-4">Information</h3> -->
+            <input type="hidden" name="parkingCode" id="parkingCode" value="" />
 
             <div class="row my-2">
               <div class="col-md-4 border-right"><i class="fa fa-map-signs">&nbsp;&nbsp;</i>Parking lot Name</div>

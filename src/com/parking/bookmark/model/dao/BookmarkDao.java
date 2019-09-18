@@ -87,7 +87,45 @@ public class BookmarkDao {
     return list;
   }
 
+  public int insertBookmark(Connection conn, String userCode, String parkingCode) {
+    PreparedStatement pstmt = null;
+    int result = 0;
+    String sql = prop.getProperty("insertBookmark");
+    
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, userCode);
+      pstmt.setString(2, parkingCode);
+
+      result = pstmt.executeUpdate();
+
+    } catch(SQLException e) {
+      e.printStackTrace();
+    } finally {
+      close(pstmt);
+    }
+    
+    return result;
+  }
+
+  public int deleteBookmark(Connection conn, String userCode, String parkingCode) {
+    PreparedStatement pstmt = null;
+    int result = 0;
+    String sql = prop.getProperty("deleteBookmark");
+    
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, userCode);
+      pstmt.setString(2, parkingCode);
+
+      result = pstmt.executeUpdate();
+
+    } catch(SQLException e) {
+      e.printStackTrace();
+    } finally {
+      close(pstmt);
+    }
+    
+    return result;
+  }
 }
-
-
-

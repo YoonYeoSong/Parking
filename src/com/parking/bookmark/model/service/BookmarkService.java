@@ -1,6 +1,8 @@
 package com.parking.bookmark.model.service;
 
 import static common.template.JDBCTemplate.close;
+import static common.template.JDBCTemplate.commit;
+import static common.template.JDBCTemplate.rollback;
 import static common.template.JDBCTemplate.getConnection;
 
 import java.sql.Connection;
@@ -32,4 +34,31 @@ public class BookmarkService {
     return list;
   }
   
+  public int insertBookmark(String userCode, String parkingCode) {
+    Connection conn = getConnection();
+    
+    int result = dao.insertBookmark(conn, userCode, parkingCode);
+    if(result > 0)
+      commit(conn);
+    else
+      rollback(conn);
+    
+    close(conn);
+    
+    return result;
+  }
+  
+  public int deleteBookmark(String userCode, String parkingCode) {
+    Connection conn = getConnection();
+    
+    int result = dao.deleteBookmark(conn, userCode, parkingCode);
+    if(result > 0)
+      commit(conn);
+    else
+      rollback(conn);
+    
+    close(conn);
+    
+    return result;
+  }
 }

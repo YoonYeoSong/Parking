@@ -432,13 +432,14 @@ ALTER TABLE NOTICE
   ON DELETE CASCADE;
 
 
---drop table bookmark;
+--drop table bookmark cascade constraints;
 --drop sequence bookmark_seq;
---select * from member where user_code='578165';
---select * from bookmark;
+select b.*, m.user_name, m.user_email from bookmark b join member m  on b.bookmark_user_code = m.user_code;
 --insert into bookmark values(DEFAULT,'578165', '1033125');
 --insert into bookmark values(DEFAULT,'578165', '1042423');
---commit;
+--delete from bookmark where bookmark_user_code='578165';
+
+COMMIT;
 CREATE TABLE BOOKMARK(
   bookmark_no NUMBER(3) NOT NULL,
   bookmark_user_code CHAR(6) NOT NULL,
@@ -448,6 +449,7 @@ COMMENT ON COLUMN BOOKMARK.bookmark_no IS '북마크번호';
 COMMENT ON COLUMN BOOKMARK.bookmark_user_code IS '회원코드';
 COMMENT ON COLUMN BOOKMARK.bookmark_parking_code IS '주차코드';
 
+--drop table bookmark cascade constraints;
 --drop sequence bookmark_seq;
 --drop trigger bookmark_trg;
 CREATE SEQUENCE BOOKMARK_SEQ START WITH 1;
@@ -463,7 +465,7 @@ END;
 /
 
 ALTER TABLE BOOKMARK 
-  ADD CONSTRAINT pk_bookmark PRIMARY KEY(bookmark_no);
+  ADD CONSTRAINT pk_bookmark PRIMARY KEY(bookmark_user_code, bookmark_parking_code);
 ALTER TABLE BOOKMARK
   ADD CONSTRAINT fk_bookmark_member FOREIGN KEY(bookmark_user_code) REFERENCES MEMBER(user_code)
   ON DELETE CASCADE;

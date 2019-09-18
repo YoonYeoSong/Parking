@@ -9,7 +9,7 @@
   <div class="container pt-5">
     <div class="row">
       <div class="col-md-3">
-        <!-- <h3 class="my-4 "><%=loginMember.getUserName() %> Page</h3> -->
+        <%-- <h3 class="my-4 "><%=loginMember.getUserName() %> Page</h3> --%>
         <div class="list-group my-4">
           <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('/member/memberView');"><i class="fa fa-cog">&nbsp;&nbsp;</i>Settings</a>
           <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('/bookmark/bookmarkView');"><i class="fa fa-bookmark">&nbsp;&nbsp;</i>Bookmark</a>
