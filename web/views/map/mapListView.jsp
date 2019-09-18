@@ -997,22 +997,6 @@
           var parkingCode = data[d]["parkingCode"];
           console.log(parkingName);
 
-          // $.ajax({
-          //   url: "<%=request.getContextPath()%>/bookmark/checkBookmarkSaved",
-          //   type: "POST",
-          //   data: { "userCode": "<%=loginMember.getUserCode()%>",
-          //           "parkingCode": parkingCode },
-          //   dataType: "JSON",
-          //   success: function (data) {
-          //     console.log("bookmark들어오냐?");
-          //     console.log(data);
-          //   },
-          //   error: function(data){ //데이터 통신에 실패
-          //     console.log("Bookmark retrieval Failed!");
-          //   }
-
-          // });
-
           $('#myModal').modal('show');
 
           $('#modalLabelParkingName').html(parkingName);
