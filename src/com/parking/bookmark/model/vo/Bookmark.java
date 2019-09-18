@@ -22,6 +22,15 @@ public class Bookmark {
         + bookmarkParkingCode + "]";
   }
 
+  @Override
+  public boolean equals(Object b) {
+    Bookmark cmp = (Bookmark)b;
+    boolean userEquals = this.bookmarkUserCode.equals(cmp.getBookmarkUserCode());
+    boolean parkingEquals = this.bookmarkParkingCode.equals(cmp.getBookmarkParkingCode());
+
+    return userEquals && parkingEquals;
+  }
+
   public int getBookmarkNo() { return bookmarkNo; }
   public void setBookmarkNo(int bookmarkNo) { this.bookmarkNo = bookmarkNo; }
   public String getBookmarkUserCode() { return bookmarkUserCode; }

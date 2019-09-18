@@ -14,6 +14,9 @@
           <form id="main-searchbar" action="<%=request.getContextPath()%>/map/mapListView" class="" role="form">
             <div class="input-group">
               <input type="search" class="form-control" name="search" placeholder="Where do you need parking?" aria-describedby="button-addon5">
+              <% if(loginMember!=null){ %>
+              <input type="hidden" name="userCode" value="<%=loginMember.getUserCode() %>">
+              <% } %>
               <div class="input-group-append">
               <button id="button-addon5" type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
               </div>
