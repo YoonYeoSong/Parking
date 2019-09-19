@@ -270,6 +270,72 @@ public class MemberDao {
 
     return result;
   }
+  
+  
+
+	public int activateaccount(Connection conn, String receivedemail) {
+		 	PreparedStatement pstmt = null;
+		    int result = 0;
+		    String sql = prop.getProperty("activateMember");
+		    
+		    try {
+		      pstmt = conn.prepareStatement(sql);
+		      pstmt.setString(1, receivedemail);
+		      result = pstmt.executeUpdate();
+		      System.out.println("from query result :" +result);
+		    
+		    } catch(SQLException e) {
+		      e.printStackTrace();
+		    } finally {
+		      close(pstmt);
+		    }
+		    
+		    return result;
+	}
+
+	public String getUserEmail(Connection conn, String decryptedcode) {
+		 PreparedStatement pstmt = null;
+		    ResultSet rs = null;
+		    String sql = prop.getProperty("selectEmail");
+
+		    try {
+		      pstmt = conn.prepareStatement(sql);
+		      pstmt.setString(1, decryptedcode);
+		      rs = pstmt.executeQuery();
+		      if(rs.next())
+		       return rs.getString(1);
+		    } catch(SQLException e) {
+		      e.printStackTrace();
+		    } finally {
+		      close(rs);
+		      close(pstmt);
+		    }
+		    return null;
+	}
+
+	public int changepassword(Connection conn, String email, String password) {
+	 	PreparedStatement pstmt = null;
+	    int result = 0;
+	    String sql = prop.getProperty("changepassword");
+	    
+	    try {
+	      pstmt = conn.prepareStatement(sql);
+	      pstmt.setString(1, password);
+	      pstmt.setString(2, email);
+	      result = pstmt.executeUpdate();
+	      System.out.println("result :" +result);
+	    
+	    } catch(SQLException e) {
+	      e.printStackTrace();
+	    } finally {
+	      close(pstmt);
+	    }
+	    
+	    return result;
+	}
+
+
+
 }
 
 

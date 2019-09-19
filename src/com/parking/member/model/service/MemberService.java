@@ -103,4 +103,46 @@ public class MemberService {
     
     return result;
   }
+  
+  public int activateaccount(String decryptedcode) {
+	    Connection conn = getConnection();
+
+	    int result = dao.activateaccount(conn, decryptedcode);
+	    System.out.println("from dao result : " +result);
+	    if (result > 0)
+	      commit(conn);
+	    else
+	      rollback(conn);
+	    
+	    close(conn);
+	    
+	    return result;
+	  }
+
+	public String getUserEmail(String email) {
+	    Connection conn = getConnection();
+	   String result = dao.getUserEmail(conn, email);
+
+	    close(conn);
+
+	    return result;
+	}
+
+	public int changepassword(String email, String password) {
+			System.out.println(email);
+			System.out.println(password);
+		   Connection conn = getConnection();
+
+		    int result = dao.changepassword(conn, email, password);
+		    System.out.println("from dao result : " +result);
+		    if (result > 0)
+		      commit(conn);
+		    else
+		      rollback(conn);
+		    
+		    close(conn);
+		    
+		    return result;
+		
+	}
 }

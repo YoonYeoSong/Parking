@@ -26,7 +26,10 @@
         <div class="card-header">
           <h3>Sign In</h3>
           <div class="d-flex justify-content-end social_icon">
-              <span><i class="fa fa-facebook-official"></i></span>
+              <span><i class="fa fa-facebook-official" name="facebook" id="authBtn" onclick="
+                    FB.login(function(response){
+                    	console.log('logged in!')
+                    });" ></i></span>
               <span id="googleSignIn"><i class="fa fa-google-plus-square"></i></span>
              <!--   <span onclick="loginWithKakao()"><img src="<%=request.getContextPath() %>/images/kakaobutton.png" class="kakaobutton"></span>
               <input type="hidden" id="kakao-email" >
@@ -77,14 +80,69 @@
             Don't have an account?<a href="/views/signup.jsp">Sign up</a>
           </div>
           <div class="d-flex justify-content-center">
-            <a href="#">Forgot your password?</a>
+            <a href="<%=request.getContextPath() %>/views/member/pwdresetstart.jsp">Forgot your password?</a>
+
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <script>
+
+  <script src="//connect.facebook.net/en_US/all.js"></script>
+    <script>
+  
+  /* facebook login */
+         window.fbAsyncInit = function() {
+            FB.init({
+                appId: '650760722099588',
+                cookie: true,
+                xfbml: true,
+                version: 'v4.0'
+            });
+
+
+            FB.getLoginStatus(function(response) {
+                statusChangeCallback(response);
+            });
+			var callback = function(response) {
+				statusChangeCallback(response);
+				console.log(response);
+			}
+			FB.getLoginStatus(callback);
+        };
+        
+        /* document.getElementById("facebookbutton").addEventListener("click", function() { */
+        function fb_login(){
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {
+                return;
+            }
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+        
+      /*   });
+         */
+        
+        function statusChangeCallback(response) {
+            if (response.status == "connected") {
+                console.log("logged in!")
+            } else {
+                console.log('not logged in!')
+            }
+        }
+
+      
+        function checkLoginState() {
+            FB.getLoginStatus(function(response) {
+                statusChangeCallback(response);
+            });
+        }
+        }
   
  	/* 카카오계정로그인 */
   	var kakao_email = null;

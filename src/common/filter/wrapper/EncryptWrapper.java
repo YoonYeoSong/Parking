@@ -24,7 +24,7 @@ public class EncryptWrapper extends HttpServletRequestWrapper {
     String value="";
     if(name!=null && (//name.equals("pwLogin") 
                      name.equals("pwEnroll")
-                     || name.contentEquals("pwUpdate"))) {
+                     || name.equals("newPwChk"))) {
       try {
         value=generateHash(super.getParameter(name));
       } catch(NoSuchAlgorithmException e) {

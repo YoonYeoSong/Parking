@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.parking.member.model.service.MemberService;
 import com.parking.member.model.vo.Member;
 
+import web.email.MailSend;
+
 /**
  * Servlet implementation class MemberEnrollEnd
  */
@@ -51,7 +53,11 @@ public class MemberEnrollEnd extends HttpServlet {
                           createdDate, loginDate, smsYn, emailYn, emailVerified, snsAccount, null, null);
 
 	  int result = new MemberService().insertMember(m);
+	  
+	  MailSend ms = new MailSend();
+	  ms.SendingMail(email);
 
+	
 	  String msg = result > 0? "Hello "+userName + ". Thanks for joining us!" : "Sign up Failed!";
 	  String loc = "/";
 	  
