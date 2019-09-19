@@ -535,7 +535,7 @@
 							
 							window.localStorage.setItem("selectNum", idValue);
 							mapCopy.setCenter(new kakao.maps.LatLng(data[idValue]["latitude"], data[idValue]["longitude"]));			
-							mapCopy.setLevel(2);
+							mapCopy.setLevel(4);
 						}
             //window.localStorage.setItem("realLat",JSON.data[idValue]["latitude"]);
             //window.localStorage.setItem("realLon",data[idValue]["longitude"]);
@@ -910,13 +910,13 @@
     	    removable : iwContents[i].iwRemoveable
       });
       infowindowCopy.push(infowindow);
-      // if(marker.getTitle() == "나")
+      // if(marker.getTitle() == "현재내위치")
       // {
       // infowindow.open(map,marker);
       // }
       infowindow.open(map,marker);
         
-        kakao.maps.event.addListener(marker,'click',makeOverListener(map, marker, infowindow));
+      kakao.maps.event.addListener(marker,'click',makeOverListener(map, marker, infowindow));
         //kakao.maps.event.addListener(marker,'click',makeOutListener(infowindow));     
         //infowindow.open(map, marker); // 지도에 올리면서, 두번째 인자로 들어간 마커 위에 올라가도록 설정합니다.
       }
@@ -927,7 +927,7 @@
       //$("#map").append(togglebtn);
       //$("#map").append(togglebtn);
 			map.setCenter(new kakao.maps.LatLng(pos.coords.latitude, pos.coords.longitude));			
-      map.setLevel(7);
+      map.setLevel(6);
 			
   }
   
@@ -1034,26 +1034,26 @@
 								
 								mapCopy.setCenter(new kakao.maps.LatLng(lat,lon));
 								
-								if(Math.floor(polyline.getLength()*0.001) < 4)
-								{
-									mapCopy.setLevel(3);
-								}
-								else if(Math.floor((polyline.getLength()*0.001)) < 8)
-								{
-									mapCopy.setLevel(4);
-								}
-								else if(Math.floor((polyline.getLength()*0.001)) < 14)
-								{
-									mapCopy.setLevel(6);
-								}
-								else if(Math.floor((polyline.getLength()*0.001)) > 18)
-								{
-									mapCopy.setLevel(8);
-								}
-							
+								// if(Math.floor(polyline.getLength()*0.001) < 4)
+								// {
+								// 	mapCopy.setLevel(3);
+								// }
+								// else if(Math.floor((polyline.getLength()*0.001)) < 8)
+								// {
+								// 	mapCopy.setLevel(4);
+								// }
+								// else if(Math.floor((polyline.getLength()*0.001)) < 14)
+								// {
+								// 	mapCopy.setLevel(6);
+								// }
+								// else if(Math.floor((polyline.getLength()*0.001)) > 18)
+								// {
+								// 	mapCopy.setLevel(8);
+								// }
+                mapCopy.setLevel(8);
 								$("#distanceModal").modal("show");
 								//$("#distanceModal").modal({backdrop: 'static'});
-								$("#distanceModal-body").html("<h3>about<br>"+Math.floor((polyline.getLength()*0.001))+" kilometers from current location.</h3><br>"+"<h6>Please press OK to close it.</h6>");
+								$("#distanceModal-body").html("<h3>about<br>"+(polyline.getLength()*0.001).toFixed(3)+" kilometers from current location.</h3><br>"+"<h6>Please press OK to close it.</h6>");
 							},
 							error: function (data) { // 데이터 통신에 실패한 것
 								console.log("서버 전송 실패");
@@ -1173,7 +1173,11 @@
 
           var parkingCodeArr = []; //bookmarked list of parking code
           var isBookmarked = false;
-
+          if($("#popRoadView").val() != null)
+          {
+            $("#popRoadView").empty();
+          }
+          listPopRoadView(latitude,longitude); // 팝업로드뷰 생성
           if(localStorage.hasOwnProperty("bookmarkList")){
             var bookmarkData = JSON.parse(localStorage.getItem("bookmarkList"));
 
@@ -1222,7 +1226,7 @@
           $('#tel').html(tel);
           $('#capacity').html(capacity);
           $('#curParking').html(curParking);
-          listPopRoadView(latitude,longitude); // 팝업로드뷰 생성
+         
 
         });
         // alert(data[i]);
