@@ -94,34 +94,37 @@
   <script>
     //Ajax로 sns계정이 DB에 있는지 확인
     function AjaxEmailCheck(snsEmail, snsAccount){
-      var url ="<%=request.getContextPath()%>/member/JsonMemberEmailcheck?userEmail="+snsEmail;
+      var url ="<%=request.getContextPath()%>/member/JsonMemberEmailcheck";
       $.ajax ({
           url:url,
           type:"get",
           dataType: "json",
+          data: {userEmail: snsEmail},
           success: function(data) {
-            //console.log(data);   			  
-            //signUpPopUp(res.kaccount_email);
-          for(var d in data)
-        {
-          console.log(data[d]);
-          console.log(data[d]["email"]);
-          console.log(data[d]["userEmail"]);
-          console.log(data);
-          //들어온 Data 값에 대해 snsEmail에 대한 이메일과 ajax에서 가져온 데이터 값을 주고
-          //비교후 같다면 바로 로그인 진행
-          //아니면 팝업을 이용해 sns가입을 권유 팝업창 띄움
-          if(data[d]["userEmail"] == snsEmail)
-          {
-            location.href="<%=request.getContextPath()%>/member/MemberEmailcheck?userEmail="+snsEmail 
-                            + "&snsAccount="+snsAccount;
-          }else{
-            console.log("들어옴");
-            $("#kakao-email").val("");
-            emailPopUp(snsEmail, snsAccount);
+          for(var d in data) {
+            console.log(data[d]);
+            console.log(data[d]["email"]);
+            console.log(data[d]["userEmail"]);
+            console.log(data);
+            //들어온 Data 값에 대해 snsEmail에 대한 이메일과 ajax에서 가져온 데이터 값을 주고
+            //비교후 같다면 바로 로그인 진행
+            //아니면 팝업을 이용해 sns가입을 권유 팝업창 띄움
+            if(data[d]["userEmail"] == snsEmail) {
+              var frm = $('<form>').attr({"action": "<%=request.getContextPath() %>/member/MemberEmailcheck",
+                                          "method": "POST", });
+              var input1 = $('<input>').attr({"name": "userEmail", "value": snsEmail});
+              frm.append(input1);
+              $(document.body).append(frm);
+              frm.submit();
+              // location.href="<%=request.getContextPath()%>/member/MemberEmailcheck?userEmail=" + snsEmail 
+              //                 + "&snsAccount=" + snsAccount;
+            }else{
+              console.log("들어옴");
+              $("#kakao-email").val("");
+              emailPopUp(snsEmail, snsAccount);
+            }
           }
         }
-          }
       });
     }
 
