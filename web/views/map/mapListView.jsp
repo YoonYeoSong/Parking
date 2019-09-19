@@ -147,9 +147,13 @@
 	}
 	
 	#pName{
-		font-size: 22px;
+		font-size: 18px;
 		font-weight: bold;
 	}
+  #Pcur{
+    font-size: 13px;
+    
+  }
     .goog-te-gadget-simple {
       border: 1px solid rgba(255, 255, 255, .0);
     }
@@ -270,6 +274,11 @@
    z-index: 10040;
    overflow: auto;
    overflow-y: auto;
+}
+#maincon
+{
+  height: 100vh !important;
+  display: flex !important;
 }
 	
     
@@ -440,7 +449,7 @@
 
 
 
-  <div class="container-fluid">
+  <div class="container-fluid" id="maincon">
 
 
     <!-- row h-100 mt-1 pt-2 -->
@@ -451,22 +460,24 @@
 
         <!--card / shadow-sm -->
         <div class="card-body align-left">
-          <label for="firstName">From</label>
+          <!-- <label for="firstName">From</label> -->
           <!--From-->
-          <input type="text" class="form-control" id="datepicker_start">
+          <!-- <input type="text" class="form-control" id="datepicker_start">
           <select name="" class="custom-select d-block w-100">
             <option class="">Start Time</option>
-          </select> <label for="firstName" class="mt-3">To</label>
+          </select> <label for="firstName" class="mt-3">To</label> -->
           <!--To-->
-          <input type="text" class="form-control" id="datepicker_end" size="20"> <select name=""
-            class="custom-select d-block w-100">
+          <!-- <input type="text" class="form-control" id="datepicker_end" size="20"> 
+          <select name="" class="custom-select d-block w-100">
             <option>End Time</option>
-          </select> <label class="mt-3">Sort By</label> <select name="sort by" class="custom-select d-block w-100">
+          </select>  -->
+          <label class="mt-3">Sort By</label> <select name="sort by" class="custom-select d-block w-100">
             <option value="Distace">Distance</option>
             <option>Price(low to high)</option>
             <option>Price(high to low)</option>
             <option>Recommended</option>
-          </select> <label class="mt-3">Filter By</label> <select name="Filter By" class="custom-select d-block w-100">
+          </select> 
+          <label class="mt-3">Filter By</label> <select name="Filter By" class="custom-select d-block w-100">
             <option value="Amenities">Amenities</option>
             <option>Covered Parking</option>
             <option>Electric Vehicle Charging</option>
@@ -482,7 +493,7 @@
         </div>
 
         <!--하단 list-->
-        <div class="card shadow-sm text-left" id="listScroll" style="height:300px">
+        <div class="card shadow-sm text-left" id="listScroll" style="height:470px">
           
           <!--
           <a class="list-group-item list-group-item-action">
@@ -508,7 +519,7 @@
 		<script>
 			$('#listScroll').click(function(e){
 				console.log($(e.target).children().first().attr('id'));
-				var idValue = $(e.target).children().first().attr('id');       
+				idValue = $(e.target).children().first().attr('id');       
 				var data = JSON.parse(localStorage.getItem("parkingList"));
 				console.log(data);
 				for(var d in data)
@@ -566,29 +577,42 @@
 
       function realLocClick()
       {
+        idValue = -1;
+        window.localStorage.setItem("selectNum",idValue);
         navigator.geolocation.getCurrentPosition(function (pos) {
             mapCopy.setCenter(new kakao.maps.LatLng(pos.coords.latitude, pos.coords.longitude));			
             mapCopy.setLevel(2);
             });
-            //$("#loadviewbtn").attr("disabled","false");
+           
       }
 
       function loadviewClick()
       {   
-				var idValue = localStorage.getItem("selectNum");     
+				idValue = localStorage.getItem("selectNum");     
 				console.log("id value : " + idValue);
 				var data = JSON.parse(localStorage.getItem("parkingList"));
-				for(var d in data)
-				{
-					if(d == Number(idValue))
-					{
-            //window.localStorage.setItem("realLat",JSON.data[idValue]["latitude"]);
-            //window.localStorage.setItem("realLon",data[idValue]["longitude"]);
-            //window.localStorage.setItem("pName",data[d]["parkingName"]);
-            loadView(data[d]["latitude"], data[d]["longitude"], data[d]["parkingName"]);
-            idValue = window.localStorage.setItem("selectNum", idValue);
-					}
-				}
+        if(idValue == -1)
+        {
+            navigator.geolocation.getCurrentPosition(function (pos) {
+              loadView(pos.coords.latitude, pos.coords.longitude, "내현재위치");
+          
+            });
+
+            //idValue = window.localStorage.setItem("selectNum", idValue);
+          
+        }else{
+          for(var d in data)
+          {
+            if(d == Number(idValue))
+            {
+              //window.localStorage.setItem("realLat",JSON.data[idValue]["latitude"]);
+              //window.localStorage.setItem("realLon",data[idValue]["longitude"]);
+              //window.localStorage.setItem("pName",data[d]["parkingName"]);
+              loadView(data[d]["latitude"], data[d]["longitude"], data[d]["parkingName"]);
+              idValue = window.localStorage.setItem("selectNum", idValue);
+            }
+          }
+        }
 				
 				
       }
@@ -1105,9 +1129,9 @@
       var listScroll = $("#listScroll");
       var aTag = $("<a class='list-group-item list-group-item-action'>");
       var span0 = $("<span id="+d+">");
-      var span1 = $("<span id='pName'>").html((Number(d)+1)+"."+data[d]["parkingName"]+"<br>");
-			var span2 = $("<span>").html(data[d]["addr"]+"<br>");
-      var span3 = $("<span>").html("전체 주차 대수 : "+data[d]["capacity"]+", 현재 주차 대수 : "+data[d]["curParking"] +"<br>");
+      var span1 = $("<span id='pName'>").html((Number(d)+1)+". "+data[d]["parkingName"]+"<br>");
+			var span2 = $("<span>").html("&nbsp;&nbsp;&nbsp;&nbsp;"+data[d]["addr"]+"<br>");
+      var span3 = $("<span id='Pcur'>").html("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;전체 주차 대수 : "+data[d]["capacity"]+"<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;현재 주차 대수 : "+data[d]["curParking"] +"<br>");
       var div = $("<div class='mt-2'>");
       // var btnStr = "<button class='btn btn-sm btn-outline-info mr-1' "
       //                       // + "data-toggle='modal' "
