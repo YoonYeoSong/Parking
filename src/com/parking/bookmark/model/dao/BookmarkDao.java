@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import com.parking.api.model.vo.Parking;
 import com.parking.bookmark.model.vo.Bookmark;
 
 
@@ -76,6 +77,39 @@ public class BookmarkDao {
         b.setBookmarkUserCode(rs.getString("bookmark_user_code"));
         
         list.add(b);
+      }
+    } catch(SQLException e) {
+      e.printStackTrace();
+    } finally {
+      close(rs);
+      close(pstmt);
+    }
+
+    return list;
+  }
+
+  public List<Parking> selectBookmarkParkingList(Connection conn, String userCode){
+    PreparedStatement pstmt = null;
+    ResultSet rs =  null;
+    String sql = prop.getProperty("selectBookmarkParkingList");
+    List<Parking> list = new ArrayList<Parking>();
+    Parking p = null;
+
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, userCode);
+
+      rs = pstmt.executeQuery();
+      while(rs.next()) {
+        p = new Parking();
+
+        p.setParkingCode(rs.getString("ps_parking_code"));
+        p.setParkingName(rs.getString("ps_name"));
+        p.setAddr(rs.getString("ps_addr"));
+        p.setLatitude(rs.getDouble("ps_latitude"));
+        p.setLongitude(rs.getDouble("ps_longitude"));
+
+        list.add(p);
       }
     } catch(SQLException e) {
       e.printStackTrace();

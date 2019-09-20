@@ -8,35 +8,36 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import com.parking.board.model.vo.QnaBoard;
+import com.parking.board.model.vo.Review;
 
-public class QnaBoardDao {
+public class ReviewDao {
   private Properties prop = new Properties();
 
-  public QnaBoardDao() {
+  public ReviewDao() {
     try {
-      String path = QnaBoardDao.class.getResource("/sql/board/qnaboard-query.properties").getPath();
+      String path = ReviewDao.class.getResource("/sql/board/review-query.properties").getPath();
       prop.load(new FileReader(path));
     } catch(IOException e) {
       e.printStackTrace();
     }
   }
   
-  public List<QnaBoard> selectQnaBoardList(Connection conn, int cPage, int numPerPage){
+  public List<Review> selectReviewList(Connection conn, int cPage, int numPerPage){
     PreparedStatement pstmt = null;
     ResultSet rs = null;
 
-    List<QnaBoard> list = new ArrayList<QnaBoard>();
-    QnaBoard b = null;
+    List<Review> list = new ArrayList<Review>();
+    Review r = null;
     
     int start = (cPage-1)*numPerPage + 1;
     int end = cPage*numPerPage;
 
-    String sql = prop.getProperty("selectQnaBoardList");
+    String sql = prop.getProperty("selectReviewList");
     
     try {
       pstmt = conn.prepareStatement(sql);
@@ -46,18 +47,20 @@ public class QnaBoardDao {
       rs = pstmt.executeQuery();
       
       while(rs.next()) {
-        b = new QnaBoard();
+        r = new Review();
 
-        b.setQnaNo(rs.getInt("qna_no"));
-        b.setQnaTitle(rs.getString("qna_title"));
-        b.setUserCode(rs.getString("qna_user_code"));
-        b.setQnaContent(rs.getString("qna_content"));
-        b.setQnaOriginalFile(rs.getString("qna_original_filename"));
-        b.setQnaRenamedFile(rs.getString("qna_renamed_filename"));
-        b.setQnaCreatedDate(rs.getDate("qna_created_date"));
-        b.setQnaReadcount(rs.getInt("qna_readcount"));
+        r.setReviewNo(rs.getInt("review_no"));
+        r.setReviewUserHistoryNo(rs.getInt("review_userhistory_no"));
+        r.setReviewTitle(rs.getString("review_title"));
+        r.setReviewContent(rs.getString("review_content"));
+
+        Timestamp timestamp = rs.getTimestamp("review_created_date");
+        java.util.Date date = new java.util.Date(timestamp.getTime());
+        r.setReviewCreatedDate(new java.sql.Date(date.getTime()));
+
+        r.setReviewRating(rs.getInt("review_rating"));
         
-        list.add(b);
+        list.add(r);
       }
       
     } catch(SQLException e) {
@@ -70,11 +73,11 @@ public class QnaBoardDao {
     return list;
   }
 
-  public int selectCountQnaBoard(Connection conn) {
+  public int selectCountReview(Connection conn) {
     PreparedStatement pstmt = null;
     ResultSet rs = null;
     int count = 0;
-    String sql = prop.getProperty("selectCountQnaBoard");
+    String sql = prop.getProperty("selectCountReview");
     
     try {
       pstmt = conn.prepareStatement(sql);

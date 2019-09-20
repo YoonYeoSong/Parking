@@ -41,6 +41,11 @@ SELECT user_code, user_email, user_phone, user_name, user_addr,
   user_original_filename AS ori, user_renamed_filename AS re,
   user_pw
 FROM MEMBER;
+
+SELECT b.bookmark_no AS bookmark_no, b.bookmark_user_code AS bookmark_user_code, ps.*
+from bookmark b JOIN parking_seoul ps
+  ON b.bookmark_parking_code = ps_parking_code;
+select ps.* from bookmark b JOIN parking_seoul ps ON b.bookmark_parking_code = ps_parking_code where b.bookmark_user_code='578165';
 --DELETE FROM MEMBER;
 select * from member where user_email='admin@com';
 SELECT * FROM TAB;
@@ -431,9 +436,10 @@ ALTER TABLE NOTICE
   ADD CONSTRAINT fk_notice_member FOREIGN KEY(notice_user_code) REFERENCES MEMBER(user_code)
   ON DELETE CASCADE;
 
-
+    
 --drop table bookmark cascade constraints;
 --drop sequence bookmark_seq;
+--drop trigger bookmark_trg;
 select b.*, m.user_name, m.user_email from bookmark b join member m  on b.bookmark_user_code = m.user_code;
 --insert into bookmark values(DEFAULT,'578165', '1033125');
 --insert into bookmark values(DEFAULT,'578165', '1042423');
@@ -449,9 +455,7 @@ COMMENT ON COLUMN BOOKMARK.bookmark_no IS '북마크번호';
 COMMENT ON COLUMN BOOKMARK.bookmark_user_code IS '회원코드';
 COMMENT ON COLUMN BOOKMARK.bookmark_parking_code IS '주차코드';
 
---drop table bookmark cascade constraints;
---drop sequence bookmark_seq;
---drop trigger bookmark_trg;
+
 CREATE SEQUENCE BOOKMARK_SEQ START WITH 1;
 
 CREATE OR REPLACE TRIGGER BOOKMARK_TRG

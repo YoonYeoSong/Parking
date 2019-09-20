@@ -5,11 +5,17 @@
 
   <!-- CSS -->
   <link rel="stylesheet" href="<%=request.getContextPath() %>/css/avatar.css">
+  <style>
+    #listScroll{
+      font-size: 14px;
+      max-height: 310px;
+    }
+  </style>
+ 
 
   <div class="container pt-5">
     <div class="row">
-      <div class="col-md-3">
-        <%-- <h3 class="my-4 "><%=loginMember.getUserName() %> Page</h3> --%>
+      <div class="col-lg-3">
         <div class="list-group my-4">
           <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('/member/memberView');"><i class="fa fa-cog">&nbsp;&nbsp;</i>Settings</a>
           <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('/bookmark/bookmarkView');"><i class="fa fa-bookmark">&nbsp;&nbsp;</i>Bookmark</a>
@@ -23,10 +29,21 @@
             <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('');"><i class="fa fa-won">&nbsp;&nbsp;</i>Credit Balance</a>
           <% } %>
         </div>
+        
+        <div class="card shadow-sm text-left overflow-auto" id="listScroll" >
+        </div>
+
       </div>
 
       <script>
         function ajaxMypageContentLoad(urlMapping){
+          if($('#listScroll') != null)
+            $('#listScroll').empty();
+          if(urlMapping != '/bookmark/bookmarkView')
+            $('#listScroll').hide();
+          else
+            $('#listScroll').show();
+
           $.ajax({
             type: "POST",
             url: "<%=request.getContextPath() %>" + urlMapping,
@@ -41,5 +58,4 @@
         }
       </script>
 
-      <!-- /.col-lg-3 -->
       <div class="col-lg-9" id="mypage-container">
