@@ -17,7 +17,8 @@ import com.parking.member.model.vo.Member;
 
 
 public class MemberDao {
-  private Properties prop = new Properties();
+  
+	private Properties prop = new Properties();
 
   public MemberDao() {
     String path = MemberDao.class.getResource("/sql/member/member-query.properties").getPath();

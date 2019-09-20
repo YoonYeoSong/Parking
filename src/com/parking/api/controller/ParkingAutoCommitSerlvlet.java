@@ -14,16 +14,16 @@ import com.parking.api.model.service.ParkingApiService;
 import com.parking.api.model.vo.Parking;
 
 /**
- * Servlet implementation class SearchAddrServlet
+ * Servlet implementation class ParkingAutoCommitSerlvlet
  */
-@WebServlet("/ajax/searchAddr.do")
-public class SearchAddrServlet extends HttpServlet {
+@WebServlet("/ajax/parkingAutoCommit")
+public class ParkingAutoCommitSerlvlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SearchAddrServlet() {
+    public ParkingAutoCommitSerlvlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,30 +32,15 @@ public class SearchAddrServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String addr = request.getParameter("addr");
-		
-//		System.out.println(" search 서블릿 :" + addr);
-
-		ParkingApiService parkingService = new ParkingApiService();
-		//주소 네임을 가져와서 서비스로 넘겨주고 데이터를 담는다
-		List<Parking> list = parkingService.selectParkingList(addr);
-//		System.out.println("searchAddr 리스트 사이즈 : " +list.size());
-		
-		
-		//데이터 저장된 상태니 건들지 말것
-//		int result = 0;
-//		
-//		result = parkingService.insertParkingList(list);
-//		
-//		if(result > 0)
-//			System.out.println("값 insert OK");
-		
+		String addrName = request.getParameter("addr");
+		System.out.println(addrName);
+		ParkingApiService service = new ParkingApiService();
+		List<Parking> list = service.selectAutoCommit(addrName);
 		
 		response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         new Gson().toJson(list, response.getWriter());
-
-
+		
 	}
 
 	/**

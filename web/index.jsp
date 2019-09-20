@@ -13,10 +13,11 @@
         <div class="mx-auto col-lg-8">
           <form id="main-searchbar" action="<%=request.getContextPath()%>/map/mapListView" class="" role="form">
             <div class="input-group">
-              <input type="search" class="form-control" name="search" placeholder="Where do you need parking?" aria-describedby="button-addon5">
+              <input type="search" class="form-control" name="search" placeholder="Where do you need parking?" aria-describedby="button-addon5" id="search" list="searchData">
               <% if(loginMember!=null){ %>
               <input type="hidden" name="userCode" value="<%=loginMember.getUserCode() %>">
               <% } %>
+              <datalist id="searchData"></datalist>
               <div class="input-group-append">
               <button id="button-addon5" type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
               </div>
@@ -288,6 +289,36 @@
         }
       });
     });/* $(function()){} */
+    
+    
+    $(function(){
+        $("#search").keyup(function(){
+           $.ajax({
+              url:"<%=request.getContextPath()%>/ajax/parkingAutoCommit", 
+              type:"post",
+              data:{ addr:$("#search").val() },
+              dataType:"json",
+              success:function(data){            
+                 console.log(data);
+                
+                /*  $("#searchData").html("");
+                 var datas=data.split(",");  */      
+                 for(var d in data)
+               	 {
+               	     var option=$("<option>").attr("value",data[d]["addr"]+"("+data[d]["parkingName"]+")");
+                     $("#searchData").append(option);
+               	 }
+                 
+                 //for(var i=0; i<datas.length; i++){
+                   /*  var option=$("<option>").attr("value",datas[i]).html(datas[i]);
+                    $("#searchData").append(option); */
+                	// var option=$("<option>").attr("value",data[i]["addr"]+"("+data[i]["parkingName"]+")").html(data[i]["addr"]);
+                     //$("#searchData").append(option);
+               //  }                  
+              }
+           });            
+        });
+     });
 
   </script>
   

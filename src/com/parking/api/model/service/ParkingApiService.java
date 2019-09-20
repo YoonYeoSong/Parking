@@ -1,5 +1,6 @@
 package com.parking.api.model.service;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,11 @@ import com.parking.api.dao.ParkingApiDao;
 import com.parking.api.model.vo.Parking;
 
 import common.api.ParseJsonSeoulParking;
+
+import static common.template.JDBCTemplate.close;
+import static common.template.JDBCTemplate.commit;
+import static common.template.JDBCTemplate.getConnection;
+import static common.template.JDBCTemplate.rollback;
 
 public class ParkingApiService {
 	
@@ -23,6 +29,31 @@ public class ParkingApiService {
 		// 추출해야 데이터가 많은량이면 카운트 수를 높인다.
 		int cnt = 2;
 		list = seoulParking.parseJsonSeoulParkingApi(addrName, cnt);
+		
+		return list;
+	}
+	
+	public int insertParkingList(List list)
+	{
+		Connection conn = getConnection();
+		int result = 0;
+		result = dao.insertParkingList(conn,list);
+		if (result > 0)
+		     commit(conn);
+		   else
+		     rollback(conn);
+		    
+	    close(conn);
+		    
+		    
+		return result;
+	}
+	
+	public List<Parking> selectAutoCommit(String addrName)
+	{
+		Connection conn = getConnection();
+		List<Parking> list = dao.selectAutoCommit(conn, addrName);
+		close(conn);
 		
 		return list;
 	}

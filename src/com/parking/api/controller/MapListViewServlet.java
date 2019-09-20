@@ -45,6 +45,8 @@ public class MapListViewServlet extends HttpServlet {
     
     
 
+    
+    
 //    if(list.get(0) != null)
 //    {
 //      request.setAttribute("list", list);  
