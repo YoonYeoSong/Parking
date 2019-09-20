@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.parking.member.model.service.MemberService;
-import com.parking.member.model.vo.Member;
 
 /**
  * Servlet implementation class BookmarkViewServlet
@@ -30,10 +28,6 @@ public class BookmarkViewServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	  String userCode = request.getParameter("userCode");
-	  Member m = new MemberService().selectUserCode(userCode);
-
-	  request.setAttribute("loginMember", m);
 	  request.getRequestDispatcher("/views/bookmark/bookmarkView.jsp").forward(request, response);
 	}
 
