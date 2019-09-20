@@ -34,12 +34,12 @@ public class SearchAddrServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String addr = request.getParameter("addr");
 		
-		System.out.println(" search 서블릿 :" + addr);
+//		System.out.println(" search 서블릿 :" + addr);
 
 		ParkingApiService parkingService = new ParkingApiService();
 		//주소 네임을 가져와서 서비스로 넘겨주고 데이터를 담는다
 		List<Parking> list = parkingService.selectParkingList(addr);
-		System.out.println("searchAddr 리스트 사이즈 : " +list.size());
+//		System.out.println("searchAddr 리스트 사이즈 : " +list.size());
 		
 		response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

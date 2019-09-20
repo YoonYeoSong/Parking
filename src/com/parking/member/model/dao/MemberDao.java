@@ -282,7 +282,7 @@ public class MemberDao {
 		      pstmt = conn.prepareStatement(sql);
 		      pstmt.setString(1, receivedemail);
 		      result = pstmt.executeUpdate();
-		      System.out.println("from query result :" +result);
+//		      System.out.println("from query result :" +result);
 		    
 		    } catch(SQLException e) {
 		      e.printStackTrace();
@@ -323,7 +323,7 @@ public class MemberDao {
 	      pstmt.setString(1, password);
 	      pstmt.setString(2, email);
 	      result = pstmt.executeUpdate();
-	      System.out.println("result :" +result);
+//	      System.out.println("result :" +result);
 	    
 	    } catch(SQLException e) {
 	      e.printStackTrace();

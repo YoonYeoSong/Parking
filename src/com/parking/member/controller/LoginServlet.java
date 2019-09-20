@@ -58,9 +58,9 @@ public class LoginServlet extends HttpServlet {
 	  request.setAttribute("loginMember", m);
 
 	  //for debugging
-	  System.out.println(email);
-	  System.out.println(pwLoginOriginal);
-	  System.out.println(m);
+//	  System.out.println(email);
+//	  System.out.println(pwLoginOriginal);
+//	  System.out.println(m);
 
     //update login date
     boolean logged = new MemberService().updateLoginDate(email);

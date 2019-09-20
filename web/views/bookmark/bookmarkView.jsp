@@ -60,15 +60,8 @@
 
         <!-- manipulate data -->
         <script>
-          function geo_success(pos) {
-            // var lat = pos.coords.latitude;
-            // var lon = pos.coords.longitude;
-            loadKakaoMap(pos);
-          }
-
-          function geo_error() {
-            alert("위치 정보를 사용할 수 없습니다.");
-          }
+          function geo_success(pos) { loadKakaoMap(pos); }
+          function geo_error() { alert("위치 정보를 사용할 수 없습니다."); }
 
           var geo_options = {
             enableHighAccuracy: true, 

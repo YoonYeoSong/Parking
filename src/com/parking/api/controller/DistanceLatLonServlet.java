@@ -49,7 +49,7 @@ public class DistanceLatLonServlet extends HttpServlet {
 	    double lon3 = lon1 + Math.atan2(By, Math.cos(lat1) + Bx);
 
 	    //print out in degrees
-	    System.out.println(Math.toDegrees(lat3) + " " + Math.toDegrees(lon3));
+//	    System.out.println(Math.toDegrees(lat3) + " " + Math.toDegrees(lon3));
 	    List list = new ArrayList();
 	    list.add(Math.toDegrees(lat3));
 	    list.add(Math.toDegrees(lon3));

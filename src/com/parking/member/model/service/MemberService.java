@@ -108,7 +108,7 @@ public class MemberService {
 	    Connection conn = getConnection();
 
 	    int result = dao.activateaccount(conn, decryptedcode);
-	    System.out.println("from dao result : " +result);
+//	    System.out.println("from dao result : " +result);
 	    if (result > 0)
 	      commit(conn);
 	    else
@@ -129,12 +129,12 @@ public class MemberService {
 	}
 
 	public int changepassword(String email, String password) {
-			System.out.println(email);
-			System.out.println(password);
+//			System.out.println(email);
+//			System.out.println(password);
 		   Connection conn = getConnection();
 
 		    int result = dao.changepassword(conn, email, password);
-		    System.out.println("from dao result : " +result);
+//		    System.out.println("from dao result : " +result);
 		    if (result > 0)
 		      commit(conn);
 		    else

@@ -35,12 +35,12 @@ public class AccountActivation extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String encryptedcode = request.getParameter("code");
-		System.out.println(encryptedcode);
+//		System.out.println(encryptedcode);
 		String decryptedcode = new AES256D().decrypt(encryptedcode, "hi");
-		System.out.println("decrytped value : " +decryptedcode);
+//		System.out.println("decrytped value : " +decryptedcode);
 			MemberService ms = new MemberService();
 			int result = ms.activateaccount(decryptedcode);
-			System.out.println("final result : " +result);
+//			System.out.println("final result : " +result);
 			String msg ="";
 			String loc = "";
 			

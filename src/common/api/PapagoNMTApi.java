@@ -95,11 +95,12 @@ public class PapagoNMTApi extends HttpServlet {
             response.append(inputLine);
         }
         br.close();
-        System.out.println(response.toString());
+//        System.out.println(response.toString());
         
         resultString = response.toString();
     } catch (Exception e) {
         System.out.println(e);
+        e.printStackTrace();
     }
     
     return resultString;

@@ -39,21 +39,21 @@ public class SessionCheckListener implements HttpSessionListener, HttpSessionAtt
      * @see HttpSessionAttributeListener#attributeAdded(HttpSessionBindingEvent)
      */
     public void attributeAdded(HttpSessionBindingEvent event)  { 
-      System.out.println("SESSION ATTRIBUTE Added");
+//      System.out.println("SESSION ATTRIBUTE Added");
     }
 
 	/**
      * @see HttpSessionAttributeListener#attributeRemoved(HttpSessionBindingEvent)
      */
     public void attributeRemoved(HttpSessionBindingEvent event)  { 
-      System.out.println("SESSION ATTRIBUTE Removed");
+//      System.out.println("SESSION ATTRIBUTE Removed");
     }
 
 	/**
      * @see HttpSessionAttributeListener#attributeReplaced(HttpSessionBindingEvent)
      */
     public void attributeReplaced(HttpSessionBindingEvent event)  { 
-      System.out.println("SESSION ATTRIBUTE Replaced");
+//      System.out.println("SESSION ATTRIBUTE Replaced");
     }
 	
 }

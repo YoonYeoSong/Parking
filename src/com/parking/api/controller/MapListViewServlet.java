@@ -36,7 +36,7 @@ public class MapListViewServlet extends HttpServlet {
     String search = request.getParameter("search");
     String userCode = request.getParameter("userCode");
 
-    System.out.println("서블릿 :" + search);
+//    System.out.println("서블릿 :" + search);
 
     //ParkingApiService parkingService = new ParkingApiService();
     //주소 네임을 가져와서 서비스로 넘겨주고 데이터를 담는다
@@ -57,7 +57,7 @@ public class MapListViewServlet extends HttpServlet {
 
     //retrieve parking lot Bookmark list of a user w/ 'userCode'
     List<Bookmark> bookmarkList = new BookmarkService().selectBookmarkList(userCode);
-    System.out.println(bookmarkList.size());
+//    System.out.println(bookmarkList.size());
 
     if (bookmarkList == null)
       bookmarkList = new ArrayList<Bookmark>();
