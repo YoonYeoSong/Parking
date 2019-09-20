@@ -38,7 +38,7 @@ public class MemberEmailCheck extends HttpServlet {
     m.setUserLoginDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
     new MemberService().updateLoginDate(email);
 
-    System.out.println(m);
+//    System.out.println(m);
     HttpSession session = request.getSession();
     String view="";
       session.setAttribute("loginMember", m);

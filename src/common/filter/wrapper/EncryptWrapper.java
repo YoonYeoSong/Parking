@@ -32,7 +32,7 @@ public class EncryptWrapper extends HttpServletRequestWrapper {
       } catch(InvalidKeySpecException e) {
         e.printStackTrace();
       }
-      System.out.println("암호화된 비번: " + value);
+//      System.out.println("암호화된 비번: " + value);
       return value;
     }
     else {
@@ -49,7 +49,7 @@ public class EncryptWrapper extends HttpServletRequestWrapper {
       SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
       byte[] hash = skf.generateSecret(spec).getEncoded();
 
-      System.out.println((iterations + ":" + toHex(salt) + ":" + toHex(hash)).length());
+//      System.out.println((iterations + ":" + toHex(salt) + ":" + toHex(hash)).length());
       return iterations + ":" + toHex(salt) + ":" + toHex(hash);
   }
    

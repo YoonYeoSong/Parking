@@ -33,7 +33,7 @@ public class MailSend {
 		
 		MimeMessage msg = new MimeMessage(session);
 		String host = "http://localhost:9090/Parking/";
-		System.out.println("email :" +email);
+//		System.out.println("email :" +email);
 		String code = new AES256E().encrypt(email, "hi");
 		String htmlcode = "Please click the <a href='" +host+ "views/member/emailverificationpopup.jsp?code=" +code +"'>link</a> to activate your account";
 		 

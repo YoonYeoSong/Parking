@@ -37,7 +37,7 @@ public class JsonMemberEmailCheck extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String email = request.getParameter("userEmail");
-		System.out.println("email:"+email);
+//		System.out.println("email:"+email);
 		
 		MemberService service = new MemberService();
 		
@@ -46,7 +46,7 @@ public class JsonMemberEmailCheck extends HttpServlet {
 		if(m != null)
 		{
 			list.add(m);
-			System.out.println("m : " + m.toString());
+//			System.out.println("m : " + m.toString());
 			
 			JSONArray jlist = new JSONArray();
 			
@@ -67,7 +67,7 @@ public class JsonMemberEmailCheck extends HttpServlet {
 				jlist.add(jo);
 			}
 			
-			System.out.println(jlist.get(0).toString());
+//			System.out.println(jlist.get(0).toString());
 			
 			response.setContentType("application/json;charset=UTF-8");
 			new Gson().toJson(list,response.getWriter());		

@@ -265,9 +265,9 @@ public class ParseJsonSeoulParking {
 			{
 				list.remove(i);
 			}
-			System.out.println(list.get(i));
+//			System.out.println(list.get(i));
 		}
-		System.out.println(list.size());
+//		System.out.println(list.size());
 		
 		
 		
