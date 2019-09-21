@@ -204,8 +204,35 @@ ALTER TABLE PARKING_SLOT
   ADD CONSTRAINT fk_parkingslot_user FOREIGN KEY(slot_user_code) REFERENCES MEMBER(user_code) ON DELETE CASCADE;
 
 
---DROP TABLE USERHISTORY CASCADE CONSTRAINTS;
 
+--selectUserHistory:
+--select h.* from userhistory h join parking_seoul ps
+--  on h.userhistory_parking_code = ps.ps_parking_code
+--  where h.userhistory_user_code=? and ps.parking_code=?;
+--selectParking:
+--select ps.* from userhistory h join parking_seoul ps
+--  on h.userhistory_parking_code = ps.ps_parking_code
+--  where h.userhistory_user_code=? and ps.parking_code=?;
+--selectUserHistoryParkingList:
+--select ps.* from userhistory h join parking_seoul ps
+--  on h.userhistory_parking_code = ps.ps_parking_code
+--  where h.userhistory_user_code=?;
+--user_code 578165
+--parking_code
+--  1052723
+--  1423842
+--  1052741
+--  1052737
+--insert into userhistory values(DEFAULT, '578165', '1052723', DEFAULT);
+--insert into userhistory values(DEFAULT, '578165', '1423842', DEFAULT);
+--insert into userhistory values(DEFAULT, '578165', '1052741', DEFAULT);
+--insert into userhistory values(DEFAULT, '578165', '1052737', DEFAULT);
+select * from userhistory;
+commit;
+
+--DROP TABLE USERHISTORY CASCADE CONSTRAINTS;
+--drop sequence userhistory_seq;
+--drop trigger userhistory_trg;
 CREATE TABLE USERHISTORY(
   userhistory_no NUMBER(5) NOT NULL,
   userhistory_user_code CHAR(6) NOT NULL,
@@ -255,7 +282,7 @@ COMMENT ON COLUMN PAYMENTHISTORY.paymenthistory_purchase_amount IS '주차요금
 COMMENT ON COLUMN PAYMENTHISTORY.paymenthistory_parking_code IS '주차장코드';
 COMMENT ON COLUMN PAYMENTHISTORY.paymenthistory_payment_date IS '주차요금 결제일';
 
---drop table paymenthistory;
+--drop table paymenthistory cascade constraints;
 --drop sequence paymenthistory_seq;
 --drop trigger paymenthistory_trg;
 CREATE SEQUENCE PAYMENTHISTORY_SEQ START WITH 1;
@@ -281,8 +308,14 @@ ALTER TABLE PAYMENTHISTORY
         REFERENCES PARKING_SEOUL(ps_parking_code)
   ON DELETE CASCADE;
 
---drop table review;
 
+--drop table review cascade constraints;
+--drop sequence review_seq;
+--drop trigger review_trg;
+--insert into review values(DEFAULT, '1', 'Best experience!', 'Ive never seen such a clean parking lot before... I will use this place often! It was a delight experience', DEFAULT, 5);
+--insert into review values(DEFAULT, '2', 'eh', 'It was alright. I was about to pick up my family and I had to park my car at least for one hour. Luckily, I found this Parking app which provided me with the realtime parking locations around me. But it was way too expensive. So I give you 1 star ;)', DEFAULT, 1);
+--insert into review values(DEFAULT, '4', 'Beware', 'The guy working there is rude. He yelled at me and tried to charge me 200 bucks per second. Definitely not worth your time and money!', DEFAULT, 4);
+commit;
 CREATE TABLE REVIEW(
  review_no NUMBER(5) NOT NULL,
  review_userhistory_no CHAR(7) NOT NULL,
@@ -298,10 +331,7 @@ COMMENT ON COLUMN REVIEW.review_content IS '리뷰 작성글';
 COMMENT ON COLUMN REVIEW.review_created_date IS '작성날짜';
 COMMENT ON COLUMN REVIEW.review_rating IS '평점(1~5 정수)';
 
---drop sequence review_seq;
 CREATE SEQUENCE REVIEW_SEQ START WITH 1;
-
---drop trigger review_trg;
 
 CREATE OR REPLACE TRIGGER REVIEW_TRG
 BEFORE INSERT ON REVIEW
@@ -321,6 +351,22 @@ ALTER TABLE REVIEW
   ON DELETE CASCADE;
 ALTER TABLE REVIEW
   ADD CONSTRAINT chk_review_rating CHECK (review_rating in (1,2,3,4,5));
+
+
+--DROP TABLE REVIEWPIC CASCADE CONTRAINTS
+CREATE TABLE REVIEWPIC(
+  reviewpic_review_no CHAR(7) NOT NULL,
+  reviewpic_original_filename VARCHAR2(100),
+  reviewpic_renamed_filename VARCHAR2(100)
+);
+COMMENT ON COLUMN REVIEWPIC.reviewpic_review_no IS '리뷰테이블 참조 리뷰번호';
+COMMENT ON COLUMN REVIEWPIC.reviewpic_original_filename IS '첨부파일 원래이름';
+COMMENT ON COLUMN REVIEWPIC.reviewpic_renamed_filename IS '첨부파일 바뀐이름';
+
+ALTER TABLE REVIEWPIC
+  ADD CONSTRAINT fk_reviewpic_review FOREIGN KEY(reviewpic_no)
+        REFERENCES review(review_no)
+  ON DELETE CASCADE;
 
 
 CREATE TABLE QNABOARD(
@@ -446,6 +492,7 @@ select b.*, m.user_name, m.user_email from bookmark b join member m  on b.bookma
 --delete from bookmark where bookmark_user_code='578165';
 
 COMMIT;
+
 CREATE TABLE BOOKMARK(
   bookmark_no NUMBER(3) NOT NULL,
   bookmark_user_code CHAR(6) NOT NULL,

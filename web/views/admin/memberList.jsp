@@ -70,16 +70,16 @@
       <table class="table table-sm">
         <thead>
           <tr>
-            <th scope="col">NO.</th>
-            <th scope="col">User#</th>
-            <th scope="col">Email</th>
-            <th scope="col">Name</th>
-            <th scope="col">Created</th>
-            <th scope="col">Logged</th>
+            <th class="text-center" scope="col">NO.</th>
+            <th class="text-center" scope="col">User#</th>
+            <th class="text-center" scope="col">Email</th>
+            <th class="text-center" scope="col">Name</th>
+            <th class="text-center" scope="col">Created</th>
+            <th class="text-center" scope="col">Logged</th>
             <!-- <th scope="col">SMS(Y/N)</th>
             <th scope="col">Email(Y/N)</th> -->
-            <th scope="col">Verified(Y/N)</th>
-            <th scope="col">SNS</th>
+            <th class="text-center" scope="col">Verified(Y/N)</th>
+            <th class="text-center" scope="col">SNS</th>
           </tr>
         </thead>
         <tbody>

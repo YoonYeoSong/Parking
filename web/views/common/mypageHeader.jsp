@@ -16,7 +16,7 @@
   <div class="container pt-5">
     <div class="row">
       <div class="col-lg-3">
-        <div class="list-group my-4">
+        <div class="list-group mt-4 mb-3">
           <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('/member/memberView');"><i class="fa fa-cog">&nbsp;&nbsp;</i>Settings</a>
           <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('/bookmark/bookmarkView');"><i class="fa fa-bookmark">&nbsp;&nbsp;</i>Bookmark</a>
           <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('/board/reviewList');"><i class="fa fa-edit">&nbsp;&nbsp;</i>My Reviews</a>
@@ -30,7 +30,9 @@
           <% } %>
         </div>
         
-        <div class="card shadow-sm text-left overflow-auto" id="listScroll" >
+        <div class="card-text text-center overflow-auto mb-1" id="listScrollTitle" >
+        </div>
+        <div class="card-text shadow-sm text-left overflow-auto" id="listScroll" >
         </div>
 
       </div>
@@ -40,10 +42,21 @@
           if($('#listScroll') != null)
             $('#listScroll').empty();
 
-          if(urlMapping == '/bookmark/bookmarkView' || urlMapping == '/board/reviewList')
+          if($('#listScrollText') != null)
+            $('#listScrollText').empty();
+
+          if(urlMapping == '/bookmark/bookmarkView'){
             $('#listScroll').show();
-          else
+            $('#listScrollTitle').show();
+          }
+          else if(urlMapping == '/board/reviewList'){
+            $('#listScroll').show();
+            $('#listScrollTitle').show();
+          }
+          else{
             $('#listScroll').hide();
+            $('#listScrollTitle').hide();
+          }
 
           $.ajax({
             type: "POST",

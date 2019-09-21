@@ -55,11 +55,12 @@
         <table class="table table-sm" id='qna_table'>
           <thead>
             <tr>
-              <th>NO.</th>
-              <th>Author</th>
-              <th>Title</th>
-              <th>Attachment</th>
-              <th>Views</th>
+              <th class="text-center">NO.</th>
+              <th class="text-center">Author</th>
+              <th class="text-center">Title</th>
+              <th class="text-center">Content</th>
+              <th class="text-center">Picture</th>
+              <th class="text-center">Rating</th>
             </tr>
           </thead>
           <tbody>
@@ -74,13 +75,17 @@
                   </svg>
                   <!-- <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray"> -->
                   <p class="media-body pb-4 mb-0 small lh-125">
-                    <strong class="d-block text-gray-dark">@<%=r.getReviewUserHistoryNo() %></strong>
+                    <strong class="d-block text-gray-dark"><%=loginMember.getUserName() %></strong>
                   </p>
                 </div>
               </td>
               <td>
-                <a href="<%=request.getContextPath() %>/board/reviewView?no=<%=r.getReviewNo() %>">
+                <a href="<%=request.getContextPath() %>/board/reviewContentView?no=<%=r.getReviewNo() %>">
                   <%=r.getReviewTitle() %>
+                </a>
+              </td>
+              <td>
+                  <%= r.getReviewContent().substring(0, java.lang.Math.min(100,r.getReviewContent().length())) %>
                 </a>
               </td>
               <td>
@@ -116,11 +121,12 @@
           <!-- <a class="dropdown-item" href="javascript:;" onclick="ajaxRequestPage();"><i class="fa fa-question-circle-o">&nbsp;&nbsp;</i>Q&A Board</a> -->
         <script>
           function ajaxRequestPage(pageNo){
-            var url = "<%=request.getContextPath() %>/board/reviewList?cPage=" + pageNo;
+            var url = "<%=request.getContextPath() %>/board/reviewList";
             $.ajax({
               type: "POST",
               url: url,
               dataType: "html",
+              data: {cPage: pageNo},
               success: function(data){
                 html = $('<div>').html(data);
                 console.log(html.find('div#review-container'));
@@ -140,15 +146,22 @@
             });
           }
 
-          function loadParkingHistoryList(pos){
+          $(function(){
+            $('#listScroll').show();
+            $('#listScrollTitle').show();
+            $('#listScrollTitle').html('<i class="fa fa-history"></i>&nbsp;&nbsp;My History');
+
+            loadParkingList("userHistoryParkingList");
+          });
+
+          function loadParkingList(mapping){
             $.ajax({
-              url: "<%=request.getContextPath()%>/history/userHistoryList",
+              url: "<%=request.getContextPath()%>/history/" + mapping,
               type: "POST",
               data: { "userCode": "<%=loginMember.getUserCode()%>" },
               dataType: "JSON",
               success: function (data) {
                 var listScroll = $("#listScroll");
-                console.log(data);
 
                 if(listScroll != null)
                   listScroll.empty();
@@ -161,6 +174,10 @@
                 for(var d in data) {
 
                   var aTag = $("<a class='list-group-item list-group-item-action'>");
+                  if(mapping == "userHistoryParkingList"){
+                  }
+                  if(mapping == "userHistoryList"){
+                  }
                   var span0 = $("<span id="+d+">");
                   var span1 = $("<span id='pName'>").html((Number(d)+1)+". "+data[d]["parkingName"]+"<br>");
                   var span2 = $("<span>").html("&nbsp;&nbsp;&nbsp;&nbsp;Addr. : "+data[d]["addr"]+"<br>");
@@ -175,12 +192,14 @@
                   //                       + ">More Info</button>";
                   var btnStr = "<button class='btn btn-sm btn-outline-info mr-1' "
                                         + "id='parking" + d + "'>"
-                                        + "More Info</button>";
+                                        + "Details</button>";
                   var infoBtn = $(btnStr);
-                  var input = $("<input type='button' class='btn btn-sm btn-outline-info pay' onclick='writeReview()' value='Review'>");
+                  var input = $("<input type='button' class='btn btn-sm btn-outline-info pay'"
+                                + "onclick='reviewWrite(" + data[d]["parkingCode"]+ ")' value='Review'>");
                   div.append(infoBtn).append(input);
                   span0.append(span1).append(span2).append(span3).append(span4).append(span5).append(div);
                   aTag.append(span0);
+
                   listScroll.append(aTag);	
 
                   //Marker : ParkingList
@@ -189,12 +208,16 @@
 
                   positions.push({title: data[d]["parkingName"], latlng: new kakao.maps.LatLng(lat, lng)});
                 }
-                positions.push({title: "I'm Here!", latlng: new kakao.maps.LatLng(pos.coords.latitude, pos.coords.longitude)});
 
                 if(localStorage.hasOwnProperty("positions"))
                   localStorage.removeItem("positions");
 
                 localStorage.setItem("positions", positions);
+
+                if(data.length ==0){
+                  listScroll.append("<div class='card card-text text-center' style='height:70px;'><br>"
+                    + "No Reviews from you!<br></div>");
+                }
 
               },
               error: function (data) { // 데이터 통신에 실패
@@ -202,6 +225,29 @@
               }
             });
           }
+
+          function reviewWrite(parkingCode){
+            var url = "<%=request.getContextPath() %>/board/reviewWrite";
+            $.ajax({
+              type: "POST",
+              url: url,
+              dataType: "html",
+              data: {userCode: "<%=loginMember.getUserCode() %>",
+                     parkingCode: parkingCode},
+              success: function(data){
+                html = $('<div>').html(data);
+
+                $('div#mypage-container').html(html.find('section.subMenu-container'));
+              },
+              error: function(request, status, error){
+                console.log("error 함수 실행!");
+                console.log(request);
+                console.log(status);
+                console.log(error);
+              },
+            });
+          }
+
         </script>
 
 

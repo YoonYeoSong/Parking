@@ -42,11 +42,11 @@
           <table class="table table-sm" id='qna_table'>
             <thead>
               <tr>
-                <th>NO.</th>
-                <th>Author</th>
-                <th>Title</th>
-                <th>Attachment</th>
-                <th>Views</th>
+                <th class="text-center">NO.</th>
+                <th class="text-center">Author</th>
+                <th class="text-center">Title</th>
+                <th class="text-center">Attachment</th>
+                <th class="text-center">Views</th>
               </tr>
             </thead>
             <tbody>

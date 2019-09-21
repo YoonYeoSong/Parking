@@ -1,22 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%@ page import="com.parking.member.model.vo.Member" %>
+<%@ page import="com.parking.api.model.vo.Parking" %>
+<%@ page import="com.parking.history.model.vo.UserHistory" %>
 
 <%@ include file="/views/common/mypageHeader.jsp" %>
 
 <%
-  String smsChk = loginMember.getUserSmsYn() ==1? "checked": "";
-  String emailChk = loginMember.getUserEmailYn() ==1? "checked": "";
+  Parking parking = (Parking)request.getAttribute("parking");
+  UserHistory userhistory = (UserHistory)request.getAttribute("userhistory");
 %>
 
   <section class="py-4 subMenu-container">
     <div class="card card-fluid">
-      <h6 class="card-header">Account Settings</h6>
+      <h6 class="card-header">Review Write</h6>
       <!-- .card-body -->
       <div class="card-body">
 
-        <form id="updateFrm" method="POST" enctype="multipart/form-data">
+        <form id="updateFrm" method="POST" enctype="multipart/form-data" >
 
           <div class="media mb-3">
             <!-- avatar -->
@@ -27,9 +28,9 @@
               <img class="profile-pic" src="" />
               <% } %>
 
-              <div class="upload-button">
+              <!-- <div class="upload-button">
                 <i class="fa fa-camera" aria-hidden="true"></i>
-              </div>
+              </div> -->
               <input class="file-upload form-control" type="file" accept="image/*" name="new_up_file" />
               <input class="" type="hidden" name="old_up_file_ori" value="<%=loginMember.getUserOriginalFilename() %>" />
               <input class="" type="hidden" name="old_up_file_re" value="<%=loginMember.getUserRenamedFilename() %>" />
@@ -38,7 +39,7 @@
 
             <!-- .media-body -->
             <div class="media-body pl-3">
-              <h3 class="card-title"><%=loginMember.getUserName() %>'s Profile</h3>
+              <h3 class="card-title"><%=loginMember.getUserName() %>'s Review List</h3>
               <p class="card-text">
                 <small class="card-subtitle text-muted"> Click the avatar to change your photo. <br>
                   JPG, GIF or PNG 400x400, &lt; 2 MB.</small>
@@ -82,48 +83,18 @@
             </div>
             <!-- /form column -->
           </div>
-          <div class="form-row">
-            <label class="col-md-3">SMS</label>
-            <div class="col-md-9 mb-3">
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" name="smsYn" id="smsYn" <%=smsChk %> />
-                <label class="custom-control-label" for="smsYn">Subscribe to SMS</label>
-              </div>
-            </div>
-          </div>
-          <div class="form-row">
-            <label class="col-md-3">Email</label>
-            <div class="col-md-9 mb-3">
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" name="emailYn" id="emailYn" <%=emailChk %> />
-                <label class="custom-control-label" for="emailYn">Subscribe to Email</label>
-              </div>
-            </div>
-          </div>
-          <!-- <div class="form-row">
-            <label for="updatePw" class="col-md-3">Password</label>
-            <div class="col-md-9 mb-3">
-              <input type="password" class="form-control" name="updatePw" id="updatePw" />
-            </div>
-          </div>
-          <div class="form-row">
-            <label for="updatePwChk" class="col-md-3">Password Check</label>
-            <div class="col-md-9 mb-3">
-              <input type="password" class="form-control" name="updatePwChk" id="updatePwChk" />
-            </div>
-          </div> -->
           <hr>
           <div class="form-actions row">
             <button type="button" class="btn btn-secondary " id="cancelBtn">Cancel</button>
-            <button type="button" class="btn btn-outline-primary ml-auto mr-3" id="confirmBtn">Confirm Update</button>
-            <button type="button" class="btn btn-outline-danger mr-auto" id="deleteBtn">Delete Account</button>
+            <button type="button" class="btn btn-outline-primary ml-auto mr-3" id="confirmBtn">Confirm Review</button>
+            <!-- <button type="button" class="btn btn-outline-danger mr-auto" id="deleteBtn">Delete Account</button> -->
           </div>
           <!-- /.form-actions -->
         </form>
       </div>
         <!-- /form -->
-    </div>
       <!-- /.card-body -->
+    </div>
 
     <script>
       $(function(){
@@ -157,19 +128,21 @@
             frm.submit();
           }
         })
-        $('button#deleteBtn').on('click', function(){
-          var frm = $('form#updateFrm');
-
-          if(confirm("Are you sure to DELETE Your Account?")){
-            var url="<%=request.getContextPath() %>/member/memberDelete";
-            frm.attr({"action" : url});
-            frm.submit();
-          }
-        })
 
         $('button#cancelBtn').on('click', function(){
-          location.href="<%=request.getContextPath() %>/member/memberView";
+          console.log("hello cancel");
+          ajaxMypageContentLoad('/board/reviewList');
         })
+
+        // $('button#deleteBtn').on('click', function(){
+        //   var frm = $('form#updateFrm');
+
+        //   if(confirm("Are you sure to DELETE Your Account?")){
+        //     var url="<%=request.getContextPath() %>/member/memberDelete";
+        //     frm.attr({"action" : url});
+        //     frm.submit();
+        //   }
+        // })
       });
 
     </script>

@@ -65,6 +65,10 @@
           });
 
           function geo_success(pos) {
+            $('#listScroll').show();
+            $('#listScrollTitle').show();
+            $('#listScrollTitle').html('<i class="fa fa-bookmark"></i>&nbsp;&nbsp;My Bookmarks');
+
             loadParkingList(pos);
             loadKakaoMap(pos);
           }
@@ -136,6 +140,10 @@
 
                 localStorage.setItem("positions", positions);
 
+                if(data.length ==0){
+                  listScroll.append("<div class='card card-text text-center' style='height:70px;'><br>"
+                    + "Bookmarks are Empty!<br></div>");
+                }
               },
               error: function (data) { // 데이터 통신에 실패
                 console.log("서버 전송 실패");
