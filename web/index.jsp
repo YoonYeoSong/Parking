@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 
   <!-- header -->
-	<%@ include file="/views/common/header.jsp" %>
+  <%@ include file="/views/common/header.jsp" %>
 
   <main role="main" id="page-container">
     <!-- search area -->
@@ -16,7 +16,7 @@
               <input type="search" class="form-control" name="search" placeholder="Where do you need parking?" aria-describedby="button-addon5" id="main-search" list="searchData">
               <datalist id="searchData"></datalist>
               <div class="input-group-append">
-                <button id="button-addon5" class="btn btn-primary" id="main-searchbar-btn" onclick="mainSearch()" ><i class="fa fa-search"></i></button>
+                <button id="button-addon5" class="btn btn-primary" id="main-searchbar-btn" onclick="mainSearch(<%=userCode %>);" ><i class="fa fa-search"></i></button>
               </div>
             </div>
           <!-- </form> -->

@@ -69,8 +69,8 @@
           function locateCurPos(){
             navigator.geolocation.getCurrentPosition(function(pos){
               $('#listScroll').show();
-              $('#listScrollTitle').show('<i class="fa fa-bookmark"></i>&nbsp;&nbsp;My Bookmarks');
-              // $('#listScrollTitle').html('<i class="fa fa-bookmark"></i>&nbsp;&nbsp;My Bookmarks');
+              $('#listScrollTitle').show();
+              $('#listScrollTitle').html('<i class="fa fa-bookmark"></i>&nbsp;&nbsp;My Bookmarks');
 
               loadKakaoMap(pos);
 
@@ -82,8 +82,8 @@
           function loadParkingInfo(){
             navigator.geolocation.getCurrentPosition(function(pos){
               $('#listScroll').show();
-              $('#listScrollTitle').show('<i class="fa fa-bookmark"></i>&nbsp;&nbsp;My Bookmarks');
-              // $('#listScrollTitle').html('<i class="fa fa-bookmark"></i>&nbsp;&nbsp;My Bookmarks');
+              $('#listScrollTitle').show();
+              $('#listScrollTitle').html('<i class="fa fa-bookmark"></i>&nbsp;&nbsp;My Bookmarks');
 
               loadParkingList(pos);
               loadKakaoMap(pos);
@@ -139,7 +139,7 @@
                                         + "id='parking" + d + "'>"
                                         + "More Info</button>";
                   var infoBtn = $(btnStr);
-                  var input = $("<input type='button' class='btn btn-sm btn-outline-info pay' onclick='writeReview()' value='Review'>");
+                  var input = $("<input type='button' class='btn btn-sm btn-outline-info pay' onclick='ajaxMypageContentLoad(\"/board/reviewList\");' value='Review'>");
                   div.append(infoBtn).append(input);
                   span0.append(span1).append(span2).append(span3).append(span4).append(span5).append(div);
                   aTag.append(span0);

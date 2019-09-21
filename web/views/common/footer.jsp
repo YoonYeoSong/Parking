@@ -267,19 +267,13 @@
         $("#nav-searchbar").addClass('mx-0');
       }
     });
-      
 
     // $("#nav-searchbar-btn").click(function() {
     // $(document).on("click", "#nav-searchbar-btn", function(){
-    function navSearch() {
+    function navSearch(userCode) {
       var navbarFrm = $('<form>').attr({"action": "<%=request.getContextPath() %>/map/mapListView",
                                         "method": "POST", });
       var input1 = $('#nav-search');
-      var userCode="";
-      <% if(loginMember != null) { %>
-        userCode = "<%=loginMember.getUserCode() %>";
-      <% } %>
-
       var input2 = $('<input>').attr({"name": "userCode", "value": userCode });
 
       navbarFrm.append(input1).append(input2);
@@ -289,15 +283,10 @@
 
     // $("#main-searchbar-btn").click(function() {
     // $(document).on("click", "#main-searchbar-btn", function(){
-    function mainSearch() {
+    function mainSearch(userCode) {
       var mainbarFrm = $('<form>').attr({"action": "<%=request.getContextPath() %>/map/mapListView",
                                         "method": "POST", });
       var input1 = $('#main-search');
-      var userCode="";
-      <% if(loginMember != null) { %>
-        userCode = "<%=loginMember.getUserCode() %>";
-      <% } %>
-
       var input2 = $('<input>').attr({"name": "userCode", "value": userCode });
 
       mainbarFrm.append(input1).append(input2);
@@ -305,6 +294,13 @@
       mainbarFrm.submit();
     }
 
+    function navEnterSearch() {
+      if ($(event.target).which == 13) {
+        alert('a');
+        // $('form#login').submit();
+        return false;    //<---- Add this line
+      }
+    }
     // $('#main-search').keypress(function (e) {
     //   if (e.which == 13) {
     //     $('form#login').submit();
@@ -317,9 +313,6 @@
     //     return false;    //<---- Add this line
     //   }
     // });
-
-
-
 
   </script>
 
