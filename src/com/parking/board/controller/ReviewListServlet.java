@@ -9,20 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.parking.board.model.service.QnaBoardService;
-import com.parking.board.model.vo.QnaBoard;
+import com.parking.board.model.service.ReviewService;
+import com.parking.board.model.vo.Review;
 
 /**
  * Servlet implementation class QnaBoardListServlet
  */
-@WebServlet("/board/qnaBoardList")
-public class QnaBoardListServlet extends HttpServlet {
+@WebServlet("/board/reviewList")
+public class ReviewListServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public QnaBoardListServlet() {
+    public ReviewListServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -39,15 +39,15 @@ public class QnaBoardListServlet extends HttpServlet {
       cPage = 1;
     }
 
-    int totalQnaBoard = new QnaBoardService().selectCountQnaBoard(); //number of total qna items
+    int totalReview = new ReviewService().selectCountReview(); //number of total qna items
     int numPerPage = 5;
     int pageBarSize = 5;
-    int totalPage = (int)Math.ceil((double)totalQnaBoard/numPerPage);
+    int totalPage = (int)Math.ceil((double)totalReview/numPerPage);
     int pageNo = ((cPage - 1)/pageBarSize) * pageBarSize + 1;
     int pageEnd = pageNo + pageBarSize -1;
 
     //list
-    List<QnaBoard> list = new QnaBoardService().selectQnaBoardList(cPage, numPerPage);
+    List<Review> list = new ReviewService().selectReviewList(cPage, numPerPage);
 
     //pageBar
     String pageBar = "";
@@ -87,9 +87,9 @@ public class QnaBoardListServlet extends HttpServlet {
     
     request.setAttribute("pageBar", pageBar);
     request.setAttribute("cPage", cPage);
-    request.setAttribute("qnalist", list);
+    request.setAttribute("reviewlist", list);
     
-    request.getRequestDispatcher("/views/board/qnaBoardList.jsp").forward(request, response);
+    request.getRequestDispatcher("/views/board/reviewList.jsp").forward(request, response);
   }
 
   /**
