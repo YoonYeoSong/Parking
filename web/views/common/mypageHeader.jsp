@@ -19,7 +19,7 @@
         <div class="list-group my-4">
           <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('/member/memberView');"><i class="fa fa-cog">&nbsp;&nbsp;</i>Settings</a>
           <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('/bookmark/bookmarkView');"><i class="fa fa-bookmark">&nbsp;&nbsp;</i>Bookmark</a>
-          <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('');"><i class="fa fa-edit">&nbsp;&nbsp;</i>My Reviews</a>
+          <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('/board/reviewList');"><i class="fa fa-edit">&nbsp;&nbsp;</i>My Reviews</a>
           <% if(loginMember.getUserEmail().equals("admin@com")){ %>
             <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('/admin/memberList');"><i class="fa fa-list">&nbsp;&nbsp;</i>Member List</a>
           <%} else { %>
@@ -39,10 +39,11 @@
         function ajaxMypageContentLoad(urlMapping){
           if($('#listScroll') != null)
             $('#listScroll').empty();
-          if(urlMapping != '/bookmark/bookmarkView')
-            $('#listScroll').hide();
-          else
+
+          if(urlMapping == '/bookmark/bookmarkView' || urlMapping == '/board/reviewList')
             $('#listScroll').show();
+          else
+            $('#listScroll').hide();
 
           $.ajax({
             type: "POST",

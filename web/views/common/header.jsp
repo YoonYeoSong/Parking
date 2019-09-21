@@ -106,7 +106,7 @@
         </a>
         <form id="nav-searchbar" action="<%=request.getContextPath()%>/map/mapListView" method="post" class="navbar-form" style="width: 410px">
           <div class="input-group">
-            <input type="search" placeholder="Where do you need parking?" aria-describedby="button-addon5" class="form-control" name="search">
+            <input type="search" placeholder="Where do you need parking?" aria-describedby="button-addon5" class="form-control" name="search" id="nav-search">
             <% if(loginMember!=null){ %>
             <input type="hidden" name="userCode" value="<%=loginMember.getUserCode() %>">
             <% } %>
@@ -167,7 +167,7 @@
               <% } else { %>
                 <a class="dropdown-item" href="<%=request.getContextPath() %>/views/member/memberView.jsp"><i class="fa fa-cog">&nbsp;&nbsp;</i>Settings</a>
                 <a class="dropdown-item" href="<%=request.getContextPath() %>/bookmark/bookmarkView"><i class="fa fa-bookmark">&nbsp;&nbsp;</i>Bookmark</a>
-                <a class="dropdown-item" href="<%=request.getContextPath() %>/views/board/review.jsp"><i class="fa fa-edit">&nbsp;&nbsp;</i>My Reviews</a>
+                <a class="dropdown-item" href="<%=request.getContextPath() %>/board/reviewList"><i class="fa fa-edit">&nbsp;&nbsp;</i>My Reviews</a>
 
                 <% if(loginMember.getUserEmail().equals("admin@com")) { %>
                   <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-list">&nbsp;&nbsp;</i>Member List</a>

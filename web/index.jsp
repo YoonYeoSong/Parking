@@ -13,7 +13,7 @@
         <div class="mx-auto col-lg-8">
           <form id="main-searchbar" action="<%=request.getContextPath()%>/map/mapListView" class="" role="form">
             <div class="input-group">
-              <input type="search" class="form-control" name="search" placeholder="Where do you need parking?" aria-describedby="button-addon5" id="search" list="searchData">
+              <input type="search" class="form-control" name="search" placeholder="Where do you need parking?" aria-describedby="button-addon5" id="main-search" list="searchData">
               <% if(loginMember!=null){ %>
               <input type="hidden" name="userCode" value="<%=loginMember.getUserCode() %>">
               <% } %>
@@ -278,11 +278,19 @@
 
       $(window).scroll(function(){
         if($(this).scrollTop()>=280 && !hasBeenTriggered){
+          var navSearchTxt = $('#nav-search').val();
+          console.log(navSearchTxt);
+          $('#main-search').val(navSearchTxt);
+
           hasBeenTriggered = true;
           $('#nav-searchbar').fadeToggle();
           $('#main-searchbar').fadeToggle();
         }
-        else if($(this).scrollTop()<200 && hasBeenTriggered){
+        else if($(this).scrollTop()<280 && hasBeenTriggered){
+          var mainSearchTxt = $('#main-search').val();
+          console.log(mainSearchTxt);
+          $('#nav-search').val(mainSearchTxt);
+
           hasBeenTriggered = false;
           $('#nav-searchbar').fadeToggle();
           $('#main-searchbar').fadeToggle();
@@ -292,13 +300,13 @@
     
     
     $(function(){
-        $("#search").keyup(function(){
+        $("#main-search").keyup(function(){
            $.ajax({
               url:"<%=request.getContextPath()%>/ajax/parkingAutoCommit", 
               type:"post",
-              data:{ addr:$("#search").val() },
+              data:{ addr:$("#main-search").val() },
               dataType:"json",
-              success:function(data){            
+              success:function(data){
                  console.log(data);
                 
                 /*  $("#searchData").html("");
