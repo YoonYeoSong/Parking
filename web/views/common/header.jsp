@@ -58,12 +58,7 @@
 	<link rel="stylesheet" href="<%=request.getContextPath() %>/css/translate.css">
 	<!-- 폰트 -->
 	<!-- <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet"> -->
-	<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap" rel="stylesheet">
-  <!-- JQUERY -->
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-
-  <!-- JAVASCRIPT -->
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap" rel="stylesheet">
 
   <!-- API -->
   <!-- 카카오 -->
@@ -99,27 +94,27 @@
 <body>
   <!-- navigation bar -->
   <header>
-    <nav class="site-header navbar navbar-expand-lg navbar-dark fixed-top py-0">
-      <div class="container">
-        <a class="navbar-brand " href="<%=request.getContextPath() %>" >
-          <img src="<%=request.getContextPath() %>/images/logo_white.png">
-        </a>
-        <form id="nav-searchbar" action="<%=request.getContextPath()%>/map/mapListView" method="post" class="navbar-form" style="width: 410px">
-          <div class="input-group">
-            <input type="search" placeholder="Where do you need parking?" aria-describedby="button-addon5" class="form-control" name="search" id="nav-search">
-            <% if(loginMember!=null){ %>
-            <input type="hidden" name="userCode" value="<%=loginMember.getUserCode() %>">
-            <% } %>
-            <div class="input-group-append">
-            <button id="button-addon5" type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
-            </div>
+    <nav class="site-header navbar navbar-expand-sm navbar-dark fixed-top py-0">
+      <div class="container d-flex justify-content-center">
+        <div class='mr-auto p-0'>
+          <a class="navbar-brand " href="<%=request.getContextPath() %>" >
+            <img src="<%=request.getContextPath() %>/images/logo_white.png">
+          </a>
+        </div>
+
+        <div id="nav-searchbar" class="mx-auto flex-grow-1">
+          <div class="input-group mx-auto" >
+            <input type="search" placeholder="Where do you need parking?" aria-describedby="" class="form-control" name="search" id="nav-search">
+            <span class="input-group-append input-group-addon">
+              <button id="button-addon5" class="btn btn-primary" id="nav-searchbar-btn" onclick="navSearch();" ><i class="fa fa-search"></i></button>
+            </span>
           </div>
-        </form>
+        </div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapsible" aria-controls="navbarCollapsible" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapsible">
-          <ul class="navbar-nav ml-auto">
+          <ul class="navbar-nav ml-auto" id='collapseItems'>
 
             
             
@@ -184,6 +179,12 @@
                 <input type="hidden" name="subMenu" id="subMenu">
               </form>
 
+              <style>
+                /* .navbar-collapse { margin-top: 0; }
+                @media (min-width:768px) {
+                  .navbar-collapse { margin-top: 60px; }
+                } */
+              </style>
               <script>
 
                 /**
@@ -192,7 +193,6 @@
                 * @param {object} params the paramiters to add to the url
                 * @param {string} [method=post] the method to use on the form
                 */
-
                 function mypageLoad(urlMapping, params){ var form = $("<form>");
                   form.attr({"method": "POST",
                              "action" : urlMapping,
@@ -216,7 +216,7 @@
             <% if(loginMember != null) {%>
               <li class="nav-item">
                 <form action="<%=request.getContextPath() %>/logout" method="post">
-                  <button type="submit" class="btn btn-sm btn-outline-light mt-2 mr-1" onclick="return logoutSnsAccount();">Log Out</button>
+                  <button type="submit" class="btn btn-sm btn-outline-light mt-2 mr-1" onclick="return logoutSnsAccount();" style="width: 71px;">Log Out</button>
                 </form>
               </li>
 
@@ -230,11 +230,11 @@
             <%} else{%>
               <li class="nav-item">
                 <form action="<%=request.getContextPath() %>/views/member/loginView.jsp" method="post">
-                  <button type="submit" class="btn btn-sm btn-outline-light mt-2 mr-1">Log In</button>
+                  <button type="submit" class="btn btn-sm btn-outline-light mt-2 mr-1" style="width:67px;">Log In</button>
                 </form>
               </li>
               <li class="nav-item">
-                  <button class="btn btn-sm btn-outline-light mt-2" onclick='location.href="<%=request.getContextPath() %>/memberEnroll"'>Sign Up</button>
+                <button class="btn btn-sm btn-outline-light mt-2" onclick='location.href="<%=request.getContextPath() %>/memberEnroll"' style="width:69px;">Sign Up</button>
               </li>
             <%} %>
           </ul>
