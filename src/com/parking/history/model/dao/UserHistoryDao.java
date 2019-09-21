@@ -29,6 +29,69 @@ public class UserHistoryDao {
     }
   }
   
+  public UserHistory selectUserHistory(Connection conn, String userCode, String parkingCode){
+    PreparedStatement pstmt = null;
+    ResultSet rs =  null;
+    String sql = prop.getProperty("selectUserHistory");
+    UserHistory h = null;
+
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, userCode);
+      pstmt.setString(2, parkingCode);
+
+      rs = pstmt.executeQuery();
+      if(rs.next()) {
+        h = new UserHistory();
+
+        h.setUserHistoryNo(rs.getInt("userhistory_no"));
+        h.setUserHistoryUserCode(rs.getString("userhistory_user_code"));
+        h.setUserHistoryParkingCode(rs.getString("userhistory_parking_code"));
+
+        Timestamp timestamp = rs.getTimestamp("userhistory_parking_date");
+        java.util.Date date = new java.util.Date(timestamp.getTime());
+        h.setUserHistoryParkingDate(new java.sql.Date(date.getTime()));
+      }
+    } catch(SQLException e) {
+      e.printStackTrace();
+    } finally {
+      close(rs);
+      close(pstmt);
+    }
+
+    return h;
+  }
+
+  public Parking selectParking(Connection conn, String userCode, String parkingCode){
+    PreparedStatement pstmt = null;
+    ResultSet rs =  null;
+    String sql = prop.getProperty("selectParking");
+    Parking p = null;
+
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, userCode);
+      pstmt.setString(2, parkingCode);
+
+      rs = pstmt.executeQuery();
+      while(rs.next()) {
+        p = new Parking();
+
+        p.setParkingCode(rs.getString("ps_parking_code"));
+        p.setParkingName(rs.getString("ps_name"));
+        p.setAddr(rs.getString("ps_addr"));
+        p.setLatitude(rs.getDouble("ps_latitude"));
+        p.setLongitude(rs.getDouble("ps_longitude"));
+      }
+    } catch(SQLException e) {
+      e.printStackTrace();
+    } finally {
+      close(rs);
+      close(pstmt);
+    }
+
+    return p;
+  }
   
   public List<UserHistory> selectUserHistoryList(Connection conn, String userCode){
     PreparedStatement pstmt = null;
@@ -80,14 +143,12 @@ public class UserHistoryDao {
       while(rs.next()) {
         p = new Parking();
 
-//        h.setUserHistoryNo(rs.getInt("userhistory_no"));
-//        h.setUserHistoryUserCode(rs.getString("userhistory_user_code"));
-//        h.setUserHistoryParkingCode(rs.getString("userhistory_parking_code"));
+        p.setParkingCode(rs.getString("ps_parking_code"));
+        p.setParkingName(rs.getString("ps_name"));
+        p.setAddr(rs.getString("ps_addr"));
+        p.setLatitude(rs.getDouble("ps_latitude"));
+        p.setLongitude(rs.getDouble("ps_longitude"));
 
-//        Timestamp timestamp = rs.getTimestamp("userhistory_parking_date");
-//        java.util.Date date = new java.util.Date(timestamp.getTime());
-//        h.setUserHistoryParkingDate(new java.sql.Date(date.getTime()));
-//        
         list.add(p);
       }
     } catch(SQLException e) {

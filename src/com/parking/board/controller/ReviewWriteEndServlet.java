@@ -1,7 +1,6 @@
-package com.parking.history.controller;
+package com.parking.board.controller;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,21 +8,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
+import com.parking.api.model.vo.Parking;
 import com.parking.history.model.service.UserHistoryService;
 import com.parking.history.model.vo.UserHistory;
 
 /**
- * Servlet implementation class UserhistoryListServlet
+ * Servlet implementation class QnaBoardListServlet
  */
-@WebServlet("/history/userHistoryList")
-public class UserHistoryListServlet extends HttpServlet {
+@WebServlet("/board/reviewWriteEnd")
+public class ReviewWriteEndServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UserHistoryListServlet() {
+    public ReviewWriteEndServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,11 +31,8 @@ public class UserHistoryListServlet extends HttpServlet {
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
    */
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    String userCode = request.getParameter("userCode");
 
-    List<UserHistory> userHistoryList = new UserHistoryService().selectUserHistoryList(userCode);
-
-    new Gson().toJson(userHistoryList, response.getWriter());
+//    request.getRequestDispatcher("/views/board/reviewList.jsp").forward(request, response);
   }
 
   /**
