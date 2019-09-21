@@ -10,19 +10,16 @@
       <div class="container">
         <p class="h3 text-white row justify-content-center font-weight-bold">SEARCH FOR PARKING</p>
         <p class="h7 text-white row justify-content-center font-weight-bold">Around 23 Seoul Districts!</p>
-        <div class="mx-auto col-lg-8">
-          <form id="main-searchbar" action="<%=request.getContextPath()%>/map/mapListView" class="" role="form">
-            <div class="input-group">
+        <div class="mx-auto col-lg-8 d-flex justify-content-center">
+          <!-- <form id="main-searchbar" action="<%=request.getContextPath()%>/map/mapListView" class="" role="form"> -->
+            <div class="input-group" id="main-searchbar">
               <input type="search" class="form-control" name="search" placeholder="Where do you need parking?" aria-describedby="button-addon5" id="main-search" list="searchData">
-              <% if(loginMember!=null){ %>
-              <input type="hidden" name="userCode" value="<%=loginMember.getUserCode() %>">
-              <% } %>
               <datalist id="searchData"></datalist>
               <div class="input-group-append">
-              <button id="button-addon5" type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                <button id="button-addon5" class="btn btn-primary" id="main-searchbar-btn" onclick="mainSearch()" ><i class="fa fa-search"></i></button>
               </div>
             </div>
-          </form>
+          <!-- </form> -->
         </div>
       </div>
     </div>
@@ -269,67 +266,9 @@
     </div>
   </main>
 
-  <script>
-    /* nav-searchbar and main-searchbar are toggled
-      based on scroll pixel amounts from the top */
-    $(function(){
-      $('#nav-searchbar').hide(); // hidden by default
-      var hasBeenTriggered = false;
+  <!-- JQUERY -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
-      $(window).scroll(function(){
-        if($(this).scrollTop()>=280 && !hasBeenTriggered){
-          var navSearchTxt = $('#nav-search').val();
-          console.log(navSearchTxt);
-          $('#main-search').val(navSearchTxt);
-
-          hasBeenTriggered = true;
-          $('#nav-searchbar').fadeToggle();
-          $('#main-searchbar').fadeToggle();
-        }
-        else if($(this).scrollTop()<280 && hasBeenTriggered){
-          var mainSearchTxt = $('#main-search').val();
-          console.log(mainSearchTxt);
-          $('#nav-search').val(mainSearchTxt);
-
-          hasBeenTriggered = false;
-          $('#nav-searchbar').fadeToggle();
-          $('#main-searchbar').fadeToggle();
-        }
-      });
-    });/* $(function()){} */
-    
-    
-    $(function(){
-        $("#main-search").keyup(function(){
-           $.ajax({
-              url:"<%=request.getContextPath()%>/ajax/parkingAutoCommit", 
-              type:"post",
-              data:{ addr:$("#main-search").val() },
-              dataType:"json",
-              success:function(data){
-                 console.log(data);
-                
-                /*  $("#searchData").html("");
-                 var datas=data.split(",");  */      
-                 for(var d in data)
-               	 {
-               	     var option=$("<option>").attr("value",data[d]["addr"]+"("+data[d]["parkingName"]+")");
-                     $("#searchData").append(option);
-               	 }
-                 
-                 //for(var i=0; i<datas.length; i++){
-                   /*  var option=$("<option>").attr("value",datas[i]).html(datas[i]);
-                    $("#searchData").append(option); */
-                	// var option=$("<option>").attr("value",data[i]["addr"]+"("+data[i]["parkingName"]+")").html(data[i]["addr"]);
-                     //$("#searchData").append(option);
-               //  }                  
-              }
-           });            
-        });
-     });
-
-  </script>
-  
   <script>
     
       //테스트 자신의 위치 자겨오기
@@ -342,6 +281,47 @@
       //   console.log("경도 : " + longitude);
         
       // });
+    $(function(){
+      $('#nav-searchbar').hide(); // hidden by default
+
+      var hasBeenTriggered = false;
+    
+      /* nav-searchbar and main-searchbar are toggled
+        based on scroll pixel amounts from the top */
+      $(window).scroll(function(){
+        var winPos= $(window).scrollTop();
+        var mainSearchbarPos= $('#main-searchbar').offset().top;
+        var diff = winPos - mainSearchbarPos;
+        
+      
+        // var navpos = $('#nav-searchbar').scrollTop();
+        // var mainpos = $('#main-searchbar').scrollTop();
+        // console.log(navpos);
+        // console.log(mainpos);
+
+        if($(this).scrollTop()>=280 && !hasBeenTriggered){
+        // if(navpos < mainpos && mainpos - navpos <50 ) {
+        // if(diff < 0 && diff > -100 && !hasBeenTriggered) {
+          var mainSearchTxt = $('#main-search').val();
+          $('#nav-search').val(mainSearchTxt);
+
+          hasBeenTriggered = true;
+          $('#nav-searchbar').fadeToggle();
+          $('#main-searchbar').fadeToggle();
+        }
+        // else if(navpos > mainpos && navpos - mainpos <50 ) {
+        // else if(diff > 0 && diff <100 && hasBeenTriggered) {
+        else if($(this).scrollTop()<280 && hasBeenTriggered){
+          var navSearchTxt = $('#nav-search').val();
+          $('#main-search').val(navSearchTxt);
+
+          hasBeenTriggered = false;
+          $('#nav-searchbar').fadeToggle();
+          $('#main-searchbar').fadeToggle();
+        }
+      });
+    });
+
 
   </script>
 

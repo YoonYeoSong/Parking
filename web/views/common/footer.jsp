@@ -206,6 +206,121 @@
       location.reload();
       console.log("google logged out");
     }
+
+  </script>
+
+  <!-- JQUERY -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+  <!-- JAVASCRIPT -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+  <script>
+
+    $(function(){
+      $("#main-search").keyup(function(){
+        $.ajax({
+          url:"<%=request.getContextPath()%>/ajax/parkingAutoCommit", 
+          type:"post",
+          data:{ addr:$("#main-search").val() },
+          dataType:"json",
+          success:function(data){
+              console.log(data);
+            
+            /*  $("#searchData").html("");
+              var datas=data.split(",");  */      
+              for(var d in data)
+              {
+                  var option=$("<option>").attr("value",data[d]["addr"]+"("+data[d]["parkingName"]+")");
+                  $("#searchData").append(option);
+              }
+              
+              //for(var i=0; i<datas.length; i++){
+                /*  var option=$("<option>").attr("value",datas[i]).html(datas[i]);
+                $("#searchData").append(option); */
+              // var option=$("<option>").attr("value",data[i]["addr"]+"("+data[i]["parkingName"]+")").html(data[i]["addr"]);
+                  //$("#searchData").append(option);
+            //  }                  
+          }
+        });            
+      });
+    });
+
+    $(window).resize(function(){
+      navbar_visible = $("#collapseItems").is(":visible");
+
+      if (navbar_visible){
+        $("#nav-searchbar").removeClass (function (index, className) {
+          return (className.match (/mx-./g) || []).join(' ');
+        });
+        if($(window).width()>1200)
+          $("#nav-searchbar").addClass('mx-5');
+        else if($(window).width()>992)
+          $("#nav-searchbar").addClass('mx-3');
+        else
+          $("#nav-searchbar").addClass('mx-0');
+      }
+      else{
+        $("#nav-searchbar").removeClass (function (index, className) {
+          return (className.match (/mx-./g) || []).join(' ');
+        });
+        $("#nav-searchbar").addClass('mx-0');
+      }
+    });
+      
+
+    // $("#nav-searchbar-btn").click(function() {
+    // $(document).on("click", "#nav-searchbar-btn", function(){
+    function navSearch() {
+      var navbarFrm = $('<form>').attr({"action": "<%=request.getContextPath() %>/map/mapListView",
+                                        "method": "POST", });
+      var input1 = $('#nav-search');
+      var userCode="";
+      <% if(loginMember != null) { %>
+        userCode = "<%=loginMember.getUserCode() %>";
+      <% } %>
+
+      var input2 = $('<input>').attr({"name": "userCode", "value": userCode });
+
+      navbarFrm.append(input1).append(input2);
+      $(document.body).append(navbarFrm);
+      navbarFrm.submit();
+    }
+
+    // $("#main-searchbar-btn").click(function() {
+    // $(document).on("click", "#main-searchbar-btn", function(){
+    function mainSearch() {
+      var mainbarFrm = $('<form>').attr({"action": "<%=request.getContextPath() %>/map/mapListView",
+                                        "method": "POST", });
+      var input1 = $('#main-search');
+      var userCode="";
+      <% if(loginMember != null) { %>
+        userCode = "<%=loginMember.getUserCode() %>";
+      <% } %>
+
+      var input2 = $('<input>').attr({"name": "userCode", "value": userCode });
+
+      mainbarFrm.append(input1).append(input2);
+      $(document.body).append(mainbarFrm);
+      mainbarFrm.submit();
+    }
+
+    // $('#main-search').keypress(function (e) {
+    //   if (e.which == 13) {
+    //     $('form#login').submit();
+    //     return false;    //<---- Add this line
+    //   }
+    // });
+    // $('#nav-search').keypress(function (e) {
+    //   if (e.which == 13) {
+    //     $('form#login').submit();
+    //     return false;    //<---- Add this line
+    //   }
+    // });
+
+
+
+
   </script>
 
 </body>
