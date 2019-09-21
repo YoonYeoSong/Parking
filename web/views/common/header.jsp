@@ -28,6 +28,10 @@
       mypageUrl += "/views/member/loginView.jsp";
 
 
+  String userCode = "";
+  if(loginMember != null)
+    userCode = loginMember.getUserCode();
+
   String dropdownTxt ="";
   if(loginMember != null)
     dropdownTxt = "Hi! " + loginMember.getUserName();
@@ -106,7 +110,7 @@
           <div class="input-group mx-auto" >
             <input type="search" placeholder="Where do you need parking?" aria-describedby="" class="form-control" name="search" id="nav-search">
             <span class="input-group-append input-group-addon">
-              <button id="button-addon5" class="btn btn-primary" id="nav-searchbar-btn" onclick="navSearch();" ><i class="fa fa-search"></i></button>
+              <button id="button-addon5" class="btn btn-primary" id="nav-searchbar-btn" onclick="navSearch(<%=userCode %>);"  onkeypress="navEnterSearch();"><i class="fa fa-search"></i></button>
             </span>
           </div>
         </div>
