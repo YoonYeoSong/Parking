@@ -267,7 +267,7 @@
 		
 	#distanceModal {
    position: absolute;
-   top: -250px;
+   top: -200px;
    right: 0px;
    bottom: 0;
    left: 0;
@@ -493,7 +493,8 @@
         </div>
 
         <!--하단 list-->
-        <div class="card shadow-sm text-left" id="listScroll" style="height:470px">
+				<div class="card shadow-sm text-left" id="listScroll" style="height:470px">
+					
           
           <!--
           <a class="list-group-item list-group-item-action">
@@ -1050,7 +1051,7 @@
 								// {
 								// 	mapCopy.setLevel(8);
 								// }
-                mapCopy.setLevel(8);
+                			mapCopy.setLevel(8);
 								$("#distanceModal").modal("show");
 								//$("#distanceModal").modal({backdrop: 'static'});
 								$("#distanceModal-body").html("<h3>about<br>"+(polyline.getLength()*0.001).toFixed(3)+" kilometers from current location.</h3><br>"+"<h6>Please press OK to close it.</h6>");
@@ -1124,13 +1125,14 @@
   function parkingList(data)
   {
     window.localStorage.setItem("parkingList",JSON.stringify(data));
+		window.sessionStorage.setItem("parkingList",JSON.stringify(data));
     for(var d in data)
     {
       var listScroll = $("#listScroll");
       var aTag = $("<a class='list-group-item list-group-item-action'>");
       var span0 = $("<span id="+d+">");
       var span1 = $("<span id='pName'>").html((Number(d)+1)+". "+data[d]["parkingName"]+"<br>");
-			var span2 = $("<span>").html("&nbsp;&nbsp;&nbsp;&nbsp;"+data[d]["addr"]+"<br>");
+	  var span2 = $("<span>").html("&nbsp;&nbsp;&nbsp;&nbsp;"+data[d]["addr"]+"<br>");
       var span3 = $("<span id='Pcur'>").html("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;전체 주차 대수 : "+data[d]["capacity"]+"<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;현재 주차 대수 : "+data[d]["curParking"] +"<br>");
       var div = $("<div class='mt-2'>");
       // var btnStr = "<button class='btn btn-sm btn-outline-info mr-1' "
@@ -1142,13 +1144,26 @@
                             + "id='parking" + d + "'>"
                             + "More Info</button>";
       var infoBtn = $(btnStr);
-      var input2 = $("<input type='button' class='btn btn-sm btn-outline-info pay' onclick='payment()' value='Pay'>");
-      div.append(infoBtn).append(input2);
+			var payForm = $("<form id='payform' method='post' action='<%=request.getContextPath()%>/payment/paymentView'>");
+			var payinput1=$("<input type='hidden' name='parkingNum' id='inputparkingnum'>");
+			// var payinput2=$("<input type='hidden' name='parkingName' id='inputparkingname'>");
+      var input2 = $("<input type='submit' class='btn btn-sm btn-outline-info pay' value='Pay' "+"id='pay"+d+"'>");
+			payForm.append(payinput1).append(input2);
+      div.append(infoBtn).append(payForm);
       span0.append(span1).append(span2).append(span3).append(div);
       aTag.append(span0);
       listScroll.append(aTag);	
 			//private int capacity;				// 주차 면(주차 가능 차량 수)
 			//private int curParking;				// 현재 주차중인 대수
+		payinput1.val(d);
+		if(<%=loginMember != null%>)
+		{
+			input2.show();
+		}else{
+			input2.hide();
+		}
+		
+		
     }
 		$("#parkingLength").html("Result : "+data.length+" locations");
 		
@@ -1261,7 +1276,12 @@
 					roadview.setPanoId(panoId, position); //panoId와 중심좌표를 통해 로드뷰 실행
 				});
   }
-
+	
+	function payment(e)
+	{		
+		console.log($(e.target).attr("id"));
+		//location.href="<%=request.getContextPath()%>/payment/paymentView?parkingnum="+el;
+	}
 
   
 
