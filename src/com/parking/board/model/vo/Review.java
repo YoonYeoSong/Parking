@@ -14,6 +14,14 @@ public class Review {
     // TODO Auto-generated constructor stub
   }
 
+  public Review(int reviewUserHistoryNo, String reviewTitle, String reviewContent, int reviewRating) {
+    super();
+    this.reviewUserHistoryNo = reviewUserHistoryNo;
+    this.reviewTitle = reviewTitle;
+    this.reviewContent = reviewContent;
+    this.reviewRating = reviewRating;
+  }
+
   public Review(int reviewNo, int reviewUserHistoryNo, String reviewTitle, String reviewContent, Date reviewCreatedDate,
       int reviewRating) {
     super();

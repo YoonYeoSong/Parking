@@ -95,4 +95,29 @@ public class ReviewDao {
 
     return count;
   }
+
+  public int insertReview(Connection conn, Review r) {
+    PreparedStatement pstmt = null;
+    int result = 0;
+    String sql = prop.getProperty("insertReview");
+    
+    try {
+      pstmt = conn.prepareStatement(sql);
+
+      pstmt.setInt(1, r.getReviewUserHistoryNo()); //user_code (assigned by sequence)
+      pstmt.setString(2, r.getReviewTitle());
+      pstmt.setString(3, r.getReviewContent());
+      pstmt.setInt(4, r.getReviewRating());
+//      insert into review values(DEFAULT,?,?,?,DEFAULT,?)
+
+      result = pstmt.executeUpdate();
+
+    } catch(SQLException e) {
+      e.printStackTrace();
+    } finally {
+      close(pstmt);
+    }
+    
+    return result;
+  }
 }

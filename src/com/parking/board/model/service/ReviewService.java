@@ -1,6 +1,8 @@
 package com.parking.board.model.service;
 
 import static common.template.JDBCTemplate.close;
+import static common.template.JDBCTemplate.commit;
+import static common.template.JDBCTemplate.rollback;
 import static common.template.JDBCTemplate.getConnection;
 
 import java.sql.Connection;
@@ -30,5 +32,20 @@ public class ReviewService {
     close(conn);
 
     return count;
+  }
+  
+  public int insertReview(Review r) {
+    Connection conn = getConnection();
+    
+    int result = dao.insertReview(conn, r);
+    
+    if(result > 0)
+      commit(conn);
+    else
+      rollback(conn);
+
+    close(conn);
+
+    return result;
   }
 }

@@ -12,8 +12,21 @@
 %>
 
 <%@ include file="/views/common/mypageHeader.jsp" %>
-
   <section class="py-4 subMenu-container">
+
+    <!-- CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/css/review.css">
+
+    <style>
+      <%for(int i = 1; i < 1000; i++){%>
+        object#daum\:roadview\:<%=i%>
+        {
+          position: relative !important;
+        }
+      <%}%>
+    </style>
+
     <div class="card card-fluid">
 
       <h6 class="card-header">
@@ -45,7 +58,7 @@
           </div>
           <div class="row d-flex mt-5">
             <% if(loginMember != null){ %>
-              <input type="button" value="write" class= "btn btn-sm btn-outline-primary mr-4 mb-1" id="write-add" onclick="">
+              <!-- <input type="button" value="write" class= "btn btn-sm btn-outline-primary mr-4 mb-1" id="write-add" onclick=""> -->
             <%} %>
           </div>
           <!-- /.media-body -->
@@ -55,18 +68,18 @@
         <table class="table table-sm" id='qna_table'>
           <thead>
             <tr>
-              <th class="text-center">NO.</th>
+              <th class="text-center">Hist.NO.</th>
               <th class="text-center">Author</th>
               <th class="text-center">Title</th>
               <th class="text-center">Content</th>
-              <th class="text-center">Picture</th>
+              <!-- <th class="text-center">Picture</th> -->
               <th class="text-center">Rating</th>
             </tr>
           </thead>
           <tbody>
             <% for(Review r : list){ %>
             <tr>
-              <td><%=r.getReviewNo() %> </td>
+              <td><%=r.getReviewUserHistoryNo() %> </td>
               <td>
                 <div class="media text-muted pt-3">
                   <svg class="bd-placeholder-img mr-2 rounded " width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32">
@@ -85,16 +98,39 @@
                 </a>
               </td>
               <td>
-                  <%= r.getReviewContent().substring(0, java.lang.Math.min(100,r.getReviewContent().length())) %>
+                  <%= r.getReviewContent().substring(0, java.lang.Math.min(140,r.getReviewContent().length())) %>
                 </a>
               </td>
-              <td>
+              <!-- <td> -->
                 <%-- <% if(r.getReviewOriginalFile() != null){ %>
                   <img src="<%=request.getContextPath() %>/images/file.png" width="16px">
                 <% } %> --%>
+              <!-- </td> -->
+              <td>
+                <!-- star ratings -->
+                <!-- <div class="ml-auto mr-3"> -->
+                  <%=r.getReviewRating() %>
+                  <!-- <div class="starrating risingstar d-flex justify-content-center flex-row-reverse">
+                    <script>
+                      var rating = $('<span>');
+                      <% for(int i= 0 ;i<r.getReviewRating(); i++){ %>
+                          rating.append($("<i class='fa fa-star'>"));
+                      <% } %>
+
+                      <% for(int i= 0 ;i<5-r.getReviewRating(); i++){ %>
+                          rating.append($("<i class='fa fa-star-o'>"));
+                      <% } %>
+                      console.log(rating);
+
+                      $('div#ratingNum<%=r.getReviewUserHistoryNo()%>').append(rating);
+
+                    </script>
+                    <div id="ratingNum<%=r.getReviewUserHistoryNo() %>" ></div>
+
+                  </div> -->
+                <!-- </div>	 -->
               </td>
-              <td><%=r.getReviewRating() %></td>
-    
+                
             </tr>
             <% } %>
           </tbody>
@@ -169,15 +205,13 @@
                 $('#parkingNum').html(Object.keys(data).length);
 
                 // marker : bookmarked locations
-                var positions = [];
+                var positions_review = [];
 
-                for(var d in data) {
+                $.each(data, function(d, item) {
 
                   var aTag = $("<a class='list-group-item list-group-item-action'>");
-                  if(mapping == "userHistoryParkingList"){
-                  }
-                  if(mapping == "userHistoryList"){
-                  }
+                  // if(mapping == "userHistoryParkingList"){ }
+                  // if(mapping == "userHistoryList"){ }
                   var span0 = $("<span id="+d+">");
                   var span1 = $("<span id='pName'>").html((Number(d)+1)+". "+data[d]["parkingName"]+"<br>");
                   var span2 = $("<span>").html("&nbsp;&nbsp;&nbsp;&nbsp;Addr. : "+data[d]["addr"]+"<br>");
@@ -195,7 +229,7 @@
                                         + "Details</button>";
                   var infoBtn = $(btnStr);
                   var input = $("<input type='button' class='btn btn-sm btn-outline-info pay'"
-                                + "onclick='reviewWrite(" + data[d]["parkingCode"]+ ")' value='Review'>");
+                                + "onclick='writeReview(" + data[d]["parkingCode"]+ ")' value='Review'>");
                   div.append(infoBtn).append(input);
                   span0.append(span1).append(span2).append(span3).append(span4).append(span5).append(div);
                   aTag.append(span0);
@@ -206,13 +240,38 @@
                   var lat = data[d]["latitude"];
                   var lng = data[d]["longitude"];
 
-                  positions.push({title: data[d]["parkingName"], latlng: new kakao.maps.LatLng(lat, lng)});
-                }
+                  positions_review.push({title: data[d]["parkingName"], latlng: new kakao.maps.LatLng(lat, lng)});
 
-                if(localStorage.hasOwnProperty("positions"))
-                  localStorage.removeItem("positions");
+                  $('#parking'+d).click(function(){
+                    var parkingName = data[d]["parkingName"];
+                    var addr = data[d]["addr"];
+                    var parkingCode = data[d]["parkingCode"];
+                    var latitude = data[d]["latitude"];
+                    var longitude = data[d]["longitude"];
 
-                localStorage.setItem("positions", positions);
+                    if($("#popRoadView").val() != null) {
+                      $("#popRoadView").empty();
+                    }
+
+                    listPopRoadView(latitude,longitude); // 팝업로드뷰 생성
+
+
+                    //show bootstrap modal
+                    $('#myModal').modal('show');
+
+                    $('#parkingName').html(parkingName);
+                    $('#addr').html(addr);
+                    $('#parkingName').html(parkingCode);
+                    $('#latitude').html(latitude);
+                    $('#longitude').html(longitude);
+
+                  });
+                });
+
+                if(localStorage.hasOwnProperty("positions_review"))
+                  localStorage.removeItem("positions_review");
+
+                localStorage.setItem("positions_review", positions_review);
 
                 if(data.length ==0){
                   listScroll.append("<div class='card card-text text-center' style='height:70px;'><br>"
@@ -226,7 +285,7 @@
             });
           }
 
-          function reviewWrite(parkingCode){
+          function writeReview(parkingCode){
             var url = "<%=request.getContextPath() %>/board/reviewWrite";
             $.ajax({
               type: "POST",
@@ -238,6 +297,14 @@
                 html = $('<div>').html(data);
 
                 $('div#mypage-container').html(html.find('section.subMenu-container'));
+
+                // <div id="rw-modal-container"></div>
+                // $('div#rw-modal-container').html(
+                //   html.find('section.subMenu-container > div#reviewWriteModel')
+                // );
+
+                $('#reviewWriteModal').modal('show');
+
               },
               error: function(request, status, error){
                 console.log("error 함수 실행!");
@@ -248,6 +315,32 @@
             });
           }
 
+          function listPopRoadView(lat, lon) {
+            var roadviewContainer = document.getElementById('popRoadView'); //로드뷰를 표시할 div
+            var roadview = new kakao.maps.Roadview(roadviewContainer); //로드뷰 객체
+            var roadviewClient = new kakao.maps.RoadviewClient(); //좌표로부터 로드뷰 파노ID를 가져올 로드뷰 helper객체
+
+            var position = new kakao.maps.LatLng(lat, lon);
+
+            // 특정 위치의 좌표와 가까운 로드뷰의 panoId를 추출하여 로드뷰를 띄운다.
+            roadviewClient.getNearestPanoId(position, 800, function(panoId) {
+              roadview.setPanoId(panoId, position); //panoId와 중심좌표를 통해 로드뷰 실행
+            });
+          }
+        </script>
+        <script>
+          // use REGEX to match 'roadview block' and
+          // change style attribute!!!
+          // <object id="daum:roadview:1"></object>
+
+          $(function(){
+            // id="daum:roadview:1"
+            // $('object').filter(function() {
+            //   return this.id.match(/^daum:roadview:\d.$/);
+            // })
+            // .css({"position": "relative !important", });
+            $('object').css({"position": "relative !important", });
+          });
         </script>
 
 
@@ -257,5 +350,106 @@
       </div>
     </div>
   </section>
+
+  <!-- <script>
+    $('#myModal').on('shown.bs.modal', function () {
+      $('#myInput').trigger('focus')
+    })
+  </script> -->
+
+
+  <!-- Modal : 'Review' -->
+  <div id="rw-modal-container"></div>
+
+  <!-- Modal : 'Details' -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="modalLabelParkingName" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <script>
+      $(function(){
+        <% for(int i =0 ; i<1000; i++) { %>
+          $('object#daum\\:roadview\:<%=i %>').css({"position": "relative !important"});
+        <% } %>
+
+      });
+    </script>
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title ml-auto" id="modalLabelParkingName"></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <div class="card mb-4 rounded">
+            <div class="social-card-header align-middle text-center bg-light rounded border"
+                style="height:400px;" id="popRoadView">
+            </div>
+            <div class="card-body text-center">
+              <div class="row">
+                <div class="col border-right">
+                  <span class="text-muted" id="toggleTooltip"><a href="javascript:;" id="bookmarkToggleBtn">
+                    <i class="fa fa-star-o text-twitter" id="bookmarkIcon">&nbsp;&nbsp;</i>Bookmark</a></span>
+                  <div class="font-weight-bold"></div>
+
+                </div>
+                <div class="col">
+                  <span class="text-muted"><a href="#"><i class="fa fa-edit text-twitter">&nbsp;&nbsp;</i>Review</a></span>
+                  <div class="font-weight-bold">1K</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card mb-4 rounded">
+            <div class="card-body">
+              <!-- <h3 class="mr-auto text-center my-4">Information</h3> -->
+              <input type="hidden" name="parkingCode" id="parkingCode" value="" />
+
+              <div class="row my-2">
+                <div class="col-md-4 border-right"><i class="fa fa-map-signs">&nbsp;&nbsp;</i>Parking lot Name</div>
+                <div class="col-md-8" id="parkingName"></div>
+              </div>
+              <div class="row my-2">
+                <div class="col-md-4 border-right"><i class="fa fa-map-marker">&nbsp;&nbsp;</i>Address</div>
+                <div class="col-md-8" id="addr"></div>
+              </div>
+              <div class="row my-2">
+                <div class="col-md-4 border-right"><i class="fa fa-hourglass">&nbsp;&nbsp;</i>Operation Time</div>
+                <div class="col-md-8" id="operationTime"></div>
+              </div>
+              <div class="row my-2">
+                <div class="col-md-4 border-right"><i class="fa fa-info-circle">&nbsp;&nbsp;</i>Operation Rule Name</div>
+                <div class="col-md-8" id="operationRuleNm"></div>
+              </div>
+              <div class="row my-2">
+                <div class="col-md-4 border-right"><i class="fa fa-exclamation-triangle">&nbsp;&nbsp;</i>Parking Type Name</div>
+                <div class="col-md-8" id="parkingTypeNm"></div>
+              </div>
+              <div class="row my-2">
+                <div class="col-md-4 border-right"><i class="fa fa-globe">&nbsp;&nbsp;</i>Web Link</div>
+                <div class="col-md-8 "><a href="#">https://example.com</a></div>
+              </div>
+              <div class="row my-2">
+                <div class="col-md-4 border-right"><i class="fa fa-car">&nbsp;&nbsp;</i>Capacity</div>
+                <div class="col-md-8" id="capacity"></div>
+              </div>
+              <div class="row my-2">
+                <div class="col-md-4 border-right"><i class="fa fa-car">&nbsp;&nbsp;</i>Current Parking</div>
+                <div class="col-md-8" id="curParking"></div>
+              </div>
+              <div class="row my-2">
+                <div class="col-md-4 border-right"><i class="fa fa-phone">&nbsp;&nbsp;</i>Tel</div>
+                <div class="col-md-8" id="tel"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
 
 <%@ include file="/views/common/mypageFooter.jsp" %>
