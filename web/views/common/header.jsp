@@ -67,7 +67,10 @@
   <!-- API -->
   <!-- 카카오 -->
   <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
-  
+	
+	<!-- import -->
+	<script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.2.js"></script>
+
   <script>
   function googleTranslateElementInit() {
     new google.translate.TranslateElement(
