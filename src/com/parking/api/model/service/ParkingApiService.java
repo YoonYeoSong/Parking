@@ -6,8 +6,10 @@ import java.util.List;
 
 
 import com.parking.api.dao.ParkingApiDao;
+import com.parking.api.model.vo.Coupon;
 import com.parking.api.model.vo.Parking;
 import com.parking.api.model.vo.ParkingSlot;
+import com.sun.org.apache.bcel.internal.generic.CPInstruction;
 
 import common.api.ParseJsonSeoulParking;
 
@@ -41,6 +43,29 @@ public class ParkingApiService {
 		
 		return list;
 
+	}
+	
+	public List<Coupon> selectCouponList()
+	{
+		Connection conn = getConnection();
+		List<Coupon> list = dao.selectCouponList(conn);
+		close(conn);
+		
+		return list;
+	}
+	
+	//쿠폰생성
+	public int insertCoupon(Coupon c)
+	{
+		Connection conn = getConnection();
+		int result = dao.insertCoupon(conn,c);
+		
+		if(result> 0)
+			commit(conn);
+		else
+			rollback(conn);
+		
+		return result;
 	}
 	
 	public int insertParkingList(List list)

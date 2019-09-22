@@ -2,7 +2,12 @@ package com.parking.member.controller;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 import javax.servlet.ServletException;
@@ -11,9 +16,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.parking.api.model.service.ParkingApiService;
+import com.parking.api.model.vo.Coupon;
 import com.parking.member.model.service.MemberService;
 import com.parking.member.model.vo.Member;
 
+import common.api.CouponCreate;
 import web.email.MailSend;
 
 /**
@@ -60,6 +68,29 @@ public class MemberEnrollEnd extends HttpServlet {
 	
 	  String msg = result > 0? "Hello "+userName + ". Thanks for joining us!" : "Sign up Failed!";
 	  String loc = "/";
+	  if(result >0)
+	  {
+		   //쿠폰생성 잠시사용
+		    int resultCoupon = 0;
+		    CouponCreate cc = new CouponCreate();
+		    Set<Coupon> set = new HashSet<Coupon>();
+		    Coupon c= new Coupon();
+		    Iterator<Coupon> it = set.iterator();
+		    
+		    ParkingApiService service = new ParkingApiService();
+		    while(it.hasNext())
+		    {
+		    	Coupon obj = it.next();
+		    	c.setUserCode(userCode);
+		    	c.setDiscountRate(10);
+		    	c.setDuration(1);
+		    	c.setExpiredYn(0);
+		    }
+		    resultCoupon = service.insertCoupon(c);
+		    
+		    if(result > 0)
+		    	System.out.println("쿠폰등록완료");
+	  }
 	  
 	  request.setAttribute("msg", msg);
 	  request.setAttribute("loc", loc);

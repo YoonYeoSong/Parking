@@ -2,7 +2,10 @@ package com.parking.api.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,8 +13,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.parking.api.model.service.ParkingApiService;
+import com.parking.api.model.vo.Coupon;
 import com.parking.bookmark.model.service.BookmarkService;
 import com.parking.bookmark.model.vo.Bookmark;
+
+import common.api.CouponCreate;
 
 /**
  * Servlet implementation class MapListViewServlet
@@ -43,7 +50,7 @@ public class MapListViewServlet extends HttpServlet {
     //List<Parking> list = parkingService.selectParkingList(search);
     //System.out.println("리스트 사이즈 : " +list.size());
     
-    
+ 
 
     
     

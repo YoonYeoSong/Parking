@@ -2,13 +2,23 @@ package com.parking.payment.controller;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.parking.api.model.service.ParkingApiService;
+import com.parking.api.model.vo.Coupon;
+
+import common.api.CouponCreate;
 
 /**
  * Servlet implementation class paymentServlet
@@ -41,6 +51,12 @@ public class paymentServlet extends HttpServlet {
 		
 		System.out.println(parkingnum);
 		
+		ParkingApiService service = new ParkingApiService();
+				
+		List<Coupon> list = service.selectCouponList();	
+		System.out.println("쿠폰리스트 : "+ list.size());
+		
+		request.setAttribute("CouponList", list);
 		request.setAttribute("parkingNum", parkingnum);
 		request.setAttribute("today", sdf.format(cal.getTime()));
 		request.getRequestDispatcher("/views/payment/paymentView.jsp").forward(request, response);

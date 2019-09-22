@@ -37,6 +37,7 @@ public class PaymentEndServlet extends HttpServlet {
 		String amount = request.getParameter("amount");
 		String addTime = request.getParameter("addTime");
 		String userCode = request.getParameter("userCode");
+		String discountCoupon = request.getParameter("discountCoupon");
 		
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd/HH:mm:ss");
@@ -52,7 +53,8 @@ public class PaymentEndServlet extends HttpServlet {
 		if(result > 0)
 		{
 			System.out.println("parkingSlot insert!");
-			result = service.insertParkingUserHistory(pCode,userCode,amount);
+			int discountAmount = Integer.parseInt(amount)+(int)( Integer.parseInt(discountCoupon)*0.1*Integer.parseInt(amount));
+			result = service.insertParkingUserHistory(pCode,userCode, String.valueOf(discountAmount));
 			if(result > 0)
 			{
 				request.getRequestDispatcher("index.jsp").forward(request, response);

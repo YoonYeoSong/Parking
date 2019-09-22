@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import com.parking.api.model.vo.Coupon;
 import com.parking.api.model.vo.Parking;
 import com.parking.api.model.vo.ParkingSlot;
 import com.parking.member.model.vo.Member;
@@ -139,6 +140,32 @@ public class ParkingApiDao {
 	    return result;
 	}
 	
+	public int insertCoupon(Connection conn, Coupon c)
+	{
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = prop.getProperty("insertCoupon");
+				   
+		    try {
+		    	 pstmt = conn.prepareStatement(sql);
+		    	  
+		    	  pstmt.setString(1,c.getCouponCode());
+		    	  pstmt.setString(2,c.getUserCode());
+		    	  pstmt.setInt(3,c.getDiscountRate());
+		    	  pstmt.setInt(4,c.getDuration());
+		    	  pstmt.setInt(5,c.getExpiredYn());
+		    	  result = pstmt.executeUpdate();
+    		} 
+	    	catch(SQLException e) 
+		    {		    
+		      e.printStackTrace();
+		    } finally {
+		      close(pstmt);
+		    }
+    
+	    return result; 
+	}
+	
 	
 	public List<Parking> selectAutoCommit(Connection conn, String addrName)
 	{
@@ -196,6 +223,40 @@ public class ParkingApiDao {
 			close(rs);
 			close(pstmt);
 		}
+		return list;
+	}
+	
+	
+	public List<Coupon> selectCouponList(Connection conn)
+	{
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<Coupon> list = new ArrayList<Coupon>();
+		Coupon c = null;
+		String sql = prop.getProperty("selectCouponList");
+		try
+		{
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while(rs.next())
+			{
+				c = new Coupon();
+				c.setCouponCode(rs.getString("coupon_code"));
+				c.setUserCode(rs.getString("coupon_user_code"));
+				c.setDiscountRate(rs.getInt("coupon_discount_rate"));
+				c.setDuration(rs.getInt("coupon_duration"));
+				c.setExpiredYn(rs.getInt("coupon_expired_yn"));
+				list.add(c);
+			}
+		}catch(SQLException e)
+		{
+			e.printStackTrace();
+		}finally
+		{
+			close(pstmt);
+			close(rs);
+		}
+		
 		return list;
 	}
 	

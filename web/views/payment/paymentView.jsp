@@ -1,6 +1,9 @@
+<%@page import="com.parking.api.model.vo.Coupon"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> <%@ include
 file="/views/common/header.jsp" %> <% String parkingNum =(String)request.getAttribute("parkingNum");
-String today = (String)request.getAttribute("today");%>
+String today = (String)request.getAttribute("today");
+List<Coupon> list = (List)request.getAttribute("CouponList");
+%>
 
 <style>
     .bd-placeholder-img {
@@ -99,7 +102,10 @@ String today = (String)request.getAttribute("today");%>
                         <select name="" id="payName">
                             <option value="kakaoPay">kakaoPay</option>
                             <option value="inicisPay">inicisPay</option>
-                        </select>
+								</select>
+								<select name="" id="coupon">
+								<option value="">없음</option>
+								</select>
                         <button
                             type="button"
                             class="btn btn-lg btn-block btn-primary"
@@ -140,6 +146,20 @@ String today = (String)request.getAttribute("today");%>
 <script>
 
 		$(function(){
+			
+			originPay = null;
+			// 새로추가 할인
+			var selectCoupon = $('#coupon');
+			if(<%=loginMember != null%>)
+			{
+				<% for(int i = 0; i < list.size(); i++){%>
+					<%if(loginMember.getUserCode().equals(list.get(i).getUserCode())) {%>			
+						var op = $("<option>").html("<%=list.get(i).getDiscountRate()%>"+"%");
+						selectCoupon.append(op);
+					<%}%>
+				<%}%>
+			}
+			
 			var data = JSON.parse(sessionStorage.getItem("parkingList"));
 			var addt = $('#addTime').val();
 			for(var d in data){			
@@ -147,16 +167,18 @@ String today = (String)request.getAttribute("today");%>
 				{
 					var pay = parseInt((data[d]["rates"]/ data[d]["timeRate"]))*60;
 					$("#toPrice").val(pay*Number(addt));
+					originPay = $("#toPrice").val(pay*Number(addt));
 					console.log(addt);
 					// if($("#toPrice").val() === NaN)
 					// {
 					// 	$("#toPrice").html("0");
 					// }
-		
 				}
 			}
 			
 		});
+		
+
      function selectTime()
      {
 		var data = JSON.parse(sessionStorage.getItem("parkingList"));
@@ -300,6 +322,13 @@ String today = (String)request.getAttribute("today");%>
 							hiddenField.setAttribute("type", "hidden");
 							hiddenField.setAttribute("name", "userCode");
 							hiddenField.setAttribute("value", <%=loginMember.getUserCode()%>);
+							form.appendChild(hiddenField);
+							
+							hiddenField = document.createElement("input");
+							hiddenField.setAttribute("type", "hidden");
+							hiddenField.setAttribute("name", "discountCoupon");
+							hiddenField.setAttribute("value",$("#coupon").val());
+							
 							form.appendChild(hiddenField);
 							document.body.appendChild(form);
 		
