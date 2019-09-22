@@ -73,6 +73,45 @@ public class ReviewDao {
     return list;
   }
 
+  public Review selectReview(Connection conn, int reviewNo){
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+
+    Review r = null;
+
+    String sql = prop.getProperty("selectReview");
+    
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setInt(1, reviewNo);
+
+      rs = pstmt.executeQuery();
+      
+      if(rs.next()) {
+        r = new Review();
+
+        r.setReviewNo(rs.getInt("review_no"));
+        r.setReviewUserHistoryNo(rs.getInt("review_userhistory_no"));
+        r.setReviewTitle(rs.getString("review_title"));
+        r.setReviewContent(rs.getString("review_content"));
+
+        Timestamp timestamp = rs.getTimestamp("review_created_date");
+        java.util.Date date = new java.util.Date(timestamp.getTime());
+        r.setReviewCreatedDate(new java.sql.Date(date.getTime()));
+
+        r.setReviewRating(rs.getInt("review_rating"));
+      }
+      
+    } catch(SQLException e) {
+      e.printStackTrace();
+    } finally {
+      close(rs);
+      close(pstmt);
+    }
+    
+    return r;
+  }
+
   public int selectCountReview(Connection conn) {
     PreparedStatement pstmt = null;
     ResultSet rs = null;

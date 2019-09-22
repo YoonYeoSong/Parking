@@ -1,7 +1,11 @@
 package com.parking.board.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.parking.board.model.service.ReviewService;
 import com.parking.board.model.vo.Review;
+import com.parking.history.model.service.UserHistoryService;
+import com.parking.history.model.vo.UserHistory;
 
 /**
  * Servlet implementation class QnaBoardListServlet
@@ -85,10 +91,26 @@ public class ReviewListServlet extends HttpServlet {
                + "</li>";
     }
     
+    List<UserHistory> userHistoryList = new ArrayList<UserHistory>();
+    UserHistory userHistory = null;
+    Review r = null;
+
+    Iterator<Review> itr = list.iterator();
+    Map<Review, UserHistory> map = new HashMap<Review, UserHistory>();
+
+    while(itr.hasNext()) {
+      r = itr.next();
+      userHistory = new UserHistoryService().selectUserHistoryNo(r.getReviewUserHistoryNo());
+      map.put(r, userHistory);
+      userHistoryList.add(userHistory);
+    }
+
     request.setAttribute("pageBar", pageBar);
     request.setAttribute("cPage", cPage);
-    request.setAttribute("reviewlist", list);
-    
+    request.setAttribute("reviewList", list);
+    request.setAttribute("userHistoryList", userHistoryList);
+    request.setAttribute("map", map);
+      
     request.getRequestDispatcher("/views/board/reviewList.jsp").forward(request, response);
   }
 

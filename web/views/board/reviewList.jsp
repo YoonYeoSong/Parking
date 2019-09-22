@@ -3,10 +3,15 @@
 
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="java.util.Iterator" %>
+<%@ page import="java.util.Map" %>
 <%@ page import="com.parking.board.model.vo.Review" %>
+<%@ page import="com.parking.history.model.vo.UserHistory" %>
 
 <%
-  List<Review> list = (ArrayList<Review>)request.getAttribute("reviewlist");
+  List<Review> list = (ArrayList<Review>)request.getAttribute("reviewList");
+  List<UserHistory> userHistoryList = (ArrayList<UserHistory>)request.getAttribute("userHistoryList");
   String pageBar = (String)request.getAttribute("pageBar");
   int cPage = (Integer)request.getAttribute("cPage");
 %>
@@ -16,12 +21,12 @@
 
     <!-- CSS -->
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
     <link rel="stylesheet" href="<%=request.getContextPath() %>/css/review.css">
 
     <style>
       <%for(int i = 1; i < 1000; i++){%>
-        object#daum\:roadview\:<%=i%>
-        {
+        object#daum\:roadview\:<%=i%> {
           position: relative !important;
         }
       <%}%>
@@ -77,15 +82,21 @@
             </tr>
           </thead>
           <tbody>
+            
+            <script>
+            </script>
             <% for(Review r : list){ %>
             <tr>
               <td><%=r.getReviewUserHistoryNo() %> </td>
               <td>
                 <div class="media text-muted pt-3">
-                  <svg class="bd-placeholder-img mr-2 rounded " width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32">
-                    <title>Placeholder</title><rect width="100%" height="100%" fill="#132535" class="bg-secondary"></rect>
+                  <% if(loginMember.getUserRenamedFilename() != null) { %>
+                  <img class="profile-pic" src="<%=request.getContextPath()%>/upload/member/<%=loginMember.getUserRenamedFilename() %>" width="32" height="32" style="border-radius: 20%; border:1px solid white;" />
+                  <% } else { %>
+                  <svg class="bd-placeholder-img mr-2 rounded " width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32"> <title>Placeholder</title><rect width="100%" height="100%" fill="#132535" class="bg-secondary"></rect>
                     <text x="50%" y="50%" fill="#132535" dy=".3em">32x32</text>
                   </svg>
+                  <% } %>
                   <!-- <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray"> -->
                   <p class="media-body pb-4 mb-0 small lh-125">
                     <strong class="d-block text-gray-dark"><%=loginMember.getUserName() %></strong>
@@ -93,10 +104,28 @@
                 </div>
               </td>
               <td>
-                <a href="<%=request.getContextPath() %>/board/reviewContentView?no=<%=r.getReviewNo() %>">
+                <a href="<%=request.getContextPath() %>/board/reviewContentView?reviewNo=<%=r.getReviewNo() %>">
                   <%=r.getReviewTitle() %>
                 </a>
               </td>
+              <script>
+                // function ajaxViewReviewContent(){
+                //   $.ajax({
+                //     type: "POST",
+                //     url: "<%=request.getContextPath() %>/board/reviewContentView",
+                //     dataType: "JSON",
+                //     data: {"no": "<%=r.getReviewNo()%>"},
+                //     success: function(data){
+                //       var html = $('<div>').html(data);
+
+                //       $('div#mypage-container').html(html.find('section#subMenu-container'));
+                //     },
+                //     error: function (data) { // 데이터 통신에 실패
+                //       console.log("JSON data failed to retrieve!");
+                //     }
+                //   });
+                // }
+              </script>
               <td>
                   <%= r.getReviewContent().substring(0, java.lang.Math.min(140,r.getReviewContent().length())) %>
                 </a>
@@ -107,28 +136,27 @@
                 <% } %> --%>
               <!-- </td> -->
               <td>
-                <!-- star ratings -->
-                <!-- <div class="ml-auto mr-3"> -->
+                  <!-- String []checkedArr = new String[5];
+                  int rating = r.getReviewRating();
+                  System.out.println(rating);
+
+                  for(int i=0; i < checkedArr.length; i++){
+                    if(i < rating-1)
+                      checkedArr[i]="";
+                    else
+                      checkedArr[i]="checked";
+                    System.out.print(checkedArr[i] + " ");
+                  }
+                    System.out.println(); -->
                   <%=r.getReviewRating() %>
-                  <!-- <div class="starrating risingstar d-flex justify-content-center flex-row-reverse">
-                    <script>
-                      var rating = $('<span>');
-                      <% for(int i= 0 ;i<r.getReviewRating(); i++){ %>
-                          rating.append($("<i class='fa fa-star'>"));
-                      <% } %>
-
-                      <% for(int i= 0 ;i<5-r.getReviewRating(); i++){ %>
-                          rating.append($("<i class='fa fa-star-o'>"));
-                      <% } %>
-                      console.log(rating);
-
-                      $('div#ratingNum<%=r.getReviewUserHistoryNo()%>').append(rating);
-
-                    </script>
-                    <div id="ratingNum<%=r.getReviewUserHistoryNo() %>" ></div>
-
-                  </div> -->
-                <!-- </div>	 -->
+            <!-- star ratings -->
+                  <%-- <span class="starrating risingstar d-flex justify-content-center flex-row-reverse">
+                    <input type="radio" id="star5" name="reviewRating" value="5" <%=checkedArr[4]%> disabled readonly /><label for="star5" title="5 star"></label>
+                    <input type="radio" id="star4" name="reviewRating" value="4" <%=checkedArr[3]%> disabled readonly /><label for="star4" title="4 star"></label>
+                    <input type="radio" id="star3" name="reviewRating" value="3" <%=checkedArr[2]%> disabled readonly /><label for="star3" title="3 star"></label>
+                    <input type="radio" id="star2" name="reviewRating" value="2" <%=checkedArr[1]%> disabled readonly /><label for="star2" title="2 star"></label>
+                    <input type="radio" id="star1" name="reviewRating" value="1" <%=checkedArr[0]%> disabled readonly /><label for="star1" title="1 star"></label>
+                  </span>	 --%>
               </td>
                 
             </tr>
@@ -261,7 +289,7 @@
 
                     $('#parkingName').html(parkingName);
                     $('#addr').html(addr);
-                    $('#parkingName').html(parkingCode);
+                    $('#parkingCode').val(parkingCode);
                     $('#latitude').html(latitude);
                     $('#longitude').html(longitude);
 
@@ -413,7 +441,7 @@
                 <div class="col-md-4 border-right"><i class="fa fa-map-marker">&nbsp;&nbsp;</i>Address</div>
                 <div class="col-md-8" id="addr"></div>
               </div>
-              <div class="row my-2">
+              <!-- <div class="row my-2">
                 <div class="col-md-4 border-right"><i class="fa fa-hourglass">&nbsp;&nbsp;</i>Operation Time</div>
                 <div class="col-md-8" id="operationTime"></div>
               </div>
@@ -440,7 +468,7 @@
               <div class="row my-2">
                 <div class="col-md-4 border-right"><i class="fa fa-phone">&nbsp;&nbsp;</i>Tel</div>
                 <div class="col-md-8" id="tel"></div>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>

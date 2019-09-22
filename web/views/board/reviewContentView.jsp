@@ -3,12 +3,24 @@
 
 <%@ page import="com.parking.api.model.vo.Parking" %>
 <%@ page import="com.parking.history.model.vo.UserHistory" %>
+<%@ page import="com.parking.board.model.vo.Review" %>
 
 <%@ include file="/views/common/mypageHeader.jsp" %>
 
 <%
   Parking parking = (Parking)request.getAttribute("parking");
   UserHistory userhistory = (UserHistory)request.getAttribute("userhistory");
+  Review r = (Review)request.getAttribute("review");
+
+  int rating = r.getReviewRating();
+  String []checkedArr = new String[5];
+
+  for(int i=0; i < checkedArr.length; i++){
+    if(i < rating-1)
+      checkedArr[i]="";
+    else
+      checkedArr[i]="checked";
+  }
 %>
 
   <section class="py-4 subMenu-container">
@@ -19,7 +31,7 @@
     <link rel="stylesheet" href="<%=request.getContextPath() %>/css/review.css">
 
     <div class="card card-fluid">
-      <h6 class="card-header">Write Review</h6>
+      <h6 class="card-header">Review Content</h6>
       <!-- .card-body -->
       <div class="card-body">
           <!-- <h3 class="mr-auto text-center my-4">Information</h3> -->
@@ -38,7 +50,7 @@
               <!-- <div class="upload-button">
                 <i class="fa fa-camera" aria-hidden="true"></i>
               </div> -->
-              <input class="file-upload form-control" type="file" accept="image/*" name="new_up_file" />
+              <!-- <input class="file-upload form-control" type="file" accept="image/*" name="new_up_file" /> -->
               <input class="" type="hidden" name="old_up_file_ori" value="<%=loginMember.getUserOriginalFilename() %>" />
               <input class="" type="hidden" name="old_up_file_re" value="<%=loginMember.getUserRenamedFilename() %>" />
             </div>
@@ -80,7 +92,7 @@
             <!-- /form column -->
             <!-- form column -->
             <div class="col-md-9 mb-3">
-              <input type="text" class="form-control" name="reviewTitle" id="userName" value="" required />
+              <input type="text" class="form-control" name="reviewTitle" id="userName" value="<%=r.getReviewTitle()%>" readonly/>
             </div>
             <!-- /form column -->
           </div>
@@ -97,26 +109,28 @@
           <div class="form-row">
             <label for="content" class="col-md-3"><i class="fa fa-edit">&nbsp;&nbsp;</i>Review Content</label>
             <div class="col-md-9 ">
-              <textarea type="text" class="form-control" id="reviewContent" name="reviewContent" rows="3" style="resize:none;" placeholder="write review..." required></textarea>
+              <textarea type="text" class="form-control" id="reviewContent" name="reviewContent" rows="3" style="resize:none;" placeholder="write review..." readonly><%=r.getReviewContent()%></textarea>
               <small class="text-muted">300 chars max.</small>
             </div>
 
             <!-- star ratings -->
             <div class="ml-auto mr-3">
+
+
+
               <div class="starrating risingstar d-flex justify-content-center flex-row-reverse">
-                  <input type="radio" id="star5" name="reviewRating" value="5" required /><label for="star5" title="5 star"></label>
-                  <input type="radio" id="star4" name="reviewRating" value="4" /><label for="star4" title="4 star"></label>
-                  <input type="radio" id="star3" name="reviewRating" value="3" /><label for="star3" title="3 star"></label>
-                  <input type="radio" id="star2" name="reviewRating" value="2" /><label for="star2" title="2 star"></label>
-                  <input type="radio" id="star1" name="reviewRating" value="1" /><label for="star1" title="1 star"></label>
+                  <input type="radio" id="star5" name="reviewRating" value="5" <%=checkedArr[4]%> disabled readonly /><label for="star5" title="5 star"></label>
+                  <input type="radio" id="star4" name="reviewRating" value="4" <%=checkedArr[3]%> disabled readonly /><label for="star4" title="4 star"></label>
+                  <input type="radio" id="star3" name="reviewRating" value="3" <%=checkedArr[2]%> disabled readonly /><label for="star3" title="3 star"></label>
+                  <input type="radio" id="star2" name="reviewRating" value="2" <%=checkedArr[1]%> disabled readonly /><label for="star2" title="2 star"></label>
+                  <input type="radio" id="star1" name="reviewRating" value="1" <%=checkedArr[0]%> disabled readonly /><label for="star1" title="1 star"></label>
               </div>
             </div>	
             <!-- /form column -->
           </div>
           <hr>
           <div class="form-actions row justify-content-center">
-            <button type="button" class="btn btn-outline-secondary mx-1" id="cancelBtn">Cancel</button>
-            <button type="button" class="btn btn-primary mx-1" id="confirmBtn">Confirm</button>
+            <button type="button" class="btn btn-outline-secondary mx-1" id="cancelBtn">Back to List</button>
             <!-- <button type="button" class="btn btn-outline-danger mr-auto" id="deleteBtn">Delete Account</button> -->
           </div>
             <!-- /.form-actions -->
@@ -128,59 +142,11 @@
     <script>
       $(function(){
 
-        var readURL = function(input) {
-          if (input.files && input.files[0]) {
-              var reader = new FileReader();
-
-              reader.onload = function (e) {
-                  $('.profile-pic').attr('src', e.target.result);
-              }
-      
-              reader.readAsDataURL(input.files[0]);
-          }
-        }
-      
-        $(".file-upload").on('change', function(){
-            readURL(this);
-        });
-        
-        $(".upload-button").on('click', function() {
-          $(".file-upload").click();
-        });
-
-
-        $('button#confirmBtn').on('click', function(){
-          if($('#reviewContent') == "" || $('#reviewTitle') == ""){
-            alert("Please fill out required fields!");
-            return;
-          }
-          else{
-
-          var frm = $('form#updateFrm');
-
-            if(confirm("Are you sure to Update?")){
-              var url="<%=request.getContextPath() %>/board/reviewWriteEnd";
-              frm.attr({"action" : url});
-              console.log(frm);
-              frm.submit();
-            }
-          }
-        });
-
         $('button#cancelBtn').on('click', function(){
           console.log("hello cancel");
           location.href= "<%=request.getContextPath() %>/board/reviewList";
         })
 
-        // $('button#deleteBtn').on('click', function(){
-        //   var frm = $('form#updateFrm');
-
-        //   if(confirm("Are you sure to DELETE Your Account?")){
-        //     var url="<%=request.getContextPath() %>/member/memberDelete";
-        //     frm.attr({"action" : url});
-        //     frm.submit();
-        //   }
-        // })
       });
 
     </script>

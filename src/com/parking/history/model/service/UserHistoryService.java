@@ -14,6 +14,16 @@ public class UserHistoryService {
   private UserHistoryDao dao = new UserHistoryDao();
 
   
+  public UserHistory selectUserHistoryNo(int no) {
+    Connection conn = getConnection();
+    
+    UserHistory h = dao.selectUserHistoryNo(conn, no);
+
+    close(conn);
+    
+    return h;
+  }
+
   public UserHistory selectUserHistory(String userCode, String parkingCode){
     Connection conn = getConnection();
     
