@@ -29,6 +29,38 @@ public class UserHistoryDao {
     }
   }
   
+  public UserHistory selectUserHistoryNo(Connection conn, int no) {
+    PreparedStatement pstmt = null;
+    ResultSet rs =  null;
+    String sql = prop.getProperty("selectUserHistoryNo");
+    UserHistory h = null;
+
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setInt(1, no);
+
+      rs = pstmt.executeQuery();
+      if(rs.next()) {
+        h = new UserHistory();
+
+        h.setUserHistoryNo(rs.getInt("userhistory_no"));
+        h.setUserHistoryUserCode(rs.getString("userhistory_user_code"));
+        h.setUserHistoryParkingCode(rs.getString("userhistory_parking_code"));
+
+        Timestamp timestamp = rs.getTimestamp("userhistory_parking_date");
+        java.util.Date date = new java.util.Date(timestamp.getTime());
+        h.setUserHistoryParkingDate(new java.sql.Date(date.getTime()));
+      }
+    } catch(SQLException e) {
+      e.printStackTrace();
+    } finally {
+      close(rs);
+      close(pstmt);
+    }
+
+    return h;
+  }
+
   public UserHistory selectUserHistory(Connection conn, String userCode, String parkingCode){
     PreparedStatement pstmt = null;
     ResultSet rs =  null;

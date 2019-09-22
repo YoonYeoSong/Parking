@@ -21,15 +21,15 @@
       <div class="col-lg-3">
         <div class="list-group mt-4 mb-3">
           <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('/member/memberView');"><i class="fa fa-cog">&nbsp;&nbsp;</i>Settings</a>
-          <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('/bookmark/bookmarkView');"><i class="fa fa-bookmark">&nbsp;&nbsp;</i>Bookmark</a>
+          <a href="javascript:;" class="list-group-item" onclick="location.href='<%=request.getContextPath() %>/bookmark/bookmarkView'"><i class="fa fa-bookmark">&nbsp;&nbsp;</i>Bookmark</a>
           <a href="javascript:;" class="list-group-item" onclick="location.href='<%=request.getContextPath() %>/board/reviewList'"><i class="fa fa-edit">&nbsp;&nbsp;</i>My Reviews</a>
           <% if(loginMember.getUserEmail().equals("admin@com")){ %>
             <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('/admin/memberList');"><i class="fa fa-list">&nbsp;&nbsp;</i>Member List</a>
           <%} else { %>
-            <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('');"><i class="fa fa-credit-card">&nbsp;&nbsp;</i>Payment Methods</a>
-            <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('');"><i class="fa fa-calendar">&nbsp;&nbsp;</i>Reservations</a>
-            <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('');"><i class="fa fa-car">&nbsp;&nbsp;</i>My Vehicle</a>
-            <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('');"><i class="fa fa-won">&nbsp;&nbsp;</i>Credit Balance</a>
+            <!-- <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('');"><i class="fa fa-credit-card">&nbsp;&nbsp;</i>Payment Methods</a> -->
+            <!-- <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('');"><i class="fa fa-calendar">&nbsp;&nbsp;</i>Reservations</a> -->
+            <!-- <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('');"><i class="fa fa-car">&nbsp;&nbsp;</i>My Vehicle</a> -->
+            <!-- <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('');"><i class="fa fa-won">&nbsp;&nbsp;</i>Credit Balance</a> -->
           <% } %>
         </div>
         
@@ -48,11 +48,9 @@
           if($('#listScrollText') != null)
             $('#listScrollText').empty();
 
-          if(urlMapping == '/bookmark/bookmarkView'){
-            $('#listScroll').show();
-            $('#listScrollTitle').show();
-          }
-          else if(urlMapping == '/board/reviewList'){
+          if(urlMapping == '/bookmark/bookmarkView'
+              || urlMapping == '/board/reviewList'
+              || urlMapping == '/board/reviewContentView') {
             $('#listScroll').show();
             $('#listScrollTitle').show();
           }

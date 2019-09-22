@@ -6,6 +6,16 @@
 <%@ include file="/views/common/mypageHeader.jsp" %>
 
   <section class="py-4 subMenu-container">
+
+    <!-- CSS -->
+    <style>
+      <%for(int i = 1; i < 1000; i++){%>
+        object#daum\:roadview\:<%=i%> {
+          position: relative !important;
+        }
+      <%}%>
+    </style>
+
     <div class="card card-fluid">
       <h6 class="card-header">Bookmark</h6>
       <!-- .card-body -->
@@ -38,7 +48,7 @@
         <!-- 카카오 Map container-->
         <div class="container map-container" id="map-container-google-2" style="height: 500px">
 
-          <button class="btn btn-sm btn-outline-primary mt-4 mb-3" onclick="locateCurPos();"><i class="fa fa-map-marker">&nbsp;&nbsp;</i>Where Am I?</button>
+          <button class="btn btn-sm btn-outline-primary mt-4 mb-3" onclick="loadMapInfo();"><i class="fa fa-map-marker">&nbsp;&nbsp;</i>Where Am I?</button>
           <div id="map" class="card shadow-sm row mx-auto" style="width:100%;height:400px;" style="border:0;"></div>
         </div>
 
@@ -61,29 +71,18 @@
         <!-- manipulate data -->
         <script>
           $(function(){
-            locateCurPos();
-            loadParkingInfo();
+            $('#listScroll').show();
+            $('#listScrollTitle').show();
+            $('#listScrollTitle').html('<i class="fa fa-bookmark"></i>&nbsp;&nbsp;My Bookmarks');
+
+            loadMapInfo();
           });
           
-          /* 1. My location : get current geo location */
-          function locateCurPos(){
+          /* Parking locations : 
+             1. current geolocation 
+             2. bookmarked parking list & geolocation */
+          function loadMapInfo(){
             navigator.geolocation.getCurrentPosition(function(pos){
-              $('#listScroll').show();
-              $('#listScrollTitle').show();
-              $('#listScrollTitle').html('<i class="fa fa-bookmark"></i>&nbsp;&nbsp;My Bookmarks');
-
-              loadKakaoMap(pos);
-
-            }, geo_error, geo_options);
-          }
-          
-          /* 2. Parking locations : load bookmarked parking list 
-             and display markers in the map */
-          function loadParkingInfo(){
-            navigator.geolocation.getCurrentPosition(function(pos){
-              $('#listScroll').show();
-              $('#listScrollTitle').show();
-              $('#listScrollTitle').html('<i class="fa fa-bookmark"></i>&nbsp;&nbsp;My Bookmarks');
 
               loadParkingList(pos);
               loadKakaoMap(pos);
@@ -120,7 +119,8 @@
                 // marker : bookmarked locations
                 var positions = [];
 
-                for(var d in data) {
+                // for(var d in data) {
+                $.each(data, function(d,item) {
 
                   var aTag = $("<a class='list-group-item list-group-item-action'>");
                   var span0 = $("<span id="+d+">");
@@ -137,9 +137,9 @@
                   //                       + ">More Info</button>";
                   var btnStr = "<button class='btn btn-sm btn-outline-info mr-1' "
                                         + "id='parking" + d + "'>"
-                                        + "More Info</button>";
+                                        + "Details</button>";
                   var infoBtn = $(btnStr);
-                  var input = $("<input type='button' class='btn btn-sm btn-outline-info pay' onclick='ajaxMypageContentLoad(\"/board/reviewList\");' value='Review'>");
+                  var input = $("<input type='button' class='btn btn-sm btn-outline-info pay' onclick='location.href=\"<%=request.getContextPath()%>/board/reviewList\"' value='Review'>");
                   div.append(infoBtn).append(input);
                   span0.append(span1).append(span2).append(span3).append(span4).append(span5).append(div);
                   aTag.append(span0);
@@ -150,7 +150,32 @@
                   var lng = data[d]["longitude"];
 
                   positions.push({title: data[d]["parkingName"], latlng: new kakao.maps.LatLng(lat, lng)});
-                }
+
+                  $('#parking'+d).click(function(){
+                    var parkingName = data[d]["parkingName"];
+                    var addr = data[d]["addr"];
+                    var parkingCode = data[d]["parkingCode"];
+                    var latitude = data[d]["latitude"];
+                    var longitude = data[d]["longitude"];
+
+
+                    //show bootstrap modal
+
+                    if($('#popRoadView').val() != null)
+                      $('#popRoadView').empty();
+
+                    listPopRoadView(latitude,longitude); // 팝업로드뷰 생성
+
+                    $('#myModal').modal('show');
+
+                    $('#parkingName').html(parkingName);
+                    $('#addr').html(addr);
+                    $('#parkingCode').val(parkingCode);
+                    $('#latitude').html(latitude);
+                    $('#longitude').html(longitude);
+
+                  });
+                });
 
                 if(localStorage.hasOwnProperty("positions"))
                   localStorage.removeItem("positions");
@@ -165,6 +190,19 @@
               error: function (data) { // 데이터 통신에 실패
                 console.log("서버 전송 실패");
               }
+            });
+          }
+
+          function listPopRoadView(lat, lon) {
+            var roadviewContainer = document.getElementById('popRoadView'); //로드뷰를 표시할 div
+            var roadview = new kakao.maps.Roadview(roadviewContainer); //로드뷰 객체
+            var roadviewClient = new kakao.maps.RoadviewClient(); //좌표로부터 로드뷰 파노ID를 가져올 로드뷰 helper객체
+
+            var position = new kakao.maps.LatLng(lat, lon);
+
+            // 특정 위치의 좌표와 가까운 로드뷰의 panoId를 추출하여 로드뷰를 띄운다.
+            roadviewClient.getNearestPanoId(position, 800, function(panoId) {
+              roadview.setPanoId(panoId, position); //panoId와 중심좌표를 통해 로드뷰 실행
             });
           }
 
@@ -195,28 +233,8 @@
             var zoomControl = new kakao.maps.ZoomControl();
             map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
   
-            //Marker : Current Location
-            var imageSrc = '<%=request.getContextPath() %>/images/imhere.png', // 마커이미지의 주소입니다    
-                imageSize = new kakao.maps.Size(38, 38), // 마커이미지의 크기입니다
-                imageOption = {offset: new kakao.maps.Point(0, 0)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
-            // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
-            var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
-            var markerPosition = new kakao.maps.LatLng(lat, lng); // 마커가 표시될 위치입니다
-
-            // 마커를 생성합니다
-            // var marker = new kakao.maps.Marker({
-            //   position: markerPosition,
-            //   image: markerImage // 마커이미지 설정 
-            // });
-
-            // 마커가 지도 위에 표시되도록 설정합니다
-            // marker.setMap(map);
-
-            // Marker : bookmark; saved Locations
-            // 마커 이미지의 이미지 주소입니다
-            // imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
-
+            //Markers
             var positions = [];
 
             if(localStorage.hasOwnProperty("positions"))
@@ -225,25 +243,32 @@
             positions.push({title: "curLoc", latlng: new kakao.maps.LatLng(lat, lng)});
             console.log(positions);
               
+
+            // Prepare Marker information
+            var imageSrc, // 마커이미지의 주소입니다    
+                imageSize, // 마커이미지의 크기입니다
+                imageOption = {offset: new kakao.maps.Point(0, 0)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+            // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+            var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+            var markerPosition = new kakao.maps.LatLng(lat, lng); // 마커가 표시될 위치입니다
+            var marker;
             for (var i = 0; i < positions.length; i ++) {
-                
-              // 마커 이미지의 이미지 크기 입니다
-              
               // 마커 이미지를 생성합니다    
               if(positions[i].title == "curLoc"){
                 imageSrc = '<%=request.getContextPath() %>/images/imhere.png', // 마커이미지의 주소입니다    
-                imageSize = new kakao.maps.Size(38, 38); 
+                imageSize = new kakao.maps.Size(42, 42); 
                 markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
               }
               else{
-                imageSrc = "<%=request.getContextPath() %>/images/mastercard.png";
-                imageSize = new kakao.maps.Size(29, 29); 
+                imageSrc = "<%=request.getContextPath() %>/images/sign.png";
+                imageSize = new kakao.maps.Size(30, 30); 
                 markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
               }
               
               // 마커를 생성합니다
               marker = new kakao.maps.Marker({
-                  map: map, // 마커를 표시할 지도
+                  map: map, // 마커를 표시할 지도zz
                   position: new kakao.maps.LatLng(positions[i].latlng.Ha, positions[i].latlng.Ga), // 마커를 표시할 위치
                   title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
                   image : markerImage // 마커 이미지 
@@ -299,21 +324,112 @@
           }
           // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
           function makeOverListener(map, marker, infowindow) {
-              return function() {
-                  infowindow.open(map, marker);
-              };
+            return function() {
+              infowindow.open(map, marker);
+            };
           }
 
           // 인포윈도우를 닫는 클로저를 만드는 함수입니다 
           function makeOutListener(infowindow) {
-              return function() {
-                  infowindow.close();
-              };
+            return function() {
+              infowindow.close();
+            };
           }
         </script>
             
       </div>
       <!-- /.card-body -->
+    </div>
+
+    <!-- Modal : 'Details' -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="modalLabelParkingName" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+      <script>
+        $(function(){
+          <% for(int i =0 ; i<1000; i++) { %>
+            $('object#daum\\:roadview\:<%=i %>').css({"position": "relative !important"});
+          <% } %>
+
+        });
+      </script>
+      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title ml-auto" id="modalLabelParkingName"></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+            <div class="card mb-4 rounded">
+              <div class="social-card-header align-middle text-center bg-light rounded border"
+                  style="height:400px;" id="popRoadView">
+              </div>
+              <div class="card-body text-center">
+                <div class="row">
+                  <div class="col border-right">
+                    <span class="text-muted" id="toggleTooltip"><a href="javascript:;" id="bookmarkToggleBtn">
+                      <i class="fa fa-star-o text-twitter" id="bookmarkIcon">&nbsp;&nbsp;</i>Bookmark</a></span>
+                    <div class="font-weight-bold"></div>
+
+                  </div>
+                  <div class="col">
+                    <span class="text-muted"><a href="#"><i class="fa fa-edit text-twitter">&nbsp;&nbsp;</i>Review</a></span>
+                    <div class="font-weight-bold">1K</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card mb-4 rounded">
+              <div class="card-body">
+                <!-- <h3 class="mr-auto text-center my-4">Information</h3> -->
+                <input type="hidden" name="parkingCode" id="parkingCode" value="" />
+
+                <div class="row my-2">
+                  <div class="col-md-4 border-right"><i class="fa fa-map-signs">&nbsp;&nbsp;</i>Parking lot Name</div>
+                  <div class="col-md-8" id="parkingName"></div>
+                </div>
+                <div class="row my-2">
+                  <div class="col-md-4 border-right"><i class="fa fa-map-marker">&nbsp;&nbsp;</i>Address</div>
+                  <div class="col-md-8" id="addr"></div>
+                </div>
+                <!-- <div class="row my-2">
+                  <div class="col-md-4 border-right"><i class="fa fa-hourglass">&nbsp;&nbsp;</i>Operation Time</div>
+                  <div class="col-md-8" id="operationTime"></div>
+                </div>
+                <div class="row my-2">
+                  <div class="col-md-4 border-right"><i class="fa fa-info-circle">&nbsp;&nbsp;</i>Operation Rule Name</div>
+                  <div class="col-md-8" id="operationRuleNm"></div>
+                </div>
+                <div class="row my-2">
+                  <div class="col-md-4 border-right"><i class="fa fa-exclamation-triangle">&nbsp;&nbsp;</i>Parking Type Name</div>
+                  <div class="col-md-8" id="parkingTypeNm"></div>
+                </div>
+                <div class="row my-2">
+                  <div class="col-md-4 border-right"><i class="fa fa-globe">&nbsp;&nbsp;</i>Web Link</div>
+                  <div class="col-md-8 "><a href="#">https://example.com</a></div>
+                </div>
+                <div class="row my-2">
+                  <div class="col-md-4 border-right"><i class="fa fa-car">&nbsp;&nbsp;</i>Capacity</div>
+                  <div class="col-md-8" id="capacity"></div>
+                </div>
+                <div class="row my-2">
+                  <div class="col-md-4 border-right"><i class="fa fa-car">&nbsp;&nbsp;</i>Current Parking</div>
+                  <div class="col-md-8" id="curParking"></div>
+                </div>
+                <div class="row my-2">
+                  <div class="col-md-4 border-right"><i class="fa fa-phone">&nbsp;&nbsp;</i>Tel</div>
+                  <div class="col-md-8" id="tel"></div>
+                </div> -->
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+          </div>
+        </div>
+      </div>
     </div>
 
   </section>

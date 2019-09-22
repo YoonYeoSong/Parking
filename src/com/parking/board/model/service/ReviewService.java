@@ -24,6 +24,15 @@ public class ReviewService {
     return list;
   }
 
+  public Review selectReview(int no){
+    Connection conn = getConnection();
+    
+    Review r = dao.selectReview(conn, no);
+    
+    close(conn);
+    
+    return r;
+  }
   public int selectCountReview() {
     Connection conn = getConnection();
     
