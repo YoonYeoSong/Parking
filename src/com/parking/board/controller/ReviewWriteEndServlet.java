@@ -8,7 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.parking.api.model.vo.Parking;
+import com.parking.board.model.service.ReviewService;
+import com.parking.board.model.vo.Review;
 import com.parking.history.model.service.UserHistoryService;
 import com.parking.history.model.vo.UserHistory;
 
@@ -31,8 +32,34 @@ public class ReviewWriteEndServlet extends HttpServlet {
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
    */
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//    review_no NUMBER(5) NOT NULL,
+//    review_userhistory_no CHAR(7) NOT NULL,
+//    review_title VARCHAR2(50) NOT NULL,
+//    review_content VARCHAR2(300) NOT NULL,
+//    review_created_date DATE DEFAULT SYSDATE,
+//    review_rating NUMBER(1) NOT NULL
+    String userCode = request.getParameter("userCode");
+    String reviewTitle = request.getParameter("reviewTitle");
+    String reviewContent = request.getParameter("reviewContent");
+    System.out.println(request.getParameter("reviewRating"));
+    System.out.println(Integer.parseInt(request.getParameter("reviewRating")));
+    int reviewRating = Integer.parseInt(request.getParameter("reviewRating"));
+    String parkingCode = request.getParameter("parkingCode");
+    
+    UserHistory h = new UserHistoryService().selectUserHistory(userCode, parkingCode);
+    int reviewUserHistoryNo = h.getUserHistoryNo();
+    Review review = new Review(reviewUserHistoryNo, reviewTitle, reviewContent, reviewRating);
 
-//    request.getRequestDispatcher("/views/board/reviewList.jsp").forward(request, response);
+    int result = new ReviewService().insertReview(review);
+
+	  String msg = result > 0? "Thanks for Reviewing Parking Lot[parkingCode="+parkingCode + "]!" : "Review Failed!";
+	  String loc = "/board/reviewList";
+	  
+	  request.setAttribute("msg", msg);
+	  request.setAttribute("loc", loc);
+
+	  request.getRequestDispatcher("/views/common/msg.jsp").forward(request, response);
+    
   }
 
   /**

@@ -22,7 +22,7 @@
         <div class="list-group mt-4 mb-3">
           <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('/member/memberView');"><i class="fa fa-cog">&nbsp;&nbsp;</i>Settings</a>
           <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('/bookmark/bookmarkView');"><i class="fa fa-bookmark">&nbsp;&nbsp;</i>Bookmark</a>
-          <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('/board/reviewList');"><i class="fa fa-edit">&nbsp;&nbsp;</i>My Reviews</a>
+          <a href="javascript:;" class="list-group-item" onclick="location.href='<%=request.getContextPath() %>/board/reviewList'"><i class="fa fa-edit">&nbsp;&nbsp;</i>My Reviews</a>
           <% if(loginMember.getUserEmail().equals("admin@com")){ %>
             <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('/admin/memberList');"><i class="fa fa-list">&nbsp;&nbsp;</i>Member List</a>
           <%} else { %>

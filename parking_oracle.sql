@@ -42,6 +42,10 @@ SELECT user_code, user_email, user_phone, user_name, user_addr,
   user_pw
 FROM MEMBER;
 
+select ps.* from userhistory h join parking_seoul ps on h.userhistory_parking_code = ps.ps_parking_code 
+where h.userhistory_user_code='578165' and ps.ps_parking_code='1052723';
+
+
 SELECT b.bookmark_no AS bookmark_no, b.bookmark_user_code AS bookmark_user_code, ps.*
 from bookmark b JOIN parking_seoul ps
   ON b.bookmark_parking_code = ps_parking_code;
@@ -309,6 +313,9 @@ ALTER TABLE PAYMENTHISTORY
   ON DELETE CASCADE;
 
 
+select * from review r join userhistory h 
+  on r.review_userhistory_no = h.userhistory_no 
+where h.userhistory_user_code ='578165';
 --drop table review cascade constraints;
 --drop sequence review_seq;
 --drop trigger review_trg;
