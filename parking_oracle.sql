@@ -174,9 +174,10 @@ COMMENT ON COLUMN PARKING_SEOUL.ps_longitude IS '주차장경도(0~180)';
 ALTER TABLE PARKING_SEOUL
   ADD CONSTRAINT pk_ps PRIMARY KEY(ps_parking_code);
 
+  --수정됨
 CREATE TABLE PARKING_OWNER(
-  owner_business_no CHAR(6) NOT NULL, --6자리 숫자
-  owner_parking_code CHAR(7) NOT NULL
+  owner_business_no varchar(10) NOT NULL, --10자리 숫자
+  owner_parking_code varchar(10) NOT NULL
 );
 COMMENT ON COLUMN PARKING_OWNER.owner_business_no IS '주차장사업자번호';
 COMMENT ON COLUMN PARKING_OWNER.owner_parking_code IS '주차장코드';
@@ -186,11 +187,12 @@ ALTER TABLE PARKING_OWNER
 ALTER TABLE PARKING_OWNER
   ADD CONSTRAINT fk_parkowner_ps FOREIGN KEY(owner_parking_code) REFERENCES PARKING_SEOUL(ps_parking_code) ON DELETE CASCADE;
 
+  --수저됨
 CREATE TABLE PARKING_SLOT(
   slot_business_no CHAR(6) NOT NULL,
   slot_user_code CHAR(6) NOT NULL,
-  slot_begin_time DATE DEFAULT SYSDATE,
-  slot_end_time DATE
+  slot_begin_time varchar(30),
+  slot_end_time varchar(30)
 );
 COMMENT ON COLUMN PARKING_SLOT.slot_business_no IS '주차장사업자번호';
 COMMENT ON COLUMN PARKING_SLOT.slot_user_code IS '회원코드';

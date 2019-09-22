@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.parking.api.dao.ParkingApiDao;
 import com.parking.api.model.vo.Parking;
+import com.parking.api.model.vo.ParkingSlot;
 
 import common.api.ParseJsonSeoulParking;
 
@@ -32,6 +33,15 @@ public class ParkingApiService {
 		
 		return list;
 	}
+	public List<ParkingSlot> selectParkingSlotList()
+	{
+		Connection conn = getConnection();
+		List<ParkingSlot> list = dao.selectParkingSlotList(conn);
+		close(conn);
+		
+		return list;
+
+	}
 	
 	public int insertParkingList(List list)
 	{
@@ -48,6 +58,58 @@ public class ParkingApiService {
 		    
 		return result;
 	}
+	public int insertparkingOwner(List list)
+	{
+		Connection conn = getConnection();
+		int result = 0;
+		result = dao.insertparkingOwner(conn,list);
+		if(result>0)
+			commit(conn);
+		else
+			rollback(conn);
+		
+		close(conn);
+		return result;
+	}
+	
+	public int insertParkingSlot(String pCode,String userCode,String beginT,String endT)
+	{
+		Connection conn = getConnection();
+		int result = 0;
+		result = dao.insertParkingSlot(conn,pCode,userCode,beginT,endT);
+		
+		if(result > 0)
+		{
+			commit(conn);
+		}else
+		{
+			rollback(conn);
+		}
+		
+		close(conn);
+		return result;
+	}
+	
+	public int insertParkingUserHistory(String pCode,String userCode,String ammount)
+	{
+		Connection conn = getConnection();
+		int result = 0;
+		result = dao.insertParkingUserHistory(conn,pCode,userCode,ammount);
+		
+		if(result > 0)
+		{
+			commit(conn);
+		}else
+		{
+			rollback(conn);
+		}
+		
+		close(conn);
+		return result;
+	}
+	
+	
+	
 	
 	public List<Parking> selectAutoCommit(String addrName)
 	{
