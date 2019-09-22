@@ -41,8 +41,6 @@ public class ReviewWriteEndServlet extends HttpServlet {
     String userCode = request.getParameter("userCode");
     String reviewTitle = request.getParameter("reviewTitle");
     String reviewContent = request.getParameter("reviewContent");
-    System.out.println(request.getParameter("reviewRating"));
-    System.out.println(Integer.parseInt(request.getParameter("reviewRating")));
     int reviewRating = Integer.parseInt(request.getParameter("reviewRating"));
     String parkingCode = request.getParameter("parkingCode");
     

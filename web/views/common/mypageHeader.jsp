@@ -10,8 +10,8 @@
   <link rel="stylesheet" href="<%=request.getContextPath() %>/css/avatar.css">
   <style>
     #listScroll{
-      font-size: 14px;
-      max-height: 310px;
+      font-size: 13px;
+      max-height: 400px;
     }
   </style>
  
