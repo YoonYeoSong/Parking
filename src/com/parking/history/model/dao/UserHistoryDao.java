@@ -50,6 +50,8 @@ public class UserHistoryDao {
         Timestamp timestamp = rs.getTimestamp("userhistory_parking_date");
         java.util.Date date = new java.util.Date(timestamp.getTime());
         h.setUserHistoryParkingDate(new java.sql.Date(date.getTime()));
+
+        h.setUserHistoryPayment(rs.getInt("userhistory_payment"));
       }
     } catch(SQLException e) {
       e.printStackTrace();
@@ -83,6 +85,8 @@ public class UserHistoryDao {
         Timestamp timestamp = rs.getTimestamp("userhistory_parking_date");
         java.util.Date date = new java.util.Date(timestamp.getTime());
         h.setUserHistoryParkingDate(new java.sql.Date(date.getTime()));
+
+        h.setUserHistoryPayment(rs.getInt("userhistory_payment"));
       }
     } catch(SQLException e) {
       e.printStackTrace();
@@ -148,6 +152,8 @@ public class UserHistoryDao {
         java.util.Date date = new java.util.Date(timestamp.getTime());
         h.setUserHistoryParkingDate(new java.sql.Date(date.getTime()));
         
+        h.setUserHistoryPayment(rs.getInt("userhistory_payment"));
+
         list.add(h);
       }
     } catch(SQLException e) {

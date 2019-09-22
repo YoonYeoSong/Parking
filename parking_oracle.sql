@@ -236,20 +236,29 @@ ALTER TABLE PARKING_SLOT
 select * from userhistory;
 commit;
 
+select userhistory_no, userhistory_user_code as User_code, m.user_name, 
+  userhistory_parking_code AS parking_code, 
+  TO_CHAR(userhistory_parking_date, 'yyyy-MM-dd hh24:mi:ss') AS parking_date,
+  '₩'||TRIM(to_char(userhistory_payment, '9,999,999.00')) AS payment
+ from userhistory h join member m on h.userhistory_user_code = m.user_code;
+
+commit;
 --DROP TABLE USERHISTORY CASCADE CONSTRAINTS;
 --drop sequence userhistory_seq;
 --drop trigger userhistory_trg;
+
 CREATE TABLE USERHISTORY(
   userhistory_no NUMBER(5) NOT NULL,
   userhistory_user_code CHAR(6) NOT NULL,
   userhistory_parking_code CHAR(7) NOT NULL,
-  userhistory_parking_date DATE DEFAULT SYSDATE
+  userhistory_parking_date DATE DEFAULT SYSDATE,
+  userhistory_payment NUMBER(7) DEFAULT 0 
 );
 COMMENT ON COLUMN USERHISTORY.userhistory_no IS '이용내역번호';
 COMMENT ON COLUMN USERHISTORY.userhistory_user_code IS '회원코드';
 COMMENT ON COLUMN USERHISTORY.userhistory_parking_code IS '주차장코드';
 COMMENT ON COLUMN USERHISTORY.userhistory_parking_date IS '주차날짜';
-
+COMMENT ON COLUMN USERHISTORY.userhistory_payment IS '주차요금 결제액';
 
 CREATE SEQUENCE USERHISTORY_SEQ START WITH 1;
 
@@ -270,47 +279,6 @@ ALTER TABLE USERHISTORY
   ON DELETE CASCADE;
 ALTER TABLE USERHISTORY
   ADD CONSTRAINT fk_userhist_ps FOREIGN KEY(userhistory_parking_code)
-        REFERENCES PARKING_SEOUL(ps_parking_code)
-  ON DELETE CASCADE;
-
---drop table paymenthistory CASCADE CONSTRAINTS;
-
-CREATE TABLE PAYMENTHISTORY(
-  paymenthistory_no NUMBER(5) NOT NULL,
-  paymenthistory_userhistory_no NUMBER(5) NOT NULL,
-  paymenthistory_purchase_amount NUMBER(7) DEFAULT 0,
-  paymenthistory_parking_code CHAR(7) NOT NULL,
-  paymenthistory_payment_date DATE DEFAULT SYSDATE
-);
-COMMENT ON COLUMN PAYMENTHISTORY.paymenthistory_no IS '결제내역번호';
-COMMENT ON COLUMN PAYMENTHISTORY.paymenthistory_userhistory_no IS '이용내역번호';
-COMMENT ON COLUMN PAYMENTHISTORY.paymenthistory_purchase_amount IS '주차요금 결제액';
-COMMENT ON COLUMN PAYMENTHISTORY.paymenthistory_parking_code IS '주차장코드';
-COMMENT ON COLUMN PAYMENTHISTORY.paymenthistory_payment_date IS '주차요금 결제일';
-
---drop table paymenthistory cascade constraints;
---drop sequence paymenthistory_seq;
---drop trigger paymenthistory_trg;
-CREATE SEQUENCE PAYMENTHISTORY_SEQ START WITH 1;
-
-CREATE OR REPLACE TRIGGER PAYMENTHISTORY_TRG
-BEFORE INSERT ON PAYMENTHISTORY
-FOR EACH ROW
-BEGIN
- SELECT PAYMENTHISTORY_SEQ.NEXTVAL
- INTO :NEW.paymenthistory_no
- FROM DUAL;
-END;
-/
-
-ALTER TABLE PAYMENTHISTORY
-  ADD CONSTRAINT pk_pmthist PRIMARY KEY(paymenthistory_no);
-ALTER TABLE PAYMENTHISTORY
-  ADD CONSTRAINT fk_pmthist_userhist_no FOREIGN KEY(paymenthistory_userhistory_no) 
-     REFERENCES userhistory(userhistory_no)
-  ON DELETE CASCADE;
-ALTER TABLE PAYMENTHISTORY
-  ADD CONSTRAINT fk_pmthist_userhist_pc FOREIGN KEY(paymenthistory_parking_code)
         REFERENCES PARKING_SEOUL(ps_parking_code)
   ON DELETE CASCADE;
 
