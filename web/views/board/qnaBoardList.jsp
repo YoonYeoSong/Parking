@@ -35,7 +35,7 @@
           <div class="row d-flex">
             <h6 class="border-bottom border-gray pb-2 mb-0 mr-auto">&nbsp;&nbsp;Questions</h6>
             <% if(loginMember != null){ %>
-              <input type="button" value="write" class= "btn btn-outline-primary mr-3 mb-2" id="qna-add" onclick="writeBoard();">
+              <input type="button" value="write" class= "btn btn-outline-primary mr-3 mb-2" id="qna-add" onclick="location.href='<%=request.getContextPath() %>/board/qnaboardWrite'">
             <%} %>
           </div>
 
@@ -69,11 +69,6 @@
                   <a href="<%=request.getContextPath() %>/board/qnaBoardView?no=<%=b.getQnaNo() %>">
                     <%=b.getQnaTitle() %>
                   </a>
-                </td>
-                <td>
-                  <% if(b.getQnaOriginalFile() != null){ %>
-                    <img src="<%=request.getContextPath() %>/images/file.png" width="16px">
-                  <% } %>
                 </td>
                 <td><%=b.getQnaReadcount() %></td>
       

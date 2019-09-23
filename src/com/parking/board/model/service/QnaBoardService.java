@@ -1,13 +1,15 @@
 package com.parking.board.model.service;
 
+import static common.template.JDBCTemplate.close;
+import static common.template.JDBCTemplate.commit;
+import static common.template.JDBCTemplate.rollback;
+import static common.template.JDBCTemplate.getConnection;
+
 import java.sql.Connection;
 import java.util.List;
 
 import com.parking.board.model.dao.QnaBoardDao;
 import com.parking.board.model.vo.QnaBoard;
-
-import static common.template.JDBCTemplate.getConnection;
-import static common.template.JDBCTemplate.close;
 
 public class QnaBoardService {
   private QnaBoardDao dao = new QnaBoardDao();
@@ -22,6 +24,16 @@ public class QnaBoardService {
     return list;
   }
 
+  public QnaBoard selectQnaBoard(int qnaNo) {
+    Connection conn = getConnection();
+    
+    QnaBoard q = dao.selectQnaBoard(conn, qnaNo);
+    
+    close(conn);
+
+    return q;
+  }
+  
   public int selectCountQnaBoard() {
     Connection conn = getConnection();
     
@@ -31,4 +43,20 @@ public class QnaBoardService {
 
     return count;
   }
+  
+  public int insertQnaBoard(QnaBoard b) {
+    Connection conn = getConnection();
+
+    int result = dao.insertQnaBoard(conn, b);
+    
+    if(result > 0)
+      commit(conn);
+    else
+      rollback(conn);
+    
+    close(conn);
+
+    return result;
+  }
+
 }
