@@ -38,6 +38,7 @@ public class ReviewWriteEndServlet extends HttpServlet {
 //    review_content VARCHAR2(300) NOT NULL,
 //    review_created_date DATE DEFAULT SYSDATE,
 //    review_rating NUMBER(1) NOT NULL
+
     String userCode = request.getParameter("userCode");
     String reviewTitle = request.getParameter("reviewTitle");
     String reviewContent = request.getParameter("reviewContent");

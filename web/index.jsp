@@ -13,7 +13,7 @@
         <div class="mx-auto col-md-9 ">
           <form id="main-searchbar" action="<%=request.getContextPath()%>/map/mapListView" class="" role="form">
             <div class="input-group" id="main-searchbar">
-              <input type="search" class="form-control" name="search" placeholder="Where do you need parking?" aria-describedby="button-addon5" id="main-search" list="searchData">
+              <input type="search" class="form-control" name="search" placeholder="   Where do you need parking?" aria-describedby="button-addon5" id="main-search" list="searchData">
               <datalist id="searchData"></datalist>
               <div class="input-group-append">
                 <button id="button-addon5" class="btn btn-primary" id="main-searchbar-btn"><i class="fa fa-search"></i></button>
@@ -302,6 +302,7 @@
         if($(this).scrollTop()>=280 && !hasBeenTriggered){
         // if(navpos < mainpos && mainpos - navpos <50 ) {
         // if(diff < 0 && diff > -100 && !hasBeenTriggered) {
+          // $('#navbar-logo').hide();
           var mainSearchTxt = $('#main-search').val();
           $('#nav-search').val(mainSearchTxt);
 
@@ -312,6 +313,7 @@
         // else if(navpos > mainpos && navpos - mainpos <50 ) {
         // else if(diff > 0 && diff <100 && hasBeenTriggered) {
         else if($(this).scrollTop()<280 && hasBeenTriggered){
+          // $('#navbar-logo').show();
           var navSearchTxt = $('#nav-search').val();
           $('#main-search').val(navSearchTxt);
 

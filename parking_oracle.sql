@@ -4,35 +4,6 @@
 -- CONN parking/1234;
 
 -----------------------------------------------------------------------------------
---190907 Table Modified : 
---USERHISTORY 컬럼삭제 latitude, longitude, parkinglot_name, parkinglot_addr
---            컬럼추가 userhistory_parking_code
---            FK추가 userhistory_parking_code -> parking_seoul.ps_parking_code
---PAYMENTHISTORY 컬럼명변경 paymenthistory_purchase_amount -> paymenthistory_payment
---PAYMENTHISTORY 컬럼삭제 instt_name, instt_phone
---PAYMENTHISTORY 컬럼추가 paymenthistory_parking_code, paymenthistory_userhistory_no, 
---               FK추가 paymenthistory_userhistory_no -> userhistory_no
---REIVEW 컬럼추가 review_userhistory_no
---       FK추가 review_userhistory_no -> userhistory_no
---BOOKMARK 컬럼삭제 latitude, longitude
---         컬럼추가 parking_code (엑셀파일에 있는 주차 코드)
---COUPON + pecent name (cookie로 expiredate jasa logic) issuedate, terminate
---        mypage 올떄마다 coupon expire 결정
---각테이블 user_code 컬럼명 변경  user_code -> tablename_user_code
---PARKING_SEOUL ps_parking_code, ps_addr, ps_parking_name, ps_latitude, ps_longitude
------------------------------------------------------------------------------------
-
---주소 검색 자동기능 (주소+주차장명으로 가능하도록)
---사업자 테이블parking_owner
---사업자번호pk, parckingcode fk,
-
---공간테이블:  사업자번호 fk, 시작끝 시간, usercode
--- parking에 1,0 주차가능/불가능
-
--- api에서 사용자가 검색한 각 주차장들에 대해 (주차가능 대수 - 공간테이블 count) >0 이면 
--- 지도상에 주차가능 표시, 작으면 주차불가능표시
--- hidden input에 usercode parkingcode, 시작시간 등 데이터 넘겨서 ,
---insert into parking_space 주차공간 테이블
 select * from member m join bookmark b ON m.user_code = b.bookmark_user_code;
 SELECT user_code, user_email, user_phone, user_name, user_addr,
   TO_CHAR(user_created_date, 'yyyy-MM-dd hh24:mi:ss') AS created_date,
@@ -54,7 +25,6 @@ select ps.* from bookmark b JOIN parking_seoul ps ON b.bookmark_parking_code = p
 select * from member where user_email='admin@com';
 SELECT * FROM TAB;
 --update member set email='dbsduthd123@nate.com' where user_code='482581';
-
 --delete from member where user_email in ('');
 COMMIT;
 --update member set created_date=TO_DATE('2019/08/26 01:30:44', 'yyyy/mm/dd hh24:mi:ss') where user_code='482581';
@@ -64,7 +34,7 @@ COMMIT;
 --SELECT * FROM CAR;
 --SELECT * FROM PAYMENTHISTORY;
 --SELECT * FROM REVIEW;
-SELECT * FROM QNABOARD;
+--SELECT * FROM QNABOARD;
 --SELECT * FROM NOTICE;
 --SELECT * FROM BOOKMARK;
 --SELECT * FROM COUPON;
@@ -239,7 +209,7 @@ commit;
 select userhistory_no, userhistory_user_code as User_code, m.user_name, 
   userhistory_parking_code AS parking_code, 
   TO_CHAR(userhistory_parking_date, 'yyyy-MM-dd hh24:mi:ss') AS parking_date,
-  '₩'||TRIM(to_char(userhistory_payment, '9,999,999.00')) AS payment
+  '\'||TRIM(to_char(userhistory_payment, '9,999,999.00')) AS payment
  from userhistory h join member m on h.userhistory_user_code = m.user_code;
 
 commit;
@@ -293,20 +263,24 @@ where h.userhistory_user_code ='578165';
 --insert into review values(DEFAULT, '2', 'eh', 'It was alright. I was about to pick up my family and I had to park my car at least for one hour. Luckily, I found this Parking app which provided me with the realtime parking locations around me. But it was way too expensive. So I give you 1 star ;)', DEFAULT, 1);
 --insert into review values(DEFAULT, '4', 'Beware', 'The guy working there is rude. He yelled at me and tried to charge me 200 bucks per second. Definitely not worth your time and money!', DEFAULT, 4);
 commit;
+
 CREATE TABLE REVIEW(
- review_no NUMBER(5) NOT NULL,
- review_userhistory_no CHAR(7) NOT NULL,
- review_title VARCHAR2(50) NOT NULL,
- review_content VARCHAR2(300) NOT NULL,
- review_created_date DATE DEFAULT SYSDATE,
- review_rating NUMBER(1) NOT NULL
+  review_no NUMBER(5) NOT NULL,
+  review_userhistory_no CHAR(7) NOT NULL,
+  review_title VARCHAR2(50) NOT NULL,
+  review_content VARCHAR2(300) NOT NULL,
+  review_created_date DATE DEFAULT SYSDATE,
+  review_rating NUMBER(1) NOT NULL,
+  review_readcount NUMBER DEFAULT 0
 );
+
 COMMENT ON COLUMN REVIEW.review_no IS '코드번호';
 COMMENT ON COLUMN REVIEW.review_userhistory_no IS '이용내역번호';
 COMMENT ON COLUMN REVIEW.review_title IS '리뷰 제목';
 COMMENT ON COLUMN REVIEW.review_content IS '리뷰 작성글';
 COMMENT ON COLUMN REVIEW.review_created_date IS '작성날짜';
 COMMENT ON COLUMN REVIEW.review_rating IS '평점(1~5 정수)';
+COMMENT ON COLUMN REVIEW.review_readcount IS '조회수';
 
 CREATE SEQUENCE REVIEW_SEQ START WITH 1;
 
@@ -336,6 +310,7 @@ CREATE TABLE REVIEWPIC(
   reviewpic_original_filename VARCHAR2(100),
   reviewpic_renamed_filename VARCHAR2(100)
 );
+
 COMMENT ON COLUMN REVIEWPIC.reviewpic_review_no IS '리뷰테이블 참조 리뷰번호';
 COMMENT ON COLUMN REVIEWPIC.reviewpic_original_filename IS '첨부파일 원래이름';
 COMMENT ON COLUMN REVIEWPIC.reviewpic_renamed_filename IS '첨부파일 바뀐이름';
@@ -354,6 +329,7 @@ CREATE TABLE QNABOARD(
   qna_created_date DATE DEFAULT SYSDATE,
   qna_readcount NUMBER DEFAULT 0
 );
+
 COMMENT ON COLUMN QNABOARD.qna_no IS '문의글번호';
 COMMENT ON COLUMN QNABOARD.qna_title IS '문의글 제목';
 COMMENT ON COLUMN QNABOARD.qna_user_code IS '회원코드';
@@ -387,6 +363,7 @@ ALTER TABLE QNABOARD
 --select count(*) from qnaboard;
 --delete from qnaboard;
 commit;
+
 insert into qnaboard values(DEFAULT,'a_title', '181862', 'this is a content1', null,null, default, default);
 insert into qnaboard values(DEFAULT,'b_title', '181862', 'this is a content2', null,null, default, default);
 insert into qnaboard values(DEFAULT,'c_title', '181862', 'this is a content3', null,null, default, default);

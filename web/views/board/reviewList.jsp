@@ -70,7 +70,7 @@
         </div>
         <!-- /.media -->
         <!-- form -->
-        <table class="table table-sm" id='qna_table'>
+        <table class="table table-sm" id='qna_table' style="font-size:14px;">
           <thead>
             <tr>
               <th class="text-center">Hist.NO.</th>
@@ -87,8 +87,8 @@
             </script>
             <% for(Review r : list){ %>
             <tr>
-              <td><%=r.getReviewUserHistoryNo() %> </td>
-              <td>
+              <td class="text-center"><%=r.getReviewUserHistoryNo() %> </td>
+              <td class="text-center">
                 <div class="media text-muted pt-3">
                   <% if(loginMember.getUserRenamedFilename() != null) { %>
                   <img class="profile-pic" src="<%=request.getContextPath()%>/upload/member/<%=loginMember.getUserRenamedFilename() %>" width="32" height="32" style="border-radius: 20%; border:1px solid white;" />
@@ -103,7 +103,7 @@
                   </p>
                 </div>
               </td>
-              <td>
+              <td class="text-center">
                 <a href="<%=request.getContextPath() %>/board/reviewContentView?reviewNo=<%=r.getReviewNo() %>">
                   <%=r.getReviewTitle() %>
                 </a>
@@ -127,7 +127,7 @@
                 // }
               </script>
               <td>
-                  <%= r.getReviewContent().substring(0, java.lang.Math.min(140,r.getReviewContent().length())) %>
+                  <%= r.getReviewContent().substring(0, java.lang.Math.min(80,r.getReviewContent().length())) %>
                 </a>
               </td>
               <!-- <td> -->
@@ -135,7 +135,7 @@
                   <img src="<%=request.getContextPath() %>/images/file.png" width="16px">
                 <% } %> --%>
               <!-- </td> -->
-              <td>
+              <td class="text-center">
                   <!-- String []checkedArr = new String[5];
                   int rating = r.getReviewRating();
                   System.out.println(rating);
@@ -252,12 +252,12 @@
                   //                       // + "data-target='#myModal' "
                   //                       + "onclick='parkingListPopup();' "
                   //                       + ">More Info</button>";
-                  var btnStr = "<button class='btn btn-sm btn-outline-info mr-1' "
+                  var btnStr = "<button class='btn btn-sm btn-outline-info mx-1' "
                                         + "id='parking" + d + "'>"
                                         + "Details</button>";
                   var infoBtn = $(btnStr);
-                  var input = $("<input type='button' class='btn btn-sm btn-outline-info pay'"
-                                + "onclick='writeReview(" + data[d]["parkingCode"]+ ")' value='Review'>");
+                  var input = $("<button type='button' class='btn btn-sm btn-info pay'"
+                                + "onclick='writeReview(" + data[d]["parkingCode"]+ ")' value=''><i class='fa fa-edit'>&nbsp;</i>Review</button>");
                   div.append(infoBtn).append(input);
                   span0.append(span1).append(span2).append(span3).append(span4).append(span5).append(div);
                   aTag.append(span0);

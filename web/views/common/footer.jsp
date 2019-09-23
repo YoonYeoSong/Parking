@@ -218,6 +218,21 @@
   <script>
 
     $(function(){
+      $(window).scroll(function () {
+        if ($(this).scrollTop() > 40) {
+          $('#back-to-top').fadeIn();
+        } else {
+          $('#back-to-top').fadeOut();
+        }
+      });
+
+      $('#back-to-top').click(function() {
+        $('body,html').animate({
+          scrollTop: 0
+        }, 300);
+        return false;
+      });
+
       $("#main-search").keyup(function(){
         $.ajax({
           url:"<%=request.getContextPath()%>/ajax/parkingAutoCommit", 
@@ -272,8 +287,6 @@
           $("#navbar-logo").addClass("col-md-2");
           $("#nav-searchbar").addClass("col-md-8");
           $("#navCollapsible").addClass("col-md-2");
-
-
         }
 
       }
@@ -284,39 +297,6 @@
         $("#nav-searchbar").addClass('mx-0');
       }
     });
-
-    // $("#main-searchbar-btn").click(function() {
-    // $(document).on("click", "#main-searchbar-btn", function(){
-    function mainSearch(userCode) {
-      var mainbarFrm = $('<form>').attr({"action": "<%=request.getContextPath() %>/map/mapListView",
-                                        "method": "POST", });
-      var input1 = $('#main-search');
-      var input2 = $('<input>').attr({"name": "userCode", "value": userCode });
-
-      mainbarFrm.append(input1).append(input2);
-      $(document.body).append(mainbarFrm);
-      mainbarFrm.submit();
-    }
-
-    function navEnterSearch() {
-      if ($(event.target).which == 13) {
-        alert('a');
-        // $('form#login').submit();
-        return false;    //<---- Add this line
-      }
-    }
-    // $('#main-search').keypress(function (e) {
-    //   if (e.which == 13) {
-    //     $('form#login').submit();
-    //     return false;    //<---- Add this line
-    //   }
-    // });
-    // $('#nav-search').keypress(function (e) {
-    //   if (e.which == 13) {
-    //     $('form#login').submit();
-    //     return false;    //<---- Add this line
-    //   }
-    // });
 
   </script>
 

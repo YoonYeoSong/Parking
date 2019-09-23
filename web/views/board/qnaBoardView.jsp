@@ -60,7 +60,7 @@
 
           <div class="form-row">
             <!-- form column -->
-            <label for="reviewTitle" class="col-md-3"><i class="fa fa-title">&nbsp;&nbsp;</i>Question Title</label>
+            <label for="qnaTitle" class="col-md-3"><i class="fa fa-title">&nbsp;&nbsp;</i>Question Title</label>
             <!-- /form column -->
             <!-- form column -->
             <div class="col-md-9 mb-3">

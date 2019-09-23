@@ -45,15 +45,14 @@
                 <th class="text-center">NO.</th>
                 <th class="text-center">Author</th>
                 <th class="text-center">Title</th>
-                <th class="text-center">Attachment</th>
                 <th class="text-center">Views</th>
               </tr>
             </thead>
             <tbody>
               <% for(QnaBoard b : list){ %>
               <tr>
-                <td><%=b.getQnaNo() %> </td>
-                <td>
+                <td class="text-center"><%=b.getQnaNo() %> </td>
+                <td class="text-center">
                   <div class="media text-muted pt-3">
                     <svg class="bd-placeholder-img mr-2 rounded " width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32">
                       <title>Placeholder</title><rect width="100%" height="100%" fill="#132535" class="bg-secondary"></rect>
@@ -65,12 +64,12 @@
                     </p>
                   </div>
                 </td>
-                <td>
+                <td class="text-center">
                   <a href="<%=request.getContextPath() %>/board/qnaBoardView?no=<%=b.getQnaNo() %>">
                     <%=b.getQnaTitle() %>
                   </a>
                 </td>
-                <td><%=b.getQnaReadcount() %></td>
+                <td class="text-center"><%=b.getQnaReadcount() %></td>
       
               </tr>
               <% } %>

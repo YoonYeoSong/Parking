@@ -57,7 +57,7 @@
 
             <!-- .media-body -->
             <div class="media-body pl-3">
-              <h3 class="card-title"><%=loginMember.getUserName() %>'s Review on '<%=parking.getParkingName()%>'</h3>
+              <h4 class="card-title"><%=loginMember.getUserName() %>'s Review on '<%=parking.getParkingName()%>'</h4>
               <p class="card-text">
                 <small class="card-subtitle text-muted">visited <%=userhistory.getUserHistoryParkingDate() %>.
                 </small>
@@ -88,21 +88,21 @@
           </div>
           <div class="form-row">
             <!-- form column -->
-            <label for="reviewTitle" class="col-md-3"><i class="fa fa-title">&nbsp;&nbsp;</i>Review Title</label>
-            <!-- /form column -->
-            <!-- form column -->
-            <div class="col-md-9 mb-3">
-              <input type="text" class="form-control" name="reviewTitle" id="userName" value="<%=r.getReviewTitle()%>" readonly/>
-            </div>
-            <!-- /form column -->
-          </div>
-          <div class="form-row">
-            <!-- form column -->
             <label for="name" class="col-md-3"><i class="fa fa-user">&nbsp;&nbsp;</i>User Name</label>
             <!-- /form column -->
             <!-- form column -->
             <div class="col-md-9 mb-3">
               <input type="text" class="form-control" name="userName" id="userName" value="<%=loginMember.getUserName() %>" readonly/>
+            </div>
+            <!-- /form column -->
+          </div>
+          <div class="form-row">
+            <!-- form column -->
+            <label for="reviewTitle" class="col-md-3"><i class="fa fa-title">&nbsp;&nbsp;</i>Review Title</label>
+            <!-- /form column -->
+            <!-- form column -->
+            <div class="col-md-9 mb-3">
+              <input type="text" class="form-control" name="reviewTitle" id="userName" value="<%=r.getReviewTitle()%>" readonly/>
             </div>
             <!-- /form column -->
           </div>
@@ -114,10 +114,8 @@
             </div>
 
             <!-- star ratings -->
-            <div class="ml-auto mr-3">
-
-
-
+            <div class="mx-auto">
+              Ratings 
               <div class="starrating risingstar d-flex justify-content-center flex-row-reverse">
                   <input type="radio" id="star5" name="reviewRating" value="5" <%=checkedArr[4]%> disabled readonly /><label for="star5" title="5 star"></label>
                   <input type="radio" id="star4" name="reviewRating" value="4" <%=checkedArr[3]%> disabled readonly /><label for="star4" title="4 star"></label>
