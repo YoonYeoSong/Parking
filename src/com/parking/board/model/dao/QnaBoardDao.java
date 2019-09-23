@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -31,7 +32,7 @@ public class QnaBoardDao {
     ResultSet rs = null;
 
     List<QnaBoard> list = new ArrayList<QnaBoard>();
-    QnaBoard b = null;
+    QnaBoard q = null;
     
     int start = (cPage-1)*numPerPage + 1;
     int end = cPage*numPerPage;
@@ -46,18 +47,21 @@ public class QnaBoardDao {
       rs = pstmt.executeQuery();
       
       while(rs.next()) {
-        b = new QnaBoard();
+        q = new QnaBoard();
 
-        b.setQnaNo(rs.getInt("qna_no"));
-        b.setQnaTitle(rs.getString("qna_title"));
-        b.setUserCode(rs.getString("qna_user_code"));
-        b.setQnaContent(rs.getString("qna_content"));
-        b.setQnaOriginalFile(rs.getString("qna_original_filename"));
-        b.setQnaRenamedFile(rs.getString("qna_renamed_filename"));
-        b.setQnaCreatedDate(rs.getDate("qna_created_date"));
-        b.setQnaReadcount(rs.getInt("qna_readcount"));
+        q.setQnaNo(rs.getInt("qna_no"));
+        q.setQnaTitle(rs.getString("qna_title"));
+        q.setUserCode(rs.getString("qna_user_code"));
+        q.setQnaContent(rs.getString("qna_content"));
+
+        Timestamp timestamp = rs.getTimestamp("qna_created_date");
+        java.util.Date date = new java.util.Date(timestamp.getTime());
+        q.setQnaCreatedDate(new java.sql.Date(date.getTime()));
+
+        q.setQnaCreatedDate(rs.getDate("qna_created_date"));
+        q.setQnaReadcount(rs.getInt("qna_readcount"));
         
-        list.add(b);
+        list.add(q);
       }
       
     } catch(SQLException e) {
@@ -68,6 +72,44 @@ public class QnaBoardDao {
     }
     
     return list;
+  }
+
+  public QnaBoard selectQnaBoard(Connection conn, int qnaNo) {
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+    QnaBoard q = null;
+    String sql = prop.getProperty("selectQnaBoard");
+    
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setInt(1, qnaNo);
+
+      rs = pstmt.executeQuery();
+      
+      if(rs.next()) {
+        q = new QnaBoard();
+        
+        q.setQnaNo(rs.getInt("qna_no"));
+        q.setQnaTitle(rs.getString("qna_title"));
+        q.setQnaTitle(rs.getString("qna_title"));
+        q.setQnaContent(rs.getString("qna_content"));
+
+        Timestamp timestamp = rs.getTimestamp("qna_created_date");
+        java.util.Date date = new java.util.Date(timestamp.getTime());
+        q.setQnaCreatedDate(new java.sql.Date(date.getTime()));
+
+        q.setQnaReadcount(rs.getInt("qna_readcount"));
+      }
+
+    } catch(SQLException e) {
+      e.printStackTrace();
+    } finally {
+      close(rs);
+      close(pstmt);
+    }
+
+    return q;
+    
   }
 
   public int selectCountQnaBoard(Connection conn) {
@@ -91,5 +133,34 @@ public class QnaBoardDao {
     }
 
     return count;
+  }
+  
+  public int insertQnaBoard(Connection conn, QnaBoard q) {
+    PreparedStatement pstmt = null;
+    int result = 0;
+    String sql = prop.getProperty("insertQnaboard");
+    
+    try {
+      pstmt = conn.prepareStatement(sql);
+
+      pstmt.setString(1, q.getQnaTitle());
+      pstmt.setString(2, q.getUserCode());
+      pstmt.setString(3, q.getQnaContent());
+//      qna_no NUMBER(5) NOT NULL,
+//      qna_title VARCHAR2(50) NOT NULL,
+//      qna_user_code CHAR(6) NOT NULL,
+//      qna_content VARCHAR2(300) NOT NULL,
+//      qna_created_date DATE DEFAULT SYSDATE,
+//      qna_readcount NUMBER DEFAULT 0
+
+      result = pstmt.executeUpdate();
+
+    } catch(SQLException e) {
+      e.printStackTrace();
+    } finally {
+      close(pstmt);
+    }
+    
+    return result;
   }
 }

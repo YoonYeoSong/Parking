@@ -64,7 +64,7 @@ COMMIT;
 --SELECT * FROM CAR;
 --SELECT * FROM PAYMENTHISTORY;
 --SELECT * FROM REVIEW;
---SELECT * FROM QNABOARD;
+SELECT * FROM QNABOARD;
 --SELECT * FROM NOTICE;
 --SELECT * FROM BOOKMARK;
 --SELECT * FROM COUPON;
@@ -351,8 +351,6 @@ CREATE TABLE QNABOARD(
   qna_title VARCHAR2(50) NOT NULL,
   qna_user_code CHAR(6) NOT NULL,
   qna_content VARCHAR2(300) NOT NULL,
-  qna_original_filename VARCHAR2(100),
-  qna_renamed_filename VARCHAR2(100),
   qna_created_date DATE DEFAULT SYSDATE,
   qna_readcount NUMBER DEFAULT 0
 );
@@ -360,8 +358,6 @@ COMMENT ON COLUMN QNABOARD.qna_no IS '문의글번호';
 COMMENT ON COLUMN QNABOARD.qna_title IS '문의글 제목';
 COMMENT ON COLUMN QNABOARD.qna_user_code IS '회원코드';
 COMMENT ON COLUMN QNABOARD.qna_content IS '문의글 내용';
-COMMENT ON COLUMN QNABOARD.qna_original_filename IS '첨부파일원래이름';
-COMMENT ON COLUMN QNABOARD.qna_renamed_filename IS '첨부파일변경이름';
 COMMENT ON COLUMN QNABOARD.qna_created_date IS '작성날짜';
 COMMENT ON COLUMN QNABOARD.qna_readcount IS '조회수';
 
