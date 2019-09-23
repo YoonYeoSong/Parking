@@ -383,6 +383,7 @@ List<Coupon> list = (List)request.getAttribute("CouponList");
                       		 var tDay = new Date();
                      	$('#fromDay').val(tDay.getFullYear()+" - "+(tDay.getMonth()+1)+" - "+tDay.getDate());
                     	$('#fromTime').val(tDay.getHours()+"시 "+(tDay.getMinutes())+"분 "+tDay.getSeconds()+"초");
+						$('#toDay').val(tDay.getFullYear()+" - "+(tDay.getMonth()+1)+" - "+tDay.getDate());
 						$('#toTime').val((tDay.getHours()+1)+"시 "+(tDay.getMinutes())+"분 "+tDay.getSeconds()+"초");
                     	<%if(loginMember != null) {%>
                     		$("#loginMember").val("Email : " + "<%=loginMember.getUserEmail()%>");
