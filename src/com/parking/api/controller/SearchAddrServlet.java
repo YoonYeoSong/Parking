@@ -49,7 +49,7 @@ public class SearchAddrServlet extends HttpServlet {
 //		
 //		if(resultCeo > 0)
 //			System.out.println("사업자등록완료");
-		
+//		
 //		System.out.println("searchAddr 리스트 사이즈 : " +list.size());
 		
 		List<ParkingSlot> slotList = parkingService.selectParkingSlotList();
@@ -69,7 +69,7 @@ public class SearchAddrServlet extends HttpServlet {
 		
 		if(!slotList.isEmpty())
 		{
-			System.out.println("slot들어옴");
+			System.out.println("비어 있지않음 slot들어옴");
 			for(int i = 0; i < slotList.size(); i++)
 			{
 				System.out.println("시작 시간"+Integer.parseInt(slotList.get(i).getSlotBeginTime().substring(11,13)));
@@ -104,6 +104,7 @@ public class SearchAddrServlet extends HttpServlet {
 			
 			for(int j = 0; j < slotList.size(); j++)
 			{
+				System.out.println("slot size" + slotList.size());
 				for(int p = 0; p < list.size(); p++)
 				{
 					if(list.get(p).getParkingCode().equals(slotList.get(j).getOwnerParkingCode()))
