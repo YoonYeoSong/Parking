@@ -44,6 +44,7 @@ public class QnaBoardService {
     return count;
   }
   
+
   public int insertQnaBoard(QnaBoard b) {
     Connection conn = getConnection();
 
@@ -58,5 +59,17 @@ public class QnaBoardService {
 
     return result;
   }
+
+
+  
+  public List<QnaBoard> selectPopularBoard()
+  {
+	  Connection conn = getConnection();
+	  List<QnaBoard> list = dao.selectPopularBoard(conn);
+	  
+	  close(conn);
+	  return list;	  
+  }
+  
 
 }

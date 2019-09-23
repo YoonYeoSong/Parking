@@ -163,4 +163,38 @@ public class QnaBoardDao {
     
     return result;
   }
+
+  public List<QnaBoard> selectPopularBoard(Connection conn)
+  {
+	  PreparedStatement pstmt = null;
+	  ResultSet rs = null;
+	  List<QnaBoard> list = new ArrayList<QnaBoard>();
+	  QnaBoard qb = null;
+	  String sql = prop.getProperty("selectPopularBoard");
+	  try
+	  {
+		  pstmt = conn.prepareStatement(sql);
+		  rs = pstmt.executeQuery();
+		  while(rs.next())
+		  {
+			  qb = new QnaBoard();
+			  qb.setQnaNo(rs.getInt("QNA_NO"));
+			  qb.setQnaTitle(rs.getString("QNA_TITLE"));
+			  qb.setUserCode(rs.getString("QNA_USER_CODE"));
+			  qb.setQnaCreatedDate(rs.getDate("QNA_CREATED_DATE"));
+			  qb.setQnaReadcount(rs.getInt("QNA_READCOUNT"));		  
+			  list.add(qb);
+		  }
+	  }catch(SQLException e)
+	  {
+		  e.printStackTrace();
+	  }finally
+	  {
+		  close(rs);
+		  close(pstmt);
+	  }
+	  
+	  return list;
+  }
+  
 }

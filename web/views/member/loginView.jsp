@@ -31,8 +31,8 @@
                     	console.log('logged in!')
                     });" ></i></span>
               <span id="googleSignIn"><i class="fa fa-google-plus-square"></i></span>
-             <!--   <span onclick="loginWithKakao()"><img src="<%=request.getContextPath() %>/images/kakaobutton.png" class="kakaobutton"></span>
               <input type="hidden" id="kakao-email" >
+             <!--   <span onclick="loginWithKakao()"><img src="<%=request.getContextPath() %>/images/kakaobutton.png" class="kakaobutton"></span>
               -->
               <!-- <div class="fa fa-google-plus-square" data-onsuccess="onSignIn" data-theme="dark" id="myP"></div> -->
           </div>

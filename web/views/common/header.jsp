@@ -51,6 +51,8 @@
   <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
   <title>Locate Parking Spaces</title>
 
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
   <!-- favicon -->
   <link rel="icon" href="https://img.icons8.com/ios/50/000000/parking.png?v=1.1">
 
@@ -148,7 +150,7 @@
               <a class="nav-link dropdown-toggle menu-item mt-1 mr-0 text-white" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Help</a>
 
               <div class="dropdown-menu mt-1" aria-labelledby="dropdown01">
-                <a class="dropdown-item" href="<%=request.getContextPath() %>/views/helpView.jsp" ><i class="fa fa-info-circle">&nbsp;&nbsp;</i>Help</a>
+                <a class="dropdown-item" href="<%=request.getContextPath() %>/board/helpBoardList" ><i class="fa fa-info-circle">&nbsp;&nbsp;</i>Help</a>
                 <a class="dropdown-item" href="<%=request.getContextPath() %>/board/qnaBoardList" ><i class="fa fa-question-circle-o">&nbsp;&nbsp;</i>Q&amp;A Board</a>
               </div>
             </li>
