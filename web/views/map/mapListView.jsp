@@ -292,24 +292,31 @@
 
   <!-- navigation bar -->
   <header>
-    <nav class="site-header navbar navbar-expand-lg navbar-dark fixed-top py-0">
-      <div class="container">
-        <a class="navbar-brand " href="<%=request.getContextPath() %>">
-          <img src="<%=request.getContextPath() %>/images/logo_white.png">
-        </a>
-        <form id="nav-searchbar" action="./" method="post" class="navbar-form mb-0" style="width: 410px">
-          <div class="input-group">
-            <input type="search" placeholder="Where do you need parking?" aria-describedby="button-addon5"
-              class="form-control" name="search" id="searchAddr">
+    <nav class="site-header navbar navbar-expand-md navbar-dark fixed-top py-0 justify-content-center">
+
+      <div class="container d-flex justify-content-center row">
+
+        <div class='py-0 mr-auto inline-block' id="navbar-logo">
+          <a class="navbar-brand " href="<%=request.getContextPath() %>">
+            <img src="<%=request.getContextPath() %>/images/logo_white.png">
+          </a>
+        </div>
+
+        <div class="col-lg-6 py-0 inline-block">
+          <form id="nav-searchbar" action="<%=request.getContextPath()%>/map/mapListView" method="POST" class="navbar-form mb-0">
             <input type="hidden" name="searchCopy" id="searchCopy" >
-            <div class="input-group-append">
-              <button type="button" id="button-addon5" class="btn btn-primary">
-                <i class="fa fa-search"></i>
-              </button>
+            <div class="input-group">
+              <input type="search" placeholder="Where do you need parking?" aria-describedby="button-addon5"
+                class="form-control" name="search" id="searchAddr">
+              <div class="input-group-append">
+                <button type="button" id="button-addon5" class="btn btn-primary">
+                  <i class="fa fa-search"></i>
+                </button>
+              </div>
             </div>
-          </div>
-        </form>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapsible"
+          </form>
+        </div>
+        <button class="navbar-toggler ml-auto inline-block" type="button" data-toggle="collapse" data-target="#navbarCollapsible"
           aria-controls="navbarCollapsible" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -418,7 +425,7 @@
             <li class="nav-item">
               <form action="<%=request.getContextPath() %>/logout" method="post" class="mb-0">
                 <button type="submit" class="btn btn-sm btn-outline-light mt-1 mr-1"
-                  onclick="return logoutSnsAccount();">Log Out</button>
+                  onclick="return logoutSnsAccount();" style="width: 71px;">Log Out</button>
               </form>
             </li>
 
@@ -432,12 +439,12 @@
             <%} else{%>
             <li class="nav-item">
               <form action="<%=request.getContextPath() %>/views/member/loginView.jsp" method="post" class="mb-0">
-                <button type="submit" class="btn btn-sm btn-outline-light mt-1 mr-1">Log In</button>
+                <button type="submit" class="btn btn-sm btn-outline-light mt-1 mr-1" style="width:67px;">Log In</button>
               </form>
             </li>
             <li class="nav-item">
               <button class="btn btn-sm btn-outline-light mt-1"
-                onclick='location.href="<%=request.getContextPath() %>/memberEnroll"'>Sign
+                onclick='location.href="<%=request.getContextPath() %>/memberEnroll"' style="width:69px;">Sign
                 Up</button>
             </li>
             <%} %>
