@@ -59,7 +59,7 @@ public class PaymentEndServlet extends HttpServlet {
 				discountAmount = Integer.parseInt(amount);
 			}else
 			{
-				discountAmount = Integer.parseInt(amount)-(int)(Integer.parseInt(discountCoupon.substring(0,2))*0.1*Integer.parseInt(amount));
+				discountAmount = Integer.parseInt(amount)-(1-(int)(Integer.parseInt(discountCoupon.substring(0,2))*0.01));
 			}
 //			discountAmount = Integer.parseInt(amount)+(int)( Integer.parseInt(discountCoupon.substring(0,2))*0.1*Integer.parseInt(amount));
 			result = service.insertParkingUserHistory(pCode,userCode, String.valueOf(discountAmount));
