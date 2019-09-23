@@ -10,16 +10,16 @@
       <div class="container">
         <p class="h3 text-white row justify-content-center font-weight-bold">SEARCH FOR PARKING</p>
         <p class="h7 text-white row justify-content-center font-weight-bold">Around 23 Seoul Districts!</p>
-        <div class="mx-auto col-lg-8 d-flex justify-content-center">
-          <!-- <form id="main-searchbar" action="<%=request.getContextPath()%>/map/mapListView" class="" role="form"> -->
+        <div class="mx-auto col-md-9 ">
+          <form id="main-searchbar" action="<%=request.getContextPath()%>/map/mapListView" class="" role="form">
             <div class="input-group" id="main-searchbar">
               <input type="search" class="form-control" name="search" placeholder="Where do you need parking?" aria-describedby="button-addon5" id="main-search" list="searchData">
               <datalist id="searchData"></datalist>
               <div class="input-group-append">
-                <button id="button-addon5" class="btn btn-primary" id="main-searchbar-btn" onclick="mainSearch(<%=userCode %>);" ><i class="fa fa-search"></i></button>
+                <button id="button-addon5" class="btn btn-primary" id="main-searchbar-btn"><i class="fa fa-search"></i></button>
               </div>
             </div>
-          <!-- </form> -->
+          </form>
         </div>
       </div>
     </div>

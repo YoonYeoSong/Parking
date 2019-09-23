@@ -253,12 +253,29 @@
         $("#nav-searchbar").removeClass (function (index, className) {
           return (className.match (/mx-./g) || []).join(' ');
         });
-        if($(window).width()>1200)
+        if($(window).width()>1200){
           $("#nav-searchbar").addClass('mx-5');
-        else if($(window).width()>992)
+        }
+        else if($(window).width()>992){
           $("#nav-searchbar").addClass('mx-3');
-        else
+          // $('.navbar-brand').css({"display": "inline"});
+
+        }
+        else if($(window).width() >768){
           $("#nav-searchbar").addClass('mx-0');
+
+          $("#navbar-logo").removeClass("col-md-2");
+          $("#nav-searchbar").removeClass("col-md-8");
+          $("#navCollapsible").removeClass("col-md-2");
+        }
+        else{
+          $("#navbar-logo").addClass("col-md-2");
+          $("#nav-searchbar").addClass("col-md-8");
+          $("#navCollapsible").addClass("col-md-2");
+
+
+        }
+
       }
       else{
         $("#nav-searchbar").removeClass (function (index, className) {
@@ -267,19 +284,6 @@
         $("#nav-searchbar").addClass('mx-0');
       }
     });
-
-    // $("#nav-searchbar-btn").click(function() {
-    // $(document).on("click", "#nav-searchbar-btn", function(){
-    function navSearch(userCode) {
-      var navbarFrm = $('<form>').attr({"action": "<%=request.getContextPath() %>/map/mapListView",
-                                        "method": "POST", });
-      var input1 = $('#nav-search');
-      var input2 = $('<input>').attr({"name": "userCode", "value": userCode });
-
-      navbarFrm.append(input1).append(input2);
-      $(document.body).append(navbarFrm);
-      navbarFrm.submit();
-    }
 
     // $("#main-searchbar-btn").click(function() {
     // $(document).on("click", "#main-searchbar-btn", function(){

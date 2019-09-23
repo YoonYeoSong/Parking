@@ -101,43 +101,37 @@
 
 </head>
 <body>
-  <!-- navigation bar -->
   <header>
-    <nav class="site-header navbar navbar-expand-sm navbar-dark fixed-top py-0">
-      <div class="container d-flex justify-content-center">
-        <div class='mr-auto p-0'>
-          <a class="navbar-brand " href="<%=request.getContextPath() %>" >
+    <!-- Navigation bar -->
+    <nav class="site-header navbar navbar-expand-md navbar-dark fixed-top py-0 justify-content-center">
+      <!-- d-flex container -->
+      <div class="container d-flex justify-content-center row">
+
+        <!-- Logo -->
+        <div class='py-0 mr-auto inline-block' id="navbar-logo">
+          <a class="navbar-brand" href="<%=request.getContextPath() %>" >
             <img src="<%=request.getContextPath() %>/images/logo_white.png">
           </a>
         </div>
-
-        <div id="nav-searchbar" class="mx-auto flex-grow-1">
-          <div class="input-group mx-auto" >
-            <input type="search" placeholder="Where do you need parking?" aria-describedby="" class="form-control" name="search" id="nav-search">
-            <span class="input-group-append input-group-addon">
-              <button id="button-addon5" class="btn btn-primary" id="nav-searchbar-btn" onclick="navSearch(<%=userCode %>);"  onkeypress="navEnterSearch();"><i class="fa fa-search"></i></button>
-            </span>
-          </div>
+        <!-- Nav search bar -->
+        <div id="nav-searchbar" class="col-lg-6 py-0 inline-block">
+          <form action="<%=request.getContextPath()%>/map/mapListView" method="POST" class='w-100'>
+            <input type="hidden" name="userCode" value="<%=userCode %>">
+            <div class="input-group">
+              <input type="search" placeholder="Where do you need parking?" aria-describedby="button-addon5" class="form-control" name="search" id="nav-search">
+              <div class="input-group-append">
+                <button id="button-addon5" type="submit" class="btn btn-primary" id="nav-searchbar-btn"><i class="fa fa-search"></i></button>
+              </div>
+            </div>
+          </form>
         </div>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapsible" aria-controls="navbarCollapsible" aria-expanded="false" aria-label="Toggle navigation">
+        <!-- toggle button -->
+        <button class="navbar-toggler ml-auto inline-block" type="button" data-toggle="collapse" data-target="#navbarCollapsible" aria-controls="navbarCollapsible" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
+        <!-- collapsible elements -->
         <div class="collapse navbar-collapse" id="navbarCollapsible">
           <ul class="navbar-nav ml-auto" id='collapseItems'>
-
-            
-            
-            <!-- <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle menu-item mt-1 mr-0" href="#" id="dropdown_lang" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Papago</a>
-
-              <div class="dropdown-menu mt-1" >
-                <a class="dropdown-item" href="<%=request.getContextPath() %>/views/common/papagoApi.jsp"><i class="fa fa-language">&nbsp;&nbsp;</i>Papago</a>
-              </div>
-            </li> -->
-
-            <!-- <li class="nav-item">
-              <a href="<%=request.getContextPath() %>/views/aboutView.jsp" class="nav-link menu-item mt-1">About Us</a>
-            </li> -->
 
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle menu-item mt-1 mr-0 text-white" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-globe"></i></a>
@@ -183,10 +177,6 @@
                   <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-car">&nbsp;&nbsp;</i>My Vehicle</a> -->
                 <% } %>
               <% } %>
-
-              <form action="" name="mypageSubMenuFrm">
-                <input type="hidden" name="subMenu" id="subMenu">
-              </form>
 
               <style>
                 /* .navbar-collapse { margin-top: 0; }
