@@ -31,4 +31,15 @@ public class QnaBoardService {
 
     return count;
   }
+  
+  
+  public List<QnaBoard> selectPopularBoard()
+  {
+	  Connection conn = getConnection();
+	  List<QnaBoard> list = dao.selectPopularBoard(conn);
+	  
+	  close(conn);
+	  return list;	  
+  }
+  
 }

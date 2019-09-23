@@ -33,115 +33,141 @@ List<Coupon> list = (List)request.getAttribute("CouponList");
 <head>
 		<script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.2.js"></script>
 </head>
-<body>
-    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-        <ol class="breadcrumb">
-            <li><a href="#">Parking</a>/</li>
-            <li class="active" id="fromAddr">Payment</li>
-        </ol>
-    </div>
-
-    <div class="container">
-        <div class="card-deck text-center list-group col-md-8 pl-md-5 pl-5">
-            <div class="card shadow-sm">
-                <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">1.REVIEW RESERVATION DETAILS</h4>
-                </div>
-                <div class="card-body row">
-                    <ul class="list-unstyled mt-3 mb-4 col-md-6">
-                        <input type="text" id="" value="from" readonly />
-                        <input type="text" id="fromDay" value="" readonly />
-                        <input type="text" id="fromTime" value="" readonly />
-                        <!-- <input type="text" id="fromDuration" value="약15km" readonly /> -->
-                    </ul>
-
-                    <ul class="list-unstyled mt-3 mb-4 col-md-6">
-                        <input type="text" id="" value="To" readonly />
-                        <select name="addTime" id="addTime" onchange="selectTime()">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                        </select>
-                        <input type="text" id="toDay" value="2019 - 9 - 22" readonly />
-                        <input type="text" id="toTime" value="19시 34분 9초" readonly />
-                        <input type="text" id="toPrice" value="" readonly />
-                    </ul>
-                    <!-- <button type="button" class="btn btn-lg btn-block btn-outline-primary">Sign up for free</button> -->
-                </div>
-            </div>
-            <div class="card shadow-sm">
-                <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">2.ACCOUNT INFO</h4>
-                </div>
-                <div class="card-body">
-							<ul class="list-unstyled mt-3 mb-4 col-md-6">
-									<span class="row" id="loginMember">
-										 dbsduthd123@naver.com
-									</span>
-									<span class="row" id="loginPhone">01054035883
-									</pspan>
-							  </ul>
-                    <!-- <button type="button" class="btn btn-lg btn-block btn-primary">
-                        Get started
-                    </button> -->
-                </div>
-            </div>
-            <div class="card shadow-sm">
-                <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">3.PAYMENT INFO</h4>
-                </div>
-                <div class="card-body row">
-                    <ul class="list-unstyled mt-3 mb-4 col-md-12">
-                        <select name="" id="payName">
-                            <option value="kakaoPay">kakaoPay</option>
-                            <option value="inicisPay">inicisPay</option>
-								</select>
-								<select name="" id="coupon">
-								<option value="">없음</option>
-								</select>
-                        <button
-                            type="button"
-                            class="btn btn-lg btn-block btn-primary"
-                            onclick="openKpay()"
-                        >
-                            Pay
-                        </button>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <!-- 디테일 -->
-        <!-- <div class="card-deck text-center list-group col-md-4 pl-md-5">
-            <div class="card shadow-sm text-left col-sm-8">
-                <a class="list-group-item list-group-item-action">
-                    <span id="0">
-                        <span id="pName">1. 압구정 428 공영주차장(구)<br /></span
-                        ><span>&nbsp;&nbsp;&nbsp;&nbsp;강남구 압구정동 428-0<br /></span
-                        ><span id="Pcur"
-                            >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;전체 주차 대수 : 343<br />
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;현재 주차 대수 : 325<br
-                        /></span>
-                        <div class="mt-2">
-                            <button class="btn btn-sm btn-outline-info mr-1" id="parking0">
-                                More Info</button
-                            ><input
-                                type="button"
-                                class="btn btn-sm btn-outline-info pay"
-                                onclick="payment()"
-                                value="Pay"
-                            /></div></span
-                ></a>
-            </div>
-        </div> -->
-    </div>
-</body>
+<<body>
+		<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+			<ol class="breadcrumb">
+				<li><a href="#">Parking</a>/</li>
+				<li class="active" id="fromAddr">Payment</li>
+			</ol>
+		</div>
+	
+		<div class="container">
+			<div class="card-deck list-group pl-md-5 pl-5"> <!-- text-center -->
+			
+				<div class="card shadow-sm">
+					<div class="card-header">
+						<h4 class="my-0 font-weight-normal"><b>1.Review Reservation Details</b></h4>
+					</div>
+					<div class="card-body row">
+					
+					<!--div class="row">
+					   <input type="text" id="" value="From">
+					   <input type="text" id="fromDay" value="2019 - 9 - 22">
+					   <input type="text" id="fromTime" value="19시 34분 9초" >
+					</div-->
+				   
+					
+					
+					
+					
+						<ul class="list-unstyled mt-3 mb-4 col-md-12">
+							<input type="text" id="" value="From" >
+							<input type="text" id="fromDay" value="2019 - 1 - 01">
+							<input type="text" id="fromTime" value="00시 00분 0초" >
+							<!-- <input type="text" id="fromDuration" value="약15km" readonly /> -->
+							
+							Selct Time
+							<select name="addTime" id="addTime" onchange="selectTime()">                            
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+							</select>                           
+						</ul>
+						
+						
+						 
+						
+						
+	
+						<ul class="list-unstyled mt-3 mb-4 col-md-12">
+						   <input type="text" id="" value="To" readonly >               
+						   <input type="text" id="toDay" value="2019 - 9 - 22" readonly />
+							<input type="text" id="toTime" value="19시 34분 9초" readonly />
+							<input type="text" id="toPrice" value="" readonly />
+						</ul>
+						
+						
+						
+						
+						
+						
+						
+						<!-- <button type="button" class="btn btn-lg btn-block btn-outline-primary">Sign up for free</button> -->
+					</div>
+				</div>
+				<div class="card shadow-sm">
+					<div class="card-header">
+						<h4 class="my-0 font-weight-normal"><b>2.Account Info</b></h4>
+					</div>
+						 <ul class="list-unstyled mt-3 mb-4 col-md-6">
+							<div class="col form-group">
+							   E-mail<input type="text" id="loginMember" class="form-control" readonly>
+							</div>
+							<div class="col form-group">   
+							   Phone<input type="text" id="loginPhone" class="form-control"  readonly>
+							 </div>  
+						  </ul>
+						<!-- <button type="button" class="btn btn-lg btn-block btn-primary">
+							Get started
+						</button> -->
+				</div>
+				<div class="card shadow-sm">
+					<div class="card-header">
+						<h4 class="my-0 font-weight-normal"><b>3.Payment Info</b></h4>
+					</div>
+					<div class="card-body row">
+						<ul class="list-unstyled mt-3 mb-4 col-md-6">
+							<select name="" id="payName" class="custom-select d-block">
+								<option value="kakaoPay">kakaoPay</option>
+								<option value="inicisPay">inicisPay</option>
+							</select>
+							<select name="" id="coupon" class="custom-select d-block mt-1">
+							<option value="">선택</option>
+							</select>                        
+						</ul>
+						
+						<button
+								type="button"
+								class="btn btn-lg btn-block btn-primary mt-3 mb-4 col-md-12"                            
+								onclick="openKpay()"
+							>
+								Payment
+							</button>
+					</div>
+				</div>
+			</div>
+			<!-- 디테일 -->
+			<!-- <div class="card-deck text-center list-group col-md-4 pl-md-5">
+				<div class="card shadow-sm text-left col-sm-8">
+					<a class="list-group-item list-group-item-action">
+						<span id="0">
+							<span id="pName">1. 압구정 428 공영주차장(구)<br /></span
+							><span>&nbsp;&nbsp;&nbsp;&nbsp;강남구 압구정동 428-0<br /></span
+							><span id="Pcur"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;전체 주차 대수 : 343<br />
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;현재 주차 대수 : 325<br
+							/></span>
+							<div class="mt-2">
+								<button class="btn btn-sm btn-outline-info mr-1" id="parking0">
+									More Info</button
+								><input
+									type="button"
+									class="btn btn-sm btn-outline-info pay"
+									onclick="payment()"
+									value="Pay"
+								/></div></span
+					></a>
+				</div>
+			</div> -->
+		</div>
+	</body>
 
 <script>
 
@@ -324,10 +350,20 @@ List<Coupon> list = (List)request.getAttribute("CouponList");
 							hiddenField.setAttribute("value", <%=loginMember.getUserCode()%>);
 							form.appendChild(hiddenField);
 							
-							hiddenField = document.createElement("input");
+							if($("#coupon").val() == "선택")
+							{
+								hiddenField = document.createElement("input");
 							hiddenField.setAttribute("type", "hidden");
 							hiddenField.setAttribute("name", "discountCoupon");
-							hiddenField.setAttribute("value",$("#coupon").val());
+							hiddenField.setAttribute("value", "선택");
+							}
+							else{
+								hiddenField = document.createElement("input");
+								hiddenField.setAttribute("type", "hidden");
+								hiddenField.setAttribute("name", "discountCoupon");
+								hiddenField.setAttribute("value", $("#coupon").val());
+							}
+							
 							
 							form.appendChild(hiddenField);
 							document.body.appendChild(form);

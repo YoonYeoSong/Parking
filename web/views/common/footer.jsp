@@ -5,7 +5,7 @@
 'footer.jsp' contains :
   * <footer> element
 -------------------------->
-
+<script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.2.js"></script>
   <hr class="featurette-divider">
 
   <footer class="container py-0">

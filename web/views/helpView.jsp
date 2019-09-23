@@ -2,6 +2,10 @@
     pageEncoding="UTF-8"%>
 
 <%@ include file="./common/header.jsp" %>
+<%
+	List<QnaBoard> list = (List)request.getAttribute("list");
+
+%>
 
   <link rel="stylesheet" href="<%=request.getContextPath() %>/css/card-flip.css">
 
@@ -15,6 +19,34 @@
         1.5px 1.5px 0px #132535; */
     }
   </style>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script>
+    
+      $(function(){
+        var firstQna = $("#firstPopular");
+        var secondQna = $("#secondPopular");
+        var qnaCreate = null;
+        var qnaCreateA = null;
+        <%for(int i = 0; i < 6; i++){%>
+          <% if(i < 3){%>
+            qnaCreate = $("<li>");
+            qnaCreateA = $("<a class='text-muted' href='<%=request.getContextPath()%>/board/qnaBoardList'>"); 
+            qnaCreateA.html('<%=list.get(i).getQnaTitle()%>');
+            qnaCreate.append(qnaCreateA);
+            firstQna.append(qnaCreate);
+          <%} else{%>
+            qnaCreate = $("<li>");
+            qnaCreateA = $("<a class='text-muted' href='<%=request.getContextPath()%>/board/qnaBoardList'>"); 
+            qnaCreateA.html('<%=list.get(i).getQnaTitle()%>');
+            qnaCreate.append(qnaCreateA);
+            secondQna.append(qnaCreate);
+          <%}%>
+        <%}%>
+
+      })
+    
+    </script>
 
   <!-- cover -->
   <div class="jumbotron align-items-center bg-info" id="help-search-area" style="height:55vh">
@@ -106,22 +138,25 @@
               <span><i class="text-warning fa fa-star"></i>&nbsp;&nbsp;Popular Thread</span>
             </a>
           </p>
-          <ul class="list-unstyled text-small">
-            <li><a class="text-muted" href="<%=request.getContextPath() %>/board/qnaBoardList">How do I make a long-term booking?</a></li>
-            <li><a class="text-muted" href="<%=request.getContextPath() %>/board/qnaBoardList">How do I book a parking space?</a></li>
-            <li><a class="text-muted" href="<%=request.getContextPath() %>/board/qnaBoardList">How do I contact a space owner</a></li>
+          <ul class="list-unstyled text-small" id="firstPopular">
+            <!-- <li><a class="text-muted" href="<%=request.getContextPath()%>/board/qnaBoardList">How do I make a long-term booking?</a></li>
+            <li><a class="text-muted" href="<%=request.getContextPath()%>/board/qnaBoardList">How do I book a parking space?</a></li>
+            <li><a class="text-muted" href="<%=request.getContextPath()%>/board/qnaBoardList">How do I contact a space owner</a></li> -->
           </ul>
         </div>
         <div class="col-6 col-md">
-        <ul class="list-unstyled text-small">
+        <ul class="list-unstyled text-small" id="secondPopular">
           <p class="h5">&nbsp;</p>
-          <li><a class="text-muted" href="<%=request.getContextPath() %>/board/qnaBoardList">How do I find a space for large vehicles?</a></li>
+          <!-- <li><a class="text-muted" href="<%=request.getContextPath() %>/board/qnaBoardList">How do I find a space for large vehicles?</a></li>
           <li><a class="text-muted" href="<%=request.getContextPath() %>/board/qnaBoardList">How do I change the vehicle on a booking?</a></li>
-          <li><a class="text-muted" href="<%=request.getContextPath() %>/board/qnaBoardList">How do I reset my password?</a></li>
+          <li><a class="text-muted" href="<%=request.getContextPath() %>/board/qnaBoardList">How do I reset my password?</a></li> -->
         </ul>
         </div>
       </div>
     </div>
   </div>
+
+
+
   
 <%@ include file="./common/footer.jsp" %>
