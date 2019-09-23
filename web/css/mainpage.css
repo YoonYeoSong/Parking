@@ -1,4 +1,15 @@
 
+.back-to-top {
+    z-index: 100;
+    position: fixed;
+    bottom: 80px;
+    right: 80px;
+    display: none;
+    /* background-color: yellow;
+    border: .5px solid black; */
+}
+
+
 .site-header { /* custom transparent header */
   background-color: rgba(19, 37, 53, .80);
 }

@@ -59,6 +59,7 @@ public class ReviewDao {
         r.setReviewCreatedDate(new java.sql.Date(date.getTime()));
 
         r.setReviewRating(rs.getInt("review_rating"));
+        r.setReviewReadcount(rs.getInt("review_readcount"));
         
         list.add(r);
       }
@@ -100,6 +101,7 @@ public class ReviewDao {
         r.setReviewCreatedDate(new java.sql.Date(date.getTime()));
 
         r.setReviewRating(rs.getInt("review_rating"));
+        r.setReviewReadcount(rs.getInt("review_readcount"));
       }
       
     } catch(SQLException e) {
@@ -147,7 +149,7 @@ public class ReviewDao {
       pstmt.setString(2, r.getReviewTitle());
       pstmt.setString(3, r.getReviewContent());
       pstmt.setInt(4, r.getReviewRating());
-//      insert into review values(DEFAULT,?,?,?,DEFAULT,?)
+//      insert into review values(DEFAULT,?,?,?,DEFAULT,?,DEFAULT)
 
       result = pstmt.executeUpdate();
 

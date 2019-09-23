@@ -76,16 +76,6 @@
           </div>
           <div class="form-row">
             <!-- form column -->
-            <label for="reviewTitle" class="col-md-3"><i class="fa fa-title">&nbsp;&nbsp;</i>Review Title</label>
-            <!-- /form column -->
-            <!-- form column -->
-            <div class="col-md-9 mb-3">
-              <input type="text" class="form-control" name="reviewTitle" id="userName" value="" required />
-            </div>
-            <!-- /form column -->
-          </div>
-          <div class="form-row">
-            <!-- form column -->
             <label for="name" class="col-md-3"><i class="fa fa-user">&nbsp;&nbsp;</i>User Name</label>
             <!-- /form column -->
             <!-- form column -->
@@ -95,14 +85,24 @@
             <!-- /form column -->
           </div>
           <div class="form-row">
+            <!-- form column -->
+            <label for="reviewTitle" class="col-md-3"><i class="fa fa-title">&nbsp;&nbsp;</i>Review Title</label>
+            <!-- /form column -->
+            <!-- form column -->
+            <div class="col-md-9 mb-3">
+              <input type="text" class="form-control" name="reviewTitle" id="userName" placeholder="please type in title..." value="" required />
+            </div>
+            <!-- /form column -->
+          </div>
+          <div class="form-row">
             <label for="content" class="col-md-3"><i class="fa fa-edit">&nbsp;&nbsp;</i>Review Content</label>
             <div class="col-md-9 ">
-              <textarea type="text" class="form-control" id="reviewContent" name="reviewContent" rows="3" style="resize:none;" placeholder="write review..." required></textarea>
+              <textarea type="text" class="form-control" id="reviewContent" name="reviewContent" rows="3" style="resize:none;" placeholder="please write your review..." required></textarea>
               <small class="text-muted">300 chars max.</small>
             </div>
 
             <!-- star ratings -->
-            <div class="ml-auto mr-3">
+            <div class="mx-auto">
               <div class="starrating risingstar d-flex justify-content-center flex-row-reverse">
                   <input type="radio" id="star5" name="reviewRating" value="5" required /><label for="star5" title="5 star"></label>
                   <input type="radio" id="star4" name="reviewRating" value="4" /><label for="star4" title="4 star"></label>

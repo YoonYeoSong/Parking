@@ -135,11 +135,13 @@
                   //                       // + "data-target='#myModal' "
                   //                       + "onclick='parkingListPopup();' "
                   //                       + ">More Info</button>";
-                  var btnStr = "<button class='btn btn-sm btn-outline-info mr-1' "
+                  var btnStr = "<button class='btn btn-sm btn-outline-info mx-1' "
                                         + "id='parking" + d + "'>"
                                         + "Details</button>";
                   var infoBtn = $(btnStr);
-                  var input = $("<input type='button' class='btn btn-sm btn-outline-info pay' onclick='location.href=\"<%=request.getContextPath()%>/board/reviewList\"' value='Review'>");
+                  var input = $("<button type='button' class='btn btn-sm btn-info pay' onclick='location.href=\"<%=request.getContextPath()%>/board/reviewList\"'"  
+                                      + "value=''><i class='fa fa-chevron-right'>&nbsp;Review"
+                              + "</button>");
                   div.append(infoBtn).append(input);
                   span0.append(span1).append(span2).append(span3).append(span4).append(span5).append(div);
                   aTag.append(span0);
