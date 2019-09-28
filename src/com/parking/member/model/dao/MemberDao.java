@@ -335,8 +335,28 @@ public class MemberDao {
 	    return result;
 	}
 
+	public boolean fbselectEmail(Connection conn, String user_email) {
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    boolean result = false;
+	    String sql = prop.getProperty("selectEmail");
+
+	    try {
+	      pstmt = conn.prepareStatement(sql);
+	      pstmt.setString(1, user_email);
+	      rs = pstmt.executeQuery();
+	      if(rs.next())
+	        result = true;
+	    } catch(SQLException e) {
+	      e.printStackTrace();
+	    } finally {
+	      close(rs);
+	      close(pstmt);
+	    }
+	    return result;
 
 
+	}
 }
 
 

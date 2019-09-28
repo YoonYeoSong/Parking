@@ -25,12 +25,9 @@
         </form>
       </div>
       <div class="card-footer">
-        <div class="d-flex justify-content-center links">
-          Forgot username?<a href="#">Click here!</a>
-        </div>
         <div class="d-flex justify-content-center">
-          <a href="#">Log in &nbsp;</a>
-          <a href="#">Sign Up</a>
+          <a href="<%=request.getContextPath() %>/views/member/loginView.jsp">Log in &nbsp;</a>
+          <a href="<%=request.getContextPath() %>/views/member/memberEnroll.jsp">Sign Up</a>
         </div>
       </div>
     </div>

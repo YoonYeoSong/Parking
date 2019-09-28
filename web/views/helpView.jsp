@@ -29,6 +29,7 @@ integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="ano
         var qnaCreate = null;
         var qnaCreateA = null;
         <%for(int i = 0; i < 6; i++){%>
+          <% if(list.size() <= i) { break;}%>
           <% if(i < 3){%>
             qnaCreate = $("<li>");
             qnaCreateA = $("<a class='text-muted' href='<%=request.getContextPath()%>/board/qnaBoardList'>"); 
@@ -154,9 +155,21 @@ integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="ano
         </div>
       </div>
     </div>
+  <script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/5d8753dac22bdd393bb71c8a/default';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
   </div>
 
 
 
+    
   
 <%@ include file="./common/footer.jsp" %>

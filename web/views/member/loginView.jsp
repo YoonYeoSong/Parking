@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
   pageEncoding="UTF-8"%>
 
@@ -26,14 +27,17 @@
         <div class="card-header">
           <h3>Sign In</h3>
           <div class="d-flex justify-content-end social_icon">
-              <span><i class="fa fa-facebook-official" name="facebook" id="authBtn" onclick="
-                    FB.login(function(response){
-                    	console.log('logged in!')
-                    });" ></i></span>
+
+     
+ 
+           <span><i class="fa fa-facebook-official" name="facebook" id="loginBtn"></i></span> 
+                     <div id="response"></div>
+                    
+                    
               <span id="googleSignIn"><i class="fa fa-google-plus-square"></i></span>
+             <!--   <span onclick="loginWithKakao()"><img src="<%=request.getContextPath() %>/images/kakaobutton.png" class="kakaobutton"></span>-->
               <input type="hidden" id="kakao-email" >
-             <!--   <span onclick="loginWithKakao()"><img src="<%=request.getContextPath() %>/images/kakaobutton.png" class="kakaobutton"></span>
-              -->
+              
               <!-- <div class="fa fa-google-plus-square" data-onsuccess="onSignIn" data-theme="dark" id="myP"></div> -->
           </div>
 
@@ -77,7 +81,7 @@
         </div>
         <div class="card-footer">
           <div class="d-flex justify-content-center links">
-            Don't have an account?<a href="/views/signup.jsp">Sign up</a>
+            Don't have an account?<a href="<%=request.getContextPath() %>/views/member/memberEnroll.jsp">Sign up</a>
           </div>
           <div class="d-flex justify-content-center">
             <a href="<%=request.getContextPath() %>/views/member/pwdresetstart.jsp">Forgot your password?</a>
@@ -87,63 +91,78 @@
       </div>
     </div>
   </div>
-
-
+  
   <script src="//connect.facebook.net/en_US/all.js"></script>
+
+
+ 
     <script>
   
   /* facebook login */
-         window.fbAsyncInit = function() {
-            FB.init({
-                appId: '650760722099588',
-                cookie: true,
-                xfbml: true,
-                version: 'v4.0'
-            });
+  window.fbAsyncInit = function(){
+    	//SDK loaded, initialize it
+    	FB.init({
+    		appId      : '650760722099588',
+    		xfbml      : true,
+    		version    : 'v4.0'
+    	});
 
+    	//check user session and refresh it
+    	FB.getLoginStatus(function(response) {
+    		if (response.status === 'connected') {
+    			//user is authorized
+    			/* document.getElementById('loginBtn').style.display = 'none'; */
+    			getUserData();
+    		} else {
+    			//user is not authorized
+    		}
+    	});
+    };
 
-            FB.getLoginStatus(function(response) {
-                statusChangeCallback(response);
-            });
-			var callback = function(response) {
-				statusChangeCallback(response);
-				console.log(response);
-			}
-			FB.getLoginStatus(callback);
-        };
-        
-        /* document.getElementById("facebookbutton").addEventListener("click", function() { */
-        function fb_login(){
-        (function(d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {
-                return;
-            }
-            js = d.createElement(s);
-            js.id = id;
-            js.src = "https://connect.facebook.net/en_US/sdk.js";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-        
-      /*   });
-         */
-        
-        function statusChangeCallback(response) {
-            if (response.status == "connected") {
-                console.log("logged in!")
-            } else {
-                console.log('not logged in!')
-            }
-        }
+    //load the JavaScript SDK
+    (function(d, s, id) {
+    	var js, fjs = d.getElementsByTagName(s)[0];
+    	if (d.getElementById(id)) {return;}
+    	js = d.createElement(s); js.id = id;
+    	js.src = "//connect.facebook.com/en_US/sdk.js";
+    	fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
 
-      
-        function checkLoginState() {
-            FB.getLoginStatus(function(response) {
-                statusChangeCallback(response);
-            });
-        }
-        }
+    //add event listener to login button
+    document.getElementById('loginBtn').addEventListener('click', function()  {
+    	//do the login
+    	FB.login(function(response) {
+    		if (response.authResponse) {
+    			//user just authorized your app
+    			/* document.getElementById('loginBtn').style.display = 'none'; */
+    			getUserData();
+    		}
+    	}, {scope: 'email,public_profile', return_scopes: true});
+        
+
+    	
+    }, false);
   
+  
+    function getUserData() {
+    	FB.api('/me', {fields: 'name,email'}, function(response) {
+    /* 		document.getElementById('response').innerHTML = 'Hello ' + response.name; */
+    		console.log(response.email); 
+    		var facebookaccount = response.email;
+    		facebookdb(facebookaccount);
+			
+    	});
+
+   }
+	
+     function facebookdb(facebookaccount){ 
+ 	     var url ="<%=request.getContextPath()%>/views/member/facebookpopup.jsp?userEmail="+facebookaccount;
+     	 var title="facebook login";
+   		open(url,title,status);
+    	
+    } 
+ 
+       
  	/* 카카오계정로그인 */
   	var kakao_email = null;
   	Kakao.init('e6a59ff7a98afa5e25a62d40b484f3d6');
