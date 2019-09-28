@@ -258,7 +258,7 @@
           </form>
         </div>
 
-        <button class="learn-more" onclick="location.href='<%=request.getContextPath() %>/views/helpView.jsp'" >
+        <button class="learn-more" onclick="location.href='<%=request.getContextPath() %>/board/helpBoardList'" >
           <div class="circle"><span class="icon arrow"></span></div>
           <p class="button-text">Help</p>
         </button>

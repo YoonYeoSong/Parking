@@ -31,15 +31,15 @@ public class PwdMailSend {
 		Session session = Session.getDefaultInstance(prop, auth);
 		
 		MimeMessage msg = new MimeMessage(session);
-		String host = "http://localhost:9090/Parking/";
+		String host = "https://rclass.iptime.org/Parking/";
 		String code = new AES256E().encrypt(email, "hi");
-		String htmlcode = "Please click the <a href='" +host+ "views/member/pwdresetend.jsp?code=" +code +"'>link</a> change your password";
+		String htmlcode = "<h3>Please click the <a href='" +host+ "views/member/pwdresetend.jsp?code=" +code+"&email=" +email+"'>link</a> change your password </h3>";
 		 
 		
 
 		try {
 			msg.setSentDate(new Date());
-			msg.setFrom(new InternetAddress("94hojun@gmaizl.com", "Illegal Parking"));
+			msg.setFrom(new InternetAddress("94hojun@gmail.com", "Illegal Parking"));
 			InternetAddress to = new InternetAddress(email);
 			msg.setRecipient(Message.RecipientType.TO, to);
 			msg.setSubject("제목", "UTF-8");

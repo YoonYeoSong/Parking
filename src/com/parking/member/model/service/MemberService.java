@@ -145,4 +145,17 @@ public class MemberService {
 		    return result;
 		
 	}
+
+	public boolean fbselectEmail(String user_email) {
+		Connection conn = getConnection();
+		boolean result = dao.fbselectEmail(conn, user_email);
+		if (result)
+		      commit(conn);
+		    else
+		      rollback(conn);
+		    
+		    close(conn);
+		    
+		    return result;
+	}
 }

@@ -3,7 +3,7 @@
 
 <%@ page import="web.email.PwdMailSend" %>
 <% String code = request.getParameter("code"); 
- 	
+String email = request.getParameter("email");
 %>
 
 <!DOCTYPE html>
@@ -33,14 +33,15 @@
                <form action="<%=request.getContextPath() %>/member/emailpwdresetend" method="post">
                				<div>
   					<input type="hidden" name=code value='<%=code%>'/>
+  					<input type="hidden" name=email value='<%=email%>'/>
   							</div>
   			
                        <div class="input-group form-group">
-              <input type="password" class="form-control" placeholder="Password" id="newPw" name="newPw">
+              <input type="password" class="form-control" placeholder="Password" id="pwEnroll" name="newPw">
             </div>
 
             <div class="input-group form-group">
-              <input type="password" class="form-control" placeholder="Confirm password" id="newPwChk" name="newPwChk">
+              <input type="password" class="form-control" placeholder="Confirm password" id="pwEnrollChk" name="newPwChk">
             </div>
     
                     <div class="form-group">
@@ -52,8 +53,8 @@
             <div class="card-footer">
 
                 <div class="d-flex justify-content-center">
-                    <a href="#">Log in &nbsp;</a>
-                    <a href="#">Sign Up</a>
+                    <a href="<%=request.getContextPath() %>/views/member/loginView.jsp">Log in &nbsp;</a>
+                    <a href="<%=request.getContextPath() %>/views/member/memberEnroll.jsp">Sign Up</a>
                 </div>
             </div>
         </div>

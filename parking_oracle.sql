@@ -13,10 +13,13 @@ SELECT user_code, user_email, user_phone, user_name, user_addr,
   user_pw
 FROM MEMBER;
 
-select ps.* from userhistory h join parking_seoul ps on h.userhistory_parking_code = ps.ps_parking_code 
-where h.userhistory_user_code='578165' and ps.ps_parking_code='1052723';
-
-
+select ps.*,h.* TO_CHAR(h.userhistory_parking_date, 'yyyy-MM-dd hh24:mi:ss')  from userhistory h join parking_seoul ps on h.userhistory_parking_code = ps.ps_parking_code 
+order by h.userhistory_parking_date desc;
+--update member set user_email_verified=1 where user_email='baba@com';
+commit;
+--delete from member where user_code = '265366';
+--delete from review;
+commit;
 SELECT b.bookmark_no AS bookmark_no, b.bookmark_user_code AS bookmark_user_code, ps.*
 from bookmark b JOIN parking_seoul ps
   ON b.bookmark_parking_code = ps_parking_code;
@@ -28,7 +31,10 @@ SELECT * FROM TAB;
 --delete from member where user_email in ('');
 COMMIT;
 --update member set created_date=TO_DATE('2019/08/26 01:30:44', 'yyyy/mm/dd hh24:mi:ss') where user_code='482581';
-
+--delete from parking_owner;
+--delete from parking_slot;
+--alter table parking_slot modify slot_business_no varchar2(10);
+--alter table parking_owner modify owner_business_no varchar2(10);
 --SELECT * FROM MEMBER;
 --SELECT * FROM USERHISTORY;
 --SELECT * FROM CAR;
@@ -37,11 +43,12 @@ COMMIT;
 --SELECT * FROM QNABOARD;
 --SELECT * FROM NOTICE;
 --SELECT * FROM BOOKMARK;
---SELECT * FROM COUPON;
---SELECT * FROM PARKING_SEOUL;
---SELECT * FROM PARKING_OWNER;
+SELECT * FROM COUPON;
+SELECT * FROM PARKING_SEOUL;
+SELECT * FROM PARKING_OWNER;
 --SELECT * FROM PARKING_SLOT;
 
+select * from tab;
 -- TABLE
 --DROP TABLE MEMBER CASCADE CONSTRAINTS;
 --DROP TABLE USERHISTORY CASCADE CONSTRAINTS;
@@ -72,11 +79,12 @@ COMMIT;
 
 SELECT * FROM user_constraints WHERE table_name IN
   ('MEMBER', 'USERHISTORY', 'CAR', 'PAYMENTHISTORY', 'REVIEW', 'QNABOARD', 'NOTICE', 'BOOKMARK', 'COUPON');
-
-ALTER table member add (user_original_filename varchar2(100), user_renamed_filename varchar2(100));
+--alter table parking_slot modify (slot_business_no varchar2(10));
+commit;
+--ALTER table member add (user_original_filename varchar2(100), user_renamed_filename varchar2(100));
 
 CREATE TABLE MEMBER (
-  user_code CHAR(6) NOT NULL,
+  user_code varchar2(10) NOT NULL,
   user_email VARCHAR2(50) NOT NULL,
   user_pw VARCHAR2(300) NOT NULL,
   user_phone VARCHAR2(20) NOT NULL,
@@ -125,7 +133,7 @@ ALTER TABLE MEMBER
 --ALTER TABLE PARKING_SEOUL ADD (PS_NAME VARCHAR2(200) NOT NULL);
 
 CREATE TABLE PARKING_SEOUL(
-  ps_parking_code CHAR(7) NOT NULL,
+  ps_parking_code varchar2(10) NOT NULL,
   ps_addr VARCHAR2(200) NOT NULL,
   ps_name VARCHAR2(200) NOT NULL,
   ps_latitude NUMBER(10,8) NOT NULL,
@@ -150,8 +158,8 @@ ALTER TABLE PARKING_SEOUL
 
   --수정됨
 CREATE TABLE PARKING_OWNER(
-  owner_business_no varchar(10) NOT NULL, --10자리 숫자
-  owner_parking_code varchar(10) NOT NULL
+  owner_business_no varchar2(10) NOT NULL, --10자리 숫자
+  owner_parking_code varchar2(10) NOT NULL
 );
 COMMENT ON COLUMN PARKING_OWNER.owner_business_no IS '주차장사업자번호';
 COMMENT ON COLUMN PARKING_OWNER.owner_parking_code IS '주차장코드';
@@ -163,10 +171,10 @@ ALTER TABLE PARKING_OWNER
 
   --수저됨
 CREATE TABLE PARKING_SLOT(
-  slot_business_no CHAR(6) NOT NULL,
-  slot_user_code CHAR(6) NOT NULL,
-  slot_begin_time varchar(30),
-  slot_end_time varchar(30)
+  slot_business_no varchar2(10) NOT NULL,
+  slot_user_code varchar2(10) NOT NULL,
+  slot_begin_time varchar2(30),
+  slot_end_time varchar2(30)
 );
 COMMENT ON COLUMN PARKING_SLOT.slot_business_no IS '주차장사업자번호';
 COMMENT ON COLUMN PARKING_SLOT.slot_user_code IS '회원코드';
@@ -209,9 +217,10 @@ commit;
 select userhistory_no, userhistory_user_code as User_code, m.user_name, 
   userhistory_parking_code AS parking_code, 
   TO_CHAR(userhistory_parking_date, 'yyyy-MM-dd hh24:mi:ss') AS parking_date,
-  '\'||TRIM(to_char(userhistory_payment, '9,999,999.00')) AS payment
+  '₩'||TRIM(to_char(userhistory_payment, '9,999,999.00')) AS payment
  from userhistory h join member m on h.userhistory_user_code = m.user_code;
 
+commit;
 commit;
 --DROP TABLE USERHISTORY CASCADE CONSTRAINTS;
 --drop sequence userhistory_seq;
@@ -219,8 +228,8 @@ commit;
 
 CREATE TABLE USERHISTORY(
   userhistory_no NUMBER(5) NOT NULL,
-  userhistory_user_code CHAR(6) NOT NULL,
-  userhistory_parking_code CHAR(7) NOT NULL,
+  userhistory_user_code varchar2(10) NOT NULL,
+  userhistory_parking_code varchar2(10) NOT NULL,
   userhistory_parking_date DATE DEFAULT SYSDATE,
   userhistory_payment NUMBER(7) DEFAULT 0 
 );
@@ -266,7 +275,7 @@ commit;
 
 CREATE TABLE REVIEW(
   review_no NUMBER(5) NOT NULL,
-  review_userhistory_no CHAR(7) NOT NULL,
+  review_userhistory_no varchar2(7) NOT NULL,
   review_title VARCHAR2(50) NOT NULL,
   review_content VARCHAR2(300) NOT NULL,
   review_created_date DATE DEFAULT SYSDATE,
@@ -305,26 +314,14 @@ ALTER TABLE REVIEW
 
 
 --DROP TABLE REVIEWPIC CASCADE CONTRAINTS
-CREATE TABLE REVIEWPIC(
-  reviewpic_review_no CHAR(7) NOT NULL,
-  reviewpic_original_filename VARCHAR2(100),
-  reviewpic_renamed_filename VARCHAR2(100)
-);
 
-COMMENT ON COLUMN REVIEWPIC.reviewpic_review_no IS '리뷰테이블 참조 리뷰번호';
-COMMENT ON COLUMN REVIEWPIC.reviewpic_original_filename IS '첨부파일 원래이름';
-COMMENT ON COLUMN REVIEWPIC.reviewpic_renamed_filename IS '첨부파일 바뀐이름';
-
-ALTER TABLE REVIEWPIC
-  ADD CONSTRAINT fk_reviewpic_review FOREIGN KEY(reviewpic_no)
-        REFERENCES review(review_no)
-  ON DELETE CASCADE;
-
-
+--
+--drop table qnaboard cascade constraints;
+--commit;
 CREATE TABLE QNABOARD(
   qna_no NUMBER(5) NOT NULL,
   qna_title VARCHAR2(50) NOT NULL,
-  qna_user_code CHAR(6) NOT NULL,
+  qna_user_code varchar2(10) NOT NULL,
   qna_content VARCHAR2(300) NOT NULL,
   qna_created_date DATE DEFAULT SYSDATE,
   qna_readcount NUMBER DEFAULT 0
@@ -348,6 +345,7 @@ BEGIN
  FROM DUAL;
 END;
 /
+commit;
 
 ALTER TABLE QNABOARD
   ADD CONSTRAINT pk_qna PRIMARY KEY(qna_no);
@@ -398,7 +396,7 @@ commit;
 
 CREATE TABLE NOTICE(
   notice_no NUMBER(5) NOT NULL,
-  notice_user_code CHAR(6) NOT NULL,
+  notice_user_code varchar2(6) NOT NULL,
   notice_title VARCHAR2(50) NOT NULL,
   notice_content VARCHAR2(300) NOT NULL,
   notice_created_date DATE DEFAULT SYSDATE,
@@ -445,8 +443,8 @@ COMMIT;
 
 CREATE TABLE BOOKMARK(
   bookmark_no NUMBER(3) NOT NULL,
-  bookmark_user_code CHAR(6) NOT NULL,
-  bookmark_parking_code CHAR(7) NOT NULL
+  bookmark_user_code varchar2(10) NOT NULL,
+  bookmark_parking_code varchar2(10) NOT NULL
 );
 COMMENT ON COLUMN BOOKMARK.bookmark_no IS '북마크번호';
 COMMENT ON COLUMN BOOKMARK.bookmark_user_code IS '회원코드';
@@ -475,8 +473,8 @@ ALTER TABLE BOOKMARK
 --DROP table coupon cascade constraints;
 
 CREATE TABLE COUPON(
-  coupon_code CHAR(16) NOT NULL,
-  coupon_user_code CHAR(6) NOT NULL,
+  coupon_code varchar2(20) NOT NULL,
+  coupon_user_code varchar2(10) NOT NULL,
   coupon_discount_rate NUMBER(2) NOT NULL,
   coupon_duration NUMBER(1) NOT NULL,
   coupon_expired_yn NUMBER(1,0)
@@ -496,21 +494,5 @@ ALTER TABLE COUPON
   ADD CONSTRAINT chk_coupon_expired_yn CHECK (coupon_expired_yn in(1, 0));
 
 --drop table car CASCADE CONSTRAINTS;
-
-CREATE TABLE CAR(
-  car_user_code CHAR(6) NOT NULL,
-  car_capcity NUMBER(2) DEFAULT 0,
-  car_type VARCHAR2(100),
-  car_model VARCHAR2(100)
-);
-COMMENT ON COLUMN CAR.car_user_code IS '회원코드';
-COMMENT ON COLUMN CAR.car_capcity IS '차량 인승';
-COMMENT ON COLUMN CAR.car_type IS '차량종류';
-COMMENT ON COLUMN CAR.car_model IS '차량모델명';
-
-ALTER TABLE CAR
-  ADD CONSTRAINT fk_car_member FOREIGN KEY(car_user_code) REFERENCES MEMBER(user_code)
-  ON DELETE CASCADE;
-
 
 COMMIT;

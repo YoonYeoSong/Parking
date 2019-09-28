@@ -85,7 +85,6 @@
             navigator.geolocation.getCurrentPosition(function(pos){
 
               loadParkingList(pos);
-              loadKakaoMap(pos);
 
             }, geo_error, geo_options);
           }
@@ -102,6 +101,9 @@
           };
 
           function loadParkingList(pos){
+            // marker : bookmarked locations
+            var positions = [];
+
             $.ajax({
               url: "<%=request.getContextPath()%>/bookmark/bookmarkList",
               type: "POST",
@@ -115,9 +117,6 @@
                   listScroll.empty();
 
                 $('#parkingNum').html(Object.keys(data).length);
-
-                // marker : bookmarked locations
-                var positions = [];
 
                 // for(var d in data) {
                 $.each(data, function(d,item) {
@@ -179,15 +178,15 @@
                   });
                 });
 
-                if(localStorage.hasOwnProperty("positions"))
-                  localStorage.removeItem("positions");
-
                 localStorage.setItem("positions", JSON.stringify(positions));
 
                 if(data.length ==0){
                   listScroll.append("<div class='card card-text text-center' style='height:70px;'><br>"
                     + "Bookmarks are Empty!<br></div>");
+                  localStorage.clear();
                 }
+
+                loadKakaoMap(pos);
               },
               error: function (data) { // 데이터 통신에 실패
                 console.log("서버 전송 실패");

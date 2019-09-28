@@ -64,31 +64,31 @@ public class MemberEnrollEnd extends HttpServlet {
 	  ms.SendingMail(email);
 
 	
-	  String msg = result > 0? "Hello "+userName + ". Thanks for joining us!" : "Sign up Failed!";
+	  String msg = result > 0? "Hello "+userName + ". Please check your email to activate your account!" : "Sign up Failed!";
 	  String loc = "/";
 	  if(result >0)
-	  {
-		   //쿠폰생성 잠시사용
-		    int resultCoupon = 0;
-		    CouponCreate cc = new CouponCreate();
-		    Set<Coupon> set = new HashSet<Coupon>();
-		    Coupon c= new Coupon();
-		    Iterator<Coupon> it = set.iterator();
-		    
-		    ParkingApiService service = new ParkingApiService();
-		    while(it.hasNext())
-		    {
-		    	Coupon obj = it.next();
-		    	c.setUserCode(userCode);
-		    	c.setDiscountRate(10);
-		    	c.setDuration(1);
-		    	c.setExpiredYn(0);
-		    }
-		    resultCoupon = service.insertCoupon(c);
-		    
-		    if(result > 0)
-		    	System.out.println("쿠폰등록완료");
-	  }
+    {
+        //쿠폰생성 잠시사용
+         int resultCoupon = 0;
+         CouponCreate cc = new CouponCreate();
+         Set<Coupon> set = new HashSet<Coupon>();
+         Coupon c= new Coupon();
+         Iterator<Coupon> it = set.iterator();
+         
+         ParkingApiService service = new ParkingApiService();
+         while(it.hasNext())
+         {
+            Coupon obj = it.next();
+            c.setUserCode(userCode);
+            c.setDiscountRate(10);
+            c.setDuration(1);
+            c.setExpiredYn(0);
+         }
+         resultCoupon = service.insertCoupon(c);
+         
+         if(result > 0)
+            System.out.println("쿠폰등록완료");
+    }
 	  
 	  request.setAttribute("msg", msg);
 	  request.setAttribute("loc", loc);

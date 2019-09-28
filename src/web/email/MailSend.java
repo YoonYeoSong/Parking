@@ -32,10 +32,10 @@ public class MailSend {
 		Session session = Session.getDefaultInstance(prop, auth);
 		
 		MimeMessage msg = new MimeMessage(session);
-		String host = "http://localhost:9090/Parking/";
+		String host = "https://rclass.iptime.org/Parking/";
 //		System.out.println("email :" +email);
 		String code = new AES256E().encrypt(email, "hi");
-		String htmlcode = "Please click the <a href='" +host+ "views/member/emailverificationpopup.jsp?code=" +code +"'>link</a> to activate your account";
+		String htmlcode = "<h3> Please click the <a href='" +host+ "views/member/emailverificationpopup.jsp?code=" +code +"&email=" +email+"'>link</a> to activate your account</h3>";
 		 
 		
 
