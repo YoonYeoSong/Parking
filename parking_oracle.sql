@@ -13,7 +13,7 @@ SELECT user_code, user_email, user_phone, user_name, user_addr,
   user_pw
 FROM MEMBER;
 
-select ps.*,h.* TO_CHAR(h.userhistory_parking_date, 'yyyy-MM-dd hh24:mi:ss')  from userhistory h join parking_seoul ps on h.userhistory_parking_code = ps.ps_parking_code 
+select ps.*,h.*, TO_CHAR(h.userhistory_parking_date, 'yyyy-MM-dd hh24:mi:ss')  from userhistory h join parking_seoul ps on h.userhistory_parking_code = ps.ps_parking_code 
 order by h.userhistory_parking_date desc;
 --update member set user_email_verified=1 where user_email='baba@com';
 commit;
