@@ -176,6 +176,12 @@ public Parking(String parkingCode, String parkingName, String addr, String parki
 //				<ASSIGN_CODE_NM>미배정,미점유</ASSIGN_CODE_NM>
 	
 	
+  @Override
+  public boolean equals(Object obj) {
+    Parking p = (Parking)obj;
+    return this.getParkingCode().equals(p.getParkingCode());
+  }
+
 	public String getParkingCode() {
 	return parkingCode;
 }
