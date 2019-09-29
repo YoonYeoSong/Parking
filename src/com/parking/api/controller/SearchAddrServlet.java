@@ -54,13 +54,13 @@ public class SearchAddrServlet extends HttpServlet {
 		
 		List<ParkingSlot> slotList = parkingService.selectParkingSlotList();
 		
-		Calendar cal = Calendar.getInstance();
+		Calendar curTime = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd/HH:mm:ss");
 		
-		int sysMonth = Integer.parseInt(sdf.format(cal.getTime()).substring(5, 7));
-		int sysDay = Integer.parseInt(sdf.format(cal.getTime()).substring(8, 10));
-		int sysTime = Integer.parseInt(sdf.format(cal.getTime()).substring(11, 13));
-		int sysMin = Integer.parseInt(sdf.format(cal.getTime()).substring(14, 16));
+		int sysMonth = Integer.parseInt(sdf.format(curTime.getTime()).substring(5, 7));
+		int sysDay = Integer.parseInt(sdf.format(curTime.getTime()).substring(8, 10));
+		int sysTime = Integer.parseInt(sdf.format(curTime.getTime()).substring(11, 13));
+		int sysMin = Integer.parseInt(sdf.format(curTime.getTime()).substring(14, 16));
 		
 		System.out.println("시간 : " + sysTime);
 		System.out.println("분 : " + sysMin);
@@ -72,35 +72,22 @@ public class SearchAddrServlet extends HttpServlet {
 			System.out.println("비어 있지않음 slot들어옴");
 			for(int i = 0; i < slotList.size(); i++)
 			{
-				System.out.println("시작 시간"+Integer.parseInt(slotList.get(i).getSlotBeginTime().substring(11,13)));
-				System.out.println("끝시간 " + Integer.parseInt(slotList.get(i).getSlotEndTime().substring(11,13)));
-				System.out.println("시작 분" +Integer.parseInt(slotList.get(i).getSlotBeginTime().substring(14,16)));
-				System.out.println("끝 분" +Integer.parseInt(slotList.get(i).getSlotEndTime().substring(14,16)));
-				
-				
-				
-				
-				if( (sysMonth == Integer.parseInt(slotList.get(i).getSlotBeginTime().substring(5,7))  && sysDay == Integer.parseInt(slotList.get(i).getSlotBeginTime().substring(8,10))) &&
-						( sysTime <= Integer.parseInt(slotList.get(i).getSlotBeginTime().substring(11,13)) && 
-						sysTime <= Integer.parseInt(slotList.get(i).getSlotEndTime().substring(11,13))) )
-				{
-					if(sysTime <= Integer.parseInt(slotList.get(i).getSlotBeginTime().substring(14,16)) && 
-							sysTime <= Integer.parseInt(slotList.get(i).getSlotEndTime().substring(14,16)))
-					{
-						System.out.println(slotList.get(i).getOwnerParkingCode()+ "리스트 삭제 안됨");
-						continue;
-					}else
-					{
-						System.out.println(slotList.get(i).getOwnerParkingCode()+ "리스트 삭제");
-						slotList.remove(i);
-					}
+			  System.out.println(curTime.getTime());
+			  Calendar rsrvBegin = createCalObj(slotList.get(i).getSlotBeginTime());
+			  Calendar rsrvEnd = createCalObj(slotList.get(i).getSlotEndTime());
+
+			  System.out.println(rsrvBegin.getTime());
+			  System.out.println(rsrvEnd.getTime());
+
+				if(curTime.after(rsrvBegin) && curTime.before(rsrvEnd)) {
+				  System.out.println("예약 시간에 포함 : 리스트 삭제안됨");
 				}
-				else
-				{
-					slotList.remove(i);
+				else {
+				  System.out.println("예약 시간에 포함 안됨: 리스트 삭제됨");
+				  slotList.remove(i);
 				}
+				
 			}
-			
 			
 			for(int j = 0; j < slotList.size(); j++)
 			{
@@ -143,7 +130,25 @@ public class SearchAddrServlet extends HttpServlet {
         new Gson().toJson(list, response.getWriter());
 
 
-	}
+  }
+
+
+  /**
+   * createCalObj() method returns Calendar Object by parsing date string
+   * @param dateStr String object in "yyyy-MM-dd/HH:mm:ss" format
+   * @return Calendar object
+   */
+  protected Calendar createCalObj(String dateStr) {
+    Calendar cal= Calendar.getInstance();
+    cal.set(Calendar.YEAR, Integer.parseInt(dateStr.substring(0, 4)));
+    cal.set(Calendar.MONTH, Integer.parseInt(dateStr.substring(5, 7))-1);
+    cal.set(Calendar.DATE, Integer.parseInt(dateStr.substring(8, 10)));
+    cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(dateStr.substring(11, 13)));
+    cal.set(Calendar.MINUTE, Integer.parseInt(dateStr.substring(14, 16)));
+    cal.set(Calendar.SECOND, Integer.parseInt(dateStr.substring(17, 18)));
+
+    return cal;
+  }
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
