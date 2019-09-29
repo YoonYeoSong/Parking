@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.parking.api.model.vo.Parking;
@@ -73,7 +74,12 @@ public class ParseJsonSeoulParking {
 
 				//System.out.println(result);
 				obj = new JSONObject(result);
-				arr = obj.getJSONObject("GetParkInfo").getJSONArray("row");
+				try {
+				  arr = obj.getJSONObject("GetParkInfo").getJSONArray("row");
+				} catch(JSONException e) {
+				  e.printStackTrace();
+				  System.out.println("인덱스 /" + start_index +"/"+end_index + "/ 에 해당하는 데이터가 없습니다....");
+				}
 
 				//System.out.println("Parsing List Num # = " + arr.length());
 
@@ -179,6 +185,8 @@ public class ParseJsonSeoulParking {
 							p.setAssignCode(arr.getJSONObject(i).getString("ASSIGN_CODE"));
 							p.setAssignCodeNm(arr.getJSONObject(i).getString("ASSIGN_CODE_NM"));
 
+							System.out.println(p);
+							System.out.println(list.get(list.size()-1));
 							if(p.getParkingName().equals(list.get(list.size()-1).getParkingName()))
 							{
 								p=null;
@@ -242,7 +250,8 @@ public class ParseJsonSeoulParking {
 						p.setAssignCodeNm(arr.getJSONObject(i-end_index).getString("ASSIGN_CODE_NM"));
 
 
-						if(p.getParkingName().equals(list.get(list.size()-1).getParkingName()))
+//						if(p.getParkingName().equals(list.get(list.size()-1).getParkingName()))
+						if(list.contains(p))
 						{
 
 							p = null;
